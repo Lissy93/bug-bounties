@@ -1,6 +1,20 @@
+
+# List of valid reward types (feel free to add moe)
 reward1: '&bounty Bounty'
 reward2: '&swag Swag'
 reward3: '&recognition Hall of Fame'
+
+# This is the list of companies that have a bug bounty program
+# New additions should be inserted in alphabetical order, based on company name
+# The format is as follows:
+# - company: Company Name
+#   url: https://www.company.com/bug-bounty
+#   contact: mailto:security@company
+#   rewards:
+#   - '*bounty'
+#   - '*swag'
+#   - '*recognition'
+
 companies:
 - company: .nz Registry
   url: https://registry.internetnz.nz/about/vulnerability-disclosure-policy/
