@@ -1397,6 +1397,25 @@ Company | Rewards | Submission | Notes
 
 ---
 
+## Credits
+
+### Supporters
+Huge thanks to the following kind people, for their ongoing support in funding this, and other of my projects via GitHub Sponsors
+
+<!-- readme: sponsors -start -->
+<!-- readme: sponsors -end -->
+
+Consider supporting this repo, and my [other](https://github.com/Lissy93/) projects, by sponsoring me on GitHub 💖
+
+![Sponsor Lissy93's work on GitHub](https://img.shields.io/github/sponsors/lissy93?style=flat&logo=githubsponsors&label=Sponsor%20%7C%20Lissy93&color=EA4AAA)
+
+### Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
+---
+
 ## License
 
 > _**[Lissy93/Bug-Bounties](https://github.com/Lissy93/bug-bounties)** is licensed under [MIT](https://github.com/Lissy93/bug-bounties/blob/HEAD/LICENSE) © [Alicia Sykes](https://aliciasykes.com) 2023._<br>

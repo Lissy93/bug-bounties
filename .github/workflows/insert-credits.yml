@@ -1,0 +1,24 @@
+name: 👥 Insert Credits
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 1 * * 0' # at 01:10 on Sunday
+jobs:
+
+  insert-sponsors:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+      - name: Contributors
+        uses: akhilmhdh/contributors-readme-action@v2.3.6
+        env:
+            GITHUB_TOKEN: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+        with:
+          image_size: 60
+          collaborators: all
+          readme_path: .github/README.md
+          columns_per_row: 8
+          commit_message: 'Updates contributor list'
+          committer_username: liss-bot
+          committer_email: liss-bot@d0h.co
