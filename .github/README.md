@@ -9,7 +9,7 @@
 
 > [!NOTE]
 > **Additions are welcome!**<br>
-> Append your program to [`bounties.yaml`](/bounties.yaml), then follow the [`CONTRIBUTING.md`](/.github/CONTRIBUTING.md) guidelines to submit a PR.
+> Append your program to [`bounties.yaml`](https://github.com/Lissy93/bug-bounties/blob/main/bounties.yml), then follow the [`CONTRIBUTING.md`](https://github.com/Lissy93/bug-bounties/blob/main/.github/CONTRIBUTING.md) guidelines to submit a PR.
 
 <br>
 
