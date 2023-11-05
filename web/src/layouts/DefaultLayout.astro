@@ -7,6 +7,7 @@ const { title } = Astro.props
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <BaseHead title={title}/>
   </head>
   <body>
@@ -17,8 +18,19 @@ const { title } = Astro.props
   </body>
 </html>
 
-<style lang="scss">
-  
+<style is:global>
+  @import '../styles/fonts.css';
+  @import '../styles/colors.css';
+  @import '../styles/globals.css';
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--background);
+    margin: 0;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Wallpoet', sans-serif;
+    font-weight: normal;
+  }
 </style>
 
 
@@ -27,7 +39,7 @@ const { title } = Astro.props
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
 		<style>
 			html,
 			body {

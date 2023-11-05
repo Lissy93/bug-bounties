@@ -1,0 +1,4 @@
+::select {
+  background: var(--primary);
+  color: var(--background);
+}

@@ -2,26 +2,20 @@
 import yaml from 'js-yaml';
 
 import CompanyList from '../components/CompanyList.svelte';
+import Hero from '../components/Hero.svelte';
 import DefaultLayout from '../layouts/DefaultLayout.astro';
 
-
-// Function to fetch and parse the YAML data
 const fetchBountiesYAML = async () => {
   const response = await fetch('https://raw.githubusercontent.com/Lissy93/bug-bounties/main/bounties.yml');
   const text = await response.text();
-  return yaml.load(text);
+  return yaml.load(text).companies;
 };
 
-// Fetching the YAML data and parsing it to JSON
-const bountiesData = await fetchBountiesYAML();
+const companies = await fetchBountiesYAML();
 
-// We pass the parsed data to the CompanyList component
-const props = {
-  companies: bountiesData.companies
-};
 ---
 
 <DefaultLayout>
-  {/* Passing the parsed data as a prop to CompanyList */}
-  <CompanyList {...props} />
+	<Hero />
+  <CompanyList {companies} />
 </DefaultLayout>
