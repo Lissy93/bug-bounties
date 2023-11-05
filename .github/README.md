@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://bug-bounties.as93.net">
-    <img width="400" src="https://raw.githubusercontent.com/Lissy93/bug-bounties/main/.github/logo.png" />
+    <img width="420" src="https://raw.githubusercontent.com/Lissy93/bug-bounties/main/.github/logo.png" />
   </a>
   <br><br>
   <i>A compiled list of companies who accept responsible disclosure</i><br>
