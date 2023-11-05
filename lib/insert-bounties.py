@@ -113,6 +113,8 @@ def build_markdown_content(companies) -> str:
     if not companies:
         logger.info(f"There's no companies yet, cancelling markdown generation")
         return ""
+    
+    companies.sort(key=lambda x: x['company'].lower())
 
     md_content = "Company | Rewards | Submission | Notes\n---|---|---|---\n"
     for company in companies:
