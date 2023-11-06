@@ -1,5 +1,5 @@
 
-export type Reward = 'bounty' | 'recognition' | 'swag' | 'other';
+export type Reward = '*bounty' | '*recognition' | '*swag' | 'other';
 
 export interface Company {
   company: string; // Company name

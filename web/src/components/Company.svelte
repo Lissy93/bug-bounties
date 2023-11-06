@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from './Icon.svelte';
 	import type { Company } from '../types/Company';
   export let company: Company;
 
@@ -11,7 +12,7 @@
     if (contactUrl.includes('mailto:')) {
       return 'email';
     } else if (contactUrl.includes('http')) {
-      return 'web';
+      return 'website';
     } else if (contactUrl.includes('twitter')) {
       return 'twitter';
     } else if (contactUrl.includes('github')) {
@@ -26,11 +27,27 @@
   <img class="logo" src="{getFaviconUrl(company.url)}" loading="lazy" />
   <div class="content">
     <p class="title">
-      <a class="name" href={company.url}>{company.company}</a>
-      <a class="contact" href={company.contact}>{contactIcon(company.contact)}</a>
+      <a class="name" href={company.url} target="_blank">{company.company}</a>
+      <a class="contact" href={company.contact}>
+        <Icon name={contactIcon(company.contact)} />
+        Contact
+      </a>
     </p>
     {#if company.rewards && company.rewards.length > 0}
-    <p>Rewards: {company.rewards.join(', ')}</p>
+    <p title={`${company.rewards ?  company.rewards.join(', ') : 'None :(' }`}>
+      Rewards:
+      {#each (company.rewards || []) as reward}
+        {#if reward === '*bounty'}
+        <Icon name="bounty" color="#45f445" width="20" title="Bounty" />
+        {/if}
+        {#if reward === '*swag'}
+        <Icon name="swag" color="#53c5fd" width="20" title="Swag" />
+        {/if}
+        {#if reward === '*recognition'}
+        <Icon name="recognition" color="#f4419e" width="20" title="Recognition" />
+        {/if}
+      {/each}
+    </p>
     {/if}
   </div>
 </li>
@@ -63,17 +80,24 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: baseline;
     .name {
       color: var(--primary);
       font-size: 1.2rem;
     }
     .contact {
-      background: var(--primary);
+      background: var(--primary-lighter);
       color: var(--background);
       font-size: 0.8rem;
       border-radius: 4px;
       padding: 0.1rem 0.2rem;
       text-decoration: none;
+      display: flex;
+      gap: 0.5rem;
+      transition: all 0.4s ease-in-out;
+      &:hover {
+        background: var(--primary);
+      }
     }
   }
 
