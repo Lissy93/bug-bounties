@@ -4,5 +4,8 @@
   --background: #0c121a;
 
   --primary-lighter: #FDC50087;
-  --background-lighter: #ffffff0d;
+  --background-lighter: #ffffff08;
+  --background-darker: #00000082;
+
+  --curve-factor: 4px;
 }

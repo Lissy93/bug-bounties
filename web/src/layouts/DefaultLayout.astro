@@ -14,7 +14,7 @@ const { title } = Astro.props
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer client:load />
   </body>
 </html>
 
@@ -30,6 +30,10 @@ const { title } = Astro.props
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Wallpoet', sans-serif;
     font-weight: normal;
+  }
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 </style>
 

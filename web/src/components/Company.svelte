@@ -60,16 +60,19 @@
   gap: 1rem;
   align-items: center;
   padding: 0.5rem 1rem;
-  border-radius: 2px;
+  border-radius: var(--curve-factor);
   transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 1px var(--background-darker);
+  background: var(--background-lighter);
   &:hover {
     border-color: var(--primary);
     background: var(--background-lighter);
+    box-shadow: 3px 3px 2px var(--background-darker);
   }
   img {
     width: 4rem;
     height: 4rem;
-    border-radius: 4px;
+    border-radius: var(--curve-factor);
   }
   p { margin: 0; }
   .content {
@@ -89,7 +92,7 @@
       background: var(--primary-lighter);
       color: var(--background);
       font-size: 0.8rem;
-      border-radius: 4px;
+      border-radius: var(--curve-factor);
       padding: 0.1rem 0.2rem;
       text-decoration: none;
       display: flex;

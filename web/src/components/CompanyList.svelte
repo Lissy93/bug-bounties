@@ -22,6 +22,6 @@
 		list-style: none;
 		padding: 0;
 		margin: 0 auto;
-		width: 90vw;
+		width: 90%;
 	}
 </style>

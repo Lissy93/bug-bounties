@@ -13,8 +13,8 @@
     <Icon name="github" />
     View / Edit on GitHub
   </a>
-
-  <!-- <div class="links">
+<!-- 
+  <div class="links">
     <a href="/how-to-report">
       <Icon name="finding-vulnerabilities" />
       Identifying Security Issues
@@ -36,6 +36,11 @@
 header {
   display: flex;
   flex-direction: column;
+  background: var(--background-lighter);
+  width: 90%;
+  margin: 2rem auto;
+  border-radius: var(--curve-factor);
+  box-shadow: 2px 2px 1px var(--background-darker);
   
   .title-and-icon {
     padding: 1rem;
@@ -45,6 +50,7 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    width: 100%;
     img {
       width: 5rem;
     }
@@ -69,7 +75,7 @@ header {
       border: 2px solid var(--primary);
       padding: 0.25rem 0.5rem;
       font-size: 1.4rem;
-      border-radius: 2px;
+      border-radius: var(--curve-factor);
       color: var(--primary);
       text-decoration: none;
       transition: 0.2s all ease-in-out;
@@ -86,6 +92,7 @@ header {
     justify-content: center;
     gap: 1rem;
     margin: 2rem auto;
+    flex-wrap: wrap;
     a {
       color: var(--primary);
       text-decoration: none;
