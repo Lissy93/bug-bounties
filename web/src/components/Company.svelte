@@ -24,7 +24,7 @@
 </script>
 
 <li class="company">
-  <img class="logo" src="{getFaviconUrl(company.url)}" loading="lazy" />
+  <img class="logo" src="{getFaviconUrl(company.url)}" loading="lazy" alt={company.company} />
   <div class="content">
     <p class="title">
       <a class="name" href={company.url} target="_blank">{company.company}</a>
@@ -61,7 +61,7 @@
   align-items: center;
   padding: 0.5rem 1rem;
   border-radius: 2px;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &:hover {
     border-color: var(--primary);
     background: var(--background-lighter);
@@ -94,7 +94,7 @@
       text-decoration: none;
       display: flex;
       gap: 0.5rem;
-      transition: all 0.4s ease-in-out;
+      transition: all 0.2s ease-in-out;
       &:hover {
         background: var(--primary);
       }
