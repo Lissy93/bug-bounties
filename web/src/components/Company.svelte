@@ -54,7 +54,7 @@
 
 <style lang="scss">
 .company {
-  border: 2px solid var(--primary-lighter);
+  border: 2px solid transparent;
   color: var(--foreground);
   display: flex;
   gap: 1rem;
@@ -68,6 +68,7 @@
     border-color: var(--primary);
     background: var(--background-lighter);
     box-shadow: 3px 3px 2px var(--background-darker);
+    transform: scale(1.05);
   }
   img {
     width: 4rem;
@@ -87,6 +88,7 @@
     .name {
       color: var(--primary);
       font-size: 1.2rem;
+      text-decoration: none;
     }
     .contact {
       background: var(--primary-lighter);

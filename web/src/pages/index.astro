@@ -18,5 +18,5 @@ const companies = await fetchBountiesYAML();
 
 <DefaultLayout>
 	<Hero />
-  <CompanyList {companies} />
+  <CompanyList {companies} client:load />
 </DefaultLayout>
