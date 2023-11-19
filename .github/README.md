@@ -1406,6 +1406,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
 <table>
 <tr>
     <td align="center">
+        <a href="https://github.com/tbjers">
+            <img src="https://avatars.githubusercontent.com/u/1117052?v=4" width="60;" alt="tbjers"/>
+            <br />
+            <sub><b>Torgny Bjers</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/emlazzarin">
             <img src="https://avatars.githubusercontent.com/u/1141361?u=714e3487a3f2e0df721b01a0133945f075d3ff68&v=4" width="60;" alt="emlazzarin"/>
             <br />
@@ -1453,15 +1460,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Digital Archeology</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/bmcgonag">
             <img src="https://avatars.githubusercontent.com/u/7346620?u=2a0f9284f3e12ac1cc15288c254d1ec68a5081e8&v=4" width="60;" alt="bmcgonag"/>
             <br />
             <sub><b>Brian McGonagill</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/vlad-timofeev">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-timofeev"/>
@@ -1474,13 +1481,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/12824479?u=5446c46f50a3197b9cd970e1669ed42e654c66b1&v=4" width="60;" alt="iJasonWade"/>
             <br />
             <sub><b>Jason Ash</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/mrmosssir">
-            <img src="https://avatars.githubusercontent.com/u/13149494?u=335d2aa6da35e44a332c13aaec8502b676f50ac6&v=4" width="60;" alt="mrmosssir"/>
-            <br />
-            <sub><b>SuTo</b></sub>
         </a>
     </td>
     <td align="center">
