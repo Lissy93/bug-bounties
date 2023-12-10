@@ -1406,6 +1406,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
 <table>
 <tr>
     <td align="center">
+        <a href="https://github.com/koconder">
+            <img src="https://avatars.githubusercontent.com/u/25068?v=4" width="60;" alt="koconder"/>
+            <br />
+            <sub><b>Vincent Koc</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/tbjers">
             <img src="https://avatars.githubusercontent.com/u/1117052?u=539d96d5e581b3139c75713ce35b89a36626404c&v=4" width="60;" alt="tbjers"/>
             <br />
@@ -1453,15 +1460,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Ulises Gascón</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/digitalarche">
             <img src="https://avatars.githubusercontent.com/u/6546135?u=d033c9c16e8367987aec3f9ff5922bc67dd1eedf&v=4" width="60;" alt="digitalarche"/>
             <br />
             <sub><b>Digital Archeology</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/bmcgonag">
             <img src="https://avatars.githubusercontent.com/u/7346620?u=2a0f9284f3e12ac1cc15288c254d1ec68a5081e8&v=4" width="60;" alt="bmcgonag"/>
