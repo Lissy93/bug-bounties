@@ -1525,13 +1525,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Tobias</b></sub>
         </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/CrossPatch9000">
-            <img src="https://avatars.githubusercontent.com/u/150388639?u=2de7d52e66299307a2d8f863f81b5f493b068e4c&v=4" width="60;" alt="CrossPatch9000"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
     </td></tr>
 </table>
 <!-- readme: sponsors -end -->
