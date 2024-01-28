@@ -1528,14 +1528,14 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/Glydeon">
-            <img src="https://avatars.githubusercontent.com/u/121807526?v=4" width="60;" alt="Glydeon"/>
+            <img src="https://avatars.githubusercontent.com/u/121807526?u=c4177e73394d90ad76a9a0282143f3a204af0f60&v=4" width="60;" alt="Glydeon"/>
             <br />
             <sub><b>Byron</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/NixyJuppie">
-            <img src="https://avatars.githubusercontent.com/u/138570196?v=4" width="60;" alt="NixyJuppie"/>
+            <img src="https://avatars.githubusercontent.com/u/138570196?u=b102c222487905728b858704962d32759df29ebe&v=4" width="60;" alt="NixyJuppie"/>
             <br />
             <sub><b>Nixy</b></sub>
         </a>
