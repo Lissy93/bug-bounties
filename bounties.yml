@@ -2446,8 +2446,7 @@ companies:
 - company: Majid Al Futtaim
   url: https://www.majidalfuttaim.com/en/responsible-disclosure-policy
   contact: https://www.majidalfuttaim.com/en/responsible-disclosure-policy
-  rewards:
-  - '*bounty'
+  rewards: []
 - company: Maker Ecosystem Growth Holdings
   url: https://hackerone.com/makerdao_bbp
   contact: https://hackerone.com/makerdao_bbp
