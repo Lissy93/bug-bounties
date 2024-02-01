@@ -6393,6 +6393,10 @@ companies:
   url: https://support.snyk.io/hc/en-us/articles/360005918418-Snyk-vulnerability-disclosure-program
   contact: mailto:security@snyk.io
   rewards: []
+- company: TCM Security
+  url: https://tcm-sec.com/vdp/
+  contact: mailto:info@tcm-sec.com
+  rewards: []
 - company: Tealium
   url: https://tealium.com/vdp/
   contact: mailto:vdp@tealium.com
