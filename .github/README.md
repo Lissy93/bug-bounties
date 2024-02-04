@@ -1520,13 +1520,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td></tr>
 <tr>
     <td align="center">
-        <a href="https://github.com/CrazyWolf13">
-            <img src="https://avatars.githubusercontent.com/u/96661824?v=4" width="60;" alt="CrazyWolf13"/>
-            <br />
-            <sub><b>Tobias</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/Glydeon">
             <img src="https://avatars.githubusercontent.com/u/121807526?u=c4177e73394d90ad76a9a0282143f3a204af0f60&v=4" width="60;" alt="Glydeon"/>
             <br />
