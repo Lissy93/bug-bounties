@@ -1427,6 +1427,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/bgadrian">
+            <img src="https://avatars.githubusercontent.com/u/830001?v=4" width="60;" alt="bgadrian"/>
+            <br />
+            <sub><b>B.G.Adrian</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/tbjers">
             <img src="https://avatars.githubusercontent.com/u/1117052?u=539d96d5e581b3139c75713ce35b89a36626404c&v=4" width="60;" alt="tbjers"/>
             <br />
@@ -1453,15 +1460,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/bile0026">
             <img src="https://avatars.githubusercontent.com/u/5022496?u=aec96ad173c0ea9baaba93807efa8a848af6595c&v=4" width="60;" alt="bile0026"/>
             <br />
             <sub><b>Zach Biles</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/UlisesGascon">
             <img src="https://avatars.githubusercontent.com/u/5110813?u=3c41facd8aa26154b9451de237c34b0f78d672a5&v=4" width="60;" alt="UlisesGascon"/>
@@ -1474,6 +1481,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/6546135?u=d033c9c16e8367987aec3f9ff5922bc67dd1eedf&v=4" width="60;" alt="digitalarche"/>
             <br />
             <sub><b>Digital Archeology</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/InDieTasten">
+            <img src="https://avatars.githubusercontent.com/u/7047377?v=4" width="60;" alt="InDieTasten"/>
+            <br />
+            <sub><b>Null</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1503,7 +1517,8 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Forward Email - Open-source & Privacy-focused Email Service (2023)</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/Bastii717">
             <img src="https://avatars.githubusercontent.com/u/53431819?u=604977bed6ad6875ada890d0d3765a4cacc2fa14&v=4" width="60;" alt="Bastii717"/>
@@ -1517,8 +1532,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/ratty222">
             <img src="https://avatars.githubusercontent.com/u/92832598?u=137b65530cbd5f5af9c24cde51baa6cc77cc934b&v=4" width="60;" alt="ratty222"/>
@@ -1543,6 +1557,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     <td align="center">
         <a href="https://github.com/nrvo">
             <img src="https://avatars.githubusercontent.com/u/151435968?u=e1dcb307fd0efdc45cddbe9490a7b956e4da6835&v=4" width="60;" alt="nrvo"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/mezza93">
+            <img src="https://avatars.githubusercontent.com/u/153599966?v=4" width="60;" alt="mezza93"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
