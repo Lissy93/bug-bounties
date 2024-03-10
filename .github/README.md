@@ -1428,7 +1428,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/bgadrian">
-            <img src="https://avatars.githubusercontent.com/u/830001?v=4" width="60;" alt="bgadrian"/>
+            <img src="https://avatars.githubusercontent.com/u/830001?u=69f115baad2fcd8c14eb05bdbf5cd80f4649a95a&v=4" width="60;" alt="bgadrian"/>
             <br />
             <sub><b>B.G.Adrian</b></sub>
         </a>
@@ -1485,7 +1485,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/InDieTasten">
-            <img src="https://avatars.githubusercontent.com/u/7047377?v=4" width="60;" alt="InDieTasten"/>
+            <img src="https://avatars.githubusercontent.com/u/7047377?u=8d8f8017628b38bc46dcbf3620e194b01d3fb2d1&v=4" width="60;" alt="InDieTasten"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
@@ -1512,13 +1512,20 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/mryesiller">
+            <img src="https://avatars.githubusercontent.com/u/24632172?v=4" width="60;" alt="mryesiller"/>
+            <br />
+            <sub><b>Göksel Yeşiller</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
         <a href="https://github.com/forwardemail">
             <img src="https://avatars.githubusercontent.com/u/32481436?v=4" width="60;" alt="forwardemail"/>
             <br />
             <sub><b>Forward Email - Open-source & Privacy-focused Email Service (2023)</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/Bastii717">
             <img src="https://avatars.githubusercontent.com/u/53431819?u=604977bed6ad6875ada890d0d3765a4cacc2fa14&v=4" width="60;" alt="Bastii717"/>
