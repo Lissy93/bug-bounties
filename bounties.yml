@@ -2118,6 +2118,12 @@ companies:
   contact: mailto:security@jazznetworks.com
   rewards:
   - '*recognition'
+- company: JD Services
+  url: https://jd-services.eu/vdp/
+  contact: soporte-b@jd-services.eu.
+  rewards:
+  - '*bounty'
+  - '*recognition'
 - company: Jenkins
   url: https://www.jenkins.io/security/reporting/
   contact: https://issues.jenkins.io/browse/SECURITY
@@ -3934,6 +3940,11 @@ companies:
   - '*recognition'
 - company: SkilledHub
   url: https://skilledhub.com/responsible-disclosure-policy
+  contact: mailto:security@skipr.co.
+  rewards: 
+  - '*recognition'
+- company: Skipr
+  url: https://www.skipr.co/resources/responsible-disclosure#Fame
   contact: mailto:admin@skilledhub.com
   rewards: []
 - company: Skoodat
