@@ -1423,13 +1423,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/peng1can">
-            <img src="https://avatars.githubusercontent.com/u/225854?v=4" width="60;" alt="peng1can"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/tbjers">
             <img src="https://avatars.githubusercontent.com/u/1117052?v=4" width="60;" alt="tbjers"/>
             <br />
@@ -1463,15 +1456,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Zach Biles</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/UlisesGascon">
             <img src="https://avatars.githubusercontent.com/u/5110813?u=3c41facd8aa26154b9451de237c34b0f78d672a5&v=4" width="60;" alt="UlisesGascon"/>
             <br />
             <sub><b>Ulises Gascón</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/digitalarche">
             <img src="https://avatars.githubusercontent.com/u/6546135?u=d033c9c16e8367987aec3f9ff5922bc67dd1eedf&v=4" width="60;" alt="digitalarche"/>
@@ -1516,17 +1509,24 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/patvdv">
-            <img src="https://avatars.githubusercontent.com/u/12430107?v=4" width="60;" alt="patvdv"/>
+            <img src="https://avatars.githubusercontent.com/u/12430107?u=e8911c2fb91af4d30432f76da8c40927b2830bd7&v=4" width="60;" alt="patvdv"/>
             <br />
             <sub><b>Patrick Van Der Veken</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/mryesiller">
             <img src="https://avatars.githubusercontent.com/u/24632172?u=0d20f2d615158f87cd60a3398d3efb026c32f291&v=4" width="60;" alt="mryesiller"/>
             <br />
             <sub><b>Göksel Yeşiller</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
+        <a href="https://github.com/allesauseinerhand">
+            <img src="https://avatars.githubusercontent.com/u/32039836?v=4" width="60;" alt="allesauseinerhand"/>
+            <br />
+            <sub><b>Null</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1534,6 +1534,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/32481436?v=4" width="60;" alt="forwardemail"/>
             <br />
             <sub><b>Forward Email - Open-source & Privacy-focused Email Service (2023)</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/lamtrinhdev">
+            <img src="https://avatars.githubusercontent.com/u/49742151?v=4" width="60;" alt="lamtrinhdev"/>
+            <br />
+            <sub><b>LamTrinh.Dev</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1570,7 +1577,8 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Nixy</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/nrvo">
             <img src="https://avatars.githubusercontent.com/u/151435968?u=e1dcb307fd0efdc45cddbe9490a7b956e4da6835&v=4" width="60;" alt="nrvo"/>
