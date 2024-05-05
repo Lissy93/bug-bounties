@@ -1524,7 +1524,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
 <tr>
     <td align="center">
         <a href="https://github.com/plgonzalezrx8">
-            <img src="https://avatars.githubusercontent.com/u/19900049?v=4" width="60;" alt="plgonzalezrx8"/>
+            <img src="https://avatars.githubusercontent.com/u/19900049?u=48a58d2da520a9d712184c6e6e99927ff3cbf179&v=4" width="60;" alt="plgonzalezrx8"/>
             <br />
             <sub><b>Pedro Gonzalez</b></sub>
         </a>
