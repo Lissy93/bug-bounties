@@ -1437,13 +1437,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/emlazzarin">
-            <img src="https://avatars.githubusercontent.com/u/1141361?u=714e3487a3f2e0df721b01a0133945f075d3ff68&v=4" width="60;" alt="emlazzarin"/>
-            <br />
-            <sub><b>Eddy Lazzarin</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/AnandChowdhary">
             <img src="https://avatars.githubusercontent.com/u/2841780?u=747e554b3a7f12eb20b7910e1c87d817844f714f&v=4" width="60;" alt="AnandChowdhary"/>
             <br />
@@ -1463,15 +1456,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Zach Biles</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/UlisesGascon">
             <img src="https://avatars.githubusercontent.com/u/5110813?u=3c41facd8aa26154b9451de237c34b0f78d672a5&v=4" width="60;" alt="UlisesGascon"/>
             <br />
             <sub><b>Ulises Gascón</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/digitalarche">
             <img src="https://avatars.githubusercontent.com/u/6546135?u=564756d7f44ab2206819eb3148f6d822673f5066&v=4" width="60;" alt="digitalarche"/>
@@ -1520,15 +1513,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Patrick Van Der Veken</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/plgonzalezrx8">
             <img src="https://avatars.githubusercontent.com/u/19900049?u=48a58d2da520a9d712184c6e6e99927ff3cbf179&v=4" width="60;" alt="plgonzalezrx8"/>
             <br />
             <sub><b>Pedro Gonzalez</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/mryesiller">
             <img src="https://avatars.githubusercontent.com/u/24632172?u=0d20f2d615158f87cd60a3398d3efb026c32f291&v=4" width="60;" alt="mryesiller"/>
@@ -1577,15 +1570,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/frankdez93">
             <img src="https://avatars.githubusercontent.com/u/87549420?v=4" width="60;" alt="frankdez93"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
