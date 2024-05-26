@@ -1530,13 +1530,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/allesauseinerhand">
-            <img src="https://avatars.githubusercontent.com/u/32039836?v=4" width="60;" alt="allesauseinerhand"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/forwardemail">
             <img src="https://avatars.githubusercontent.com/u/32481436?v=4" width="60;" alt="forwardemail"/>
             <br />
@@ -1577,15 +1570,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Terminal Trove</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/NixyJuppie">
             <img src="https://avatars.githubusercontent.com/u/138570196?u=b102c222487905728b858704962d32759df29ebe&v=4" width="60;" alt="NixyJuppie"/>
             <br />
             <sub><b>Nixy</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/nrvo">
             <img src="https://avatars.githubusercontent.com/u/151435968?u=e1dcb307fd0efdc45cddbe9490a7b956e4da6835&v=4" width="60;" alt="nrvo"/>
@@ -1606,17 +1599,17 @@ Consider supporting this repo, and my [other](https://github.com/Lissy93/) proje
 <table>
 <tr>
     <td align="center">
-        <a href="https://github.com/Lissy93">
-            <img src="https://avatars.githubusercontent.com/u/1862727?v=4" width="60;" alt="Lissy93"/>
-            <br />
-            <sub><b>Alicia Sykes</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/liss-bot">
             <img src="https://avatars.githubusercontent.com/u/87835202?v=4" width="60;" alt="liss-bot"/>
             <br />
             <sub><b>Alicia Bot</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Lissy93">
+            <img src="https://avatars.githubusercontent.com/u/1862727?v=4" width="60;" alt="Lissy93"/>
+            <br />
+            <sub><b>Alicia Sykes</b></sub>
         </a>
     </td>
     <td align="center">
