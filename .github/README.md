@@ -1508,20 +1508,27 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/sushibait">
+            <img src="https://avatars.githubusercontent.com/u/26634535?v=4" width="60;" alt="sushibait"/>
+            <br />
+            <sub><b>Shiverme Timbers</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/forwardemail">
             <img src="https://avatars.githubusercontent.com/u/32481436?v=4" width="60;" alt="forwardemail"/>
             <br />
             <sub><b>Forward Email - Open-source & Privacy-focused Email Service (2023)</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/Bastii717">
             <img src="https://avatars.githubusercontent.com/u/53431819?u=604977bed6ad6875ada890d0d3765a4cacc2fa14&v=4" width="60;" alt="Bastii717"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/getumbrel">
             <img src="https://avatars.githubusercontent.com/u/59408891?v=4" width="60;" alt="getumbrel"/>
@@ -1552,7 +1559,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/hudsonrock-partnerships">
-            <img src="https://avatars.githubusercontent.com/u/163282900?v=4" width="60;" alt="hudsonrock-partnerships"/>
+            <img src="https://avatars.githubusercontent.com/u/163282900?u=5f2667f7fe5d284ac7a2da6b0800ea8970b0fcbf&v=4" width="60;" alt="hudsonrock-partnerships"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
