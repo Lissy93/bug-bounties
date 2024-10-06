@@ -1509,7 +1509,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/Sacquer">
-            <img src="https://avatars.githubusercontent.com/u/29262439?v=4" width="60;" alt="Sacquer"/>
+            <img src="https://avatars.githubusercontent.com/u/29262439?u=c925b80a37404bc8cf652ac9ce8e6639fd97e2f4&v=4" width="60;" alt="Sacquer"/>
             <br />
             <sub><b>Gökhan Alkacir</b></sub>
         </a>
