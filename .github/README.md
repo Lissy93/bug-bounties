@@ -1473,6 +1473,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/arcestia">
+            <img src="https://avatars.githubusercontent.com/u/7936962?v=4" width="60;" alt="arcestia"/>
+            <br />
+            <sub><b>Laurensius Jeffrey</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/vlad-tim">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-tim"/>
             <br />
@@ -1513,15 +1520,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Forward Email - Open-source & Privacy-focused Email Service (2023)</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/getumbrel">
             <img src="https://avatars.githubusercontent.com/u/59408891?v=4" width="60;" alt="getumbrel"/>
             <br />
             <sub><b>Umbrel</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/OlliVHH">
             <img src="https://avatars.githubusercontent.com/u/84959562?v=4" width="60;" alt="OlliVHH"/>
