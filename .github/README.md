@@ -1544,13 +1544,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/rpvu">
-            <img src="https://avatars.githubusercontent.com/u/90328029?v=4" width="60;" alt="rpvu"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
             <br />
