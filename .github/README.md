@@ -1473,13 +1473,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/arcestia">
-            <img src="https://avatars.githubusercontent.com/u/7936962?u=afc43f878a0858cae75418f18d9696d65ebd53f9&v=4" width="60;" alt="arcestia"/>
-            <br />
-            <sub><b>Laurensius Jeffrey</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/vlad-tim">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-tim"/>
             <br />
@@ -1520,15 +1513,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>HamburgerJung</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/frankdez93">
             <img src="https://avatars.githubusercontent.com/u/87549420?v=4" width="60;" alt="frankdez93"/>
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
