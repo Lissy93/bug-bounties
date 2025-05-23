@@ -5,7 +5,8 @@
 
   const getFaviconUrl = (companyUrl: string) => {
     const hostname = new URL(companyUrl).hostname;
-    return `https://icon.horse/icon/${hostname}`;
+    return `https://favicon.im/${hostname}`;
+    // return `https://icon.horse/icon/${hostname}`;
   }
 
   const contactIcon = (contactUrl: string) => {
