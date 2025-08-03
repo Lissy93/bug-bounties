@@ -1417,7 +1417,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/anivar">
-            <img src="https://avatars.githubusercontent.com/u/422943?v=4" width="60;" alt="anivar"/>
+            <img src="https://avatars.githubusercontent.com/u/422943?u=cdf8a8b22ffbfc018b7dd9aae8220902394d01e7&v=4" width="60;" alt="anivar"/>
             <br />
             <sub><b>Anivar Aravind</b></sub>
         </a>
@@ -1538,7 +1538,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/phishdestroy">
-            <img src="https://avatars.githubusercontent.com/u/208413058?v=4" width="60;" alt="phishdestroy"/>
+            <img src="https://avatars.githubusercontent.com/u/208413058?u=d2a7f07fdebe6bdbde4b3141ca3ab958fbf0bae9&v=4" width="60;" alt="phishdestroy"/>
             <br />
             <sub><b>PhishDestroy</b></sub>
         </a>
