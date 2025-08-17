@@ -1523,6 +1523,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td></tr>
 <tr>
     <td align="center">
+        <a href="https://github.com/KraskoP">
+            <img src="https://avatars.githubusercontent.com/u/133645143?v=4" width="60;" alt="KraskoP"/>
+            <br />
+            <sub><b>Krasko</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/hudsonrock-partnerships">
             <img src="https://avatars.githubusercontent.com/u/163282900?u=5f2667f7fe5d284ac7a2da6b0800ea8970b0fcbf&v=4" width="60;" alt="hudsonrock-partnerships"/>
             <br />
