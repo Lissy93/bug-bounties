@@ -1544,13 +1544,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/phishdestroy">
-            <img src="https://avatars.githubusercontent.com/u/208413058?u=d2a7f07fdebe6bdbde4b3141ca3ab958fbf0bae9&v=4" width="60;" alt="phishdestroy"/>
-            <br />
-            <sub><b>PhishDestroy</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/Quad4-Software">
             <img src="https://avatars.githubusercontent.com/u/219317474?v=4" width="60;" alt="Quad4-Software"/>
             <br />
