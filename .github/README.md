@@ -1515,13 +1515,20 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/BigoudOps">
+            <img src="https://avatars.githubusercontent.com/u/101472804?v=4" width="60;" alt="BigoudOps"/>
+            <br />
+            <sub><b>John BigoudOps</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
             <br />
             <sub><b>Terminal Trove</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/hudsonrock-partnerships">
             <img src="https://avatars.githubusercontent.com/u/163282900?u=5f2667f7fe5d284ac7a2da6b0800ea8970b0fcbf&v=4" width="60;" alt="hudsonrock-partnerships"/>
