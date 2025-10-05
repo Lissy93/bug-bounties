@@ -1423,13 +1423,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/BrianCurliss">
-            <img src="https://avatars.githubusercontent.com/u/1222949?v=4" width="60;" alt="BrianCurliss"/>
-            <br />
-            <sub><b>Brian Curliss</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/AnandChowdhary">
             <img src="https://avatars.githubusercontent.com/u/2841780?u=747e554b3a7f12eb20b7910e1c87d817844f714f&v=4" width="60;" alt="AnandChowdhary"/>
             <br />
@@ -1463,15 +1456,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/bmcgonag">
             <img src="https://avatars.githubusercontent.com/u/7346620?u=2a0f9284f3e12ac1cc15288c254d1ec68a5081e8&v=4" width="60;" alt="bmcgonag"/>
             <br />
             <sub><b>Brian McGonagill</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/vlad-tim">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-tim"/>
@@ -1491,6 +1484,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/24632172?u=0d20f2d615158f87cd60a3398d3efb026c32f291&v=4" width="60;" alt="mryesiller"/>
             <br />
             <sub><b>Göksel Yeşiller</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/meroxdotdev">
+            <img src="https://avatars.githubusercontent.com/u/35839230?v=4" width="60;" alt="meroxdotdev"/>
+            <br />
+            <sub><b>Melcher Robert</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1541,13 +1541,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/173822055?u=4d323807f120b34da9b156bfd168b46a22844764&v=4" width="60;" alt="gl0bal01"/>
             <br />
             <sub><b>Gl0bal01 💖 龴ↀ◡ↀ龴</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/Quad4-Software">
-            <img src="https://avatars.githubusercontent.com/u/219317474?v=4" width="60;" alt="Quad4-Software"/>
-            <br />
-            <sub><b>Quad4 Software</b></sub>
         </a>
     </td></tr>
 </table>
