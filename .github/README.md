@@ -1444,6 +1444,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/martin68">
+            <img src="https://avatars.githubusercontent.com/u/6174552?v=4" width="60;" alt="martin68"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/InDieTasten">
             <img src="https://avatars.githubusercontent.com/u/7047377?u=8d8f8017628b38bc46dcbf3620e194b01d3fb2d1&v=4" width="60;" alt="InDieTasten"/>
             <br />
@@ -1456,15 +1463,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/bmcgonag">
             <img src="https://avatars.githubusercontent.com/u/7346620?u=2a0f9284f3e12ac1cc15288c254d1ec68a5081e8&v=4" width="60;" alt="bmcgonag"/>
             <br />
             <sub><b>Brian McGonagill</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/vlad-tim">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-tim"/>
@@ -1488,7 +1495,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/meroxdotdev">
-            <img src="https://avatars.githubusercontent.com/u/35839230?v=4" width="60;" alt="meroxdotdev"/>
+            <img src="https://avatars.githubusercontent.com/u/35839230?u=2a3bb4891a20bc1b69ffbdbf0b6647aff0900705&v=4" width="60;" alt="meroxdotdev"/>
             <br />
             <sub><b>Melcher Robert</b></sub>
         </a>
@@ -1513,15 +1520,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/BigoudOps">
             <img src="https://avatars.githubusercontent.com/u/101472804?u=5e4948110e48320024f212edf5ae2332b63fc391&v=4" width="60;" alt="BigoudOps"/>
             <br />
             <sub><b>John BigoudOps</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
@@ -1534,6 +1541,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/163282900?u=5f2667f7fe5d284ac7a2da6b0800ea8970b0fcbf&v=4" width="60;" alt="hudsonrock-partnerships"/>
             <br />
             <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/LambdaTest-Inc">
+            <img src="https://avatars.githubusercontent.com/u/171592363?v=4" width="60;" alt="LambdaTest-Inc"/>
+            <br />
+            <sub><b>LambdaTest</b></sub>
         </a>
     </td>
     <td align="center">
