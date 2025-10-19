@@ -1487,17 +1487,10 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/mryesiller">
-            <img src="https://avatars.githubusercontent.com/u/24632172?u=0d20f2d615158f87cd60a3398d3efb026c32f291&v=4" width="60;" alt="mryesiller"/>
+        <a href="https://github.com/Tuggster">
+            <img src="https://avatars.githubusercontent.com/u/29806952?v=4" width="60;" alt="Tuggster"/>
             <br />
-            <sub><b>Göksel Yeşiller</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/meroxdotdev">
-            <img src="https://avatars.githubusercontent.com/u/35839230?u=2a3bb4891a20bc1b69ffbdbf0b6647aff0900705&v=4" width="60;" alt="meroxdotdev"/>
-            <br />
-            <sub><b>Melcher Robert</b></sub>
+            <sub><b>Paxton Phillips</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1520,15 +1513,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/BigoudOps">
             <img src="https://avatars.githubusercontent.com/u/101472804?u=5e4948110e48320024f212edf5ae2332b63fc391&v=4" width="60;" alt="BigoudOps"/>
             <br />
             <sub><b>John BigoudOps</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/terminaltrove">
             <img src="https://avatars.githubusercontent.com/u/121595180?v=4" width="60;" alt="terminaltrove"/>
@@ -1545,7 +1538,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/LambdaTest-Inc">
-            <img src="https://avatars.githubusercontent.com/u/171592363?v=4" width="60;" alt="LambdaTest-Inc"/>
+            <img src="https://avatars.githubusercontent.com/u/171592363?u=96606606a45fa170427206199014f2a5a2a4920b&v=4" width="60;" alt="LambdaTest-Inc"/>
             <br />
             <sub><b>LambdaTest</b></sub>
         </a>
