@@ -1488,7 +1488,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/Tuggster">
-            <img src="https://avatars.githubusercontent.com/u/29806952?v=4" width="60;" alt="Tuggster"/>
+            <img src="https://avatars.githubusercontent.com/u/29806952?u=29f999f82cfe5c8c331aec443e436e273b9ed453&v=4" width="60;" alt="Tuggster"/>
             <br />
             <sub><b>Paxton Phillips</b></sub>
         </a>
@@ -1548,6 +1548,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/173822055?u=4d323807f120b34da9b156bfd168b46a22844764&v=4" width="60;" alt="gl0bal01"/>
             <br />
             <sub><b>Gl0bal01 💖 龴ↀ◡ↀ龴</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/mazzeroo">
+            <img src="https://avatars.githubusercontent.com/u/217485921?v=4" width="60;" alt="mazzeroo"/>
+            <br />
+            <sub><b>Maria</b></sub>
         </a>
     </td></tr>
 </table>
