@@ -1409,13 +1409,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
 <table>
 <tr>
     <td align="center">
-        <a href="https://github.com/vincentkoc">
-            <img src="https://avatars.githubusercontent.com/u/25068?u=fbd5b2d51142daa4bdbc21e21953a3b8b8188a4a&v=4" width="60;" alt="vincentkoc"/>
-            <br />
-            <sub><b>Vincent Koc</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/anivar">
             <img src="https://avatars.githubusercontent.com/u/422943?u=cdf8a8b22ffbfc018b7dd9aae8220902394d01e7&v=4" width="60;" alt="anivar"/>
             <br />
@@ -1463,27 +1456,20 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Brian McGonagill</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/vlad-tim">
             <img src="https://avatars.githubusercontent.com/u/11474041?u=eee43705b54d2ec9f51fc4fcce5ad18dd17c87e4&v=4" width="60;" alt="vlad-tim"/>
             <br />
             <sub><b>Vlad</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/helixzz">
             <img src="https://avatars.githubusercontent.com/u/12218889?u=d06d0c103dfbdb99450623064f7da3c5a3675fb6&v=4" width="60;" alt="helixzz"/>
             <br />
             <sub><b>HeliXZz</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/Tuggster">
-            <img src="https://avatars.githubusercontent.com/u/29806952?u=29f999f82cfe5c8c331aec443e436e273b9ed453&v=4" width="60;" alt="Tuggster"/>
-            <br />
-            <sub><b>Paxton Phillips</b></sub>
         </a>
     </td>
     <td align="center">
@@ -1520,8 +1506,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Terminal Trove</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/Fovvy">
             <img src="https://avatars.githubusercontent.com/u/136544445?u=94c261740c5f7a0702b4537aa184a45b5aca7909&v=4" width="60;" alt="Fovvy"/>
@@ -1535,7 +1520,8 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>Null</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/LambdaTest-Inc">
             <img src="https://avatars.githubusercontent.com/u/171592363?u=96606606a45fa170427206199014f2a5a2a4920b&v=4" width="60;" alt="LambdaTest-Inc"/>
