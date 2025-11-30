@@ -1481,7 +1481,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/ubaidwazir">
-            <img src="https://avatars.githubusercontent.com/u/81792092?v=4" width="60;" alt="ubaidwazir"/>
+            <img src="https://avatars.githubusercontent.com/u/81792092?u=f8bc533847c7307ba4f6b6fd4a32c0c39cb387ff&v=4" width="60;" alt="ubaidwazir"/>
             <br />
             <sub><b>Muhammad Ubaid</b></sub>
         </a>
@@ -1516,7 +1516,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/Fovvy">
-            <img src="https://avatars.githubusercontent.com/u/136544445?u=94c261740c5f7a0702b4537aa184a45b5aca7909&v=4" width="60;" alt="Fovvy"/>
+            <img src="https://avatars.githubusercontent.com/u/136544445?u=6c68eb3b101b5481a05f85c01f9572abf61b1667&v=4" width="60;" alt="Fovvy"/>
             <br />
             <sub><b>~</b></sub>
         </a>
