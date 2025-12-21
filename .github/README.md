@@ -1473,13 +1473,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/ubaidwazir">
-            <img src="https://avatars.githubusercontent.com/u/81792092?u=f8bc533847c7307ba4f6b6fd4a32c0c39cb387ff&v=4" width="60;" alt="ubaidwazir"/>
-            <br />
-            <sub><b>Muhammad Ubaid</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/OlliVHH">
             <img src="https://avatars.githubusercontent.com/u/84959562?v=4" width="60;" alt="OlliVHH"/>
             <br />
@@ -1520,22 +1513,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>LambdaTest</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/gl0bal01">
             <img src="https://avatars.githubusercontent.com/u/173822055?u=4d323807f120b34da9b156bfd168b46a22844764&v=4" width="60;" alt="gl0bal01"/>
             <br />
             <sub><b>Gl0bal01 💖 龴ↀ◡ↀ龴</b></sub>
         </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/mazzeroo">
-            <img src="https://avatars.githubusercontent.com/u/217485921?v=4" width="60;" alt="mazzeroo"/>
-            <br />
-            <sub><b>Maria</b></sub>
-        </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/Quad4-Software">
             <img src="https://avatars.githubusercontent.com/u/219317474?v=4" width="60;" alt="Quad4-Software"/>
