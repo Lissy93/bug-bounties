@@ -1523,6 +1523,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td></tr>
 <tr>
     <td align="center">
+        <a href="https://github.com/JDB321Sailor">
+            <img src="https://avatars.githubusercontent.com/u/212125521?v=4" width="60;" alt="JDB321Sailor"/>
+            <br />
+            <sub><b>Null</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/Quad4-Software">
             <img src="https://avatars.githubusercontent.com/u/219317474?v=4" width="60;" alt="Quad4-Software"/>
             <br />
