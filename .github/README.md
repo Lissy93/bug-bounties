@@ -1537,13 +1537,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/JDB321Sailor">
-            <img src="https://avatars.githubusercontent.com/u/212125521?v=4" width="60;" alt="JDB321Sailor"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/Envisage-Cloud-Solutions">
             <img src="https://avatars.githubusercontent.com/u/219464178?v=4" width="60;" alt="Envisage-Cloud-Solutions"/>
             <br />
