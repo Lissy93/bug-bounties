@@ -1473,13 +1473,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/4aka">
-            <img src="https://avatars.githubusercontent.com/u/30434449?u=f2c0f3a157f1f59cffad960dc06107f47086fbb4&v=4" width="60;" alt="4aka"/>
-            <br />
-            <sub><b>Arch Incorp</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/getumbrel">
             <img src="https://avatars.githubusercontent.com/u/59408891?v=4" width="60;" alt="getumbrel"/>
             <br />
@@ -1520,6 +1513,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>LambdaTest</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/hesreallyhim">
+            <img src="https://avatars.githubusercontent.com/u/172150522?v=4" width="60;" alt="hesreallyhim"/>
+            <br />
+            <sub><b>Really Him</b></sub>
+        </a>
     </td></tr>
 <tr>
     <td align="center">
@@ -1527,13 +1527,6 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/173822055?u=4d323807f120b34da9b156bfd168b46a22844764&v=4" width="60;" alt="gl0bal01"/>
             <br />
             <sub><b>Gl0bal01 💖 龴ↀ◡ↀ龴</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/0x41647269656E">
-            <img src="https://avatars.githubusercontent.com/u/191976713?u=e2c3d380c9e9140fa022a27c598915538b0083e5&v=4" width="60;" alt="0x41647269656E"/>
-            <br />
-            <sub><b>0x41647269656E</b></sub>
         </a>
     </td>
     <td align="center">
