@@ -1480,6 +1480,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/ssdnodes">
+            <img src="https://avatars.githubusercontent.com/u/66710902?v=4" width="60;" alt="ssdnodes"/>
+            <br />
+            <sub><b>SSD Nodes</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/frankdez93">
             <img src="https://avatars.githubusercontent.com/u/87549420?v=4" width="60;" alt="frankdez93"/>
             <br />
@@ -1513,15 +1520,15 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <br />
             <sub><b>LambdaTest</b></sub>
         </a>
-    </td>
+    </td></tr>
+<tr>
     <td align="center">
         <a href="https://github.com/hesreallyhim">
-            <img src="https://avatars.githubusercontent.com/u/172150522?v=4" width="60;" alt="hesreallyhim"/>
+            <img src="https://avatars.githubusercontent.com/u/172150522?u=e288991976c46b53437a5880e90be140634a8477&v=4" width="60;" alt="hesreallyhim"/>
             <br />
             <sub><b>Really Him</b></sub>
         </a>
-    </td></tr>
-<tr>
+    </td>
     <td align="center">
         <a href="https://github.com/gl0bal01">
             <img src="https://avatars.githubusercontent.com/u/173822055?u=4d323807f120b34da9b156bfd168b46a22844764&v=4" width="60;" alt="gl0bal01"/>
@@ -1534,6 +1541,13 @@ Huge thanks to the following kind people, for their ongoing support in funding t
             <img src="https://avatars.githubusercontent.com/u/219464178?v=4" width="60;" alt="Envisage-Cloud-Solutions"/>
             <br />
             <sub><b>Envisage Cloud Solutions</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/clj00321">
+            <img src="https://avatars.githubusercontent.com/u/243985327?v=4" width="60;" alt="clj00321"/>
+            <br />
+            <sub><b>Christian Løvgren Jensen</b></sub>
         </a>
     </td></tr>
 </table>
