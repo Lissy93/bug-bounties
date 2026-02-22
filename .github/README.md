@@ -1545,7 +1545,7 @@ Huge thanks to the following kind people, for their ongoing support in funding t
     </td>
     <td align="center">
         <a href="https://github.com/clj00321">
-            <img src="https://avatars.githubusercontent.com/u/243985327?v=4" width="60;" alt="clj00321"/>
+            <img src="https://avatars.githubusercontent.com/u/243985327?u=e42e7121ebab0a1a2938d7dd8127b6d3f7bfda8c&v=4" width="60;" alt="clj00321"/>
             <br />
             <sub><b>Christian Løvgren Jensen</b></sub>
         </a>
