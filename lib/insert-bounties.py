@@ -105,37 +105,36 @@ def get_link_type(url: str) -> str:
 def build_markdown_content(companies) -> str:
     """
     Converts the YAML content into markdown content.
-    :param contributors: The list of contributors from the YAML file.
-    :param stargazers: The list of stargazers of the repository.
-    :return: The markdown content to be inserted into the README.
+    Only includes programs that have at least one reward and a contact link,
+    since GitHub truncates READMEs beyond 512 KB.
     """
 
     if not companies:
         logger.info(f"There's no companies yet, cancelling markdown generation")
         return ""
-    
-    companies.sort(key=lambda x: x['company'].lower())
 
-    md_content = "Company | Rewards | Submission | Notes\n---|---|---|---\n"
+    # Filter to programs worth showing — must have rewards and a submit link
+    companies = [c for c in companies if c.get("rewards") and c.get("contact")]
+    companies.sort(key=lambda x: x['company'].lower())
+    logger.info(f"Showing {len(companies)} programs with rewards + contact")
+
+    md_content = "Company | Rewards | Submission\n---|---|---\n"
     for company in companies:
-        
+
         company_name = company["company"]
         company_url = company["url"]
         company_contact = company["contact"]
         resource_host = urlparse(company['url']).hostname
         icon_tag = f"<img src='https://icon.horse/icon/{resource_host}' width='20' />"
         link_tag = f"[{get_link_type(company_contact)} Submit]({company_contact})"
-        notes = company.get("notes", "")
         rewards = ""
         for reward in company["rewards"]:
             rewards += f"![{reward}]({map_reward_to_badge(reward)}) "
-
 
         md_content += (
             f"<a href='{company_url}' title='{company_name}'>{icon_tag} {format_long_string(company_name)}</a> "
             f"| {rewards}"
             f"| {link_tag}"
-            f"| {notes}"
             f"\n"
         )
     return md_content

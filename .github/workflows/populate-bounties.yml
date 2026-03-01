@@ -1,0 +1,39 @@
+name: 📡 Populate Bounties from Public Sources
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1' # Every Monday at 06:00 UTC
+
+jobs:
+  populate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies 📥
+        run: |
+          python -m pip install --upgrade pip
+          cd lib && pip install -r requirements.txt
+
+      - name: Run populate script 📡
+        run: python lib/populate-bounties.py --stats
+
+      - name: Commit and push if changed ⤴️
+        run: |
+          git config --global user.name "Liss-Bot"
+          git config --global user.email "alicia-gh-bot@mail.as93.net"
+          git add bounties.yml
+          if git diff --staged --quiet; then
+            echo "No new bounties found, nothing to commit."
+          else
+            git commit -m "Auto-populate bounties from public sources"
+            git push
+          fi

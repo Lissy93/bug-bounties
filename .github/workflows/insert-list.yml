@@ -12,16 +12,16 @@ jobs:
 
     steps:
       - name: Checkout repository 🛎️
-        uses: actions/checkout@v2
-        
+        uses: actions/checkout@v4
+
       # Get current date-time (used for commit message)
       - name: Get Date 📅
         id: date
-        run: echo "::set-output name=date::$(date +'%d-%b-%Y')"
-        
-      # Downloads + installs Python (used for running gen scripts)  
+        run: echo "date=$(date +'%d-%b-%Y')" >> "$GITHUB_OUTPUT"
+
+      # Downloads + installs Python (used for running gen scripts)
       - name: Set up Python 🐍
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
           
