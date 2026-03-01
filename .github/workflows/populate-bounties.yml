@@ -1,4 +1,4 @@
-name: 📡 Populate Bounties from Public Sources
+name: 📡 Populate Bounties
 
 on:
   workflow_dispatch:
