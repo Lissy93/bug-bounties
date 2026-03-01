@@ -1,0 +1,30 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <a href="https://github.com/Lissy93/bug-bounties">Bug Bounties</a>
+  is licensed under
+  <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>,
+  &copy;
+  <a href="https://aliciasykes.com">Alicia Sykes</a>
+  {year}
+</footer>
+
+<style>
+  footer {
+    width: 100%;
+    margin-top: auto;
+    background: var(--background-lighter);
+    text-align: center;
+    color: var(--foreground);
+    padding: 0.5rem 0;
+    box-shadow: 0 -1px 2px var(--background-darker);
+  }
+  footer a {
+    color: var(--primary);
+  }
+  footer a:hover {
+    filter: brightness(1.25);
+  }
+</style>

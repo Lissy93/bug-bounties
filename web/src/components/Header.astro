@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.svelte';
+---
+
+<header>
+  <div class="title-and-icon">
+    <a href="/">
+      <img src="/favicon.png" alt="Bug Bounties" />
+    </a>
+    <h1><a href="/">Bug Bounties</a></h1>
+  </div>
+  <p class="subtitle">A compiled list of companies which accept responsible disclosure</p>
+  <nav>
+    <a class="nav-link" href="/about">About</a>
+    <a class="nav-link github-link" href="https://github.com/lissy93/bug-bounties">
+      <Icon name="github" />
+      View on GitHub
+    </a>
+  </nav>
+</header>
+
+<style>
+  header {
+    display: flex;
+    flex-direction: column;
+    background: var(--background-lighter);
+    width: var(--content-width);
+    margin: 2rem auto;
+    border-radius: var(--curve);
+    box-shadow: var(--shadow);
+  }
+  .title-and-icon {
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .title-and-icon img {
+    width: 5rem;
+  }
+  .title-and-icon h1 {
+    font-size: 5rem;
+    margin: 0;
+    text-align: center;
+    color: var(--primary);
+  }
+  .title-and-icon a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--primary);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    margin: 1rem auto;
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem auto;
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    font-family: 'Roboto', sans-serif;
+    border: 2px solid var(--primary);
+    padding: 0.25rem 0.5rem;
+    font-size: 1.2rem;
+    border-radius: var(--curve);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-link:hover {
+    background: var(--primary);
+    color: var(--background);
+  }
+</style>
