@@ -2,10 +2,17 @@
   --primary: #FDC500;
   --foreground: #ffffff;
   --background: #0c121a;
-
-  --primary-lighter: #FDC50087;
+  --primary-muted: #FDC50087;
   --background-lighter: #ffffff08;
   --background-darker: #00000082;
-
-  --curve-factor: 4px;
+  --muted: #ffffff60;
+  --border: #ffffff15;
+  --success: #45f445;
+  --info: #53c5fd;
+  --accent: #f4419e;
+  --curve: 4px;
+  --max-width: 1400px;
+  --content-width: 90%;
+  --transition: 0.2s ease-in-out;
+  --shadow: 2px 2px 1px var(--background-darker);
 }

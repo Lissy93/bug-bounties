@@ -1,22 +1,40 @@
 ---
-import yaml from 'js-yaml';
-
-import CompanyList from '../components/CompanyList.svelte';
-import Hero from '../components/Hero.svelte';
+import Header from '../components/Header.astro';
+import SearchableList from '../components/SearchableList.svelte';
+import Tooltip from '../components/Tooltip.svelte';
 import DefaultLayout from '../layouts/DefaultLayout.astro';
-import type { Companies } from '../types/Company';
+import { loadBounties } from '../lib/data';
+import { tips } from '../lib/tooltips';
 
-const fetchBountiesYAML = async () => {
-  const response = await fetch('https://raw.githubusercontent.com/Lissy93/bug-bounties/main/bounties.yml');
-  const text = await response.text();
-  return (yaml.load(text) as any).companies as Companies;
-};
+const programs = loadBounties();
 
-const companies = await fetchBountiesYAML();
-
+const totalPrograms = programs.length;
+const withBounties = programs.filter((p) => p.rewards?.includes('*bounty')).length;
+const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
 ---
 
 <DefaultLayout>
-	<Hero />
-  <CompanyList {companies} client:load />
+  <Header />
+  <div class="stats">
+    <Tooltip text={tips.statPrograms}><span><strong>{totalPrograms.toLocaleString()}</strong> programs</span></Tooltip>
+    <Tooltip text={tips.statBounties}><span><strong>{withBounties.toLocaleString()}</strong> with bounties</span></Tooltip>
+    <Tooltip text={tips.statSafeHarbor}><span><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</span></Tooltip>
+  </div>
+  <SearchableList {programs} client:load />
 </DefaultLayout>
+
+<style>
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 0 auto 1rem;
+    width: var(--content-width);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .stats strong {
+    color: var(--primary);
+  }
+</style>

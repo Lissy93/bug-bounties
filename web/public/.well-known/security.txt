@@ -1,0 +1,3 @@
+Contact: mailto:security@as93.net
+Preferred-Languages: en
+Canonical: https://bug-bounties.as93.net/.well-known/security.txt

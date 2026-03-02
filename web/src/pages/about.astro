@@ -1,0 +1,116 @@
+---
+import Header from '../components/Header.astro';
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import { loadBounties } from '../lib/data';
+
+const programs = loadBounties();
+const count = programs.length;
+---
+
+<DefaultLayout title="About - Bug Bounties" description="About the Bug Bounties directory - how data is collected and how to contribute.">
+  <Header />
+  <article class="about">
+    <h1>About</h1>
+
+    <section>
+      <h2>What is this?</h2>
+      <p>
+        Bug Bounties is an open-source directory of <strong>{count.toLocaleString()}</strong> bug bounty
+        and responsible disclosure programs. It helps security researchers quickly find companies
+        that welcome vulnerability reports.
+      </p>
+    </section>
+
+    <section>
+      <h2>How is data collected?</h2>
+      <p>
+        Program data is aggregated from multiple public sources, including:
+      </p>
+      <ul>
+        <li>HackerOne</li>
+        <li>Bugcrowd</li>
+        <li>Intigriti</li>
+        <li>YesWeHack</li>
+        <li>Federacy</li>
+        <li>Disclose.io</li>
+        <li>security.txt files</li>
+        <li>Manual submissions via GitHub</li>
+      </ul>
+      <p>
+        Data is refreshed periodically via automated workflows and community contributions.
+      </p>
+    </section>
+
+    <section>
+      <h2>How to contribute</h2>
+      <p>
+        This project is open-source. You can add or update programs by submitting a pull request
+        to the <a href="https://github.com/Lissy93/bug-bounties">GitHub repository</a>.
+        Each entry is stored in <code>bounties.yml</code> and follows a defined schema.
+      </p>
+    </section>
+
+    <section>
+      <h2>Responsible disclosure</h2>
+      <p>
+        If you find a vulnerability in one of these programs, always follow their specific
+        disclosure policy. General guidance:
+      </p>
+      <ul>
+        <li>Read the program's rules before testing</li>
+        <li>Only test on systems you are authorized to test</li>
+        <li>Do not access, modify, or delete user data</li>
+        <li>Report vulnerabilities promptly and provide enough detail to reproduce</li>
+        <li>Give the company reasonable time to fix before any public disclosure</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Credits and license</h2>
+      <p>
+        Built by <a href="https://aliciasykes.com">Alicia Sykes</a>.
+        Licensed under <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>.
+      </p>
+    </section>
+  </article>
+</DefaultLayout>
+
+<style>
+  .about {
+    width: var(--content-width);
+    margin: 0 auto 2rem;
+    color: var(--foreground);
+  }
+  .about h1 {
+    color: var(--primary);
+    font-size: 2rem;
+  }
+  section {
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--primary);
+  }
+  p {
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+  ul {
+    padding-left: 1.5rem;
+    line-height: 1.8;
+  }
+  a {
+    color: var(--primary);
+  }
+  code {
+    background: var(--background-darker);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--curve);
+    font-size: 0.85rem;
+  }
+</style>

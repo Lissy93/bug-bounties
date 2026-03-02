@@ -11,14 +11,16 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
+    "@astrojs/sitemap": "^3.0.3",
     "@astrojs/svelte": "^4.0.3",
     "astro": "^3.4.3",
+    "js-yaml": "^4.1.0",
     "sass": "^1.69.5",
+    "sitemap": "7.1.2",
     "svelte": "^4.2.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "js-yaml": "^4.1.0"
+    "@types/js-yaml": "^4.0.9"
   }
 }

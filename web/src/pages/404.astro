@@ -1,0 +1,42 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+---
+
+<DefaultLayout title="Page Not Found - Bug Bounties" noindex={true}>
+  <div class="not-found">
+    <h1>404</h1>
+    <p>Page not found</p>
+    <a href="/">Back to homepage</a>
+  </div>
+</DefaultLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding: 6rem 2rem;
+    color: var(--foreground);
+  }
+  h1 {
+    font-size: 5rem;
+    margin: 0;
+    color: var(--primary);
+  }
+  p {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin: 1rem 0 2rem;
+  }
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    border: 2px solid var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--curve);
+    transition: var(--transition);
+  }
+  a:hover {
+    background: var(--primary);
+    color: var(--background);
+  }
+</style>

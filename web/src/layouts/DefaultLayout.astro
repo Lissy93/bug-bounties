@@ -1,20 +1,36 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.svelte';
-const { title } = Astro.props
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, canonicalUrl, noindex, jsonLd } = Astro.props;
 ---
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <BaseHead title={title}/>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <BaseHead
+      title={title}
+      description={description}
+      canonicalUrl={canonicalUrl}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
   </head>
   <body>
     <main>
       <slot />
     </main>
-    <Footer client:load />
+    <Footer />
   </body>
 </html>
 
@@ -26,40 +42,18 @@ const { title } = Astro.props
     font-family: 'Roboto', sans-serif;
     background: var(--background);
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Wallpoet', sans-serif;
     font-weight: normal;
   }
   main {
-    max-width: 1400px;
+    max-width: var(--max-width);
     margin: 0 auto;
+    width: 100%;
+    flex: 1;
   }
 </style>
-
-
-<!-- <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
-		<style>
-			html,
-			body {
-				font-family: system-ui;
-				margin: 0;
-			}
-			body {
-				padding: 2rem;
-			}
-		</style>
-	</head>
-	<body>
-		<main>
-			<Counter client:visible>
-				<h1>Hello, Svelte!</h1>
-			</Counter>
-		</main>
-	</body>
-</html> -->
