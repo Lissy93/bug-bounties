@@ -9,27 +9,50 @@ import Icon from '../components/Icon.svelte';
 import { loadBounties } from '../lib/data';
 import { formatPayout, formatDuration, getHostname } from '../lib/format';
 import { tips } from '../lib/tooltips';
-import type { BountyProgram } from '../types/Company';
+import { fetchAllSecurityTxt } from '../lib/security-txt';
+import { fetchAllPlatformData } from '../lib/platform-data';
+import { fetchTrancoRanks, formatRankBadge } from '../lib/tranco';
+import type { BountyProgram, SecurityTxtData, PlatformScopeData } from '../types/Company';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   const programs = loadBounties();
+  const isDev = import.meta.env.DEV;
+
+  // Fetch enrichment data once inside getStaticPaths so it doesn't
+  // block module loading. Each function never throws.
+  const [securityTxtMap, platformDataMap, trancoData] = await Promise.all([
+    // Skip the slow security.txt crawl in dev mode (~2600 HTTP requests)
+    isDev ? Promise.resolve(new Map<string, SecurityTxtData>()) : fetchAllSecurityTxt(programs),
+    fetchAllPlatformData(programs),
+    fetchTrancoRanks(programs),
+  ]);
+
   return programs.map((program) => ({
     params: { slug: program.slug },
-    props: { program },
+    props: {
+      program,
+      securityTxt: securityTxtMap.get(program.slug) ?? null,
+      platformData: platformDataMap.get(program.slug) ?? null,
+      trancoRank: trancoData.bySlug.get(program.slug) ?? null,
+    },
   }));
 }
 
 interface Props {
   program: BountyProgram;
+  securityTxt: SecurityTxtData | null;
+  platformData: PlatformScopeData | null;
+  trancoRank: number | null;
 }
 
-const { program } = Astro.props;
+const { program, securityTxt, platformData, trancoRank } = Astro.props;
 
 const payout = formatPayout(program.min_payout, program.max_payout, program.currency);
 const responseTime = formatDuration(program.response_time);
 const bountyTime = formatDuration(program.bounty_time);
 const resolutionTime = formatDuration(program.resolution_time);
 const hostname = getHostname(program.url);
+const rankBadge = trancoRank ? formatRankBadge(trancoRank) : null;
 
 const pageTitle = `${program.company} Bug Bounty Program - Bug Bounties`;
 const pageDescription = [
@@ -61,7 +84,14 @@ const breadcrumbJsonLd = {
       <FaviconImage url={program.url} alt={program.company} size="4rem"
         slug={program.slug} domains={program.domains} />
       <div>
-        <h1>{program.company}</h1>
+        <div class="title-row">
+          <h1>{program.company}</h1>
+          {rankBadge && (
+            <Tooltip text={tips.trancoRank}>
+              <span class="rank-badge">{rankBadge}</span>
+            </Tooltip>
+          )}
+        </div>
         <div class="header-links">
           <a href={program.url} target="_blank" rel="noopener noreferrer" class="external-link">
             {hostname} &rarr;
@@ -129,15 +159,58 @@ const breadcrumbJsonLd = {
       </section>
     )}
 
-    <!-- Scope -->
-    {program.domains && program.domains.length > 0 && (
+    <!-- Enhanced Scope (platform data available) -->
+    {platformData ? (
+      <section class="section">
+        <h2>
+          <Tooltip text={tips.scopeTargets}>
+            Scope ({platformData.scopeStats.total} targets)
+          </Tooltip>
+        </h2>
+        <div class="scope-stats">
+          {platformData.scopeStats.web > 0 && <span class="scope-chip">web: {platformData.scopeStats.web}</span>}
+          {platformData.scopeStats.mobile > 0 && <span class="scope-chip">mobile: {platformData.scopeStats.mobile}</span>}
+          {platformData.scopeStats.api > 0 && <span class="scope-chip">api: {platformData.scopeStats.api}</span>}
+          {platformData.scopeStats.other > 0 && <span class="scope-chip">other: {platformData.scopeStats.other}</span>}
+        </div>
+        {platformData.allowsBountySplitting != null && (
+          <p class="scope-meta">
+            <Tooltip text={tips.bountySplitting}>Bounty splitting:</Tooltip> {platformData.allowsBountySplitting ? 'Yes' : 'No'}
+            {platformData.maxSeverity && <> · Max severity: {platformData.maxSeverity}</>}
+          </p>
+        )}
+        <div class="scope-targets">
+          <h3>In Scope</h3>
+          <ul class="target-list">
+            {platformData.inScopeTargets.map((t) => (
+              <li class="target-item">
+                <span class="target-id">{t.identifier}</span>
+                <span class="target-type">{t.type}</span>
+                <span class={`target-eligible ${t.eligibleForBounty ? 'eligible' : 'recognition'}`}>
+                  {t.eligibleForBounty ? 'bounty-eligible' : 'recognition only'}
+                </span>
+              </li>
+            ))}
+            {platformData.scopeStats.total > 20 && (
+              <li class="target-more">and {platformData.scopeStats.total - 20} more targets</li>
+            )}
+          </ul>
+        </div>
+        {platformData.outOfScopeTargets.length > 0 && (
+          <div class="scope-targets">
+            <h3>Out of Scope</h3>
+            <p class="out-of-scope">{platformData.outOfScopeTargets.join(', ')}</p>
+          </div>
+        )}
+      </section>
+    ) : program.domains && program.domains.length > 0 ? (
       <section class="section">
         <h2>In-Scope Domains</h2>
         <ul class="domains">
           {program.domains.map((d) => <li>{d}</li>)}
         </ul>
       </section>
-    )}
+    ) : null}
 
     <!-- Security -->
     {(program.pgp_key || program.securitytxt_url || program.preferred_languages) && (
@@ -153,6 +226,89 @@ const breadcrumbJsonLd = {
           )}
           {program.preferred_languages && <><dt><Tooltip text={tips.preferredLanguages}>Preferred Languages</Tooltip></dt><dd>{program.preferred_languages}</dd></>}
         </dl>
+      </section>
+    )}
+
+    <!-- security.txt parsed data -->
+    {securityTxt && (
+      <section class="section">
+        <h2>
+          security.txt
+          {securityTxt.is_expired && (
+            <Tooltip text={tips.securityTxtExpired}>
+              <span class="expired-badge">expired</span>
+            </Tooltip>
+          )}
+        </h2>
+        <dl>
+          {securityTxt.contact && securityTxt.contact.length > 0 && (
+            <>
+              <dt><Tooltip text={tips.securityTxtContact}>Contact</Tooltip></dt>
+              <dd>
+                {securityTxt.contact.map((c, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    {c.startsWith('http') ? (
+                      <a href={c} target="_blank" rel="noopener noreferrer">{c}</a>
+                    ) : c.startsWith('mailto:') ? (
+                      <a href={c}>{c.replace('mailto:', '')}</a>
+                    ) : (
+                      <span>{c}</span>
+                    )}
+                  </>
+                ))}
+              </dd>
+            </>
+          )}
+          {securityTxt.encryption && securityTxt.encryption.length > 0 && (
+            <>
+              <dt>Encryption</dt>
+              <dd>
+                {securityTxt.encryption.map((e, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    <a href={e} target="_blank" rel="noopener noreferrer">{e}</a>
+                  </>
+                ))}
+              </dd>
+            </>
+          )}
+          {securityTxt.policy && (
+            <>
+              <dt>Policy</dt>
+              <dd><a href={securityTxt.policy} target="_blank" rel="noopener noreferrer">{securityTxt.policy}</a></dd>
+            </>
+          )}
+          {securityTxt.hiring && (
+            <>
+              <dt>Hiring</dt>
+              <dd><a href={securityTxt.hiring} target="_blank" rel="noopener noreferrer">{securityTxt.hiring}</a></dd>
+            </>
+          )}
+          {securityTxt.acknowledgments && (
+            <>
+              <dt>Acknowledgments</dt>
+              <dd><a href={securityTxt.acknowledgments} target="_blank" rel="noopener noreferrer">{securityTxt.acknowledgments}</a></dd>
+            </>
+          )}
+          {securityTxt.preferredLanguages && (
+            <>
+              <dt>Languages</dt>
+              <dd>{securityTxt.preferredLanguages}</dd>
+            </>
+          )}
+          {securityTxt.expires && (
+            <>
+              <dt>Expires</dt>
+              <dd class={securityTxt.is_expired ? 'expired-text' : ''}>{securityTxt.expires}</dd>
+            </>
+          )}
+        </dl>
+        {securityTxt.raw_url && (
+          <a href={securityTxt.raw_url} target="_blank" rel="noopener noreferrer" class="raw-link">
+            View raw security.txt &rarr;
+          </a>
+        )}
       </section>
     )}
 
@@ -189,10 +345,25 @@ const breadcrumbJsonLd = {
     align-items: center;
     margin-bottom: 1.5rem;
   }
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
   .program-header h1 {
     margin: 0;
     color: var(--primary);
     font-size: 2rem;
+  }
+  .rank-badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--curve);
+    background: var(--accent);
+    color: var(--background);
+    font-weight: 600;
+    white-space: nowrap;
   }
   .header-links {
     display: flex;
@@ -317,6 +488,116 @@ const breadcrumbJsonLd = {
     transition: var(--transition);
   }
 
+  /* Scope section styles */
+  .scope-stats {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .scope-chip {
+    font-size: 0.8rem;
+    padding: 0.15rem 0.5rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+    color: var(--muted);
+    font-family: monospace;
+  }
+  .scope-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+  }
+  .scope-targets h3 {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0.75rem 0 0.5rem;
+  }
+  .target-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .target-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.3rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--background-darker);
+    flex-wrap: wrap;
+  }
+  .target-item:last-child {
+    border-bottom: none;
+  }
+  .target-id {
+    font-family: monospace;
+    color: var(--foreground);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .target-type {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+    color: var(--muted);
+  }
+  .target-eligible {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--curve);
+  }
+  .target-eligible.eligible {
+    background: color-mix(in srgb, var(--success) 15%, transparent);
+    color: var(--success);
+  }
+  .target-eligible.recognition {
+    background: var(--background-darker);
+    color: var(--muted);
+  }
+  .target-more {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    font-style: italic;
+  }
+  .out-of-scope {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+    font-family: monospace;
+    word-break: break-all;
+  }
+
+  /* security.txt styles */
+  .expired-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--curve);
+    background: color-mix(in srgb, var(--warning, #f59e0b) 15%, transparent);
+    color: var(--warning, #f59e0b);
+    font-weight: normal;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .expired-text {
+    color: var(--warning, #f59e0b);
+  }
+  .raw-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .raw-link:hover {
+    text-decoration: underline;
+  }
+
   @media (max-width: 600px) {
     .program-header {
       flex-direction: column;
@@ -327,6 +608,11 @@ const breadcrumbJsonLd = {
     }
     dl {
       grid-template-columns: 1fr;
+    }
+    .target-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
     }
   }
 </style>

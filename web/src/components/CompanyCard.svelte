@@ -4,11 +4,14 @@
   import Tooltip from './Tooltip.svelte';
   import { tips } from '../lib/tooltips';
   import { formatPayout } from '../lib/format';
+  import { formatRankLabel } from '../lib/tranco-format';
   import type { BountyProgram } from '../types/Company';
 
   export let program: BountyProgram;
+  export let trancoRank: number | undefined = undefined;
 
   $: payout = formatPayout(program.min_payout, program.max_payout, program.currency);
+  $: rankLabel = trancoRank != null ? formatRankLabel(trancoRank) : '';
 </script>
 
 <li class="card">
@@ -16,7 +19,14 @@
     <FaviconImage url={program.url} alt={program.company} size="3rem"
       slug={program.slug} domains={program.domains} />
     <div class="content">
-      <p class="name">{program.company}</p>
+      <p class="name">
+        <span class="company-text">{program.company}</span>
+        {#if rankLabel}
+          <Tooltip text={tips.trancoRank}>
+            <span class="rank-indicator">{rankLabel}</span>
+          </Tooltip>
+        {/if}
+      </p>
       <div class="meta">
         <RewardBadges rewards={program.rewards || []} />
         {#if program.safe_harbor}
@@ -49,6 +59,9 @@
     border-color: var(--primary);
     box-shadow: 3px 3px 2px var(--background-darker);
     transform: scale(1.02);
+    content-visibility: visible;
+    contain: none;
+    overflow: visible;
   }
   .card-link {
     display: flex;
@@ -67,8 +80,29 @@
     color: var(--primary);
     font-size: 1.1rem;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+  .company-text {
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .name :global(.has-tooltip) { display: flex; }
+  .rank-indicator {
+    font-size: 0.6rem;
+    padding: 0.05rem 0.3rem;
+    border-radius: var(--curve, 4px);
+    /*background: var(--accent);
+    color: var(--background);*/
+    opacity: 0.8;
+    color: var(--accent);
+    background: var(--border);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .meta {
     display: flex;

@@ -3,6 +3,7 @@
   import CompanyCard from './CompanyCard.svelte';
 
   export let programs: BountyProgram[] = [];
+  export let trancoRanks: Record<string, number> = {};
 
   let searchTerm = '';
   let filterBounty = false;
@@ -11,7 +12,8 @@
   let filterSafeHarbor = false;
   let filterManaged = false;
   let filterHasPayout = false;
-  let sortBy: 'recommended' | 'name' | 'payout-desc' = 'recommended';
+  let filterTop1k = false;
+  let sortBy: 'recommended' | 'name' | 'payout-desc' | 'popularity' = 'recommended';
 
   const completeness = (p: BountyProgram) =>
     Object.values(p).filter(v => v != null && v !== '' && !(Array.isArray(v) && !v.length)).length;
@@ -23,7 +25,8 @@
     filterSwag ||
     filterSafeHarbor ||
     filterManaged ||
-    filterHasPayout;
+    filterHasPayout ||
+    filterTop1k;
 
   $: filtered = programs.filter((p) => {
     if (searchTerm) {
@@ -38,6 +41,7 @@
     if (filterSafeHarbor && !(p.safe_harbor === 'full' || p.safe_harbor === 'partial')) return false;
     if (filterManaged && !p.managed) return false;
     if (filterHasPayout && p.max_payout == null) return false;
+    if (filterTop1k && (trancoRanks[p.slug] == null || trancoRanks[p.slug] > 1000)) return false;
     return true;
   });
 
@@ -46,6 +50,13 @@
     if (sortBy === 'recommended') {
       const scores = new Map(filtered.map(p => [p, completeness(p)]));
       return [...filtered].sort((a, b) => scores.get(b)! - scores.get(a)!);
+    }
+    if (sortBy === 'popularity') {
+      return [...filtered].sort((a, b) => {
+        const aRank = trancoRanks[a.slug] ?? Infinity;
+        const bRank = trancoRanks[b.slug] ?? Infinity;
+        return aRank - bRank;
+      });
     }
     return [...filtered].sort((a, b) => {
       const aVal = a.max_payout ?? -Infinity;
@@ -62,6 +73,7 @@
     filterSafeHarbor = false;
     filterManaged = false;
     filterHasPayout = false;
+    filterTop1k = false;
     sortBy = 'recommended';
   }
 </script>
@@ -78,6 +90,7 @@
       <option value="recommended">Recommended</option>
       <option value="name">A - Z</option>
       <option value="payout-desc">Payout: high to low</option>
+      <option value="popularity">Popularity</option>
     </select>
   </div>
   <div class="chip-row">
@@ -117,6 +130,12 @@
       aria-pressed={filterHasPayout}
       on:click={() => filterHasPayout = !filterHasPayout}
     >Has Payout</button>
+    <button
+      class="chip" class:active={filterTop1k}
+      style="--chip-color: var(--accent)"
+      aria-pressed={filterTop1k}
+      on:click={() => filterTop1k = !filterTop1k}
+    >Top 1K Sites</button>
     {#if hasActiveFilters}
       <span class="count">{sorted.length} of {programs.length}</span>
       <button class="clear" on:click={clearAll}>Clear all</button>
@@ -127,7 +146,7 @@
 {#if sorted.length > 0}
   <ul class="program-list">
     {#each sorted as program (program.slug)}
-      <CompanyCard {program} />
+      <CompanyCard {program} trancoRank={trancoRanks[program.slug]} />
     {/each}
   </ul>
 {:else}

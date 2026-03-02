@@ -28,3 +28,40 @@ export interface BountyProgram {
   notes?: string;
   sources?: string[];
 }
+
+// Enrichment data types - fetched at build time, not stored in bounties.yml
+
+export interface SecurityTxtData {
+  contact?: string[];
+  encryption?: string[];
+  acknowledgments?: string;
+  preferredLanguages?: string;
+  hiring?: string;
+  expires?: string;
+  policy?: string;
+  canonical?: string;
+  raw_url?: string;
+  is_expired?: boolean;
+}
+
+export interface ScopeTarget {
+  identifier: string;
+  type: string;
+  eligibleForBounty: boolean;
+}
+
+export interface ScopeStats {
+  total: number;
+  web: number;
+  mobile: number;
+  api: number;
+  other: number;
+}
+
+export interface PlatformScopeData {
+  scopeStats: ScopeStats;
+  inScopeTargets: ScopeTarget[];
+  outOfScopeTargets: string[];
+  allowsBountySplitting?: boolean;
+  maxSeverity?: string;
+}

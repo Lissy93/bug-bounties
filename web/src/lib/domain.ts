@@ -104,6 +104,35 @@ function isPlatformHost(hostname: string): boolean {
 }
 
 /**
+ * Derive the primary company domain from a program.
+ * Unlike resolveLogoDomain, this returns a registrable domain suitable for
+ * security.txt lookups and Tranco rank checks.
+ */
+export function resolvePrimaryDomain(program: BountyProgram): string | null {
+  // First try the program URL directly if it's not a platform
+  let hostname = '';
+  try {
+    hostname = new URL(program.url).hostname;
+  } catch {
+    return null;
+  }
+
+  if (!isPlatformHost(hostname)) {
+    return getRegistrableDomain(stripWww(hostname));
+  }
+
+  // For platform-hosted programs, look through domains list
+  if (program.domains) {
+    const webDomain = program.domains.find(isCompanyDomain);
+    if (webDomain) {
+      return getRegistrableDomain(stripWww(webDomain));
+    }
+  }
+
+  return null;
+}
+
+/**
  * Resolve the best domain to use for logo fetching.
  * Returns null if no reliable domain is available (platform URL with no domains data).
  */

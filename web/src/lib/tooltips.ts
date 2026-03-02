@@ -19,4 +19,10 @@ export const tips: Record<string, string> = {
   statPrograms: 'Total number of bug bounty and disclosure programs listed',
   statBounties: 'Programs that offer monetary rewards',
   statSafeHarbor: 'Programs with legal protections for good-faith researchers',
+  trancoRank: 'Website popularity ranking from the Tranco top-1M list - lower is more popular',
+  scopeTargets: 'Number of targets in scope, grouped by type (web, mobile, API, other)',
+  eligibleForBounty: 'Whether this target is eligible for monetary bounty rewards',
+  bountySplitting: 'Whether the program allows bounty rewards to be split among multiple researchers',
+  securityTxtContact: 'Contact information published in the security.txt file (RFC 9116)',
+  securityTxtExpired: 'This security.txt file has passed its expiry date and may be outdated',
 };
