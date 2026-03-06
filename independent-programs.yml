@@ -35,7 +35,6 @@ companies:
   response_sla_days: 1
   disclosure_timeline_days: 90
   hall_of_fame_url: https://www.bt.com/about/contact-bt/responsible-disclosure/hall-of-fame
-
 - company: CERN
   url: https://security.web.cern.ch/home/en/cvd.shtml
   contact: mailto:Computer.Security@cern.ch
@@ -52,7 +51,6 @@ companies:
   - target: CERN systems and services
     type: web
   hall_of_fame_url: https://security.web.cern.ch/home/en/kudos.shtml
-
 - company: DENSO WAVE
   url: https://www.denso-wave.com/en/psirt/
   contact: https://www.denso-wave.com/en/contact/psirt/
@@ -65,7 +63,6 @@ companies:
   response_sla_days: 5
   standards:
   - ISO 29147
-
 - company: Hitachi
   url: https://www.hitachi.com/hirt/
   contact: https://www8.hitachi.co.jp/inquiry/hitachi-ltd/it/hirt/en/form.jsp
@@ -87,7 +84,6 @@ companies:
   - ISO 29147
   - ISO 30111
   hall_of_fame_url: https://www.hitachi.com/hirt/security/acknowledgments.html
-
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
@@ -102,7 +98,6 @@ companies:
   - End-of-life products
   standards:
   - ISO 29147
-
 - company: Orange Cyberdefense
   url: https://www.orangecyberdefense.com/de/vulnerability-disclosure-policy
   contact: mailto:vulnerability@orangecyberdefense.com
@@ -120,7 +115,6 @@ companies:
   - phishing
   response_sla_days: 5
   pgp_key: https://advisories.orangecyberdefense.com
-
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
@@ -134,7 +128,9 @@ companies:
     type: hardware
   - target: TI product software and documentation
     type: other
-
+- company: Volvo
+  url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
+  contact: mailto:responsible-disclosure@volvocars.com
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
