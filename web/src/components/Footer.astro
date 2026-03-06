@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
     <div>
         <a href="https://bug-bounties.as93.net">Bug Bounties</a> is licensed under
         <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>
-        © <a href="https://github.com/Lissy93">Alicia Sykes</a> {year}.
+        © <a href="https://github.com/Lissy93">Alicia Sykes</a> {' ' + year}
     </div>
     <div>
         <a href="/about">About</a> |
@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
 <style>
   footer {
     width: 100%;
-    margin-top: auto;
+    margin-top: 2rem;
     background: var(--background-lighter);
     text-align: center;
     color: var(--foreground);
@@ -39,4 +39,9 @@ const year = new Date().getFullYear();
   footer div {
       padding: 0 1rem;
   }
+@media only screen and (max-width: 800px) {
+    footer {
+        flex-direction: column;
+    }
+}
 </style>

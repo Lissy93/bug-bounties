@@ -1,12 +1,17 @@
 <script lang="ts">
-  import type { BountyProgram } from '../types/Company';
+  import { onDestroy } from 'svelte';
+  import type { ListProgram } from '../types/Company';
   import CompanyCard from './CompanyCard.svelte';
 
-  export let programs: BountyProgram[] = [];
+  export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
   export let kevCounts: Record<string, number> = {};
 
+  const PAGE_SIZE = 60;
+
+  let searchInput = '';
   let searchTerm = '';
+  let debounceTimer: ReturnType<typeof setTimeout>;
   let filterBounty = false;
   let filterRecognition = false;
   let filterSwag = false;
@@ -16,12 +21,17 @@
   let filterTop1k = false;
   let filterHasKev = false;
   let sortBy: 'recommended' | 'name' | 'payout-desc' | 'popularity' | 'most-exploited' = 'recommended';
+  let visibleCount = PAGE_SIZE;
 
-  const completeness = (p: BountyProgram) =>
-    Object.values(p).filter(v => v != null && v !== '' && !(Array.isArray(v) && !v.length)).length;
+  function onSearchInput() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => { searchTerm = searchInput; }, 250);
+  }
+
+  onDestroy(() => clearTimeout(debounceTimer));
 
   $: hasActiveFilters =
-    searchTerm !== '' ||
+    searchInput !== '' ||
     filterBounty ||
     filterRecognition ||
     filterSwag ||
@@ -52,8 +62,7 @@
   $: sorted = (() => {
     if (sortBy === 'name') return filtered;
     if (sortBy === 'recommended') {
-      const scores = new Map(filtered.map(p => [p, completeness(p)]));
-      return [...filtered].sort((a, b) => scores.get(b)! - scores.get(a)!);
+      return [...filtered].sort((a, b) => b.completeness - a.completeness);
     }
     if (sortBy === 'popularity') {
       return [...filtered].sort((a, b) => {
@@ -76,8 +85,28 @@
     });
   })();
 
+  // Reset visible count when filters/sort change
+  $: searchTerm, filterBounty, filterRecognition, filterSwag, filterSafeHarbor,
+     filterManaged, filterHasPayout, filterTop1k, filterHasKev, sortBy,
+     (visibleCount = PAGE_SIZE);
+
+  function observeSentinel(node: HTMLElement) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          visibleCount = Math.min(visibleCount + PAGE_SIZE, sorted.length);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    observer.observe(node);
+    return { destroy: () => observer.disconnect() };
+  }
+
   function clearAll() {
+    searchInput = '';
     searchTerm = '';
+    clearTimeout(debounceTimer);
     filterBounty = false;
     filterRecognition = false;
     filterSwag = false;
@@ -96,7 +125,8 @@
       type="text"
       placeholder="Search programs..."
       aria-label="Search programs by name or handle"
-      bind:value={searchTerm}
+      bind:value={searchInput}
+      on:input={onSearchInput}
     />
     <select bind:value={sortBy} aria-label="Sort programs">
       <option value="recommended">Recommended</option>
@@ -164,10 +194,13 @@
 
 {#if sorted.length > 0}
   <ul class="program-list">
-    {#each sorted as program (program.slug)}
+    {#each sorted.slice(0, visibleCount) as program (program.slug)}
       <CompanyCard {program} trancoRank={trancoRanks[program.slug]} kevCount={kevCounts[program.slug]} />
     {/each}
   </ul>
+  {#if visibleCount < sorted.length}
+    <div class="sentinel" use:observeSentinel></div>
+  {/if}
 {:else}
   <div class="nothing">
     <p>No programs match your filters</p>
@@ -270,6 +303,9 @@
     border-radius: var(--curve, 4px);
     box-shadow: var(--shadow, 2px 2px 1px #00000082);
     background: var(--background-lighter);
+  }
+  .sentinel {
+    height: 1px;
   }
   @media (max-width: 600px) {
     .search-row {

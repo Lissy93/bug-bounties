@@ -5,9 +5,9 @@
   import { tips } from '../lib/tooltips';
   import { formatPayout } from '../lib/format';
   import { formatRankLabel } from '../lib/tranco-format';
-  import type { BountyProgram } from '../types/Company';
+  import type { ListProgram } from '../types/Company';
 
-  export let program: BountyProgram;
+  export let program: ListProgram;
   export let trancoRank: number | undefined = undefined;
   export let kevCount: number | undefined = undefined;
 

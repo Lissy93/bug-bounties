@@ -9,9 +9,10 @@ import Icon from './Icon.svelte';
     </a>
     <h1><a href="/">Bug Bounties</a></h1>
   </div>
-  <p class="subtitle">A compiled list of companies which accept responsible disclosure</p>
+  <p class="subtitle">
+      A compiled list of companies which accept responsible disclosure<a href="/about">...</a>
+  </p>
   <nav>
-    <a class="nav-link" href="/about">About</a>
     <a class="nav-link github-link" href="https://github.com/lissy93/bug-bounties">
       <Icon name="github" />
       View on GitHub
@@ -52,7 +53,7 @@ import Icon from './Icon.svelte';
     text-decoration: none;
     color: inherit;
   }
-  .subtitle {
+  .subtitle, .subtitle a {
     text-align: center;
     color: var(--primary);
     font-family: 'Roboto', sans-serif;
@@ -82,5 +83,10 @@ import Icon from './Icon.svelte';
   .nav-link:hover {
     background: var(--primary);
     color: var(--background);
+  }
+  @media only screen and (max-width: 800px) {
+      .title-and-icon h1  {
+          font-size: 3.5rem;
+      }
   }
 </style>

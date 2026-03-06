@@ -10,7 +10,7 @@ import { fetchAllPlatformData } from '../lib/platform-data';
 import { fetchDiscloseData } from '../lib/disclose-data';
 import { log } from '../lib/log';
 import { tips } from '../lib/tooltips';
-import type { BountyProgram } from '../types/Company';
+import type { BountyProgram, ListProgram } from '../types/Company';
 
 const rawPrograms = loadBounties();
 
@@ -64,6 +64,24 @@ try {
 const totalPrograms = programs.length;
 const withBounties = programs.filter((p) => p.rewards?.includes('*bounty')).length;
 const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
+
+const completeness = (p: BountyProgram) =>
+  Object.values(p).filter(v => v != null && v !== '' && !(Array.isArray(v) && !v.length)).length;
+
+const listPrograms: ListProgram[] = programs.map((p) => ({
+  company: p.company,
+  url: p.url,
+  slug: p.slug,
+  handle: p.handle,
+  rewards: p.rewards,
+  min_payout: p.min_payout,
+  max_payout: p.max_payout,
+  currency: p.currency,
+  safe_harbor: p.safe_harbor,
+  managed: p.managed,
+  domains: p.domains,
+  completeness: completeness(p),
+}));
 ---
 
 <DefaultLayout>
@@ -73,7 +91,7 @@ const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
     <Tooltip text={tips.statBounties}><span><strong>{withBounties.toLocaleString()}</strong> with bounties</span></Tooltip>
     <Tooltip text={tips.statSafeHarbor}><span><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</span></Tooltip>
   </div>
-  <SearchableList {programs} {trancoRanks} {kevCounts} client:load />
+  <SearchableList programs={listPrograms} {trancoRanks} {kevCounts} client:load />
 </DefaultLayout>
 
 <style>

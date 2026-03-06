@@ -1,5 +1,21 @@
 export type Reward = '*bounty' | '*recognition' | '*swag';
 
+/** Minimal program shape serialized to the homepage HTML. */
+export interface ListProgram {
+  company: string;
+  url: string;
+  slug: string;
+  handle?: string;
+  rewards?: Reward[];
+  min_payout?: number;
+  max_payout?: number;
+  currency?: string;
+  safe_harbor?: string;
+  managed?: boolean;
+  domains?: string[];
+  completeness: number;
+}
+
 export interface BountyProgram {
   company: string;
   url: string;

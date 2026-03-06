@@ -5,6 +5,65 @@ import { loadBounties } from '../lib/data';
 
 const programs = loadBounties();
 const count = programs.length;
+
+const apps = [
+  {
+    name: "Web-Check",
+    url: "https://web-check.xyz",
+    github: "https://github.com/lissy93/web-check",
+    logo: "https://cdn.as93.net/logo/web-check?w=64&h=64",
+    description: "All-in-one OSINT tool for analyzing any website",
+  },
+  {
+    name: "Personal Security Checklist",
+    url: "https://digital-defense.io/",
+    github: "https://github.com/lissy93/personal-security-checklist",
+    logo: "https://cdn.as93.net/logo/digital-defense?w=64&h=64",
+    description: "The ultimate list of tips for protecting your data online",
+  },
+  {
+    name: "Awesome Privacy",
+    url: "https://awesome-privacy.xyz/",
+    github: "https://github.com/lissy93/awesome-privacy",
+    logo: "https://cdn.as93.net/logo/awesome-privacy?w=64&h=64",
+    description: "A curated list of apps, services and alternatives that respect your privacy",
+  },
+  {
+    name: "Portainer Templates",
+    url: "https://portainer-templates.as93.net/",
+    github: "https://github.com/lissy93/portainer-templates",
+    logo: "https://cdn.as93.net/logo/portainer-templates?w=64&h=64",
+    description: "500+ 1-click Portainer app templates",
+  },
+  {
+    name: "Networking Toolbox",
+    url: "https://networkingtoolbox.net/",
+    github: "https://github.com/lissy93/networking-toolbox",
+    logo: "https://cdn.as93.net/logo/networking-toolbox?w=64&h=64",
+    description: "The all-in-one collection of 100+ free offline-first tools for sysadmins",
+  },
+  {
+    name: "Domain Locker",
+    url: "https://domain-locker.com/",
+    github: "https://github.com/lissy93/domain-locker",
+    logo: "https://cdn.as93.net/logo/domain-locker?w=64&h=64",
+    description: "Domain name portfolio app for monitoring your domains",
+  },
+  {
+    name: "Email Comparison",
+    url: "https://email-comparison.as93.net/",
+    github: "https://github.com/lissy93/email-comparison",
+    logo: "https://cdn.as93.net/logo/email-comparison?w=64&h=64",
+    description: "Comparison of private and / or secure email providers",
+  },
+  {
+    name: "Dashy",
+    url: "https://dashy.to/",
+    github: "https://github.com/lissy93/dashy",
+    logo: "https://cdn.as93.net/logo/dashy?w=64&h=64",
+    description: "The self-hosted personal dashboard for your homelab",
+  },
+];
 ---
 
 <DefaultLayout title="About - Bug Bounties" description="About the Bug Bounties directory - how data is collected and how to contribute.">
@@ -115,12 +174,52 @@ const count = programs.length;
       <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>,
       © <a href="https://aliciasykes.com">Alicia Sykes</a> 2026.
 
+<pre class="license">
+MIT License
 
+Copyright (c) 2023 Alicia Sykes https://aliciasykes.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre>
+
+    </section>
+    <section>
+      <h2>More Apps</h2>
+      <p>Enjoy security content? You might be interested in some of the other projects we maintain:</p>
+      <ul class="more-apps-list">
+        {apps.map((app) => (
+          <li>
+            <a href={app.url} target="_blank">
+              <img src={app.logo} width="20" />
+              <span>{app.name}</span>
+            </a>
+            <span> - {app.description}</span>
+            <span>(<a href={app.github} target="_blank">GitHub</a>)</span>
+          </li>
+        ))}
+      </ul>
     </section>
   </article>
 </DefaultLayout>
 
 <style>
+
   .about {
     width: var(--content-width);
     margin: 0 auto 2rem;
@@ -152,10 +251,37 @@ const count = programs.length;
   a {
     color: var(--primary);
   }
+  img {
+      max-width: 100%;
+  }
   code {
     background: var(--background-darker);
     padding: 0.15rem 0.4rem;
     border-radius: var(--curve);
     font-size: 0.85rem;
+  }
+  .license {
+    width: fit-content;
+    background: var(--background);
+    max-width: calc(100% - 2rem);
+    overflow-x: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+
+  .more-apps-list {
+      padding: 0;
+      margin: 0.25rem 0;
+      li {
+          display: flex;
+          gap: 0.25rem;
+          line-height: 24px;
+      }
+      a {
+          display: inline-flex;
+          gap: 0.25rem;
+          align-items: anchor-center;
+      }
   }
 </style>
