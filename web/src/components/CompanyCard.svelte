@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { Shield, Wallet, Bug, TrendingUp } from 'lucide-svelte';
   import FaviconImage from './FaviconImage.svelte';
   import RewardBadges from './RewardBadges.svelte';
-  import Tooltip from './Tooltip.svelte';
+  import Chip from './Chip.svelte';
   import { tips } from '../lib/tooltips';
   import { formatPayout } from '../lib/format';
   import { formatRankLabel } from '../lib/tranco-format';
@@ -23,27 +24,27 @@
       <p class="name">
         <span class="company-text">{program.company}</span>
         {#if rankLabel}
-          <Tooltip text={tips.trancoRank}>
-            <span class="rank-indicator">{rankLabel}</span>
-          </Tooltip>
+          <Chip color="var(--accent)" tooltip={tips.trancoRank} size="sm" filled>
+            <TrendingUp size={10} /><span class="rank-text">{rankLabel}</span>
+          </Chip>
         {/if}
       </p>
       <div class="meta">
         <RewardBadges rewards={program.rewards || []} />
         {#if program.safe_harbor}
-          <Tooltip text={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial}>
-            <span class="safe-harbor">
-              {program.safe_harbor === 'full' ? 'Full' : 'Partial'} Safe Harbor
-            </span>
-          </Tooltip>
+          <Chip color="var(--success)" tooltip={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial} size="sm" filled>
+            <Shield size={12} />{program.safe_harbor === 'full' ? 'Full' : 'Partial'} Safe Harbor
+          </Chip>
         {/if}
         {#if payout}
-          <Tooltip text={tips.payout}><span class="payout">{payout}</span></Tooltip>
+          <Chip color="var(--primary)" tooltip={tips.payout} size="sm" filled>
+            <Wallet size={12} />{payout}
+          </Chip>
         {/if}
         {#if kevCount}
-          <Tooltip text={tips.kevSection}>
-            <span class="kev-indicator">{kevCount} {kevCount === 1 ? 'CVE' : 'CVEs'}</span>
-          </Tooltip>
+          <Chip color="var(--danger)" tooltip={tips.kevSection} size="sm" filled>
+            <Bug size={12} />{kevCount} {kevCount === 1 ? 'CVE' : 'CVEs'}
+          </Chip>
         {/if}
       </div>
     </div>
@@ -54,10 +55,10 @@
   .card {
     border: 2px solid transparent;
     color: var(--foreground);
-    border-radius: var(--curve, 4px);
-    transition: var(--transition, 0.2s ease-in-out);
-    box-shadow: var(--shadow, 2px 2px 1px #00000082);
-    background: var(--background-lighter, #ffffff08);
+    border-radius: var(--curve);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    background: var(--background-lighter);
     content-visibility: auto;
     contain-intrinsic-size: 0 80px;
   }
@@ -97,46 +98,15 @@
     min-width: 0;
   }
   .name :global(.has-tooltip) { display: flex; }
-  .rank-indicator {
-    font-size: 0.6rem;
-    padding: 0.05rem 0.3rem;
-    border-radius: var(--curve, 4px);
-    /*background: var(--accent);
-    color: var(--background);*/
-    opacity: 0.8;
-    color: var(--accent);
-    background: var(--border);
+  .rank-text {
     font-weight: 600;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-size: 0.6rem;
   }
   .meta {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.35rem;
     align-items: center;
     flex-wrap: wrap;
     margin-top: 0.25rem;
-  }
-  .safe-harbor {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve, 4px);
-    background: var(--background-darker);
-    color: var(--success);
-  }
-  .payout {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve, 4px);
-    background: var(--background-darker);
-    color: var(--muted);
-  }
-  .kev-indicator {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve, 4px);
-    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
-    color: var(--danger, #ef4444);
-    font-weight: 600;
   }
 </style>

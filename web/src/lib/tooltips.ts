@@ -28,4 +28,12 @@ export const tips: Record<string, string> = {
   kevSection: 'Vulnerabilities confirmed by CISA as actively exploited in the wild - from the Known Exploited Vulnerabilities catalog',
   kevRansomware: 'Number of these CVEs known to be used in ransomware campaigns',
   epssScore: 'EPSS (Exploit Prediction Scoring System) estimates the probability this CVE will be exploited in the next 30 days',
+  filterBounty: 'Show programs that pay monetary rewards',
+  filterRecognition: 'Show programs that offer public credit or hall of fame',
+  filterSwag: 'Show programs that offer merchandise or branded items',
+  filterSafeHarbor: 'Show programs with legal protections for researchers',
+  filterManaged: 'Show programs operated through a bug bounty platform',
+  filterHasPayout: 'Show programs with a defined payout range',
+  filterTop1k: 'Show programs from the most popular websites (Tranco top 1,000)',
+  filterKev: 'Show programs with known exploited vulnerabilities (CISA KEV)',
 };

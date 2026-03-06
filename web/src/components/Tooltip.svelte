@@ -13,6 +13,9 @@
     position: relative;
     cursor: help;
   }
+  .has-tooltip:has(button) {
+    cursor: pointer;
+  }
   .has-tooltip::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -40,5 +43,6 @@
   .has-tooltip:hover::after,
   .has-tooltip:focus-visible::after {
     opacity: 1;
+    transition-delay: 0.4s;
   }
 </style>

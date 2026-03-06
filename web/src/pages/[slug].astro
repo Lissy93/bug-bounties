@@ -5,9 +5,10 @@ import BackLink from '../components/BackLink.astro';
 import FaviconImage from '../components/FaviconImage.svelte';
 import RewardBadges from '../components/RewardBadges.svelte';
 import Tooltip from '../components/Tooltip.svelte';
-import Icon from '../components/Icon.svelte';
+import Chip from '../components/Chip.svelte';
+import { Mail, Globe, Home } from 'lucide-svelte';
 import { loadBounties } from '../lib/data';
-import { formatPayout, formatDuration, getHostname } from '../lib/format';
+import { formatPayout, formatDuration, getHostname, getHomepageUrl } from '../lib/format';
 import { tips } from '../lib/tooltips';
 import { fetchAllSecurityTxt } from '../lib/security-txt';
 import { fetchAllPlatformData, deriveSources } from '../lib/platform-data';
@@ -116,6 +117,8 @@ const responseTime = formatDuration(program.response_time);
 const bountyTime = formatDuration(program.bounty_time);
 const resolutionTime = formatDuration(program.resolution_time);
 const hostname = getHostname(program.url);
+const homepageUrl = getHomepageUrl(program.url);
+const showContact = program.contact && program.contact !== program.url;
 const rankBadge = trancoRank ? formatRankBadge(trancoRank) : null;
 
 const pageTitle = `${program.company} Bug Bounty Program - Bug Bounties`;
@@ -151,18 +154,24 @@ const breadcrumbJsonLd = {
         <div class="title-row">
           <h1>{program.company}</h1>
           {rankBadge && (
-            <Tooltip text={tips.trancoRank}>
-              <span class="rank-badge">{rankBadge}</span>
-            </Tooltip>
+            <Chip color="var(--accent)" tooltip={tips.trancoRank} size="sm" filled>
+              <span class="rank-text">{rankBadge}</span>
+            </Chip>
           )}
         </div>
         <div class="header-links">
           <a href={program.url} target="_blank" rel="noopener noreferrer" class="external-link">
             {hostname} &rarr;
           </a>
-          {program.contact && (
-            <a href={program.contact} class="contact-btn">
-              <Icon name={program.contact.includes('mailto:') ? 'email' : 'website'} width="14" />
+          {homepageUrl && (
+            <a href={homepageUrl} target="_blank" rel="noopener noreferrer" class="header-btn">
+              <Home size={14} />
+              Homepage
+            </a>
+          )}
+          {showContact && (
+            <a href={program.contact} class="header-btn">
+              {program.contact.includes('mailto:') ? <Mail size={14} /> : <Globe size={14} />}
               Contact
             </a>
           )}
@@ -175,13 +184,11 @@ const breadcrumbJsonLd = {
       <section class="key-info">
         <RewardBadges rewards={program.rewards || []} />
         {program.safe_harbor && (
-          <Tooltip text={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial}>
-            <span class="tag safe-harbor">
-              {program.safe_harbor === 'full' ? 'Full' : 'Partial'} Safe Harbor
-            </span>
-          </Tooltip>
+          <Chip color="var(--success)" tooltip={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial}>
+            {program.safe_harbor === 'full' ? 'Full' : 'Partial'} Safe Harbor
+          </Chip>
         )}
-        {payout && <Tooltip text={tips.payout}><span class="tag payout">{payout}</span></Tooltip>}
+        {payout && <Chip color="var(--foreground)" tooltip={tips.payout}>{payout}</Chip>}
       </section>
     )}
 
@@ -232,10 +239,10 @@ const breadcrumbJsonLd = {
           </Tooltip>
         </h2>
         <div class="scope-stats">
-          {platformData.scopeStats.web > 0 && <span class="scope-chip">web: {platformData.scopeStats.web}</span>}
-          {platformData.scopeStats.mobile > 0 && <span class="scope-chip">mobile: {platformData.scopeStats.mobile}</span>}
-          {platformData.scopeStats.api > 0 && <span class="scope-chip">api: {platformData.scopeStats.api}</span>}
-          {platformData.scopeStats.other > 0 && <span class="scope-chip">other: {platformData.scopeStats.other}</span>}
+          {platformData.scopeStats.web > 0 && <Chip color="var(--muted)"><code>web: {platformData.scopeStats.web}</code></Chip>}
+          {platformData.scopeStats.mobile > 0 && <Chip color="var(--muted)"><code>mobile: {platformData.scopeStats.mobile}</code></Chip>}
+          {platformData.scopeStats.api > 0 && <Chip color="var(--muted)"><code>api: {platformData.scopeStats.api}</code></Chip>}
+          {platformData.scopeStats.other > 0 && <Chip color="var(--muted)"><code>other: {platformData.scopeStats.other}</code></Chip>}
         </div>
         {platformData.allowsBountySplitting != null && (
           <p class="scope-meta">
@@ -250,9 +257,10 @@ const breadcrumbJsonLd = {
               <li class="target-item">
                 <span class="target-id">{t.identifier}</span>
                 <span class="target-type">{t.type}</span>
-                <span class={`target-eligible ${t.eligibleForBounty ? 'eligible' : 'recognition'}`}>
-                  {t.eligibleForBounty ? 'bounty-eligible' : 'recognition only'}
-                </span>
+                {t.eligibleForBounty
+                  ? <Chip color="var(--success)" size="sm" filled>bounty-eligible</Chip>
+                  : <Chip color="var(--muted)" size="sm">recognition only</Chip>
+                }
               </li>
             ))}
             {platformData.scopeStats.total > 20 && (
@@ -281,7 +289,7 @@ const breadcrumbJsonLd = {
       <section class="section kev-section">
         <h2>
           <Tooltip text={tips.kevSection}>Known Exploited Vulnerabilities</Tooltip>
-          <span class="kev-count">{kevData.totalCount} {kevData.totalCount === 1 ? 'CVE' : 'CVEs'}</span>
+          <Chip color="var(--danger)" size="sm" filled><span class="kev-count-text">{kevData.totalCount} {kevData.totalCount === 1 ? 'CVE' : 'CVEs'}</span></Chip>
         </h2>
         {kevData.ransomwareCount > 0 && (
           <p class="kev-ransomware">
@@ -300,11 +308,14 @@ const breadcrumbJsonLd = {
                 <span class="kev-product">{vuln.product}</span>
                 <span class="kev-date">{vuln.dateAdded}</span>
                 {vuln.epssScore != null && (
-                  <Tooltip text={tips.epssScore}>
-                    <span class={`epss-badge ${vuln.epssScore > 0.5 ? 'epss-high' : vuln.epssScore > 0.1 ? 'epss-medium' : 'epss-low'}`}>
-                      {(vuln.epssScore * 100).toFixed(1)}% EPSS
-                    </span>
-                  </Tooltip>
+                  <Chip
+                    color={vuln.epssScore > 0.5 ? 'var(--danger)' : vuln.epssScore > 0.1 ? 'var(--warning)' : 'var(--muted)'}
+                    tooltip={tips.epssScore}
+                    size="sm"
+                    filled={vuln.epssScore > 0.1}
+                  >
+                    <span class="epss-text">{(vuln.epssScore * 100).toFixed(1)}% EPSS</span>
+                  </Chip>
                 )}
               </div>
               <p class="kev-desc">{vuln.shortDescription}</p>
@@ -342,9 +353,7 @@ const breadcrumbJsonLd = {
         <h2>
           security.txt
           {securityTxt.is_expired && (
-            <Tooltip text={tips.securityTxtExpired}>
-              <span class="expired-badge">expired</span>
-            </Tooltip>
+            <Chip color="var(--warning)" tooltip={tips.securityTxtExpired} size="sm" filled>expired</Chip>
           )}
         </h2>
         <dl>
@@ -463,14 +472,8 @@ const breadcrumbJsonLd = {
     color: var(--primary);
     font-size: 2rem;
   }
-  .rank-badge {
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--curve);
-    background: var(--accent);
-    color: var(--background);
+  .rank-text {
     font-weight: 600;
-    white-space: nowrap;
   }
   .header-links {
     display: flex;
@@ -487,7 +490,7 @@ const breadcrumbJsonLd = {
   .external-link:hover {
     color: var(--foreground);
   }
-  .contact-btn {
+  .header-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
@@ -499,7 +502,7 @@ const breadcrumbJsonLd = {
     text-decoration: none;
     transition: var(--transition);
   }
-  .contact-btn:hover {
+  .header-btn:hover {
     background: var(--primary);
   }
   .key-info {
@@ -511,18 +514,6 @@ const breadcrumbJsonLd = {
     padding: 1rem;
     background: var(--background-lighter);
     border-radius: var(--curve);
-  }
-  .tag {
-    font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--curve);
-    background: var(--background-darker);
-  }
-  .safe-harbor {
-    color: var(--success);
-  }
-  .payout {
-    color: var(--foreground);
   }
   .section {
     background: var(--background-lighter);
@@ -602,14 +593,6 @@ const breadcrumbJsonLd = {
     flex-wrap: wrap;
     margin-bottom: 0.75rem;
   }
-  .scope-chip {
-    font-size: 0.8rem;
-    padding: 0.15rem 0.5rem;
-    background: var(--background-darker);
-    border-radius: var(--curve);
-    color: var(--muted);
-    font-family: monospace;
-  }
   .scope-meta {
     font-size: 0.85rem;
     color: var(--muted);
@@ -653,19 +636,6 @@ const breadcrumbJsonLd = {
     border-radius: var(--curve);
     color: var(--muted);
   }
-  .target-eligible {
-    font-size: 0.75rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve);
-  }
-  .target-eligible.eligible {
-    background: color-mix(in srgb, var(--success) 15%, transparent);
-    color: var(--success);
-  }
-  .target-eligible.recognition {
-    background: var(--background-darker);
-    color: var(--muted);
-  }
   .target-more {
     font-size: 0.8rem;
     color: var(--muted);
@@ -681,19 +651,12 @@ const breadcrumbJsonLd = {
   }
 
   /* KEV section styles */
-  .kev-count {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.5rem;
-    border-radius: var(--curve);
-    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
-    color: var(--danger, #ef4444);
+  .kev-count-text {
     font-weight: 600;
-    margin-left: 0.5rem;
-    vertical-align: middle;
   }
   .kev-ransomware {
     font-size: 0.85rem;
-    color: var(--warning, #f59e0b);
+    color: var(--warning);
     margin: 0 0 0.75rem;
   }
   .kev-list {
@@ -736,24 +699,8 @@ const breadcrumbJsonLd = {
     color: var(--muted);
     margin-left: auto;
   }
-  .epss-badge {
-    font-size: 0.75rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve);
+  .epss-text {
     font-weight: 600;
-    white-space: nowrap;
-  }
-  .epss-high {
-    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
-    color: var(--danger, #ef4444);
-  }
-  .epss-medium {
-    background: color-mix(in srgb, var(--warning, #f59e0b) 15%, transparent);
-    color: var(--warning, #f59e0b);
-  }
-  .epss-low {
-    background: var(--background-darker);
-    color: var(--muted);
   }
   .kev-desc {
     font-size: 0.8rem;
@@ -773,18 +720,8 @@ const breadcrumbJsonLd = {
   }
 
   /* security.txt styles */
-  .expired-badge {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: var(--curve);
-    background: color-mix(in srgb, var(--warning, #f59e0b) 15%, transparent);
-    color: var(--warning, #f59e0b);
-    font-weight: normal;
-    margin-left: 0.5rem;
-    vertical-align: middle;
-  }
   .expired-text {
-    color: var(--warning, #f59e0b);
+    color: var(--warning);
   }
   .raw-link {
     display: inline-block;

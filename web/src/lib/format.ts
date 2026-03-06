@@ -21,3 +21,37 @@ export function getHostname(url: string): string {
     return url;
   }
 }
+
+/**
+ * Return the homepage URL if the program URL is not already the homepage
+ * and is not on a bounty platform. Returns null otherwise.
+ */
+export function getHomepageUrl(url: string): string | null {
+  const PLATFORM_HOSTS = [
+    'hackerone.com', 'bugcrowd.com', 'intigriti.com', 'yeswehack.com',
+    'synack.com', 'cobalt.io', 'federacy.com', 'immunefi.com',
+  ];
+
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return null;
+  }
+
+  const host = parsed.hostname;
+
+  // Skip bounty platforms
+  if (PLATFORM_HOSTS.some(p => host === p || host.endsWith('.' + p))) {
+    return null;
+  }
+
+  // Strip www
+  const bare = host.startsWith('www.') ? host.slice(4) : host;
+  const hasPath = parsed.pathname.replace(/\/+$/, '').length > 0;
+  const hasSubdomain = bare !== host && ('www.' + bare) !== host;
+
+  if (!hasPath && !hasSubdomain) return null;
+
+  return `https://${bare}`;
+}

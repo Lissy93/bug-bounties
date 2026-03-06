@@ -1,7 +1,10 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
+  import { DollarSign, Award, Gift, Shield, Settings, Wallet, TrendingUp, Bug } from 'lucide-svelte';
   import type { ListProgram } from '../types/Company';
   import CompanyCard from './CompanyCard.svelte';
+  import Chip from './Chip.svelte';
+  import { tips } from '../lib/tooltips';
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
@@ -137,54 +140,30 @@
     </select>
   </div>
   <div class="chip-row">
-    <button
-      class="chip" class:active={filterBounty}
-      style="--chip-color: var(--success)"
-      aria-pressed={filterBounty}
-      on:click={() => filterBounty = !filterBounty}
-    >Bounty</button>
-    <button
-      class="chip" class:active={filterRecognition}
-      style="--chip-color: var(--accent)"
-      aria-pressed={filterRecognition}
-      on:click={() => filterRecognition = !filterRecognition}
-    >Recognition</button>
-    <button
-      class="chip" class:active={filterSwag}
-      style="--chip-color: var(--info)"
-      aria-pressed={filterSwag}
-      on:click={() => filterSwag = !filterSwag}
-    >Swag</button>
-    <button
-      class="chip" class:active={filterSafeHarbor}
-      style="--chip-color: var(--success)"
-      aria-pressed={filterSafeHarbor}
-      on:click={() => filterSafeHarbor = !filterSafeHarbor}
-    >Safe Harbor</button>
-    <button
-      class="chip" class:active={filterManaged}
-      style="--chip-color: var(--primary)"
-      aria-pressed={filterManaged}
-      on:click={() => filterManaged = !filterManaged}
-    >Managed</button>
-    <button
-      class="chip" class:active={filterHasPayout}
-      style="--chip-color: var(--primary)"
-      aria-pressed={filterHasPayout}
-      on:click={() => filterHasPayout = !filterHasPayout}
-    >Has Payout</button>
-    <button
-      class="chip" class:active={filterTop1k}
-      style="--chip-color: var(--accent)"
-      aria-pressed={filterTop1k}
-      on:click={() => filterTop1k = !filterTop1k}
-    >Top 1K Sites</button>
-    <button
-      class="chip" class:active={filterHasKev}
-      style="--chip-color: var(--danger, #ef4444)"
-      aria-pressed={filterHasKev}
-      on:click={() => filterHasKev = !filterHasKev}
-    >Known Exploits</button>
+    <Chip interactive pill color="var(--success)" active={filterBounty} tooltip={tips.filterBounty} on:click={() => filterBounty = !filterBounty}>
+      <DollarSign size={14} />Bounty
+    </Chip>
+    <Chip interactive pill color="var(--accent)" active={filterRecognition} tooltip={tips.filterRecognition} on:click={() => filterRecognition = !filterRecognition}>
+      <Award size={14} />Recognition
+    </Chip>
+    <Chip interactive pill color="var(--info)" active={filterSwag} tooltip={tips.filterSwag} on:click={() => filterSwag = !filterSwag}>
+      <Gift size={14} />Swag
+    </Chip>
+    <Chip interactive pill color="var(--success)" active={filterSafeHarbor} tooltip={tips.filterSafeHarbor} on:click={() => filterSafeHarbor = !filterSafeHarbor}>
+      <Shield size={14} />Safe Harbor
+    </Chip>
+    <Chip interactive pill color="var(--primary)" active={filterManaged} tooltip={tips.filterManaged} on:click={() => filterManaged = !filterManaged}>
+      <Settings size={14} />Managed
+    </Chip>
+    <Chip interactive pill color="var(--primary)" active={filterHasPayout} tooltip={tips.filterHasPayout} on:click={() => filterHasPayout = !filterHasPayout}>
+      <Wallet size={14} />Has Payout
+    </Chip>
+    <Chip interactive pill color="var(--accent)" active={filterTop1k} tooltip={tips.filterTop1k} on:click={() => filterTop1k = !filterTop1k}>
+      <TrendingUp size={14} />Top 1K Sites
+    </Chip>
+    <Chip interactive pill color="var(--danger)" active={filterHasKev} tooltip={tips.filterKev} on:click={() => filterHasKev = !filterHasKev}>
+      <Bug size={14} />Known Exploits
+    </Chip>
     {#if hasActiveFilters}
       <span class="count">{sorted.length} of {programs.length}</span>
       <button class="clear" on:click={clearAll}>Clear all</button>
@@ -246,25 +225,6 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
-  }
-  .chip {
-    padding: 0.3rem 0.75rem;
-    font-size: 0.85rem;
-    border: 1px solid var(--muted, #ffffff60);
-    border-radius: 999px;
-    color: var(--muted, #ffffff60);
-    background: transparent;
-    cursor: pointer;
-    transition: var(--transition, 0.2s ease-in-out);
-  }
-  .chip:hover {
-    border-color: var(--chip-color);
-    color: var(--chip-color);
-  }
-  .chip.active {
-    border-color: var(--chip-color);
-    color: var(--chip-color);
-    background: color-mix(in srgb, var(--chip-color) 12%, transparent);
   }
   .count {
     margin-left: auto;
