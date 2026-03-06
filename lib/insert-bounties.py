@@ -9,7 +9,7 @@ Environment Variables (all optional)
 """
 
 # Imports
-import os, re, yaml, html, logging
+import os, re, yaml, logging
 from urllib.parse import urlparse
 
 # Constants
@@ -60,20 +60,6 @@ def write_file(file_path: str, content: str, mode: str = "w") -> None:
 
 
 
-def map_reward_to_badge(reward: str) -> str:
-    """
-    Maps the reward type to the corresponding badge URL.
-    :param question: The question to map.
-    :return: The mapped question.
-    """
-    badge_mappings = {
-        "*swag": "https://img.shields.io/badge/Swag-fdc500?logo=apachespark&logoColor=000",
-        "*recognition": "https://img.shields.io/badge/Shout_out-fd00a6?logo=githubsponsors&logoColor=fff",
-        "*bounty": "https://img.shields.io/badge/Cash-5dd21c?logo=cashapp&logoColor=fff"
-    }
-    return badge_mappings.get(reward, reward)
-
-
 def format_long_string(url: str) -> str:
     """
     Makes URLs to users blogs and twitter profiles look nicer.
@@ -84,23 +70,6 @@ def format_long_string(url: str) -> str:
     url = url.rstrip("/")
     return url[:40] + (url[40:] and "...")
 
-
-def format_bio_text(bio: str) -> str:
-    """
-    Returns only a-z, A-Z, 0-9, spaces, and basic punctuation.
-    """
-    return html.escape(re.sub(r"[^a-zA-Z0-9 ]", "", bio).strip())
-
-
-def get_link_type(url: str) -> str:
-    if url.startswith("mailto:"):
-        return "🖃"
-    elif url.startswith("http"):
-        return "🌐"
-    elif url.startswith("twitter"):
-        return "🐦"
-    else:
-        return ""
 
 def build_markdown_content(companies) -> str:
     """
@@ -113,30 +82,38 @@ def build_markdown_content(companies) -> str:
         logger.info(f"There's no companies yet, cancelling markdown generation")
         return ""
 
-    # Filter to programs worth showing — must have rewards and a submit link
+    reward_emoji = {
+        "*bounty": "\U0001f4b0",
+        "*recognition": "\U0001f3c5",
+        "*swag": "\U0001f381",
+    }
+
+    # Filter to programs worth showing - must have rewards and a submit link
     companies = [c for c in companies if c.get("rewards") and c.get("contact")]
     companies.sort(key=lambda x: x['company'].lower())
     logger.info(f"Showing {len(companies)} programs with rewards + contact")
 
-    md_content = "Company | Rewards | Submission\n---|---|---\n"
+    # Group by first letter
+    groups = {}
     for company in companies:
+        first = company["company"][0].upper()
+        if not first.isalpha():
+            first = "#"
+        groups.setdefault(first, []).append(company)
 
-        company_name = company["company"]
-        company_url = company["url"]
-        company_contact = company["contact"]
-        resource_host = urlparse(company['url']).hostname
-        icon_tag = f"<img src='https://icon.horse/icon/{resource_host}' width='20' />"
-        link_tag = f"[{get_link_type(company_contact)} Submit]({company_contact})"
-        rewards = ""
-        for reward in company["rewards"]:
-            rewards += f"![{reward}]({map_reward_to_badge(reward)}) "
+    md_content = ""
+    for letter in sorted(groups.keys(), key=lambda k: (k == "#", k)):
+        group = groups[letter]
+        md_content += f"<details><summary>{letter} ({len(group)})</summary>\n\n"
+        for company in group:
+            company_name = company["company"]
+            company_url = company["url"]
+            resource_host = urlparse(company_url).hostname
+            icon_tag = f"<img src='https://icon.horse/icon/{resource_host}' width='16'/>"
+            rewards = " ".join(reward_emoji.get(r, r) for r in company["rewards"])
+            md_content += f"- {icon_tag} [{format_long_string(company_name)}]({company_url}) {rewards}\n"
+        md_content += "\n</details>\n\n"
 
-        md_content += (
-            f"<a href='{company_url}' title='{company_name}'>{icon_tag} {format_long_string(company_name)}</a> "
-            f"| {rewards}"
-            f"| {link_tag}"
-            f"\n"
-        )
     return md_content
 
 

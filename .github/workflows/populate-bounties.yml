@@ -3,7 +3,7 @@ name: 📡 Populate Bounties
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * 1' # Every Monday at 06:00 UTC
+    - cron: '0 6 * * 6' # Every Sat at 06:00 UTC
 
 jobs:
   populate:
