@@ -3,12 +3,19 @@ const year = new Date().getFullYear();
 ---
 
 <footer>
-  <a href="https://github.com/Lissy93/bug-bounties">Bug Bounties</a>
-  is licensed under
-  <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>,
-  &copy;
-  <a href="https://aliciasykes.com">Alicia Sykes</a>
-  {year}
+    <div>
+        <a href="https://bug-bounties.as93.net">Bug Bounties</a> is licensed under
+        <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>
+        © <a href="https://github.com/Lissy93">Alicia Sykes</a> {year}.
+    </div>
+    <div>
+        <a href="/about">About</a> |
+        <a href="https://github.com/Lissy93/bug-bounties">Source</a> |
+        <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">License</a> |
+        <a href="https://github.com/Lissy93/bug-bounties/blob/main/.github/CONTRIBUTING.md">Contribute</a> |
+        <a href="https://apps.aliciasykes.com">More Apps...</a>
+
+    </div>
 </footer>
 
 <style>
@@ -20,11 +27,16 @@ const year = new Date().getFullYear();
     color: var(--foreground);
     padding: 0.5rem 0;
     box-shadow: 0 -1px 2px var(--background-darker);
+    display: flex;
+    justify-content: space-between;
   }
   footer a {
     color: var(--primary);
   }
   footer a:hover {
     filter: brightness(1.25);
+  }
+  footer div {
+      padding: 0 1rem;
   }
 </style>

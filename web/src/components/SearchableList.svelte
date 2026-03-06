@@ -4,6 +4,7 @@
 
   export let programs: BountyProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
+  export let kevCounts: Record<string, number> = {};
 
   let searchTerm = '';
   let filterBounty = false;
@@ -13,7 +14,8 @@
   let filterManaged = false;
   let filterHasPayout = false;
   let filterTop1k = false;
-  let sortBy: 'recommended' | 'name' | 'payout-desc' | 'popularity' = 'recommended';
+  let filterHasKev = false;
+  let sortBy: 'recommended' | 'name' | 'payout-desc' | 'popularity' | 'most-exploited' = 'recommended';
 
   const completeness = (p: BountyProgram) =>
     Object.values(p).filter(v => v != null && v !== '' && !(Array.isArray(v) && !v.length)).length;
@@ -26,7 +28,8 @@
     filterSafeHarbor ||
     filterManaged ||
     filterHasPayout ||
-    filterTop1k;
+    filterTop1k ||
+    filterHasKev;
 
   $: filtered = programs.filter((p) => {
     if (searchTerm) {
@@ -42,6 +45,7 @@
     if (filterManaged && !p.managed) return false;
     if (filterHasPayout && p.max_payout == null) return false;
     if (filterTop1k && (trancoRanks[p.slug] == null || trancoRanks[p.slug] > 1000)) return false;
+    if (filterHasKev && !kevCounts[p.slug]) return false;
     return true;
   });
 
@@ -56,6 +60,13 @@
         const aRank = trancoRanks[a.slug] ?? Infinity;
         const bRank = trancoRanks[b.slug] ?? Infinity;
         return aRank - bRank;
+      });
+    }
+    if (sortBy === 'most-exploited') {
+      return [...filtered].sort((a, b) => {
+        const aKev = kevCounts[a.slug] ?? 0;
+        const bKev = kevCounts[b.slug] ?? 0;
+        return bKev - aKev;
       });
     }
     return [...filtered].sort((a, b) => {
@@ -74,6 +85,7 @@
     filterManaged = false;
     filterHasPayout = false;
     filterTop1k = false;
+    filterHasKev = false;
     sortBy = 'recommended';
   }
 </script>
@@ -91,6 +103,7 @@
       <option value="name">A - Z</option>
       <option value="payout-desc">Payout: high to low</option>
       <option value="popularity">Popularity</option>
+      <option value="most-exploited">Most exploited</option>
     </select>
   </div>
   <div class="chip-row">
@@ -136,6 +149,12 @@
       aria-pressed={filterTop1k}
       on:click={() => filterTop1k = !filterTop1k}
     >Top 1K Sites</button>
+    <button
+      class="chip" class:active={filterHasKev}
+      style="--chip-color: var(--danger, #ef4444)"
+      aria-pressed={filterHasKev}
+      on:click={() => filterHasKev = !filterHasKev}
+    >Known Exploits</button>
     {#if hasActiveFilters}
       <span class="count">{sorted.length} of {programs.length}</span>
       <button class="clear" on:click={clearAll}>Clear all</button>
@@ -146,7 +165,7 @@
 {#if sorted.length > 0}
   <ul class="program-list">
     {#each sorted as program (program.slug)}
-      <CompanyCard {program} trancoRank={trancoRanks[program.slug]} />
+      <CompanyCard {program} trancoRank={trancoRanks[program.slug]} kevCount={kevCounts[program.slug]} />
     {/each}
   </ul>
 {:else}

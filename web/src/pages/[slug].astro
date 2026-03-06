@@ -10,9 +10,12 @@ import { loadBounties } from '../lib/data';
 import { formatPayout, formatDuration, getHostname } from '../lib/format';
 import { tips } from '../lib/tooltips';
 import { fetchAllSecurityTxt } from '../lib/security-txt';
-import { fetchAllPlatformData } from '../lib/platform-data';
+import { fetchAllPlatformData, deriveSources } from '../lib/platform-data';
 import { fetchTrancoRanks, formatRankBadge } from '../lib/tranco';
-import type { BountyProgram, SecurityTxtData, PlatformScopeData } from '../types/Company';
+import { fetchCisaKev } from '../lib/cisa-kev';
+import { fetchEpssScores } from '../lib/epss';
+import { fetchDiscloseData } from '../lib/disclose-data';
+import type { BountyProgram, SecurityTxtData, PlatformScopeData, KevData } from '../types/Company';
 
 export async function getStaticPaths() {
   const programs = loadBounties();
@@ -20,22 +23,82 @@ export async function getStaticPaths() {
 
   // Fetch enrichment data once inside getStaticPaths so it doesn't
   // block module loading. Each function never throws.
-  const [securityTxtMap, platformDataMap, trancoData] = await Promise.all([
+  const [securityTxtMap, platformDataMap, trancoData, kevMap, epssScores, discloseMap] = await Promise.all([
     // Skip the slow security.txt crawl in dev mode (~2600 HTTP requests)
     isDev ? Promise.resolve(new Map<string, SecurityTxtData>()) : fetchAllSecurityTxt(programs),
     fetchAllPlatformData(programs),
     fetchTrancoRanks(programs),
+    fetchCisaKev(programs),
+    fetchEpssScores(),
+    fetchDiscloseData(programs),
   ]);
 
-  return programs.map((program) => ({
-    params: { slug: program.slug },
-    props: {
-      program,
-      securityTxt: securityTxtMap.get(program.slug) ?? null,
-      platformData: platformDataMap.get(program.slug) ?? null,
-      trancoRank: trancoData.bySlug.get(program.slug) ?? null,
-    },
-  }));
+  // Merge EPSS scores into KEV vulnerability entries
+  for (const kevData of kevMap.values()) {
+    for (const vuln of kevData.vulnerabilities) {
+      const epss = epssScores.get(vuln.cveID);
+      if (epss) {
+        vuln.epssScore = epss.score;
+        vuln.epssPercentile = epss.percentile;
+      }
+    }
+  }
+
+  return programs.map((program) => {
+    const pd = platformDataMap.get(program.slug);
+    const dd = discloseMap.get(program.slug);
+
+    // Enrich the program with platform + Disclose metadata.
+    // YAML values take priority (manually curated); enrichment only fills gaps.
+    const enriched: BountyProgram = { ...program };
+
+    if (pd) {
+      enriched.min_payout ??= pd.minPayout;
+      enriched.max_payout ??= pd.maxPayout;
+      enriched.currency ??= pd.currency;
+      enriched.managed ??= pd.managed;
+      enriched.safe_harbor ??= pd.safeHarbor;
+      enriched.allows_disclosure ??= pd.allowsDisclosure;
+      enriched.response_time ??= pd.responseTime;
+      enriched.bounty_time ??= pd.bountyTime;
+      enriched.resolution_time ??= pd.resolutionTime;
+      enriched.response_efficiency ??= pd.responseEfficiency;
+      enriched.confidentiality_level ??= pd.confidentialityLevel;
+      enriched.handle ??= pd.handle;
+      if (!enriched.rewards?.length && pd.rewards?.length) {
+        enriched.rewards = pd.rewards;
+      }
+      if (!enriched.domains?.length && pd.domains?.length) {
+        enriched.domains = pd.domains;
+      }
+    }
+
+    if (dd) {
+      enriched.safe_harbor ??= dd.safeHarbor;
+      enriched.pgp_key ??= dd.pgpKey;
+      enriched.securitytxt_url ??= dd.securitytxtUrl;
+      enriched.preferred_languages ??= dd.preferredLanguages;
+      enriched.hiring ??= dd.hiring;
+      enriched.launch_date ??= dd.launchDate;
+    }
+
+    // Derive sources from URL so it displays without being stored in YAML
+    if (!enriched.sources?.length) {
+      const derived = deriveSources(enriched.url);
+      if (derived.length) enriched.sources = derived;
+    }
+
+    return {
+      params: { slug: program.slug },
+      props: {
+        program: enriched,
+        securityTxt: securityTxtMap.get(program.slug) ?? null,
+        platformData: pd ?? null,
+        trancoRank: trancoData.bySlug.get(program.slug) ?? null,
+        kevData: kevMap.get(program.slug) ?? null,
+      },
+    };
+  });
 }
 
 interface Props {
@@ -43,9 +106,10 @@ interface Props {
   securityTxt: SecurityTxtData | null;
   platformData: PlatformScopeData | null;
   trancoRank: number | null;
+  kevData: KevData | null;
 }
 
-const { program, securityTxt, platformData, trancoRank } = Astro.props;
+const { program, securityTxt, platformData, trancoRank, kevData } = Astro.props;
 
 const payout = formatPayout(program.min_payout, program.max_payout, program.currency);
 const responseTime = formatDuration(program.response_time);
@@ -211,6 +275,49 @@ const breadcrumbJsonLd = {
         </ul>
       </section>
     ) : null}
+
+    <!-- Known Exploited Vulnerabilities -->
+    {kevData && kevData.totalCount > 0 && (
+      <section class="section kev-section">
+        <h2>
+          <Tooltip text={tips.kevSection}>Known Exploited Vulnerabilities</Tooltip>
+          <span class="kev-count">{kevData.totalCount} {kevData.totalCount === 1 ? 'CVE' : 'CVEs'}</span>
+        </h2>
+        {kevData.ransomwareCount > 0 && (
+          <p class="kev-ransomware">
+            <Tooltip text={tips.kevRansomware}>
+              {kevData.ransomwareCount} linked to ransomware campaigns
+            </Tooltip>
+          </p>
+        )}
+        <ul class="kev-list">
+          {kevData.vulnerabilities.slice(0, 10).map((vuln) => (
+            <li class="kev-item">
+              <div class="kev-item-header">
+                <a href={`https://nvd.nist.gov/vuln/detail/${vuln.cveID}`} target="_blank" rel="noopener noreferrer" class="kev-cve">
+                  {vuln.cveID}
+                </a>
+                <span class="kev-product">{vuln.product}</span>
+                <span class="kev-date">{vuln.dateAdded}</span>
+                {vuln.epssScore != null && (
+                  <Tooltip text={tips.epssScore}>
+                    <span class={`epss-badge ${vuln.epssScore > 0.5 ? 'epss-high' : vuln.epssScore > 0.1 ? 'epss-medium' : 'epss-low'}`}>
+                      {(vuln.epssScore * 100).toFixed(1)}% EPSS
+                    </span>
+                  </Tooltip>
+                )}
+              </div>
+              <p class="kev-desc">{vuln.shortDescription}</p>
+            </li>
+          ))}
+        </ul>
+        {kevData.totalCount > 10 && (
+          <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer" class="kev-more">
+            and {kevData.totalCount - 10} more - view full CISA catalog &rarr;
+          </a>
+        )}
+      </section>
+    )}
 
     <!-- Security -->
     {(program.pgp_key || program.securitytxt_url || program.preferred_languages) && (
@@ -571,6 +678,98 @@ const breadcrumbJsonLd = {
     margin: 0;
     font-family: monospace;
     word-break: break-all;
+  }
+
+  /* KEV section styles */
+  .kev-count {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--curve);
+    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
+    color: var(--danger, #ef4444);
+    font-weight: 600;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .kev-ransomware {
+    font-size: 0.85rem;
+    color: var(--warning, #f59e0b);
+    margin: 0 0 0.75rem;
+  }
+  .kev-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .kev-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--background-darker);
+  }
+  .kev-item:last-child {
+    border-bottom: none;
+  }
+  .kev-item-header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .kev-cve {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .kev-cve:hover {
+    text-decoration: underline;
+  }
+  .kev-product {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+    color: var(--muted);
+  }
+  .kev-date {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  .epss-badge {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--curve);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .epss-high {
+    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
+    color: var(--danger, #ef4444);
+  }
+  .epss-medium {
+    background: color-mix(in srgb, var(--warning, #f59e0b) 15%, transparent);
+    color: var(--warning, #f59e0b);
+  }
+  .epss-low {
+    background: var(--background-darker);
+    color: var(--muted);
+  }
+  .kev-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0.25rem 0 0;
+    line-height: 1.4;
+  }
+  .kev-more {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .kev-more:hover {
+    text-decoration: underline;
   }
 
   /* security.txt styles */

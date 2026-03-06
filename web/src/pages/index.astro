@@ -5,20 +5,60 @@ import Tooltip from '../components/Tooltip.svelte';
 import DefaultLayout from '../layouts/DefaultLayout.astro';
 import { loadBounties } from '../lib/data';
 import { fetchTrancoRanks } from '../lib/tranco';
+import { fetchCisaKev } from '../lib/cisa-kev';
+import { fetchAllPlatformData } from '../lib/platform-data';
+import { fetchDiscloseData } from '../lib/disclose-data';
 import { log } from '../lib/log';
 import { tips } from '../lib/tooltips';
+import type { BountyProgram } from '../types/Company';
 
-const programs = loadBounties();
+const rawPrograms = loadBounties();
 
-// Fetch Tranco data - gracefully degrades to empty if it fails
+// Fetch enrichment data - each gracefully degrades to empty if it fails
 let trancoRanks: Record<string, number> = {};
+let kevCounts: Record<string, number> = {};
+let programs: BountyProgram[] = rawPrograms;
 try {
-  const trancoData = await fetchTrancoRanks(programs);
+  const [trancoData, kevMap, platformDataMap, discloseMap] = await Promise.all([
+    fetchTrancoRanks(rawPrograms),
+    fetchCisaKev(rawPrograms),
+    fetchAllPlatformData(rawPrograms),
+    fetchDiscloseData(rawPrograms),
+  ]);
   for (const [slug, rank] of trancoData.bySlug) {
     trancoRanks[slug] = rank;
   }
+  for (const [slug, data] of kevMap) {
+    kevCounts[slug] = data.totalCount;
+  }
+
+  // Enrich programs with platform + Disclose metadata for filtering/display
+  programs = rawPrograms.map((p) => {
+    const pd = platformDataMap.get(p.slug);
+    const dd = discloseMap.get(p.slug);
+    if (!pd && !dd) return p;
+
+    const enriched: BountyProgram = { ...p };
+    if (pd) {
+      enriched.min_payout ??= pd.minPayout;
+      enriched.max_payout ??= pd.maxPayout;
+      enriched.managed ??= pd.managed;
+      enriched.safe_harbor ??= pd.safeHarbor;
+      enriched.handle ??= pd.handle;
+      if (!enriched.rewards?.length && pd.rewards?.length) {
+        enriched.rewards = pd.rewards;
+      }
+      if (!enriched.domains?.length && pd.domains?.length) {
+        enriched.domains = pd.domains;
+      }
+    }
+    if (dd) {
+      enriched.safe_harbor ??= dd.safeHarbor;
+    }
+    return enriched;
+  });
 } catch (err) {
-  log.warn('index', 'Failed to load Tranco data', err);
+  log.warn('index', 'Failed to load enrichment data', err);
 }
 
 const totalPrograms = programs.length;
@@ -33,7 +73,7 @@ const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
     <Tooltip text={tips.statBounties}><span><strong>{withBounties.toLocaleString()}</strong> with bounties</span></Tooltip>
     <Tooltip text={tips.statSafeHarbor}><span><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</span></Tooltip>
   </div>
-  <SearchableList {programs} {trancoRanks} client:load />
+  <SearchableList {programs} {trancoRanks} {kevCounts} client:load />
 </DefaultLayout>
 
 <style>

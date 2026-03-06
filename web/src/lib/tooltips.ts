@@ -25,4 +25,7 @@ export const tips: Record<string, string> = {
   bountySplitting: 'Whether the program allows bounty rewards to be split among multiple researchers',
   securityTxtContact: 'Contact information published in the security.txt file (RFC 9116)',
   securityTxtExpired: 'This security.txt file has passed its expiry date and may be outdated',
+  kevSection: 'Vulnerabilities confirmed by CISA as actively exploited in the wild - from the Known Exploited Vulnerabilities catalog',
+  kevRansomware: 'Number of these CVEs known to be used in ransomware campaigns',
+  epssScore: 'EPSS (Exploit Prediction Scoring System) estimates the probability this CVE will be exploited in the next 30 days',
 };

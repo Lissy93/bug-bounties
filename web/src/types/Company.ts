@@ -64,4 +64,46 @@ export interface PlatformScopeData {
   outOfScopeTargets: string[];
   allowsBountySplitting?: boolean;
   maxSeverity?: string;
+  // Metadata enrichment fields
+  minPayout?: number;
+  maxPayout?: number;
+  currency?: string;
+  managed?: boolean;
+  safeHarbor?: string;
+  allowsDisclosure?: boolean;
+  responseTime?: number;
+  bountyTime?: number;
+  resolutionTime?: number;
+  responseEfficiency?: number;
+  confidentialityLevel?: string;
+  domains?: string[];
+  handle?: string;
+  rewards?: Reward[];
+}
+
+export interface DiscloseData {
+  safeHarbor?: string;
+  pgpKey?: string;
+  securitytxtUrl?: string;
+  preferredLanguages?: string;
+  hiring?: boolean;
+  launchDate?: string;
+}
+
+export interface KevVulnerability {
+  cveID: string;
+  vendorProject: string;
+  product: string;
+  vulnerabilityName: string;
+  shortDescription: string;
+  dateAdded: string;
+  knownRansomwareCampaignUse: boolean;
+  epssScore?: number;
+  epssPercentile?: number;
+}
+
+export interface KevData {
+  totalCount: number;
+  ransomwareCount: number;
+  vulnerabilities: KevVulnerability[];
 }

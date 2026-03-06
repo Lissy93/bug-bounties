@@ -9,6 +9,7 @@
 
   export let program: BountyProgram;
   export let trancoRank: number | undefined = undefined;
+  export let kevCount: number | undefined = undefined;
 
   $: payout = formatPayout(program.min_payout, program.max_payout, program.currency);
   $: rankLabel = trancoRank != null ? formatRankLabel(trancoRank) : '';
@@ -38,6 +39,11 @@
         {/if}
         {#if payout}
           <Tooltip text={tips.payout}><span class="payout">{payout}</span></Tooltip>
+        {/if}
+        {#if kevCount}
+          <Tooltip text={tips.kevSection}>
+            <span class="kev-indicator">{kevCount} {kevCount === 1 ? 'CVE' : 'CVEs'}</span>
+          </Tooltip>
         {/if}
       </div>
     </div>
@@ -124,5 +130,13 @@
     border-radius: var(--curve, 4px);
     background: var(--background-darker);
     color: var(--muted);
+  }
+  .kev-indicator {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--curve, 4px);
+    background: color-mix(in srgb, var(--danger, #ef4444) 15%, transparent);
+    color: var(--danger, #ef4444);
+    font-weight: 600;
   }
 </style>
