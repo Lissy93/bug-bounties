@@ -8,8 +8,7 @@ body:
       value: |
         Submit a new program entry for the dataset.
 
-        Required fields: `company`, `url`
-        All other fields are optional.
+        The `company` and `url` fields are required, everything else is optional and can be skipped when not applicable.
 
         Formatting notes:
         - URLs must include `https://` or `mailto:`
@@ -24,8 +23,7 @@ body:
     id: company
     attributes:
       label: Company
-      description: Company or program owner name
-      placeholder: Example Corp
+      description: This is the name of the company this program is owned by
     validations:
       required: true
 

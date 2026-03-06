@@ -85,7 +85,7 @@ def parse_issue_body(body):
         label = lines[0].strip()
         value = lines[1].strip() if len(lines) > 1 else ""
         field_id = LABEL_MAP.get(label)
-        if field_id and value and value != NO_RESPONSE:
+        if field_id and value and value not in (NO_RESPONSE, "None"):
             parsed[field_id] = value
     return parsed
 

@@ -1,12 +1,14 @@
-name: Process program submission
+name: 🆕 Process program submission
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, labeled]
 
 jobs:
   process:
-    if: github.event.label.name == 'program-submission'
+    if: >-
+      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'program-submission'))
+      || (github.event.action == 'labeled' && github.event.label.name == 'program-submission')
     runs-on: ubuntu-latest
     permissions:
       issues: write
