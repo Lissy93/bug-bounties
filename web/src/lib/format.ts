@@ -22,6 +22,27 @@ export function getHostname(url: string): string {
   }
 }
 
+export function formatPayoutTable(
+  table?: { critical?: number; high?: number; medium?: number; low?: number },
+  currency?: string,
+): { severity: string; amount: string }[] | null {
+  if (!table) return null;
+  const cur = currency || 'USD';
+  const rows: { severity: string; amount: string }[] = [];
+  for (const [sev, val] of [['Critical', table.critical], ['High', table.high], ['Medium', table.medium], ['Low', table.low]] as const) {
+    if (val != null && val > 0) {
+      rows.push({ severity: sev, amount: `${cur} $${val.toLocaleString()}` });
+    }
+  }
+  return rows.length ? rows : null;
+}
+
+export function formatExcludedMethod(method: string): string {
+  return method
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 /**
  * Return the homepage URL if the program URL is not already the homepage
  * and is not on a bounty platform. Returns null otherwise.

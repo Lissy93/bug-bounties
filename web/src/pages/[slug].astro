@@ -8,7 +8,7 @@ import Tooltip from '../components/Tooltip.svelte';
 import Chip from '../components/Chip.svelte';
 import { Mail, Globe, Home } from 'lucide-svelte';
 import { loadBounties } from '../lib/data';
-import { formatPayout, formatDuration, getHostname, getHomepageUrl } from '../lib/format';
+import { formatPayout, formatDuration, formatPayoutTable, formatExcludedMethod, getHostname, getHomepageUrl } from '../lib/format';
 import { tips } from '../lib/tooltips';
 import { fetchAllSecurityTxt } from '../lib/security-txt';
 import { fetchAllPlatformData, deriveSources } from '../lib/platform-data';
@@ -120,6 +120,7 @@ const hostname = getHostname(program.url);
 const homepageUrl = getHomepageUrl(program.url);
 const showContact = program.contact && program.contact !== program.url;
 const rankBadge = trancoRank ? formatRankBadge(trancoRank) : null;
+const payoutTableRows = formatPayoutTable(program.payout_table, program.currency);
 
 const pageTitle = `${program.company} Bug Bounty Program - Bug Bounties`;
 const pageDescription = [
@@ -171,7 +172,7 @@ const breadcrumbJsonLd = {
           )}
           {showContact && (
             <a href={program.contact} class="header-btn">
-              {program.contact.includes('mailto:') ? <Mail size={14} /> : <Globe size={14} />}
+              {program.contact?.includes('mailto:') ? <Mail size={14} /> : <Globe size={14} />}
               Contact
             </a>
           )}
@@ -180,8 +181,18 @@ const breadcrumbJsonLd = {
     </section>
 
     <!-- Key Info -->
-    {((program.rewards && program.rewards.length > 0) || program.safe_harbor || payout) && (
+    {((program.rewards && program.rewards.length > 0) || program.safe_harbor || payout || program.program_type || program.status) && (
       <section class="key-info">
+        {program.program_type && (
+          <Chip color="var(--accent)" tooltip={tips.programType}>
+            {program.program_type === 'bounty' ? 'Bug Bounty' : program.program_type === 'vdp' ? 'VDP' : 'Hybrid'}
+          </Chip>
+        )}
+        {program.status && (
+          <Chip color={program.status === 'active' ? 'var(--success)' : 'var(--warning)'} tooltip={tips.programStatus} filled>
+            {program.status === 'active' ? 'Active' : 'Paused'}
+          </Chip>
+        )}
         <RewardBadges rewards={program.rewards || []} />
         {program.safe_harbor && (
           <Chip color="var(--success)" tooltip={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial}>
@@ -193,9 +204,10 @@ const breadcrumbJsonLd = {
     )}
 
     <!-- Program Details -->
-    {(program.program || program.handle || program.managed != null || program.confidentiality_level || program.launch_date || program.allows_disclosure != null) && (
+    {(program.description || program.program || program.handle || program.managed != null || program.confidentiality_level || program.launch_date || program.allows_disclosure != null || program.reporting_url || program.response_sla_days != null || program.disclosure_timeline_days != null) && (
       <section class="section">
         <h2>Program Details</h2>
+        {program.description && <p class="program-description">{program.description}</p>}
         <dl>
           {program.program && <><dt>Program Name</dt><dd>{program.program}</dd></>}
           {program.handle && <><dt>Handle</dt><dd>{program.handle}</dd></>}
@@ -203,6 +215,14 @@ const breadcrumbJsonLd = {
           {program.confidentiality_level && <><dt><Tooltip text={tips.confidentiality}>Confidentiality</Tooltip></dt><dd>{program.confidentiality_level}</dd></>}
           {program.launch_date && <><dt>Launch Date</dt><dd>{program.launch_date}</dd></>}
           {program.allows_disclosure != null && <><dt><Tooltip text={tips.allowsDisclosure}>Allows Disclosure</Tooltip></dt><dd>{program.allows_disclosure ? 'Yes' : 'No'}</dd></>}
+          {program.disclosure_timeline_days != null && <><dt><Tooltip text={tips.disclosureTimeline}>Disclosure Window</Tooltip></dt><dd>{program.disclosure_timeline_days} days</dd></>}
+          {program.response_sla_days != null && <><dt><Tooltip text={tips.responseSla}>Response SLA</Tooltip></dt><dd>{program.response_sla_days} business days</dd></>}
+          {program.reporting_url && (
+            <>
+              <dt><Tooltip text={tips.reportingUrl}>Report Submission</Tooltip></dt>
+              <dd><a href={program.reporting_url} target="_blank" rel="noopener noreferrer">{program.reporting_url}</a></dd>
+            </>
+          )}
         </dl>
       </section>
     )}
@@ -227,6 +247,54 @@ const breadcrumbJsonLd = {
             </>
           )}
         </dl>
+      </section>
+    )}
+
+    <!-- Payout Structure -->
+    {payoutTableRows && (
+      <section class="section">
+        <h2><Tooltip text={tips.payoutTable}>Payout Structure</Tooltip></h2>
+        <div class="payout-table">
+          {payoutTableRows.map((row) => (
+            <div class="payout-row">
+              <span class={`payout-severity sev-${row.severity.toLowerCase()}`}>{row.severity}</span>
+              <span class="payout-amount">{row.amount}</span>
+            </div>
+          ))}
+        </div>
+        {program.swag_details && (
+          <p class="swag-details">
+            <Tooltip text={tips.swagDetails}>Swag:</Tooltip> {program.swag_details}
+          </p>
+        )}
+      </section>
+    )}
+
+    <!-- Rules & Testing -->
+    {(program.testing_policy_url || (program.excluded_methods && program.excluded_methods.length > 0) || program.requires_account != null) && (
+      <section class="section">
+        <h2>Rules & Testing</h2>
+        {(program.requires_account != null || program.testing_policy_url) && (
+          <dl>
+            {program.requires_account != null && <><dt><Tooltip text={tips.requiresAccount}>Requires Account</Tooltip></dt><dd>{program.requires_account ? 'Yes' : 'No'}</dd></>}
+            {program.testing_policy_url && (
+              <>
+                <dt><Tooltip text={tips.testingPolicy}>Testing Policy</Tooltip></dt>
+                <dd><a href={program.testing_policy_url} target="_blank" rel="noopener noreferrer">{program.testing_policy_url}</a></dd>
+              </>
+            )}
+          </dl>
+        )}
+        {program.excluded_methods && program.excluded_methods.length > 0 && (
+          <div class="excluded-methods">
+            <h3><Tooltip text={tips.excludedMethods}>Excluded Methods</Tooltip></h3>
+            <div class="method-chips">
+              {program.excluded_methods.map((m) => (
+                <Chip color="var(--danger)" size="sm">{formatExcludedMethod(m)}</Chip>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
     )}
 
@@ -275,12 +343,41 @@ const breadcrumbJsonLd = {
           </div>
         )}
       </section>
+    ) : (program.scope && program.scope.length > 0) ? (
+      <section class="section">
+        <h2><Tooltip text={tips.scope}>Scope ({program.scope.length} targets)</Tooltip></h2>
+        <ul class="target-list">
+          {program.scope.map((s) => (
+            <li class="target-item">
+              <span class="target-id">{s.target}</span>
+              <span class="target-type">{s.type}</span>
+            </li>
+          ))}
+        </ul>
+        {program.out_of_scope && program.out_of_scope.length > 0 && (
+          <div class="scope-targets">
+            <h3><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h3>
+            <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
+          </div>
+        )}
+      </section>
     ) : program.domains && program.domains.length > 0 ? (
       <section class="section">
         <h2>In-Scope Domains</h2>
         <ul class="domains">
           {program.domains.map((d) => <li>{d}</li>)}
         </ul>
+        {program.out_of_scope && program.out_of_scope.length > 0 && (
+          <div class="scope-targets">
+            <h3><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h3>
+            <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
+          </div>
+        )}
+      </section>
+    ) : program.out_of_scope && program.out_of_scope.length > 0 ? (
+      <section class="section">
+        <h2><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h2>
+        <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
       </section>
     ) : null}
 
@@ -329,6 +426,51 @@ const breadcrumbJsonLd = {
         )}
       </section>
     )}
+
+    <!-- Legal & Standards -->
+    {(program.legal_terms_url || (program.standards && program.standards.length > 0)) && (
+      <section class="section">
+        <h2>Legal & Standards</h2>
+        {program.legal_terms_url && (
+          <dl>
+            <dt><Tooltip text={tips.legalTerms}>Legal Terms</Tooltip></dt>
+            <dd><a href={program.legal_terms_url} target="_blank" rel="noopener noreferrer">{program.legal_terms_url}</a></dd>
+          </dl>
+        )}
+        {program.standards && program.standards.length > 0 && (
+          <div class="standards">
+            <h3><Tooltip text={tips.standards}>Standards</Tooltip></h3>
+            <div class="method-chips">
+              {program.standards.map((s) => (
+                <Chip color="var(--muted)" size="sm">{s}</Chip>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    )}
+
+    <!-- Recognition -->
+    {(program.hall_of_fame_url || (program.swag_details && !payoutTableRows)) && (
+      <section class="section">
+        <h2>Recognition</h2>
+        <dl>
+          {program.hall_of_fame_url && (
+            <>
+              <dt><Tooltip text={tips.hallOfFame}>Hall of Fame</Tooltip></dt>
+              <dd><a href={program.hall_of_fame_url} target="_blank" rel="noopener noreferrer">{program.hall_of_fame_url}</a></dd>
+            </>
+          )}
+          {program.swag_details && !payoutTableRows && (
+            <>
+              <dt><Tooltip text={tips.swagDetails}>Swag</Tooltip></dt>
+              <dd>{program.swag_details}</dd>
+            </>
+          )}
+        </dl>
+      </section>
+    )}
+
 
     <!-- Security -->
     {(program.pgp_key || program.securitytxt_url || program.preferred_languages) && (
@@ -526,6 +668,12 @@ const breadcrumbJsonLd = {
     font-size: 1.1rem;
     color: var(--primary);
   }
+  .program-description {
+    color: var(--foreground);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+  }
   dl {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -569,6 +717,61 @@ const breadcrumbJsonLd = {
     color: var(--foreground);
     font-family: monospace;
   }
+  /* Payout table */
+  .payout-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .payout-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--curve);
+    background: var(--background-darker);
+    font-size: 0.85rem;
+  }
+  .payout-severity {
+    font-weight: 600;
+    min-width: 5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .sev-critical { color: var(--danger); }
+  .sev-high { color: var(--warning); }
+  .sev-medium { color: var(--accent); }
+  .sev-low { color: var(--muted); }
+  .payout-amount {
+    color: var(--foreground);
+    font-family: monospace;
+  }
+  .swag-details {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0.75rem 0 0;
+  }
+
+  /* Rules & testing */
+  .excluded-methods {
+    margin-top: 0.75rem;
+  }
+  .excluded-methods h3,
+  .standards h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+  }
+  .method-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .standards {
+    margin-top: 0.75rem;
+  }
+
   .efficiency-bar {
     width: 120px;
     height: 8px;

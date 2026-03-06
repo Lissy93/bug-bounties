@@ -15,7 +15,8 @@ SHELL := /bin/bash
 PYTHON   ?= python3
 PIP      ?= pip3
 LIB_DIR  := lib
-DATA     := bounties.yml
+DATA     := platform-programs.yml
+INDEP    := independent-programs.yml
 SCHEMA   := $(LIB_DIR)/schema.json
 README   := .github/README.md
 REQS     := $(LIB_DIR)/requirements.txt
@@ -33,10 +34,10 @@ clean:  ## Remove Python bytecode caches
 populate: $(REQS) | install  ## Fetch and merge bounty data from public sources
 	$(PYTHON) $(LIB_DIR)/populate-bounties.py --stats
 
-validate: $(DATA) $(SCHEMA)  ## Validate bounties.yml against the JSON schema
+validate: $(DATA) $(SCHEMA)  ## Validate program YAML files against the JSON schema
 	$(PYTHON) $(LIB_DIR)/validate-bounties.py
 
-readme: $(DATA)  ## Insert bounty table into README.md
+readme: $(DATA) $(INDEP)  ## Insert bounty table into README.md
 	$(PYTHON) $(LIB_DIR)/insert-bounties.py
 
 help:  ## Show available targets

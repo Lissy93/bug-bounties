@@ -16,6 +16,18 @@ export interface ListProgram {
   completeness: number;
 }
 
+export interface ScopeEntry {
+  target: string;
+  type: string;
+}
+
+export interface PayoutTable {
+  critical?: number;
+  high?: number;
+  medium?: number;
+  low?: number;
+}
+
 export interface BountyProgram {
   company: string;
   url: string;
@@ -43,6 +55,23 @@ export interface BountyProgram {
   hiring?: boolean;
   notes?: string;
   sources?: string[];
+  description?: string;
+  // Independent program fields
+  program_type?: 'bounty' | 'vdp' | 'hybrid';
+  status?: 'active' | 'paused';
+  scope?: ScopeEntry[];
+  out_of_scope?: string[];
+  testing_policy_url?: string;
+  excluded_methods?: string[];
+  requires_account?: boolean;
+  payout_table?: PayoutTable;
+  disclosure_timeline_days?: number;
+  response_sla_days?: number;
+  legal_terms_url?: string;
+  hall_of_fame_url?: string;
+  swag_details?: string;
+  reporting_url?: string;
+  standards?: string[];
 }
 
 // Enrichment data types - fetched at build time, not stored in bounties.yml

@@ -14,7 +14,7 @@
 ## Top Programs
 
 <!-- bounties-start -->
-<details><summary>A (106)</summary>
+<details><summary>A (107)</summary>
 
 - <img src='https://icon.horse/icon/www.abnamro.nl' width='16'/> [Abn Amro](https://www.abnamro.nl/en/personal/overabnamro/secure-banking/responsible-disclosure.html) 💰
 - <img src='https://icon.horse/icon/personal.rbs.co.uk' width='16'/> [ABNAMRO BANK](https://personal.rbs.co.uk/personal/fraud-and-security/responsible-disclosure.html) 🏅
@@ -39,6 +39,7 @@
 - <img src='https://icon.horse/icon/www.airmiles.nl' width='16'/> [Air Miles](https://www.airmiles.nl/responsible-disclosure) 💰
 - <img src='https://icon.horse/icon/www.airmilesshop.nl' width='16'/> [Air Miles Shop](https://www.airmilesshop.nl/responsible-disclosure) 🏅 🎁
 - <img src='https://icon.horse/icon/www.airbnb.com' width='16'/> [Airbnb](https://www.airbnb.com/security) 💰 🏅
+- <img src='https://icon.horse/icon/www.airbus.com' width='16'/> [Airbus](https://www.airbus.com/en/trust-centre/vulnerability-disclosure) 🏅
 - <img src='https://icon.horse/icon/www.airship.com' width='16'/> [Airship](https://www.airship.com/legal/full-disclosure-security-policy/) 🏅
 - <img src='https://icon.horse/icon/blog.airswap.io' width='16'/> [AirSwap](https://blog.airswap.io/airswap-bug-bounty-4d7ec41f3ea7) 💰
 - <img src='https://icon.horse/icon/airtable.com' width='16'/> [Airtable](https://airtable.com/security) 💰
@@ -125,7 +126,7 @@
 
 </details>
 
-<details><summary>B (84)</summary>
+<details><summary>B (85)</summary>
 
 - <img src='https://icon.horse/icon/www.backblaze.com' width='16'/> [Backblaze](https://www.backblaze.com/security.html) 💰
 - <img src='https://icon.horse/icon/corp.badoo.com' width='16'/> [Badoo](https://corp.badoo.com/security) 💰 🏅
@@ -193,6 +194,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Braze Public BB](https://bugcrowd.com/engagements/braze-bb) 💰
 - <img src='https://icon.horse/icon/braze.com' width='16'/> [Braze, Inc.](http://braze.com) 💰
 - <img src='https://icon.horse/icon/www.briskinfosec.com' width='16'/> [Brisk Infosec](https://www.briskinfosec.com/responsibledisclosure) 🏅
+- <img src='https://icon.horse/icon/www.bt.com' width='16'/> [BT Group](https://www.bt.com/about/contact-bt/responsible-disclosure) 🏅
 - <img src='https://icon.horse/icon/www.btcturk.com' width='16'/> [BtcTurk](https://www.btcturk.com/odul-avciligi) 💰
 - <img src='https://icon.horse/icon/buddy.works' width='16'/> [Buddy](https://buddy.works/disclosure-policy) 🏅
 - <img src='https://icon.horse/icon/buffer.com' width='16'/> [Buffer](https://buffer.com/legal#security) 💰 🏅
@@ -214,7 +216,7 @@
 
 </details>
 
-<details><summary>C (97)</summary>
+<details><summary>C (98)</summary>
 
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Caffeine](https://bugcrowd.com/caffeine) 💰
 - <img src='https://icon.horse/icon/www.campaignmonitor.com' width='16'/> [Campaign Monitor](https://www.campaignmonitor.com/trust/report-a-vulnerability/) 💰
@@ -227,6 +229,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Casper](https://hackerone.com/casper) 💰 🏅
 - <img src='https://icon.horse/icon/cedars-sinai.edu' width='16'/> [Cedars-Sinai](http://cedars-sinai.edu) 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Centrify](https://bugcrowd.com/centrify) 💰 🏅
+- <img src='https://icon.horse/icon/security.web.cern.ch' width='16'/> [CERN](https://security.web.cern.ch/home/en/cvd.shtml) 🏅
 - <img src='https://icon.horse/icon/vuls.cert.org' width='16'/> [CERT/CC](https://vuls.cert.org/confluence/display/Wiki/Vulnerability+Disclosure+Policy) 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Certinia (formerly FinancialForce)](https://bugcrowd.com/engagements/financialforce) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Chainlink](https://hackerone.com/chainlink) 💰 🏅
@@ -316,7 +319,7 @@
 
 </details>
 
-<details><summary>D (70)</summary>
+<details><summary>D (71)</summary>
 
 - <img src='https://icon.horse/icon/d66.nl' width='16'/> [D66](https://d66.nl/responsible-disclosure/) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Dailymotion](https://yeswehack.com/programs/dailymotion-public-bug-bounty) 💰
@@ -348,6 +351,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Dell Technologies Application Bug Bounty](https://bugcrowd.com/engagements/dell-com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Dell Technologies' Products Bug Bounty P...](https://bugcrowd.com/engagements/dell-product) 💰
 - <img src='https://icon.horse/icon/www.dnb.nl' width='16'/> [DeNederlandscheBank](https://www.dnb.nl/en/responsible-disclosure/index.jsp) 💰
+- <img src='https://icon.horse/icon/www.denso-wave.com' width='16'/> [DENSO WAVE](https://www.denso-wave.com/en/psirt/) 🏅
 - <img src='https://icon.horse/icon/www.dentrix.com' width='16'/> [Dentrix](https://www.dentrix.com/support/data-security/bug-bounty-program) 💰 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Department Of Defense](https://hackerone.com/deptofdefense) 🏅
 - <img src='https://icon.horse/icon/www.deribit.com' width='16'/> [Deribit](https://www.deribit.com/pages/information/bug-bounty-program) 💰
@@ -391,7 +395,7 @@
 
 </details>
 
-<details><summary>E (50)</summary>
+<details><summary>E (51)</summary>
 
 - <img src='https://icon.horse/icon/www.earlywarning.com' width='16'/> [Early Warning](https://www.earlywarning.com/responsible-disclosure-program) 💰
 - <img src='https://icon.horse/icon/www.easyname.de' width='16'/> [Easyname](https://www.easyname.de/de/support/easyname/253-bug-bounty-programm) 💰
@@ -425,6 +429,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [EPAM Systems Managed Bug Bounty Program](https://bugcrowd.com/engagements/epam-mbb-og) 💰
 - <img src='https://icon.horse/icon/epicgames.com' width='16'/> [Epic Games](https://epicgames.com) 💰 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Equifax](https://hackerone.com/equifax) 🏅 🎁
+- <img src='https://icon.horse/icon/www.ericsson.com' width='16'/> [Ericsson](https://www.ericsson.com/en/about-us/security/psirt) 🏅
 - <img src='https://icon.horse/icon/www.eset.com' width='16'/> [Eset](https://www.eset.com/int/security-vulnerability-reporting/) 💰
 - <img src='https://icon.horse/icon/www.eternal.com' width='16'/> [Eternal](https://www.eternal.com) 💰
 - <img src='https://icon.horse/icon/bounty.ethereum.org' width='16'/> [Ethereum Foundation](https://bounty.ethereum.org/) 💰
@@ -544,7 +549,7 @@
 
 </details>
 
-<details><summary>H (42)</summary>
+<details><summary>H (43)</summary>
 
 - <img src='https://icon.horse/icon/www2.hm.com' width='16'/> [H&M Group](https://www2.hm.com/security.txt) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Hack Me!](https://bugcrowd.com/hackme) 🏅
@@ -568,6 +573,7 @@
 - <img src='https://icon.horse/icon/bugbase.in' width='16'/> [Hike](https://bugbase.in/programs/bugbase) 💰 🎁
 - <img src='https://icon.horse/icon/hilton.com' width='16'/> [Hilton](http://hilton.com) 💰 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Hilton Bounty](https://hackerone.com/hilton) 💰
+- <img src='https://icon.horse/icon/www.hitachi.com' width='16'/> [Hitachi](https://www.hitachi.com/hirt/) 🏅
 - <img src='https://icon.horse/icon/hitbtc.com' width='16'/> [HitBTC](https://hitbtc.com/bug-report) 💰
 - <img src='https://icon.horse/icon/hiverhq.com' width='16'/> [Hiver](https://hiverhq.com/disclosure) 🏅
 - <img src='https://icon.horse/icon/www.holland-controls.com' width='16'/> [Holland Controls](https://www.holland-controls.com/responsible-disclosure) 🏅
@@ -796,6 +802,7 @@
 - <img src='https://icon.horse/icon/microweber.org' width='16'/> [Microweber](https://microweber.org/list-of-contributors) 🏅
 - <img src='https://icon.horse/icon/www.mimecast.com' width='16'/> [Mimecast](https://www.mimecast.com/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/www.gov.uk' width='16'/> [Ministry of Defence](https://www.gov.uk/guidance/report-a-vulnerability-on-an-mod-system) 🎁
+- <img src='https://icon.horse/icon/www.mitsubishielectric.com' width='16'/> [Mitsubishi Electric](https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html) 🏅
 - <img src='https://icon.horse/icon/www.mobikwik.com' width='16'/> [Mobikwik](https://www.mobikwik.com/bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/www.moderntreasury.com' width='16'/> [Modern Treasury](https://www.moderntreasury.com/security) 💰
 - <img src='https://icon.horse/icon/www.mollie.com' width='16'/> [Mollie](https://www.mollie.com/en/responsible-disclosure) 💰 🏅
@@ -814,7 +821,6 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Moovit Managed Bug Bounty Program](https://bugcrowd.com/engagements/moovit-mbb-og) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Motorola Mobility Hardware Engagement](https://bugcrowd.com/engagements/motorolamobility-iot) 💰
 - <img src='https://icon.horse/icon/moviexchange.com' width='16'/> [MovieXchange](https://moviexchange.com/responsible-disclosure-policy/) 🏅
-- <img src='https://icon.horse/icon/moviexchange.com' width='16'/> [movieXchange](https://moviexchange.com/responsible-disclosure-policy/) 🏅
 - <img src='https://icon.horse/icon/www.mozilla.org' width='16'/> [Mozilla](https://www.mozilla.org/en-US/security/bug-bounty/) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/www.mtpelerin.com' width='16'/> [Mt Pelerin](https://www.mtpelerin.com/responsible-disclosure-policy) 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [MTN Group](https://hackerone.com/mtn_group) 🏅
@@ -884,7 +890,7 @@
 
 </details>
 
-<details><summary>O (60)</summary>
+<details><summary>O (61)</summary>
 
 - <img src='https://icon.horse/icon/observu.com' width='16'/> [Observu](https://observu.com/security.php) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Octopus](https://bugcrowd.com/octopus-og) 💰 🏅
@@ -928,6 +934,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Opsgenie](https://bugcrowd.com/opsgenie) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Optimizely](https://bugcrowd.com/optimizely) 💰 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Optus Managed Bug Bounty](https://bugcrowd.com/engagements/optus-mbb-og) 💰
+- <img src='https://icon.horse/icon/www.orangecyberdefense.com' width='16'/> [Orange Cyberdefense](https://www.orangecyberdefense.com/de/vulnerability-disclosure-policy) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Orderly Network Public Managed Bug Bount...](https://bugcrowd.com/engagements/orderlynetwork-mbb-og2) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Orderly Network: Bug Bounty Program](https://bugcrowd.com/engagements/orderlynetwork-mbb-og) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Origin Energy](https://bugcrowd.com/originenergy-og1) 💰
@@ -949,7 +956,7 @@
 
 </details>
 
-<details><summary>P (67)</summary>
+<details><summary>P (68)</summary>
 
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Paddle.com Public Bug Bounty Program](https://yeswehack.com/programs/paddle-com-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Paddy Power Betfair](https://hackerone.com/flutteruki) 💰
@@ -997,6 +1004,7 @@
 - <img src='https://icon.horse/icon/www.pon-cat.com' width='16'/> [Pon Cat](https://www.pon-cat.com/en/responsible-disclosure) 💰
 - <img src='https://icon.horse/icon/porkbun.com' width='16'/> [Porkbun](https://porkbun.com/products/bug_bounty) 💰
 - <img src='https://icon.horse/icon/pornbox.com' width='16'/> [PornBox](https://pornbox.com) 💰
+- <img src='https://icon.horse/icon/www.porsche.com' width='16'/> [Porsche](https://www.porsche.com/international/aboutporsche/responsibility/digitalsecurity/) 🏅
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Port of Antwerp-Bruges](https://www.intigriti.com/programs/portofantwerp/portofantwerp/detail) 💰
 - <img src='https://icon.horse/icon/postmarkapp.com' width='16'/> [Postmark](https://postmarkapp.com/support/article/779-responsible-disclosure-policy) 🏅 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Postmates](https://hackerone.com/postmates) 💰 🏅
@@ -1228,7 +1236,7 @@
 
 </details>
 
-<details><summary>T (85)</summary>
+<details><summary>T (86)</summary>
 
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [T-Mobile](https://bugcrowd.com/t-mobile) 💰
 - <img src='https://icon.horse/icon/www.t-mobile.cz' width='16'/> [T-Mobile CZ](https://www.t-mobile.cz/bug-bounty) 💰
@@ -1251,6 +1259,7 @@
 - <img src='https://icon.horse/icon/www.tenable.com' width='16'/> [Tenable](https://www.tenable.com/security/report) 🏅
 - <img src='https://icon.horse/icon/en.security.tencent.com' width='16'/> [Tencent](https://en.security.tencent.com/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Tesla](https://bugcrowd.com/tesla) 💰 🏅
+- <img src='https://icon.horse/icon/www.ti.com' width='16'/> [Texas Instruments](https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html) 🏅
 - <img src='https://icon.horse/icon/thebrowser.company' width='16'/> [The Browser Company of NYC](http://thebrowser.company) 💰
 - <img src='https://icon.horse/icon/www.thehaguesecuritydelta.com' width='16'/> [The Dutch Security Cluster](https://www.thehaguesecuritydelta.com/responsible-disclosure) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [The Hut Group: Public Managed Bug Bounty...](https://bugcrowd.com/engagements/hutgroup-public) 💰
@@ -1354,7 +1363,7 @@
 
 </details>
 
-<details><summary>V (36)</summary>
+<details><summary>V (37)</summary>
 
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Valve Software](https://hackerone.com/valve) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Venly](https://www.intigriti.com/programs/arkane/arkanenetwork/detail) 💰
@@ -1385,6 +1394,7 @@
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Voi Scooters](https://www.intigriti.com/programs/voi/voiscooters/detail) 💰
 - <img src='https://icon.horse/icon/www.volkis.com.au' width='16'/> [Volkis](https://www.volkis.com.au/vulnerability-disclosure/) 💰 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Volkswagen](https://bugcrowd.com/engagements/volkswagen-og) 💰
+- <img src='https://icon.horse/icon/www.volvogroup.com' width='16'/> [Volvo](https://www.volvogroup.com/en/about-us/data-protection/security-vulnerability-disclosure.html) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Vonage](https://bugcrowd.com/vonage) 🏅
 - <img src='https://icon.horse/icon/www.voys.nl' width='16'/> [Voys](https://www.voys.nl/security-responsible-disclosure/#rd) 🏅
 - <img src='https://icon.horse/icon/vpnarea.com' width='16'/> [VPNArea](https://vpnarea.com/front/home/bugbounty) 💰
@@ -1462,7 +1472,7 @@
 
 </details>
 
-<details><summary>Z (20)</summary>
+<details><summary>Z (21)</summary>
 
 - <img src='https://icon.horse/icon/zabbix.com' width='16'/> [Zabbix](https://zabbix.com) 💰 🎁
 - <img src='https://icon.horse/icon/www.zaful.com' width='16'/> [Zaful](https://www.zaful.com/report-security-issues) 💰
@@ -1483,6 +1493,7 @@
 - <img src='https://icon.horse/icon/www.zomato.com' width='16'/> [Zomato](https://www.zomato.com/security) 💰 🏅
 - <img src='https://icon.horse/icon/zoom.us' width='16'/> [Zoom](https://zoom.us/docs/en-us/vulnerability-disclosure-policy.html) 💰 🏅
 - <img src='https://icon.horse/icon/zooplus.de' width='16'/> [Zooplus](http://zooplus.de) 💰
+- <img src='https://icon.horse/icon/www.zte.com.cn' width='16'/> [ZTE](https://www.zte.com.cn/global/about/trust-center/ztepsirt.html) 💰 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Zynga Whitehat](https://bugcrowd.com/zynga-vdp) 🏅
 
 </details>
@@ -1516,15 +1527,15 @@
 
 The objective of this repo is to provide a centralized place for public bounty programs, along with contact details and rewards.
 
-An aggregated, searchable list of bug bounty and responsible disclosure programs.
-Data is pulled from 8 public sources (HackerOne, Bugcrowd, Intigriti, YesWeHack, Federacy, Disclose, ProjectDiscovery, Trickest), normalized, deduplicated, validated against a schema, and merged into [`bounties.yml`](https://github.com/Lissy93/bug-bounties/blob/main/bounties.yml) - the single source of truth.
-From there, this readme and the [website](https://bug-bounties.as93.net) are generated automatically.
+We maintain a directory of independently-run programs in [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml), and we also aggregate data from public sources (such as HackerOne, Bugcrowd, Intigriti, YesWeHack, Federacy, Disclose, etc), which is then normalized, deduplicated, validated against a schema, and merged into [`platform-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml).
+
+From these files, this readme and the [website](https://bug-bounties.as93.net) are generated automatically.
 
 ```mermaid
 graph LR
     A[Public Sources] -->|fetch| B[Normalize & Dedup]
     B --> C[Validate]
-    C --> D[bounties.yml]
+    C --> D[platform-programs.yml]
     D --> E[README]
     D --> F[Website]
 
@@ -1538,14 +1549,115 @@ graph LR
 
 ---
 
-## Usage
+
+## Submitting a Program
+
+To include a new self-managed CVD or bug bounty program to the website, add it to [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) (in alphabetical order by company name).  To get started, fork the repo, add you entry(s) and then open a PR.
+
+<details><summary><b>Fields reference</b></summary>
+
+Required fields are `company` and `url`, all others are optional
+
+| Field | Type | Required | Description |
+|---|---|---:|---|
+| `company` | string | Yes | Company or program owner name |
+| `url` | URL | Yes | Canonical program or security page URL |
+| `contact` | string | No | Contact URL (`mailto:` or `https://`) |
+| `rewards` | array | No | Reward types: `*bounty`, `*recognition`, `*swag` |
+| `description` | string | No | Short program description (max 500 chars) |
+| `program_type` | enum | No | `bounty`, `vdp`, or `hybrid` |
+| `status` | enum | No | `active` or `paused` |
+| **Scope** |  |  |  |
+| `domains` | array | No | In-scope domains (flat list shorthand) |
+| `scope` | array | No | Structured targets: `{target, type}` where `type` is one of `web`, `mobile`, `api`, `hardware`, `iot`, `network`, `cloud`, `desktop`, `other` |
+| `out_of_scope` | array | No | Explicitly excluded targets or categories |
+| **Payouts** |  |  |  |
+| `min_payout` | number | No | Minimum payout amount |
+| `max_payout` | number | No | Maximum payout amount |
+| `currency` | string | No | Payout currency code (for example `USD`) |
+| `payout_table` | object | No | Per-severity max amounts: `{critical, high, medium, low}` |
+| **Rules** |  |  |  |
+| `testing_policy_url` | URL | No | Link to full testing rules |
+| `excluded_methods` | array | No | Forbidden techniques such as `dos`, `social_engineering`, `phishing`, `physical_access`, `automated_scanning` |
+| `requires_account` | boolean | No | Whether testing requires an account |
+| **Disclosure** |  |  |  |
+| `safe_harbor` | enum | No | `full` or `partial` |
+| `allows_disclosure` | boolean | No | Whether researchers may publish findings |
+| `disclosure_timeline_days` | number | No | Coordinated disclosure window in days |
+| `response_sla_days` | number | No | Committed acknowledgment time in business days |
+| **Legal & Recognition** |  |  |  |
+| `legal_terms_url` | URL | No | Link to participation terms |
+| `hall_of_fame_url` | URL | No | Link to researcher acknowledgments page |
+| `swag_details` | string | No | Description of swag offered (max 200 chars) |
+| `reporting_url` | URL | No | Submission endpoint if different from `url` |
+| **Communication** |  |  |  |
+| `pgp_key` | string | No | URL to PGP key |
+| `preferred_languages` | string | No | Preferred report languages |
+| `standards` | array | No | Standards followed, for example `ISO 29147`, `disclose.io` |
+
+</details>
+
+
+<details><summary><b>Example entry</b></summary>
+
+**Bare Minimum:**
+```yaml
+- company: Example Corp
+  url: https://example.com/security
+```
+
+**Full:**
+```yaml
+- company: Example Corp
+  url: https://example.com/security
+  contact: mailto:security@example.com
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  min_payout: 100
+  max_payout: 10000
+  currency: USD
+  payout_table:
+    critical: 10000
+    high: 5000
+    medium: 1000
+    low: 100
+  safe_harbor: full
+  allows_disclosure: true
+  disclosure_timeline_days: 90
+  response_sla_days: 3
+  scope:
+  - target: '*.example.com'
+    type: web
+  - target: Example Mobile App
+    type: mobile
+  out_of_scope:
+  - Third-party services
+  - Staging environments
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  hall_of_fame_url: https://example.com/security/thanks
+  preferred_languages: English
+  standards:
+  - ISO 29147
+  description: Short description of the program scope and rules.
+```
+
+</details>
+
+---
+
+## Developer Usage
 
 Start by clone the repo with `git clone git@github.com:Lissy93/bug-bounties.git && cd bug-bounties`
 
 Then
 1. `make install` - Setup environment and install dependencies (from [`requirements.txt`](https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt))
-2. `make populate` - Fetch the latest directory of programs, format, and write to `bounties.yml`
-3. `make validate` - Verify and validate the [`bounties.yml`](https://github.com/Lissy93/bug-bounties/blob/main/bounties.yml) file against the [`schema.json`](https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json)
+2. `make populate` - Fetch the latest directory of programs, format, and write to `platform-programs.yml`
+3. `make validate` - Verify and validate [`platform-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml) and [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) against the [`schema.json`](https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json)
 4. `make readme` - Generate and insert a summarized list of programs into the [`README.md`](https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md)
 
 For the website, 

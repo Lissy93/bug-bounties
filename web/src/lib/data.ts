@@ -9,13 +9,25 @@ let cached: BountyProgram[] | null = null;
 export function loadBounties(): BountyProgram[] {
   if (cached) return cached;
 
-  const yamlPath = path.resolve(process.cwd(), '..', 'bounties.yml');
-  const raw = fs.readFileSync(yamlPath, 'utf-8');
-  const parsed = yaml.load(raw) as { companies: Record<string, unknown>[] };
+  const platformPath = path.resolve(process.cwd(), '..', 'platform-programs.yml');
+  const independentPath = path.resolve(process.cwd(), '..', 'independent-programs.yml');
+
+  const platformRaw = fs.readFileSync(platformPath, 'utf-8');
+  const platformParsed = yaml.load(platformRaw) as { companies: Record<string, unknown>[] };
+
+  let allCompanies = platformParsed.companies || [];
+
+  if (fs.existsSync(independentPath)) {
+    const independentRaw = fs.readFileSync(independentPath, 'utf-8');
+    const independentParsed = yaml.load(independentRaw) as { companies: Record<string, unknown>[] };
+    if (independentParsed?.companies) {
+      allCompanies = allCompanies.concat(independentParsed.companies);
+    }
+  }
 
   resetSlugs();
 
-  cached = (parsed.companies || [])
+  cached = allCompanies
     .filter((entry) => {
       if (!entry.company || typeof entry.company !== 'string') return false;
       if (!entry.url || typeof entry.url !== 'string') return false;

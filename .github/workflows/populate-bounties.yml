@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --global user.name "Liss-Bot"
           git config --global user.email "alicia-gh-bot@mail.as93.net"
-          git add bounties.yml
+          git add platform-programs.yml
           if git diff --staged --quiet; then
             echo "No new bounties found, nothing to commit."
           else

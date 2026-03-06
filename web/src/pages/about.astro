@@ -89,7 +89,9 @@ const apps = [
         Disclose.io among other sources.
       </p>
       <p>
-          You can view or consume our raw data from the <a href="https://github.com/Lissy93/bug-bounties/blob/main/bounties.yml"><code>bounties.yml</code></a> within our GitHub repository.
+        Platform-managed programs are stored in <a href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"><code>platform-programs.yml</code></a>,
+        while independently-run programs are in <a href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"><code>independent-programs.yml</code></a>.
+        Both files are available in our GitHub repository.
       </p>
 
     </section>
@@ -97,8 +99,11 @@ const apps = [
     <section>
       <h2>Adding a Program</h2>
       <p>
-          If your bounty program is not listed on any of the platforms which we auto-aggregate, then you can manually add it to our repository.
-          It will then be included this list.
+          If your bounty program is not listed on any of the platforms which we auto-aggregate, you can submit it as an independent program.
+          Fork the repository, add your program to <code>independent-programs.yml</code>, and open a pull request.
+          Required fields are <code>company</code> and <code>url</code>. Optional fields include <code>contact</code>,
+          <code>rewards</code>, <code>safe_harbor</code>, <code>scope</code>, <code>payout_table</code>, <code>excluded_methods</code>, <code>description</code>,
+          and more. See the <a href="https://github.com/Lissy93/bug-bounties#submitting-a-program">full field reference</a> in the README.
       </p>
     </section>
 
@@ -112,8 +117,8 @@ const apps = [
         <p>To run the data gathering and processing scripts:</p>
         <ol>
             <li><code>make install</code> - Setup environment and install dependencies (from <a href="https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt"><code>requirements.txt</code></a>)</li>
-            <li><code>make populate</code> - Fetch the latest directory of programs, format, and write to <code>bounties.yml</code></li>
-            <li><code>make validate</code> - Verify and validate the <a href="https://github.com/Lissy93/bug-bounties/blob/main/bounties.yml"><code>bounties.yml</code></a> file against the <a href="https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json"><code>schema.json</code></a></li>
+            <li><code>make populate</code> - Fetch the latest directory of programs, format, and write to <code>platform-programs.yml</code></li>
+            <li><code>make validate</code> - Verify and validate the <a href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"><code>platform-programs.yml</code></a> and <a href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"><code>independent-programs.yml</code></a> files against the <a href="https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json"><code>schema.json</code></a></li>
             <li><code>make readme</code> - Generate and insert a summarized list of programs into the <a href="https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md"><code>README.md</code></a></li>
         </ol>
         <p>To develop and build the website:</p>
@@ -160,7 +165,7 @@ const apps = [
           <img src="https://readme-contribs.as93.net/sponsors/lissy93?shape=squircle&amp;textColor=666666" alt="Sponsors">
       </a>
 
-      <h3>Depndencies</h3>
+      <h3>Dependencies</h3>
       <ul>
         <li><a href="https://astro.build">Astro</a> + <a href="https://svelte.dev">Svelte</a> - website</li>
         <li><a href="https://pyyaml.org">PyYAML</a> - YAML parsing</li>

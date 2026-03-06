@@ -29,6 +29,141 @@
         "enum": ["*bounty", "*recognition", "*swag"]
       },
       "description": "List of reward types offered"
+    },
+    "min_payout": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Minimum payout amount"
+    },
+    "max_payout": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum payout amount"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Payout currency code (e.g. USD, EUR)"
+    },
+    "safe_harbor": {
+      "type": "string",
+      "enum": ["full", "partial"],
+      "description": "Safe harbor policy type"
+    },
+    "allows_disclosure": {
+      "type": "boolean",
+      "description": "Whether the program allows public disclosure"
+    },
+    "domains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "In-scope domains (flat list shorthand)"
+    },
+    "pgp_key": {
+      "type": "string",
+      "description": "URL to PGP key for encrypted communication"
+    },
+    "preferred_languages": {
+      "type": "string",
+      "description": "Preferred languages for reports"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Short description of the program scope and rules"
+    },
+    "program_type": {
+      "type": "string",
+      "enum": ["bounty", "vdp", "hybrid"],
+      "description": "Type of program: paid bounty, vulnerability disclosure, or hybrid"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "paused"],
+      "description": "Whether the program currently accepts reports"
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "type"],
+        "properties": {
+          "target": {
+            "type": "string",
+            "description": "The in-scope target identifier (domain, app name, etc.)"
+          },
+          "type": {
+            "type": "string",
+            "description": "Asset type (e.g. web, mobile, api, hardware, iot, network, cloud, desktop, other)"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Structured in-scope targets with asset type"
+    },
+    "out_of_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Explicitly excluded targets or categories"
+    },
+    "testing_policy_url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "URL to the full testing rules or policy document"
+    },
+    "excluded_methods": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Forbidden testing techniques (e.g. social_engineering, dos, phishing)"
+    },
+    "requires_account": {
+      "type": "boolean",
+      "description": "Whether testing requires creating an account on the target"
+    },
+    "payout_table": {
+      "type": "object",
+      "properties": {
+        "critical": { "type": "number", "minimum": 0 },
+        "high": { "type": "number", "minimum": 0 },
+        "medium": { "type": "number", "minimum": 0 },
+        "low": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false,
+      "description": "Per-severity maximum payout amounts (same currency as currency field)"
+    },
+    "disclosure_timeline_days": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Coordinated disclosure window in days (e.g. 90)"
+    },
+    "response_sla_days": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Committed initial acknowledgment time in business days"
+    },
+    "legal_terms_url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "URL to the program's legal or participation terms"
+    },
+    "hall_of_fame_url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "URL to the researcher acknowledgments or hall of fame page"
+    },
+    "swag_details": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Description of swag offered (e.g. T-shirt for critical findings)"
+    },
+    "reporting_url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "Specific report submission endpoint, if different from the program page"
+    },
+    "standards": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Standards the program follows (e.g. ISO 29147, ISO 30111, disclose.io)"
     }
   },
   "additionalProperties": true

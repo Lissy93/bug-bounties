@@ -1,5 +1,6 @@
 """
-Generates and inserts markdown from bounties.yml into the README.md file.
+Generates and inserts markdown from platform-programs.yml and
+independent-programs.yml into the README.md file.
 Python 3.6+ is required
 
 Environment Variables (all optional)
@@ -22,7 +23,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 """ The relative path to the markdown file to update"""
 README_PATH = os.path.join(SCRIPT_DIR, "..", ".github/README.md")
 """ The relative path to the YAML file WITH the user-contributed content """
-BOUNTIES_FILE_PATH = os.path.join(SCRIPT_DIR, "..", "bounties.yml")
+BOUNTIES_FILE_PATH = os.path.join(SCRIPT_DIR, "..", "platform-programs.yml")
+INDEPENDENT_FILE_PATH = os.path.join(SCRIPT_DIR, "..", "independent-programs.yml")
 
 
 # Configure Logging
@@ -55,7 +57,7 @@ def write_file(file_path: str, content: str, mode: str = "w") -> None:
     :param mode: The mode to open the file in.
     """
     with open(file_path, mode) as f:
-        logging.info(f"Writing to file: {file_path}")
+        logger.info(f"Writing to file: {file_path}")
         f.write(content)
 
 
@@ -64,7 +66,7 @@ def format_long_string(url: str) -> str:
     """
     Makes URLs to users blogs and twitter profiles look nicer.
     Removes www., http://, https:// and trailing slashes from a URL.
-    Also limits to 25 characters and replaces with ellipse if longer
+    Also limits to 40 characters and replaces with ellipsis if longer
     """
     url = url.replace("www.", "").replace("http://", "").replace("https://", "")
     url = url.rstrip("/")
@@ -119,12 +121,30 @@ def build_markdown_content(companies) -> str:
 
 """ The main entrypoint of the script """
 if __name__ == "__main__":
-    # Read YAML
+    # Read platform programs YAML
     yaml_content = yaml.safe_load(read_file(BOUNTIES_FILE_PATH))
+    companies = yaml_content.get("companies", [])
+
+    # Read independent programs YAML (if it exists)
+    if os.path.exists(INDEPENDENT_FILE_PATH):
+        ind_content = yaml.safe_load(read_file(INDEPENDENT_FILE_PATH))
+        if ind_content and ind_content.get("companies"):
+            companies = companies + ind_content["companies"]
+
+    # Deduplicate by normalized company name
+    seen = set()
+    unique = []
+    for c in companies:
+        key = c.get("company", "").strip().lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(c)
+    companies = unique
+
     # Read current README
     readme_content = read_file(README_PATH)
     # Generate content to be inserted
-    new_md_content = build_markdown_content(yaml_content["companies"])
+    new_md_content = build_markdown_content(companies)
     # Locate and replace content in README
     start_marker = "<!-- bounties-start -->"
     end_marker = "<!-- bounties-end -->"
@@ -139,7 +159,7 @@ if __name__ == "__main__":
     )
     # Write readme content back to file
     write_file(README_PATH, new_readme_content)
-    logging.info("All Done!")
+    logger.info("All Done!")
 
 """
 Okay, you've got this far...

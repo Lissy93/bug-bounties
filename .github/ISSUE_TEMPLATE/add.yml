@@ -1,0 +1,323 @@
+name: Add program entry
+description: Submit a new security program for inclusion in the YAML dataset
+title: "[Program]: "
+labels: ["program-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit a new program entry for the dataset.
+
+        Required fields: `company`, `url`
+        All other fields are optional.
+
+        Formatting notes:
+        - URLs must include `https://` or `mailto:`
+        - For list fields, enter **one item per line**
+        - For `scope`, enter **one target per line** in the format:
+          `target | type`
+          Example:
+          `*.example.com | web`
+          `Example Mobile App | mobile`
+
+  - type: input
+    id: company
+    attributes:
+      label: Company
+      description: Company or program owner name
+      placeholder: Example Corp
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Program URL
+      description: Canonical program or security page URL
+      placeholder: https://example.com/security
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: Contact
+      description: Contact URL (`mailto:` or `https://`)
+      placeholder: mailto:security@example.com
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: rewards
+    attributes:
+      label: Rewards
+      description: Select all that apply
+      options:
+        - label: "*bounty"
+        - label: "*recognition"
+        - label: "*swag"
+
+  - type: dropdown
+    id: program_type
+    attributes:
+      label: Program type
+      options:
+        - bounty
+        - vdp
+        - hybrid
+    validations:
+      required: false
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - active
+        - paused
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Short program description, max 500 chars
+      placeholder: Short description of the program scope and rules.
+    validations:
+      required: false
+
+  - type: textarea
+    id: domains
+    attributes:
+      label: Domains
+      description: In-scope domains, one per line
+      placeholder: |
+        *.example.com
+        api.example.com
+    validations:
+      required: false
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Structured scope
+      description: One entry per line in the format `target | type`
+      placeholder: |
+        *.example.com | web
+        Example Mobile App | mobile
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: Explicitly excluded targets or categories, one per line
+      placeholder: |
+        Third-party services
+        Staging environments
+    validations:
+      required: false
+
+  - type: input
+    id: min_payout
+    attributes:
+      label: Minimum payout
+      description: Numeric value only
+      placeholder: "100"
+    validations:
+      required: false
+
+  - type: input
+    id: max_payout
+    attributes:
+      label: Maximum payout
+      description: Numeric value only
+      placeholder: "10000"
+    validations:
+      required: false
+
+  - type: input
+    id: currency
+    attributes:
+      label: Currency
+      description: ISO currency code
+      placeholder: USD
+    validations:
+      required: false
+
+  - type: input
+    id: payout_critical
+    attributes:
+      label: Payout - critical
+      description: Numeric value only
+      placeholder: "10000"
+    validations:
+      required: false
+
+  - type: input
+    id: payout_high
+    attributes:
+      label: Payout - high
+      description: Numeric value only
+      placeholder: "5000"
+    validations:
+      required: false
+
+  - type: input
+    id: payout_medium
+    attributes:
+      label: Payout - medium
+      description: Numeric value only
+      placeholder: "1000"
+    validations:
+      required: false
+
+  - type: input
+    id: payout_low
+    attributes:
+      label: Payout - low
+      description: Numeric value only
+      placeholder: "100"
+    validations:
+      required: false
+
+  - type: input
+    id: testing_policy_url
+    attributes:
+      label: Testing policy URL
+      placeholder: https://example.com/security/rules
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: excluded_methods
+    attributes:
+      label: Excluded methods
+      description: Select all that apply
+      options:
+        - label: dos
+        - label: social_engineering
+        - label: phishing
+        - label: physical_access
+        - label: automated_scanning
+
+  - type: dropdown
+    id: requires_account
+    attributes:
+      label: Requires account
+      options:
+        - "false"
+        - "true"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: safe_harbor
+    attributes:
+      label: Safe harbor
+      options:
+        - full
+        - partial
+    validations:
+      required: false
+
+  - type: dropdown
+    id: allows_disclosure
+    attributes:
+      label: Allows disclosure
+      options:
+        - "true"
+        - "false"
+    validations:
+      required: false
+
+  - type: input
+    id: disclosure_timeline_days
+    attributes:
+      label: Disclosure timeline days
+      description: Numeric value only
+      placeholder: "90"
+    validations:
+      required: false
+
+  - type: input
+    id: response_sla_days
+    attributes:
+      label: Response SLA days
+      description: Numeric value only
+      placeholder: "3"
+    validations:
+      required: false
+
+  - type: input
+    id: legal_terms_url
+    attributes:
+      label: Legal terms URL
+      placeholder: https://example.com/security/terms
+    validations:
+      required: false
+
+  - type: input
+    id: hall_of_fame_url
+    attributes:
+      label: Hall of fame URL
+      placeholder: https://example.com/security/thanks
+    validations:
+      required: false
+
+  - type: input
+    id: swag_details
+    attributes:
+      label: Swag details
+      description: Max 200 chars
+      placeholder: T-shirt and stickers for valid reports
+    validations:
+      required: false
+
+  - type: input
+    id: reporting_url
+    attributes:
+      label: Reporting URL
+      description: Submission endpoint if different from program URL
+      placeholder: https://example.com/security/report
+    validations:
+      required: false
+
+  - type: input
+    id: pgp_key
+    attributes:
+      label: PGP key URL
+      placeholder: https://example.com/.well-known/pgp-key.txt
+    validations:
+      required: false
+
+  - type: input
+    id: preferred_languages
+    attributes:
+      label: Preferred languages
+      description: Free text
+      placeholder: English
+    validations:
+      required: false
+
+  - type: textarea
+    id: standards
+    attributes:
+      label: Standards
+      description: One standard per line
+      placeholder: |
+        ISO 29147
+        disclose.io
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I confirm the information is accurate and I have included only publicly documented program details.
+          required: true

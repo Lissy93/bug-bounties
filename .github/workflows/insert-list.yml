@@ -7,7 +7,7 @@ on:
     types: [completed]
   push:
     branches: [ main ]
-    paths: ['bounties.yml']
+    paths: ['platform-programs.yml', 'independent-programs.yml']
 
 jobs:
   build:

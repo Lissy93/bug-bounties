@@ -27,7 +27,8 @@ import yaml
 from rapidfuzz import fuzz
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-BOUNTIES_PATH = SCRIPT_DIR / ".." / "bounties.yml"
+BOUNTIES_PATH = SCRIPT_DIR / ".." / "platform-programs.yml"
+INDEPENDENT_PATH = SCRIPT_DIR / ".." / "independent-programs.yml"
 SCHEMA_PATH = SCRIPT_DIR / "schema.json"
 
 GITHUB_RAW = "https://raw.githubusercontent.com"
@@ -662,7 +663,25 @@ def main() -> None:
 
     # Merge with existing file
     header_lines, existing = load_existing(args.output)
-    merged, new_count = merge_entries(existing, deduplicated)
+
+    # Load independent programs for cross-dedup (prevent duplicates)
+    independent_entries = []
+    if Path(INDEPENDENT_PATH).exists():
+        try:
+            ind_raw = read_file(INDEPENDENT_PATH)
+            ind_data = yaml.safe_load(ind_raw)
+            if isinstance(ind_data, dict):
+                independent_entries = ind_data.get("companies") or []
+                logger.debug(f"Loaded {len(independent_entries)} independent entries for cross-dedup")
+        except Exception as e:
+            logger.warning(f"Failed to load independent programs: {e}")
+
+    # Add independent entries to lookup indexes so merge_entries skips them
+    all_existing = list(existing) + independent_entries
+    merged, new_count = merge_entries(all_existing, deduplicated)
+    # Remove independent entries from the merged output (they stay in their own file)
+    independent_names = {normalize_name(e.get("company", "")) for e in independent_entries}
+    merged = [e for e in merged if normalize_name(e.get("company", "")) not in independent_names]
     merged = validate_entries(merged, schema)
 
     if args.stats:

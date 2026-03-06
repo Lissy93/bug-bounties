@@ -1,0 +1,151 @@
+# Independent CVD Programs - manually submitted, not managed on any platform
+# See the "Submitting a Program" section in the README for field details
+#
+# Required fields: company, url
+# Optional fields: contact, rewards, min_payout, max_payout, currency,
+#   safe_harbor, allows_disclosure, domains, pgp_key, preferred_languages,
+#   description, program_type, status, scope, out_of_scope, testing_policy_url,
+#   excluded_methods, requires_account, payout_table, disclosure_timeline_days,
+#   response_sla_days, legal_terms_url, hall_of_fame_url, swag_details,
+#   reporting_url, standards
+
+companies:
+- company: BT Group
+  url: https://www.bt.com/about/contact-bt/responsible-disclosure
+  contact: https://www.bt.com/about/contact-bt/responsible-disclosure
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  safe_harbor: partial
+  allows_disclosure: false
+  preferred_languages: English
+  pgp_key: https://www.bt.com/.well-known/btcertcc_public.asc
+  description: BT Group responsible disclosure program covering BT, EE, Plusnet, and Openreach products and services.
+  excluded_methods:
+  - dos
+  scope:
+  - target: BT Group products and services
+    type: web
+  - target: BT Group network infrastructure
+    type: network
+  out_of_scope:
+  - Non-exploitable vulnerabilities
+  - Missing security headers without demonstrated impact
+  response_sla_days: 1
+  disclosure_timeline_days: 90
+  hall_of_fame_url: https://www.bt.com/about/contact-bt/responsible-disclosure/hall-of-fame
+
+- company: CERN
+  url: https://security.web.cern.ch/home/en/cvd.shtml
+  contact: mailto:Computer.Security@cern.ch
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  allows_disclosure: true
+  preferred_languages: English, French
+  description: CERN Coordinated Vulnerability Disclosure program for reporting security vulnerabilities in CERN systems and services.
+  excluded_methods:
+  - automated_scanning
+  scope:
+  - target: CERN systems and services
+    type: web
+  hall_of_fame_url: https://security.web.cern.ch/home/en/kudos.shtml
+
+- company: DENSO WAVE
+  url: https://www.denso-wave.com/en/psirt/
+  contact: https://www.denso-wave.com/en/contact/psirt/
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  preferred_languages: English, Japanese
+  description: DENSO WAVE vulnerability disclosure program for DENSO WAVE products, following ISO 29147 coordinated disclosure.
+  response_sla_days: 5
+  standards:
+  - ISO 29147
+
+- company: Hitachi
+  url: https://www.hitachi.com/hirt/
+  contact: https://www8.hitachi.co.jp/inquiry/hitachi-ltd/it/hirt/en/form.jsp
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  preferred_languages: English, Japanese
+  description: Hitachi Incident Response Team handles security vulnerabilities in Hitachi group IT and industrial control system products.
+  scope:
+  - target: Hitachi group IT products
+    type: other
+  - target: Industrial Control Systems
+    type: hardware
+  out_of_scope:
+  - End-of-life products
+  - Other manufacturers' products
+  standards:
+  - ISO 29147
+  - ISO 30111
+  hall_of_fame_url: https://www.hitachi.com/hirt/security/acknowledgments.html
+
+- company: Mitsubishi Electric
+  url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
+  contact: https://www.mitsubishielectric.com/psirt/contact/index.html
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  preferred_languages: English, Japanese
+  description: Mitsubishi Electric PSIRT handles security vulnerabilities in Mitsubishi Electric products, coordinating disclosure with JPCERT/CC.
+  response_sla_days: 5
+  out_of_scope:
+  - End-of-life products
+  standards:
+  - ISO 29147
+
+- company: Orange Cyberdefense
+  url: https://www.orangecyberdefense.com/de/vulnerability-disclosure-policy
+  contact: mailto:vulnerability@orangecyberdefense.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  safe_harbor: full
+  allows_disclosure: false
+  preferred_languages: English
+  description: Orange Cyberdefense vulnerability disclosure program covering digital infrastructures, platforms, applications, and products.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  response_sla_days: 5
+  pgp_key: https://advisories.orangecyberdefense.com
+
+- company: Texas Instruments
+  url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
+  contact: mailto:psirt@ti.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: Texas Instruments PSIRT handles security vulnerabilities in TI semiconductor products including hardware, software, and documentation.
+  scope:
+  - target: TI semiconductor products
+    type: hardware
+  - target: TI product software and documentation
+    type: other
+
+- company: ZTE
+  url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
+  contact: mailto:psirt@zte.com.cn
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  program_type: hybrid
+  status: active
+  preferred_languages: English, Chinese
+  description: ZTE PSIRT handles security vulnerabilities in ZTE products and solutions, with bug bounty rewards for qualifying reports.
+  response_sla_days: 1
+  standards:
+  - ISO 29147
+  - ISO 30111
