@@ -14,7 +14,7 @@
 ## Top Programs
 
 <!-- bounties-start -->
-<details><summary>A (107)</summary>
+<details><summary>A (106)</summary>
 
 - <img src='https://icon.horse/icon/www.abnamro.nl' width='16'/> [Abn Amro](https://www.abnamro.nl/en/personal/overabnamro/secure-banking/responsible-disclosure.html) 💰
 - <img src='https://icon.horse/icon/personal.rbs.co.uk' width='16'/> [ABNAMRO BANK](https://personal.rbs.co.uk/personal/fraud-and-security/responsible-disclosure.html) 🏅
@@ -39,7 +39,6 @@
 - <img src='https://icon.horse/icon/www.airmiles.nl' width='16'/> [Air Miles](https://www.airmiles.nl/responsible-disclosure) 💰
 - <img src='https://icon.horse/icon/www.airmilesshop.nl' width='16'/> [Air Miles Shop](https://www.airmilesshop.nl/responsible-disclosure) 🏅 🎁
 - <img src='https://icon.horse/icon/www.airbnb.com' width='16'/> [Airbnb](https://www.airbnb.com/security) 💰 🏅
-- <img src='https://icon.horse/icon/www.airbus.com' width='16'/> [Airbus](https://www.airbus.com/en/trust-centre/vulnerability-disclosure) 🏅
 - <img src='https://icon.horse/icon/www.airship.com' width='16'/> [Airship](https://www.airship.com/legal/full-disclosure-security-policy/) 🏅
 - <img src='https://icon.horse/icon/blog.airswap.io' width='16'/> [AirSwap](https://blog.airswap.io/airswap-bug-bounty-4d7ec41f3ea7) 💰
 - <img src='https://icon.horse/icon/airtable.com' width='16'/> [Airtable](https://airtable.com/security) 💰
@@ -395,7 +394,7 @@
 
 </details>
 
-<details><summary>E (51)</summary>
+<details><summary>E (50)</summary>
 
 - <img src='https://icon.horse/icon/www.earlywarning.com' width='16'/> [Early Warning](https://www.earlywarning.com/responsible-disclosure-program) 💰
 - <img src='https://icon.horse/icon/www.easyname.de' width='16'/> [Easyname](https://www.easyname.de/de/support/easyname/253-bug-bounty-programm) 💰
@@ -429,7 +428,6 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [EPAM Systems Managed Bug Bounty Program](https://bugcrowd.com/engagements/epam-mbb-og) 💰
 - <img src='https://icon.horse/icon/epicgames.com' width='16'/> [Epic Games](https://epicgames.com) 💰 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Equifax](https://hackerone.com/equifax) 🏅 🎁
-- <img src='https://icon.horse/icon/www.ericsson.com' width='16'/> [Ericsson](https://www.ericsson.com/en/about-us/security/psirt) 🏅
 - <img src='https://icon.horse/icon/www.eset.com' width='16'/> [Eset](https://www.eset.com/int/security-vulnerability-reporting/) 💰
 - <img src='https://icon.horse/icon/www.eternal.com' width='16'/> [Eternal](https://www.eternal.com) 💰
 - <img src='https://icon.horse/icon/bounty.ethereum.org' width='16'/> [Ethereum Foundation](https://bounty.ethereum.org/) 💰
@@ -956,7 +954,7 @@
 
 </details>
 
-<details><summary>P (68)</summary>
+<details><summary>P (67)</summary>
 
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Paddle.com Public Bug Bounty Program](https://yeswehack.com/programs/paddle-com-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Paddy Power Betfair](https://hackerone.com/flutteruki) 💰
@@ -1004,7 +1002,6 @@
 - <img src='https://icon.horse/icon/www.pon-cat.com' width='16'/> [Pon Cat](https://www.pon-cat.com/en/responsible-disclosure) 💰
 - <img src='https://icon.horse/icon/porkbun.com' width='16'/> [Porkbun](https://porkbun.com/products/bug_bounty) 💰
 - <img src='https://icon.horse/icon/pornbox.com' width='16'/> [PornBox](https://pornbox.com) 💰
-- <img src='https://icon.horse/icon/www.porsche.com' width='16'/> [Porsche](https://www.porsche.com/international/aboutporsche/responsibility/digitalsecurity/) 🏅
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Port of Antwerp-Bruges](https://www.intigriti.com/programs/portofantwerp/portofantwerp/detail) 💰
 - <img src='https://icon.horse/icon/postmarkapp.com' width='16'/> [Postmark](https://postmarkapp.com/support/article/779-responsible-disclosure-policy) 🏅 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Postmates](https://hackerone.com/postmates) 💰 🏅
@@ -1363,7 +1360,7 @@
 
 </details>
 
-<details><summary>V (37)</summary>
+<details><summary>V (36)</summary>
 
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Valve Software](https://hackerone.com/valve) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Venly](https://www.intigriti.com/programs/arkane/arkanenetwork/detail) 💰
@@ -1394,7 +1391,6 @@
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Voi Scooters](https://www.intigriti.com/programs/voi/voiscooters/detail) 💰
 - <img src='https://icon.horse/icon/www.volkis.com.au' width='16'/> [Volkis](https://www.volkis.com.au/vulnerability-disclosure/) 💰 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Volkswagen](https://bugcrowd.com/engagements/volkswagen-og) 💰
-- <img src='https://icon.horse/icon/www.volvogroup.com' width='16'/> [Volvo](https://www.volvogroup.com/en/about-us/data-protection/security-vulnerability-disclosure.html) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Vonage](https://bugcrowd.com/vonage) 🏅
 - <img src='https://icon.horse/icon/www.voys.nl' width='16'/> [Voys](https://www.voys.nl/security-responsible-disclosure/#rd) 🏅
 - <img src='https://icon.horse/icon/vpnarea.com' width='16'/> [VPNArea](https://vpnarea.com/front/home/bugbounty) 💰
