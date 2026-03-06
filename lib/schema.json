@@ -18,10 +18,6 @@
       "type": "string",
       "description": "Platform-specific program handle or slug"
     },
-    "program": {
-      "type": "string",
-      "description": "Program name if different from company name"
-    },
     "contact": {
       "type": "string",
       "description": "Contact URL (mailto: or https://) or empty string"
@@ -33,92 +29,7 @@
         "enum": ["*bounty", "*recognition", "*swag"]
       },
       "description": "List of reward types offered"
-    },
-    "min_payout": {
-      "type": "number",
-      "minimum": 0,
-      "description": "Minimum bounty payout amount"
-    },
-    "max_payout": {
-      "type": "number",
-      "minimum": 0,
-      "description": "Maximum bounty payout amount"
-    },
-    "currency": {
-      "type": "string",
-      "description": "Payout currency code (e.g. USD, EUR)"
-    },
-    "safe_harbor": {
-      "type": "string",
-      "description": "Safe harbor status (e.g. full, partial)"
-    },
-    "allows_disclosure": {
-      "type": "boolean",
-      "description": "Whether the program allows public disclosure"
-    },
-    "managed": {
-      "type": "boolean",
-      "description": "Whether the program is managed by the platform"
-    },
-    "response_time": {
-      "type": "number",
-      "minimum": 0,
-      "description": "Average time to first program response"
-    },
-    "bounty_time": {
-      "type": "number",
-      "minimum": 0,
-      "description": "Average time to bounty awarded"
-    },
-    "resolution_time": {
-      "type": "number",
-      "minimum": 0,
-      "description": "Average time to report resolved"
-    },
-    "response_efficiency": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 100,
-      "description": "Response efficiency percentage"
-    },
-    "launch_date": {
-      "type": "string",
-      "description": "When the bounty program launched"
-    },
-    "confidentiality_level": {
-      "type": "string",
-      "description": "Program visibility (e.g. public, private)"
-    },
-    "domains": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "In-scope domain names"
-    },
-    "pgp_key": {
-      "type": "string",
-      "description": "PGP key or URL for encrypted reporting"
-    },
-    "securitytxt_url": {
-      "type": "string",
-      "description": "URL to the security.txt file"
-    },
-    "preferred_languages": {
-      "type": "string",
-      "description": "Preferred languages for report submissions"
-    },
-    "hiring": {
-      "type": "boolean",
-      "description": "Whether the company is hiring security researchers"
-    },
-    "notes": {
-      "type": "string",
-      "description": "Additional notes"
-    },
-    "sources": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "List of source names where this program was found"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }
