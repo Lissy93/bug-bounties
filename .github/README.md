@@ -1162,7 +1162,7 @@
 
 </details>
 
-<details><summary>P (93)</summary>
+<details><summary>P (94)</summary>
 
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Paddle.com Public Bug Bounty Program](https://yeswehack.com/programs/paddle-com-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Paddy Power Betfair](https://hackerone.com/flutteruki) 💰
@@ -1245,6 +1245,7 @@
 - <img src='https://icon.horse/icon/privy.io' width='16'/> [Privy (Bounty)](http://privy.io) 💰 🎁
 - <img src='https://icon.horse/icon/www.productboard.com' width='16'/> [Productboard](https://www.productboard.com/product/security/#application-security) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Programme de prime aux bogues du Gouvern...](https://yeswehack.com/programs/programmes-de-primes-aux-bogues-du-gouvernement-du-quebec-cgcd) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [ProjectBalm](https://bugcrowd.com/engagements/projectbalm) 💰
 - <img src='https://icon.horse/icon/www.proofpoint.com' width='16'/> [Proofpoint](https://www.proofpoint.com/us/security) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Prosus](https://bugcrowd.com/engagements/prosus-og) 💰
 - <img src='https://icon.horse/icon/proton.me' width='16'/> [Proton](https://proton.me/blog/responsible-vulnerability-disclosure) 💰
@@ -1721,7 +1722,7 @@
 
 </details>
 
-<details><summary>W (42)</summary>
+<details><summary>W (43)</summary>
 
 - <img src='https://icon.horse/icon/wagwalking.com' width='16'/> [Wagwalking](https://wagwalking.com/responsible-disclosure) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Wakatime](https://hackerone.com/wakatime) 🏅
@@ -1747,6 +1748,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Westjet](https://bugcrowd.com/westjet-disclose) 🏅
 - <img src='https://icon.horse/icon/wetransfer.com' width='16'/> [WeTransfer](https://wetransfer.com/legal/disclosure) 💰
 - <img src='https://icon.horse/icon/wevpn.com' width='16'/> [WeVPN](https://wevpn.com/responsible-disclosure) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [weweave UG Marketplace Bug Bounty](https://bugcrowd.com/engagements/we-weave) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [WGR Industries - Open Bug Bounty Program](https://yeswehack.com/programs/wgr-industries-holding-open-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/whatbox.ca' width='16'/> [Whatbox](https://whatbox.ca/policies/security) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Whmcs](https://bugcrowd.com/whmcs) 💰 🏅
