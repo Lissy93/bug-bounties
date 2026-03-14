@@ -3168,6 +3168,7 @@ companies:
   - '*bounty'
 - company: DataCamp
   url: https://www.intigriti.com/programs/datacamp/datacamp/detail
+  handle: datacamp
   contact: https://www.intigriti.com/programs/datacamp/datacamp/detail
   rewards:
   - '*bounty'
@@ -5640,6 +5641,11 @@ companies:
   contact: mailto:bugbounty@hex-rays.com
   rewards:
   - '*bounty'
+- company: Hexagon-VDP
+  url: http://hexagon.com
+  handle: hexagon_vdp
+  contact: https://hackerone.com/hexagon_vdp
+  rewards: []
 - company: Hibachi
   url: https://immunefi.com/bug-bounty/hibachi/
   contact: https://immunefi.com/bug-bounty/hibachi/
@@ -6278,6 +6284,7 @@ companies:
   - '*recognition'
 - company: Intergamma
   url: https://www.intigriti.com/programs/intergamma/intergamma/detail
+  handle: intergamma
   contact: https://www.intigriti.com/programs/intergamma/intergamma/detail
   rewards:
   - '*bounty'
@@ -7013,6 +7020,7 @@ companies:
   rewards: []
 - company: Lemlist
   url: https://hackerone.com/lemlist
+  handle: lemlist
   contact: https://hackerone.com/lemlist
   rewards: []
 - company: Lenova
@@ -7083,6 +7091,7 @@ companies:
   - '*swag'
 - company: Liferay
   url: https://www.liferay.com/security
+  handle: liferay-vdp
   contact: mailto:security@liferay.com
   rewards:
   - '*recognition'
@@ -10011,6 +10020,11 @@ companies:
   contact: https://yeswehack.com/programs/programmes-de-primes-aux-bogues-du-gouvernement-du-quebec-cgcd
   rewards:
   - '*bounty'
+- company: ProjectBalm
+  url: https://bugcrowd.com/engagements/projectbalm
+  contact: https://bugcrowd.com/engagements/projectbalm
+  rewards:
+  - '*bounty'
 - company: Proof.com VDP
   url: https://www.intigriti.com/programs/proof/proofvdp/detail
   handle: proofvdp
@@ -10117,6 +10131,11 @@ companies:
   url: https://cryptography.io
   handle: pyca
   contact: https://hackerone.com/pyca
+  rewards: []
+- company: QinetiQ Response
+  url: https://www.qinetiq.com
+  handle: qinetiq
+  contact: https://hackerone.com/qinetiq
   rewards: []
 - company: Qiwi
   url: https://www.qiwi.ru/page/hack.action
@@ -11532,6 +11551,7 @@ companies:
   - '*bounty'
 - company: Smule
   url: https://hackerone.com/smule
+  handle: smule
   contact: https://hackerone.com/smule
   rewards:
   - '*recognition'
@@ -12792,6 +12812,11 @@ companies:
   contact: https://www.traveloka.com/en-id/bugs
   rewards:
   - '*bounty'
+- company: Treasury Board of Canada Secretariat/Secrétariat du Conseil du Trésor du Canada
+  url: https://www.tbs-sct.canada.ca/
+  handle: tbs-sct
+  contact: https://hackerone.com/tbs-sct
+  rewards: []
 - company: Treebal
   url: https://yeswehack.com/programs/treebal-the-eco-responsible-messaging
   contact: https://yeswehack.com/programs/treebal-the-eco-responsible-messaging
@@ -13898,6 +13923,11 @@ companies:
 - company: WeVPN
   url: https://wevpn.com/responsible-disclosure
   contact: mailto:security@wevpn.com
+  rewards:
+  - '*bounty'
+- company: weweave UG Marketplace Bug Bounty
+  url: https://bugcrowd.com/engagements/we-weave
+  contact: https://bugcrowd.com/engagements/we-weave
   rewards:
   - '*bounty'
 - company: WGR Industries - Open Bug Bounty Program
