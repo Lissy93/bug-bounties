@@ -1,4 +1,4 @@
-export type Reward = '*bounty' | '*recognition' | '*swag';
+export type Reward = "*bounty" | "*recognition" | "*swag";
 
 /** Minimal program shape serialized to the homepage HTML. */
 export interface ListProgram {
@@ -57,8 +57,8 @@ export interface BountyProgram {
   sources?: string[];
   description?: string;
   // Independent program fields
-  program_type?: 'bounty' | 'vdp' | 'hybrid';
-  status?: 'active' | 'paused';
+  program_type?: "bounty" | "vdp" | "hybrid";
+  status?: "active" | "paused";
   scope?: ScopeEntry[];
   out_of_scope?: string[];
   testing_policy_url?: string;

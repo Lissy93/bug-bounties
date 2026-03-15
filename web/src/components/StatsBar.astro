@@ -1,0 +1,34 @@
+---
+import Tooltip from "./Tooltip.svelte";
+import { tips } from "../lib/tooltips";
+
+interface Props {
+  totalPrograms: number;
+  withBounties: number;
+  withSafeHarbor: number;
+}
+
+const { totalPrograms, withBounties, withSafeHarbor } = Astro.props;
+---
+
+<div class="stats">
+  <Tooltip text={tips.statPrograms}><strong>{totalPrograms.toLocaleString()}</strong> programs</Tooltip>
+  <Tooltip text={tips.statBounties}><strong>{withBounties.toLocaleString()}</strong> with bounties</Tooltip>
+  <Tooltip text={tips.statSafeHarbor}><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</Tooltip>
+</div>
+
+<style>
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 0 auto 1rem;
+    width: var(--content-width);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .stats strong {
+    color: var(--primary);
+  }
+</style>

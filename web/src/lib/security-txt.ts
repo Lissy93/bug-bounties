@@ -1,7 +1,7 @@
-import pLimit from 'p-limit';
-import type { BountyProgram, SecurityTxtData } from '../types/Company';
-import { resolvePrimaryDomain } from './domain';
-import { log } from './log';
+import pLimit from "p-limit";
+import type { BountyProgram, SecurityTxtData } from "../types/Company";
+import { resolvePrimaryDomain } from "./domain";
+import { log } from "./log";
 
 const TIMEOUT_MS = 5000;
 const CONCURRENCY = 50;
@@ -16,17 +16,19 @@ async function fetchWithTimeout(url: string): Promise<string | null> {
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { 'User-Agent': 'bug-bounties-directory/1.0 (security.txt checker)' },
-      redirect: 'follow',
+      headers: {
+        "User-Agent": "bug-bounties-directory/1.0 (security.txt checker)",
+      },
+      redirect: "follow",
     });
     if (!res.ok) return null;
-    const contentType = res.headers.get('content-type') || '';
-    if (contentType.includes('html')) return null;
-    const length = parseInt(res.headers.get('content-length') || '0', 10);
+    const contentType = res.headers.get("content-type") || "";
+    if (contentType.includes("html")) return null;
+    const length = parseInt(res.headers.get("content-length") || "0", 10);
     if (length > MAX_BODY_BYTES) return null;
     const text = await res.text();
     if (text.length > MAX_BODY_BYTES) return null;
-    if (!text.includes('Contact:') && !text.includes('contact:')) return null;
+    if (!text.includes("Contact:") && !text.includes("contact:")) return null;
     return text;
   } catch {
     return null;
@@ -40,11 +42,11 @@ function parseSecurityTxt(text: string, rawUrl: string): SecurityTxtData {
   const contacts: string[] = [];
   const encryptions: string[] = [];
 
-  for (const line of text.split('\n')) {
+  for (const line of text.split("\n")) {
     const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('#')) continue;
+    if (!trimmed || trimmed.startsWith("#")) continue;
 
-    const colonIdx = trimmed.indexOf(':');
+    const colonIdx = trimmed.indexOf(":");
     if (colonIdx === -1) continue;
 
     const key = trimmed.slice(0, colonIdx).trim().toLowerCase();
@@ -52,29 +54,29 @@ function parseSecurityTxt(text: string, rawUrl: string): SecurityTxtData {
     if (!value) continue;
 
     switch (key) {
-      case 'contact':
+      case "contact":
         contacts.push(value);
         break;
-      case 'encryption':
+      case "encryption":
         encryptions.push(value);
         break;
-      case 'acknowledgments':
-      case 'acknowledgements':
+      case "acknowledgments":
+      case "acknowledgements":
         data.acknowledgments = value;
         break;
-      case 'preferred-languages':
+      case "preferred-languages":
         data.preferredLanguages = value;
         break;
-      case 'hiring':
+      case "hiring":
         data.hiring = value;
         break;
-      case 'expires':
+      case "expires":
         data.expires = value;
         break;
-      case 'policy':
+      case "policy":
         data.policy = value;
         break;
-      case 'canonical':
+      case "canonical":
         data.canonical = value;
         break;
     }
@@ -93,7 +95,9 @@ function parseSecurityTxt(text: string, rawUrl: string): SecurityTxtData {
   return data;
 }
 
-async function fetchSecurityTxt(domain: string): Promise<SecurityTxtData | null> {
+async function fetchSecurityTxt(
+  domain: string,
+): Promise<SecurityTxtData | null> {
   if (cache.has(domain)) return cache.get(domain) ?? null;
 
   const wellKnownUrl = `https://${domain}/.well-known/security.txt`;
@@ -112,7 +116,8 @@ async function fetchSecurityTxt(domain: string): Promise<SecurityTxtData | null>
   }
 
   const parsed = parseSecurityTxt(text, usedUrl);
-  const hasMeaningfulData = parsed.contact?.length || parsed.policy || parsed.acknowledgments;
+  const hasMeaningfulData =
+    parsed.contact?.length || parsed.policy || parsed.acknowledgments;
   if (!hasMeaningfulData) {
     cache.set(domain, null);
     return null;
@@ -145,7 +150,10 @@ export async function fetchAllSecurityTxt(
       domainToSlugs.set(domain, slugs);
     }
 
-    log.info('security-txt', `Fetching security.txt for ${domainToSlugs.size} unique domains...`);
+    log.info(
+      "security-txt",
+      `Fetching security.txt for ${domainToSlugs.size} unique domains...`,
+    );
     const entries = [...domainToSlugs.entries()];
     await Promise.allSettled(
       entries.map(([domain, slugs]) =>
@@ -159,9 +167,9 @@ export async function fetchAllSecurityTxt(
         }),
       ),
     );
-    log.info('security-txt', `Found security.txt for ${results.size} programs`);
+    log.info("security-txt", `Found security.txt for ${results.size} programs`);
   } catch (err) {
-    log.warn('security-txt', 'Failed to fetch', err);
+    log.warn("security-txt", "Failed to fetch", err);
   }
 
   cachedResults = results;

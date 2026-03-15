@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let text: string = '';
+  export let text: string = "";
 </script>
 
 {#if text}
@@ -25,7 +25,7 @@
     background: var(--background, #0c121a);
     color: var(--foreground, #fff);
     font-size: 0.75rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: normal;
     line-height: 1.4;
     padding: 0.35rem 0.6rem;

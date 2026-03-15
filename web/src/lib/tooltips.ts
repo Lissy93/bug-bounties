@@ -1,54 +1,79 @@
 export const tips: Record<string, string> = {
-  bounty: 'This program pays monetary rewards for valid reports',
-  swag: 'This program offers merchandise or branded items as rewards',
-  recognition: 'This program offers public credit, such as a hall of fame listing',
-  safeHarborFull: 'Full legal protection for good-faith security researchers',
-  safeHarborPartial: 'Some legal protection for researchers, with conditions',
-  responseTime: 'Average time to receive a first response after submitting a report',
-  bountyTime: 'Average time from report submission to bounty payout',
-  resolutionTime: 'Average time from report submission to the issue being fixed',
-  responseEfficiency: 'Overall responsiveness score based on triage and resolution speed',
-  managed: 'Program is operated through a third-party bug bounty platform',
-  confidentiality: 'Whether program details and reports are public or private',
-  allowsDisclosure: 'Whether researchers may publish findings after resolution',
-  pgpKey: 'PGP encryption key for sending sensitive report details securely',
-  securityTxt: 'A standardized file that lists security contact information',
-  preferredLanguages: 'Languages the security team prefers for report submissions',
-  hiring: 'This company is actively hiring security researchers',
-  payout: 'The bounty payout range for valid vulnerability reports',
-  statPrograms: 'Total number of bug bounty and disclosure programs listed',
-  statBounties: 'Programs that offer monetary rewards',
-  statSafeHarbor: 'Programs with legal protections for good-faith researchers',
-  trancoRank: 'Website popularity ranking from the Tranco top-1M list - lower is more popular',
-  scopeTargets: 'Number of targets in scope, grouped by type (web, mobile, API, other)',
-  eligibleForBounty: 'Whether this target is eligible for monetary bounty rewards',
-  bountySplitting: 'Whether the program allows bounty rewards to be split among multiple researchers',
-  securityTxtContact: 'Contact information published in the security.txt file (RFC 9116)',
-  securityTxtExpired: 'This security.txt file has passed its expiry date and may be outdated',
-  kevSection: 'Vulnerabilities confirmed by CISA as actively exploited in the wild - from the Known Exploited Vulnerabilities catalog',
-  kevRansomware: 'Number of these CVEs known to be used in ransomware campaigns',
-  epssScore: 'EPSS (Exploit Prediction Scoring System) estimates the probability this CVE will be exploited in the next 30 days',
-  filterBounty: 'Show programs that pay monetary rewards',
-  filterRecognition: 'Show programs that offer public credit or hall of fame',
-  filterSwag: 'Show programs that offer merchandise or branded items',
-  filterSafeHarbor: 'Show programs with legal protections for researchers',
-  filterManaged: 'Show programs operated through a bug bounty platform',
-  filterHasPayout: 'Show programs with a defined payout range',
-  filterTop1k: 'Show programs from the most popular websites (Tranco top 1,000)',
-  filterKev: 'Show programs with known exploited vulnerabilities (CISA KEV)',
-  programType: 'Whether this is a paid bug bounty, a vulnerability disclosure program (VDP), or a hybrid of both',
-  programStatus: 'Whether the program is currently accepting new vulnerability reports',
-  testingPolicy: 'Link to the full set of rules and requirements for testing',
-  excludedMethods: 'Testing techniques that are explicitly forbidden by this program',
-  requiresAccount: 'Whether you need to create an account on the target before testing',
-  payoutTable: 'Maximum payout amounts broken down by vulnerability severity',
-  disclosureTimeline: 'The coordinated disclosure window - how many days before you may publish findings',
-  responseSla: 'The time the program commits to for initial acknowledgment of your report',
-  legalTerms: 'Link to the legal terms and participation agreement for this program',
-  hallOfFame: 'Link to the researcher acknowledgments or hall of fame page',
-  swagDetails: 'Description of merchandise or branded items offered as rewards',
-  reportingUrl: 'The specific URL where you submit vulnerability reports',
-  standards: 'Industry standards or frameworks the program follows',
-  scope: 'Structured list of assets that are in scope for testing',
-  outOfScope: 'Targets, categories, or vulnerability types that are explicitly excluded',
+  bounty: "This program pays monetary rewards for valid reports",
+  swag: "This program offers merchandise or branded items as rewards",
+  recognition:
+    "This program offers public credit, such as a hall of fame listing",
+  safeHarborFull: "Full legal protection for good-faith security researchers",
+  safeHarborPartial: "Some legal protection for researchers, with conditions",
+  responseTime:
+    "Average time to receive a first response after submitting a report",
+  bountyTime: "Average time from report submission to bounty payout",
+  resolutionTime:
+    "Average time from report submission to the issue being fixed",
+  responseEfficiency:
+    "Overall responsiveness score based on triage and resolution speed",
+  managed: "Program is operated through a third-party bug bounty platform",
+  confidentiality: "Whether program details and reports are public or private",
+  allowsDisclosure: "Whether researchers may publish findings after resolution",
+  pgpKey: "PGP encryption key for sending sensitive report details securely",
+  securityTxt: "A standardized file that lists security contact information",
+  preferredLanguages:
+    "Languages the security team prefers for report submissions",
+  hiring: "This company is actively hiring security researchers",
+  payout: "The bounty payout range for valid vulnerability reports",
+  statPrograms: "Total number of bug bounty and disclosure programs listed",
+  statBounties: "Programs that offer monetary rewards",
+  statSafeHarbor: "Programs with legal protections for good-faith researchers",
+  trancoRank:
+    "Website popularity ranking from the Tranco top-1M list - lower is more popular",
+  scopeTargets:
+    "Number of targets in scope, grouped by type (web, mobile, API, other)",
+  eligibleForBounty:
+    "Whether this target is eligible for monetary bounty rewards",
+  bountySplitting:
+    "Whether the program allows bounty rewards to be split among multiple researchers",
+  securityTxtContact:
+    "Contact information published in the security.txt file (RFC 9116)",
+  securityTxtExpired:
+    "This security.txt file has passed its expiry date and may be outdated",
+  kevSection:
+    "Vulnerabilities confirmed by CISA as actively exploited in the wild - from the Known Exploited Vulnerabilities catalog",
+  kevRansomware:
+    "Number of these CVEs known to be used in ransomware campaigns",
+  epssScore:
+    "EPSS (Exploit Prediction Scoring System) estimates the probability this CVE will be exploited in the next 30 days",
+  filterBounty: "Show programs that pay monetary rewards",
+  filterRecognition: "Show programs that offer public credit or hall of fame",
+  filterSwag: "Show programs that offer merchandise or branded items",
+  filterSafeHarbor: "Show programs with legal protections for researchers",
+  filterManaged: "Show programs operated through a bug bounty platform",
+  filterHasPayout: "Show programs with a defined payout range",
+  filterTop1k:
+    "Show programs from the most popular websites (Tranco top 1,000)",
+  filterKev: "Show programs with known exploited vulnerabilities (CISA KEV)",
+  programType:
+    "Whether this is a paid bug bounty, a vulnerability disclosure program (VDP), or a hybrid of both",
+  programStatus:
+    "Whether the program is currently accepting new vulnerability reports",
+  testingPolicy: "Link to the full set of rules and requirements for testing",
+  excludedMethods:
+    "Testing techniques that are explicitly forbidden by this program",
+  requiresAccount:
+    "Whether you need to create an account on the target before testing",
+  payoutTable: "Maximum payout amounts broken down by vulnerability severity",
+  disclosureTimeline:
+    "The coordinated disclosure window - how many days before you may publish findings",
+  responseSla:
+    "The time the program commits to for initial acknowledgment of your report",
+  legalTerms:
+    "Link to the legal terms and participation agreement for this program",
+  hallOfFame: "Link to the researcher acknowledgments or hall of fame page",
+  swagDetails: "Description of merchandise or branded items offered as rewards",
+  reportingUrl: "The specific URL where you submit vulnerability reports",
+  standards: "Industry standards or frameworks the program follows",
+  scope: "Structured list of assets that are in scope for testing",
+  outOfScope:
+    "Targets, categories, or vulnerability types that are explicitly excluded",
+  bookmarkAdd: "Save this program for quick access later",
+  bookmarkRemove: "Remove this program from your saved list",
 };

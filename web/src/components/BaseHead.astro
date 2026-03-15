@@ -9,28 +9,28 @@ interface Props {
 }
 
 const {
-  title = 'Bug Bounties',
-  description = 'List of companies who accept responsible disclosure of security vulnerabilities',
+  title = "Bug Bounties",
+  description = "List of companies who accept responsible disclosure of security vulnerabilities",
   canonicalUrl = Astro.url.href,
-  ogImage = 'https://bug-bounties.as93.net/banner.png',
+  ogImage = "https://bug-bounties.as93.net/banner.jpg",
   noindex = false,
   jsonLd,
 } = Astro.props;
 
-const siteUrl = 'https://bug-bounties.as93.net';
+const siteUrl = "https://bug-bounties.as93.net";
 
 const defaultJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
+  "@context": "https://schema.org",
+  "@type": "WebSite",
   url: siteUrl,
-  name: 'Bug Bounties',
+  name: "Bug Bounties",
   description,
   publisher: {
-    '@type': 'Organization',
-    name: 'Alicia Sykes',
+    "@type": "Organization",
+    name: "Alicia Sykes",
     logo: {
-      '@type': 'ImageObject',
-      url: 'https://github.com/lissy93.png',
+      "@type": "ImageObject",
+      url: "https://github.com/lissy93.png",
     },
   },
 };
@@ -40,32 +40,37 @@ const structuredData = jsonLd || defaultJsonLd;
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
-<meta name="title" content={title}>
-<meta name="description" content={description}>
-<link rel="canonical" href={canonicalUrl}>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="alternate" hreflang="en" href={canonicalUrl}>
-<link rel="icon" type="image/png" href="/favicon.png">
-<meta name="theme-color" content="#FDC500">
-{noindex && <meta name="robots" content="noindex, nofollow">}
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<link rel="alternate" hreflang="en" href={canonicalUrl} />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#FDC500" />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content={canonicalUrl}>
-<meta property="og:title" content={title}>
-<meta property="og:description" content={description}>
-<meta property="og:image" content={ogImage}>
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content={canonicalUrl}>
-<meta name="twitter:title" content={title}>
-<meta name="twitter:description" content={description}>
-<meta name="twitter:image" content={ogImage}>
-<meta name="twitter:site" content="@Lissy_Sykes">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:site" content="@Lissy_Sykes" />
 
 <!-- Hit count -->
-<script defer data-domain="bug-bounties.as93.net" src="https://no-track.as93.net/js/script.js"></script>
+<script
+  defer
+  data-domain="bug-bounties.as93.net"
+  src="https://no-track.as93.net/js/script.js"></script>
 
 <!-- JSON-LD Structure -->
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

@@ -1,22 +1,17 @@
 <script lang="ts">
-  import { resolveLogoDomain } from '../lib/domain';
+  import { resolveLogoDomain } from "../lib/domain";
 
   export let url: string;
-  export let alt: string = '';
-  export let size: string = '3rem';
-  export let slug: string = '';
+  export let alt: string = "";
+  export let size: string = "3rem";
+  export let slug: string = "";
   export let domains: string[] | undefined = undefined;
 
-  const LOGO_DEV_KEY = 'pk_CUjqJFL5SrKJlq9E70blQA';
+  const LOGO_DEV_KEY = "pk_CUjqJFL5SrKJlq9E70blQA";
 
-  let hostname = '';
-  try {
-    hostname = new URL(url).hostname;
-  } catch {
-    hostname = '';
-  }
-
-  const resolvedDomain = resolveLogoDomain({ url, domains } as any);
+  const resolvedDomain = resolveLogoDomain({ url, domains } as Parameters<
+    typeof resolveLogoDomain
+  >[0]);
 
   // Build the ordered fallback chain
   type Tier = { src: string };
@@ -24,7 +19,9 @@
 
   // Tier 1: Google S2 at 128px (resolved domain) - free, high-res
   if (resolvedDomain) {
-    tiers.push({ src: `https://www.google.com/s2/favicons?domain=${resolvedDomain}&sz=128` });
+    tiers.push({
+      src: `https://www.google.com/s2/favicons?domain=${resolvedDomain}&sz=128`,
+    });
   }
 
   // Tier 2: favicon.im (resolved domain) - free fallback
@@ -34,23 +31,27 @@
 
   // Tier 3: Logo.dev by domain (resolved domain) - uses API quota
   if (resolvedDomain) {
-    tiers.push({ src: `https://img.logo.dev/${resolvedDomain}?token=${LOGO_DEV_KEY}&size=128` });
+    tiers.push({
+      src: `https://img.logo.dev/${resolvedDomain}?token=${LOGO_DEV_KEY}&size=128`,
+    });
   }
 
   // Tier 4: Logo.dev by name (slug, for platform URLs without domains) - uses API quota
   if (!resolvedDomain && slug) {
-    tiers.push({ src: `https://img.logo.dev/${slug}.com?token=${LOGO_DEV_KEY}&size=128` });
+    tiers.push({
+      src: `https://img.logo.dev/${slug}.com?token=${LOGO_DEV_KEY}&size=128`,
+    });
   }
 
   let tierIndex = 0;
-  let src = tiers.length > 0 ? tiers[0].src : '';
+  let src = tiers.length > 0 ? tiers[0].src : "";
 
   function advance() {
     tierIndex++;
     if (tierIndex < tiers.length) {
       src = tiers[tierIndex].src;
     } else {
-      src = '';
+      src = "";
     }
   }
 
@@ -67,13 +68,13 @@
     }
   }
 
-  $: initial = alt ? alt.charAt(0).toUpperCase() : '?';
+  $: initial = alt ? alt.charAt(0).toUpperCase() : "?";
 </script>
 
 {#if src}
   <img
     {alt}
-    src={src}
+    {src}
     width={size}
     height={size}
     loading="lazy"
@@ -83,7 +84,12 @@
     on:load={handleLoad}
   />
 {:else}
-  <span class="placeholder" style="width: {size}; height: {size}; font-size: calc({size} / 2);">
+  <span
+    class="placeholder"
+    role="img"
+    aria-label={alt}
+    style="width: {size}; height: {size}; font-size: calc({size} / 2);"
+  >
     {initial}
   </span>
 {/if}
@@ -95,7 +101,7 @@
   }
   .placeholder {
     border-radius: var(--curve, 4px);
-    background: var(--primary-muted, #FDC50087);
+    background: var(--primary-muted, #fdc50087);
     color: var(--background, #0c121a);
     display: inline-flex;
     align-items: center;

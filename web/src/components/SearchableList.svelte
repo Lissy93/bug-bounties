@@ -1,10 +1,20 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
-  import { DollarSign, Award, Gift, Shield, Settings, Wallet, TrendingUp, Bug } from 'lucide-svelte';
-  import type { ListProgram } from '../types/Company';
-  import CompanyCard from './CompanyCard.svelte';
-  import Chip from './Chip.svelte';
-  import { tips } from '../lib/tooltips';
+  import { onDestroy } from "svelte";
+  import {
+    DollarSign,
+    Award,
+    Gift,
+    Shield,
+    Settings,
+    Wallet,
+    TrendingUp,
+    Bug,
+  } from "lucide-svelte";
+  import type { ListProgram } from "../types/Company";
+  import CompanyCard from "./CompanyCard.svelte";
+  import BookmarkedPrograms from "./BookmarkedPrograms.svelte";
+  import Chip from "./Chip.svelte";
+  import { tips } from "../lib/tooltips";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
@@ -12,8 +22,8 @@
 
   const PAGE_SIZE = 60;
 
-  let searchInput = '';
-  let searchTerm = '';
+  let searchInput = "";
+  let searchTerm = "";
   let debounceTimer: ReturnType<typeof setTimeout>;
   let filterBounty = false;
   let filterRecognition = false;
@@ -23,18 +33,25 @@
   let filterHasPayout = false;
   let filterTop1k = false;
   let filterHasKev = false;
-  let sortBy: 'recommended' | 'name' | 'payout-desc' | 'popularity' | 'most-exploited' = 'recommended';
+  let sortBy:
+    | "recommended"
+    | "name"
+    | "payout-desc"
+    | "popularity"
+    | "most-exploited" = "recommended";
   let visibleCount = PAGE_SIZE;
 
   function onSearchInput() {
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => { searchTerm = searchInput; }, 250);
+    debounceTimer = setTimeout(() => {
+      searchTerm = searchInput;
+    }, 250);
   }
 
   onDestroy(() => clearTimeout(debounceTimer));
 
   $: hasActiveFilters =
-    searchInput !== '' ||
+    searchInput !== "" ||
     filterBounty ||
     filterRecognition ||
     filterSwag ||
@@ -51,30 +68,38 @@
       const matchesHandle = p.handle?.toLowerCase().includes(term) ?? false;
       if (!matchesCompany && !matchesHandle) return false;
     }
-    if (filterBounty && !(p.rewards?.includes('*bounty'))) return false;
-    if (filterRecognition && !(p.rewards?.includes('*recognition'))) return false;
-    if (filterSwag && !(p.rewards?.includes('*swag'))) return false;
-    if (filterSafeHarbor && !(p.safe_harbor === 'full' || p.safe_harbor === 'partial')) return false;
+    if (filterBounty && !p.rewards?.includes("*bounty")) return false;
+    if (filterRecognition && !p.rewards?.includes("*recognition")) return false;
+    if (filterSwag && !p.rewards?.includes("*swag")) return false;
+    if (
+      filterSafeHarbor &&
+      !(p.safe_harbor === "full" || p.safe_harbor === "partial")
+    )
+      return false;
     if (filterManaged && !p.managed) return false;
     if (filterHasPayout && p.max_payout == null) return false;
-    if (filterTop1k && (trancoRanks[p.slug] == null || trancoRanks[p.slug] > 1000)) return false;
+    if (
+      filterTop1k &&
+      (trancoRanks[p.slug] == null || trancoRanks[p.slug] > 1000)
+    )
+      return false;
     if (filterHasKev && !kevCounts[p.slug]) return false;
     return true;
   });
 
   $: sorted = (() => {
-    if (sortBy === 'name') return filtered;
-    if (sortBy === 'recommended') {
+    if (sortBy === "name") return filtered;
+    if (sortBy === "recommended") {
       return [...filtered].sort((a, b) => b.completeness - a.completeness);
     }
-    if (sortBy === 'popularity') {
+    if (sortBy === "popularity") {
       return [...filtered].sort((a, b) => {
         const aRank = trancoRanks[a.slug] ?? Infinity;
         const bRank = trancoRanks[b.slug] ?? Infinity;
         return aRank - bRank;
       });
     }
-    if (sortBy === 'most-exploited') {
+    if (sortBy === "most-exploited") {
       return [...filtered].sort((a, b) => {
         const aKev = kevCounts[a.slug] ?? 0;
         const bKev = kevCounts[b.slug] ?? 0;
@@ -89,9 +114,21 @@
   })();
 
   // Reset visible count when filters/sort change
-  $: searchTerm, filterBounty, filterRecognition, filterSwag, filterSafeHarbor,
-     filterManaged, filterHasPayout, filterTop1k, filterHasKev, sortBy,
-     (visibleCount = PAGE_SIZE);
+  $: if (
+    searchTerm ||
+    filterBounty ||
+    filterRecognition ||
+    filterSwag ||
+    filterSafeHarbor ||
+    filterManaged ||
+    filterHasPayout ||
+    filterTop1k ||
+    filterHasKev ||
+    sortBy ||
+    true
+  ) {
+    visibleCount = PAGE_SIZE;
+  }
 
   function observeSentinel(node: HTMLElement) {
     const observer = new IntersectionObserver(
@@ -100,15 +137,15 @@
           visibleCount = Math.min(visibleCount + PAGE_SIZE, sorted.length);
         }
       },
-      { rootMargin: '400px' }
+      { rootMargin: "400px" },
     );
     observer.observe(node);
     return { destroy: () => observer.disconnect() };
   }
 
   function clearAll() {
-    searchInput = '';
-    searchTerm = '';
+    searchInput = "";
+    searchTerm = "";
     clearTimeout(debounceTimer);
     filterBounty = false;
     filterRecognition = false;
@@ -118,9 +155,11 @@
     filterHasPayout = false;
     filterTop1k = false;
     filterHasKev = false;
-    sortBy = 'recommended';
+    sortBy = "recommended";
   }
 </script>
+
+<BookmarkedPrograms {programs} {trancoRanks} {kevCounts} />
 
 <div class="toolbar">
   <div class="search-row">
@@ -140,28 +179,84 @@
     </select>
   </div>
   <div class="chip-row">
-    <Chip interactive pill color="var(--success)" active={filterBounty} tooltip={tips.filterBounty} on:click={() => filterBounty = !filterBounty}>
+    <Chip
+      interactive
+      pill
+      color="var(--success)"
+      active={filterBounty}
+      tooltip={tips.filterBounty}
+      on:click={() => (filterBounty = !filterBounty)}
+    >
       <DollarSign size={14} />Bounty
     </Chip>
-    <Chip interactive pill color="var(--accent)" active={filterRecognition} tooltip={tips.filterRecognition} on:click={() => filterRecognition = !filterRecognition}>
+    <Chip
+      interactive
+      pill
+      color="var(--accent)"
+      active={filterRecognition}
+      tooltip={tips.filterRecognition}
+      on:click={() => (filterRecognition = !filterRecognition)}
+    >
       <Award size={14} />Recognition
     </Chip>
-    <Chip interactive pill color="var(--info)" active={filterSwag} tooltip={tips.filterSwag} on:click={() => filterSwag = !filterSwag}>
+    <Chip
+      interactive
+      pill
+      color="var(--info)"
+      active={filterSwag}
+      tooltip={tips.filterSwag}
+      on:click={() => (filterSwag = !filterSwag)}
+    >
       <Gift size={14} />Swag
     </Chip>
-    <Chip interactive pill color="var(--success)" active={filterSafeHarbor} tooltip={tips.filterSafeHarbor} on:click={() => filterSafeHarbor = !filterSafeHarbor}>
+    <Chip
+      interactive
+      pill
+      color="var(--success)"
+      active={filterSafeHarbor}
+      tooltip={tips.filterSafeHarbor}
+      on:click={() => (filterSafeHarbor = !filterSafeHarbor)}
+    >
       <Shield size={14} />Safe Harbor
     </Chip>
-    <Chip interactive pill color="var(--primary)" active={filterManaged} tooltip={tips.filterManaged} on:click={() => filterManaged = !filterManaged}>
+    <Chip
+      interactive
+      pill
+      color="var(--primary)"
+      active={filterManaged}
+      tooltip={tips.filterManaged}
+      on:click={() => (filterManaged = !filterManaged)}
+    >
       <Settings size={14} />Managed
     </Chip>
-    <Chip interactive pill color="var(--primary)" active={filterHasPayout} tooltip={tips.filterHasPayout} on:click={() => filterHasPayout = !filterHasPayout}>
+    <Chip
+      interactive
+      pill
+      color="var(--primary)"
+      active={filterHasPayout}
+      tooltip={tips.filterHasPayout}
+      on:click={() => (filterHasPayout = !filterHasPayout)}
+    >
       <Wallet size={14} />Has Payout
     </Chip>
-    <Chip interactive pill color="var(--accent)" active={filterTop1k} tooltip={tips.filterTop1k} on:click={() => filterTop1k = !filterTop1k}>
+    <Chip
+      interactive
+      pill
+      color="var(--cyan)"
+      active={filterTop1k}
+      tooltip={tips.filterTop1k}
+      on:click={() => (filterTop1k = !filterTop1k)}
+    >
       <TrendingUp size={14} />Top 1K Sites
     </Chip>
-    <Chip interactive pill color="var(--danger)" active={filterHasKev} tooltip={tips.filterKev} on:click={() => filterHasKev = !filterHasKev}>
+    <Chip
+      interactive
+      pill
+      color="var(--danger)"
+      active={filterHasKev}
+      tooltip={tips.filterKev}
+      on:click={() => (filterHasKev = !filterHasKev)}
+    >
       <Bug size={14} />Known Exploits
     </Chip>
     {#if hasActiveFilters}
@@ -174,7 +269,11 @@
 {#if sorted.length > 0}
   <ul class="program-list">
     {#each sorted.slice(0, visibleCount) as program (program.slug)}
-      <CompanyCard {program} trancoRank={trancoRanks[program.slug]} kevCount={kevCounts[program.slug]} />
+      <CompanyCard
+        {program}
+        trancoRank={trancoRanks[program.slug]}
+        kevCount={kevCounts[program.slug]}
+      />
     {/each}
   </ul>
   {#if visibleCount < sorted.length}
@@ -203,7 +302,7 @@
     flex: 1;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    border: 1px solid var(--primary-muted, #FDC50087);
+    border: 1px solid var(--primary-muted, #fdc50087);
     border-radius: var(--curve, 4px);
     color: var(--foreground);
     background: var(--background-lighter);
@@ -214,7 +313,7 @@
   .search-row select {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
-    border: 1px solid var(--primary-muted, #FDC50087);
+    border: 1px solid var(--primary-muted, #fdc50087);
     border-radius: var(--curve, 4px);
     color: var(--foreground);
     background: var(--background-lighter);
@@ -242,7 +341,7 @@
   }
   .program-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1rem;
     list-style: none;
     padding: 0;

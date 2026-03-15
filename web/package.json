@@ -2,27 +2,56 @@
   "name": "web",
   "type": "module",
   "version": "0.0.1",
+  "description": "Searchable database of bug bounty and responsible disclosure programs",
+  "author": "Alicia Sykes",
+  "license": "MIT",
+  "homepage": "https://bug-bounties.as93.net",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lissy93/bug-bounties"
+  },
+  "keywords": [
+    "bug-bounty",
+    "security",
+    "responsible-disclosure",
+    "vulnerability"
+  ],
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "type-check": "astro check && svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write 'src/**/*.{astro,svelte,ts,js,css}'",
+    "format:check": "prettier --check 'src/**/*.{astro,svelte,ts,js,css}'",
+    "check": "npm run type-check && npm run lint && npm run format:check"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.1",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/svelte": "^4.0.3",
-    "astro": "^3.4.3",
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/svelte": "^7.2.5",
+    "astro": "^5.18.0",
     "js-yaml": "^4.1.0",
     "lucide-svelte": "^0.577.0",
     "p-limit": "^7.3.0",
     "sass": "^1.69.5",
     "sitemap": "7.1.2",
-    "svelte": "^4.2.0",
+    "svelte": "^5.53.7",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9"
+    "@types/js-yaml": "^4.0.9",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "^10.0.2",
+    "eslint-plugin-astro": "^1.6.0",
+    "eslint-plugin-svelte": "^3.15.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-svelte": "^3.5.1",
+    "svelte-check": "^4.4.4",
+    "typescript-eslint": "^8.56.1"
   }
 }

@@ -1,0 +1,36 @@
+---
+import Header from "../components/Header.astro";
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import BookmarksList from "../components/BookmarksList.svelte";
+import { loadAllPrograms } from "../lib/load-all-programs";
+
+const { listPrograms, trancoRanks, kevCounts } = await loadAllPrograms();
+---
+
+<DefaultLayout
+  title="Saved Programs - Bug Bounties"
+  description="Your bookmarked bug bounty programs for quick access."
+>
+  <Header />
+  <div class="page-heading">
+    <h1>Saved Programs</h1>
+  </div>
+  <BookmarksList
+    programs={listPrograms}
+    {trancoRanks}
+    {kevCounts}
+    client:load
+  />
+</DefaultLayout>
+
+<style>
+  .page-heading {
+    width: var(--content-width);
+    margin: 1.5rem auto 1rem;
+  }
+  .page-heading h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin: 0;
+  }
+</style>
