@@ -15,13 +15,16 @@ const withBounties = programs.filter((p) =>
 const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
 ---
 
-<DefaultLayout>
+<DefaultLayout
+  title="Bug Bounties - Directory of Bug Bounty Programs"
+  description={`Browse ${totalPrograms.toLocaleString()} bug bounty and responsible disclosure programs. Find companies that welcome vulnerability reports, with scopes, rewards and contact details.`}
+>
   <Header />
   <StatsBar {totalPrograms} {withBounties} {withSafeHarbor} />
   <SearchableList
     programs={listPrograms}
     {trancoRanks}
     {kevCounts}
-    client:load
+    client:idle
   />
 </DefaultLayout>

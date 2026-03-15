@@ -13,6 +13,7 @@ jobs:
     outputs:
       lib: ${{ steps.filter.outputs.lib }}
       web: ${{ steps.filter.outputs.web }}
+      docker: ${{ steps.filter.outputs.docker }}
       data: ${{ steps.filter.outputs.data }}
     steps:
       - uses: actions/checkout@v5
@@ -25,6 +26,9 @@ jobs:
               - 'Makefile'
             web:
               - 'web/**'
+            docker:
+              - 'web/**'
+              - '.github/workflows/docker.yml'
             data:
               - 'independent-programs.yml'
               - 'platform-programs.yml'
@@ -96,7 +100,23 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
-      - run: npm run format:check
+      - run: npm run format
+
+  docker-build:
+    name: 'Docker: Build'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.docker == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: web/Dockerfile
+          push: false
+          load: true
+          cache-from: type=gha
 
   data-validation:
     name: 'Data: Validate'
@@ -113,7 +133,7 @@ jobs:
 
   summary:
     name: 'Finish: Report results'
-    needs: [lib-checks, web-lint, web-typecheck, web-format, data-validation]
+    needs: [lib-checks, web-lint, web-typecheck, web-format, docker-build, data-validation]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -125,12 +145,13 @@ jobs:
           echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
 
-          for job in lib-checks web-lint web-typecheck web-format data-validation; do
+          for job in lib-checks web-lint web-typecheck web-format docker-build data-validation; do
             case "$job" in
-              lib-checks)     result="${{ needs.lib-checks.result }}" ;;
-              web-lint)       result="${{ needs.web-lint.result }}" ;;
-              web-typecheck)  result="${{ needs.web-typecheck.result }}" ;;
-              web-format)     result="${{ needs.web-format.result }}" ;;
+              lib-checks)      result="${{ needs.lib-checks.result }}" ;;
+              web-lint)        result="${{ needs.web-lint.result }}" ;;
+              web-typecheck)   result="${{ needs.web-typecheck.result }}" ;;
+              web-format)      result="${{ needs.web-format.result }}" ;;
+              docker-build)    result="${{ needs.docker-build.result }}" ;;
               data-validation) result="${{ needs.data-validation.result }}" ;;
             esac
 

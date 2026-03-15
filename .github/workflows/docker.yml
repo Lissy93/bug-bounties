@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - 'web/**'
-      - 'Dockerfile'
       - '.github/workflows/docker.yml'
     tags:
       - 'v*'

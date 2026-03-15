@@ -1,9 +1,9 @@
 ---
 import Header from "../components/Header.astro";
 import DefaultLayout from "../layouts/DefaultLayout.astro";
-import { loadBounties } from "../lib/data";
+import { loadAllPrograms } from "../lib/load-all-programs";
 
-const programs = loadBounties();
+const { programs } = await loadAllPrograms();
 const count = programs.length;
 
 const apps = [
@@ -114,7 +114,8 @@ const apps = [
         auto-aggregate, you can submit it as an independent program. Fork the
         repository, add your program to <a
           href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"
-          target="_blank"><code>independent-programs.yml</code></a
+          target="_blank"
+          rel="noopener noreferrer"><code>independent-programs.yml</code></a
         >, and open a pull request. Required fields are <code>company</code> and <code
           >url</code
         >. Optional fields include <code>contact</code>,
@@ -129,7 +130,8 @@ const apps = [
       <p>
         Alternatively, you can just use <a
           href="https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml"
-          target="_blank">this form</a
+          target="_blank"
+          rel="noopener noreferrer">this form</a
         >, and we will add your bounty program automatically.
       </p>
     </section>
@@ -308,14 +310,20 @@ SOFTWARE.
         {
           apps.map((app) => (
             <li>
-              <a href={app.url} target="_blank">
-                <img src={app.logo} width="20" />
+              <a href={app.url} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={app.logo}
+                  width="20"
+                  height="20"
+                  alt=""
+                  loading="lazy"
+                />
                 <span>{app.name}</span>
               </a>
               <span> - {app.description}</span>
               <span>
                 (
-                <a href={app.github} target="_blank">
+                <a href={app.github} target="_blank" rel="noopener noreferrer">
                   GitHub
                 </a>
                 )
@@ -390,7 +398,7 @@ SOFTWARE.
     a {
       display: inline-flex;
       gap: 0.25rem;
-      align-items: anchor-center;
+      align-items: center;
     }
   }
 </style>

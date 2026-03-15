@@ -16,7 +16,7 @@
     <h2 class="saved-heading">
       Saved Programs <span class="saved-count">{saved.length}</span>
     </h2>
-    <ul class="saved-list">
+    <ul class="saved-list card-grid">
       {#each saved as program (program.slug)}
         <CompanyCard
           {program}
@@ -49,11 +49,6 @@
     border-radius: 999px;
   }
   .saved-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
     margin: 0;
   }
 </style>

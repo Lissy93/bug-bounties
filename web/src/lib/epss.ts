@@ -23,7 +23,7 @@ export async function fetchEpssScores(): Promise<Map<string, EpssEntry>> {
   const scores = new Map<string, EpssEntry>();
 
   try {
-    const res = await fetch(EPSS_URL);
+    const res = await fetch(EPSS_URL, { signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
       log.warn("epss", `Failed to download scores: HTTP ${res.status}`);
       cachedScores = scores;

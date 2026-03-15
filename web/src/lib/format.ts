@@ -47,6 +47,8 @@ export function formatPayoutTable(
   return rows.length ? rows : null;
 }
 
+import { PLATFORM_HOSTNAMES } from "./domain";
+
 export function formatExcludedMethod(method: string): string {
   return method.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -56,17 +58,6 @@ export function formatExcludedMethod(method: string): string {
  * and is not on a bounty platform. Returns null otherwise.
  */
 export function getHomepageUrl(url: string): string | null {
-  const PLATFORM_HOSTS = [
-    "hackerone.com",
-    "bugcrowd.com",
-    "intigriti.com",
-    "yeswehack.com",
-    "synack.com",
-    "cobalt.io",
-    "federacy.com",
-    "immunefi.com",
-  ];
-
   let parsed: URL;
   try {
     parsed = new URL(url);
@@ -77,14 +68,15 @@ export function getHomepageUrl(url: string): string | null {
   const host = parsed.hostname;
 
   // Skip bounty platforms
-  if (PLATFORM_HOSTS.some((p) => host === p || host.endsWith("." + p))) {
-    return null;
+  for (const p of PLATFORM_HOSTNAMES) {
+    if (host === p || host.endsWith("." + p)) return null;
   }
 
   // Strip www
   const bare = host.startsWith("www.") ? host.slice(4) : host;
   const hasPath = parsed.pathname.replace(/\/+$/, "").length > 0;
-  const hasSubdomain = bare !== host && "www." + bare !== host;
+  const dotCount = bare.split(".").length - 1;
+  const hasSubdomain = dotCount > 1;
 
   if (!hasPath && !hasSubdomain) return null;
 

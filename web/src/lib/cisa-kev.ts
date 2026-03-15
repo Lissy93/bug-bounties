@@ -62,7 +62,7 @@ export async function fetchCisaKev(
   const results = new Map<string, KevData>();
 
   try {
-    const res = await fetch(KEV_URL);
+    const res = await fetch(KEV_URL, { signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
       log.warn("cisa-kev", `Failed to download catalog: HTTP ${res.status}`);
       cachedResults = results;

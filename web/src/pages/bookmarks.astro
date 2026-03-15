@@ -10,6 +10,7 @@ const { listPrograms, trancoRanks, kevCounts } = await loadAllPrograms();
 <DefaultLayout
   title="Saved Programs - Bug Bounties"
   description="Your bookmarked bug bounty programs for quick access."
+  noindex={true}
 >
   <Header />
   <div class="page-heading">
@@ -19,7 +20,7 @@ const { listPrograms, trancoRanks, kevCounts } = await loadAllPrograms();
     programs={listPrograms}
     {trancoRanks}
     {kevCounts}
-    client:load
+    client:idle
   />
 </DefaultLayout>
 

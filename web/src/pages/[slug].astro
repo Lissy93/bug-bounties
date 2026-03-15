@@ -510,7 +510,7 @@ const breadcrumbJsonLd = {
           <div class="scope-targets">
             <h3>In Scope</h3>
             <ul class="target-list">
-              {platformData.inScopeTargets.map((t) => (
+              {platformData.inScopeTargets.slice(0, 20).map((t) => (
                 <li class="target-item">
                   <span class="target-id">{t.identifier}</span>
                   <span class="target-type">{t.type}</span>

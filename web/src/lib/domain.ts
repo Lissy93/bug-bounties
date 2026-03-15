@@ -1,6 +1,6 @@
 import type { BountyProgram } from "../types/Company";
 
-const PLATFORM_HOSTNAMES = new Set([
+export const PLATFORM_HOSTNAMES = new Set([
   "hackerone.com",
   "bugcrowd.com",
   "intigriti.com",

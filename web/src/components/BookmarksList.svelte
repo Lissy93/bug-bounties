@@ -1,21 +1,28 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { Bookmark } from "lucide-svelte";
   import { bookmarks } from "../lib/bookmarks";
   import CompanyCard from "./CompanyCard.svelte";
+  import Loading from "./Loading.svelte";
   import type { ListProgram } from "../types/Company";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
   export let kevCounts: Record<string, number> = {};
 
+  let ready = false;
+  onMount(() => (ready = true));
+
   $: saved = programs.filter((p) => $bookmarks.has(p.slug));
 </script>
 
-{#if saved.length > 0}
+{#if !ready}
+  <Loading label="Loading saved programs" />
+{:else if saved.length > 0}
   <p class="count">
     {saved.length} saved {saved.length === 1 ? "program" : "programs"}
   </p>
-  <ul class="program-list">
+  <ul class="program-list card-grid">
     {#each saved as program (program.slug)}
       <CompanyCard
         {program}
@@ -44,13 +51,8 @@
     font-size: 0.9rem;
   }
   .program-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
     width: var(--content-width, 90%);
+    margin: 0 auto;
   }
   .empty {
     display: flex;

@@ -71,7 +71,8 @@
     cursor: pointer;
     transition: var(--transition);
   }
-  button.chip:hover {
+  button.chip:hover,
+  button.chip:focus-visible {
     border-color: var(--chip-color);
     color: var(--chip-color);
   }

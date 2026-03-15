@@ -42,7 +42,9 @@ export async function fetchDiscloseData(
 
   try {
     log.info("disclose-data", "Fetching Disclose.io program list...");
-    const res = await fetch(DISCLOSE_URL);
+    const res = await fetch(DISCLOSE_URL, {
+      signal: AbortSignal.timeout(15_000),
+    });
     if (!res.ok) {
       log.warn("disclose-data", `HTTP ${res.status}`);
       cached = new Map();

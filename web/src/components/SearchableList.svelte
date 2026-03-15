@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import {
     DollarSign,
     Award,
@@ -13,12 +13,16 @@
   import type { ListProgram } from "../types/Company";
   import CompanyCard from "./CompanyCard.svelte";
   import BookmarkedPrograms from "./BookmarkedPrograms.svelte";
+  import Loading from "./Loading.svelte";
   import Chip from "./Chip.svelte";
   import { tips } from "../lib/tooltips";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
   export let kevCounts: Record<string, number> = {};
+
+  let ready = false;
+  onMount(() => (ready = true));
 
   const PAGE_SIZE = 60;
 
@@ -114,21 +118,18 @@
   })();
 
   // Reset visible count when filters/sort change
-  $: if (
-    searchTerm ||
-    filterBounty ||
-    filterRecognition ||
-    filterSwag ||
-    filterSafeHarbor ||
-    filterManaged ||
-    filterHasPayout ||
-    filterTop1k ||
-    filterHasKev ||
-    sortBy ||
-    true
-  ) {
-    visibleCount = PAGE_SIZE;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  $: (searchTerm,
+    filterBounty,
+    filterRecognition,
+    filterSwag,
+    filterSafeHarbor,
+    filterManaged,
+    filterHasPayout,
+    filterTop1k,
+    filterHasKev,
+    sortBy,
+    (visibleCount = PAGE_SIZE));
 
   function observeSentinel(node: HTMLElement) {
     const observer = new IntersectionObserver(
@@ -159,131 +160,135 @@
   }
 </script>
 
-<BookmarkedPrograms {programs} {trancoRanks} {kevCounts} />
-
-<div class="toolbar">
-  <div class="search-row">
-    <input
-      type="text"
-      placeholder="Search programs..."
-      aria-label="Search programs by name or handle"
-      bind:value={searchInput}
-      on:input={onSearchInput}
-    />
-    <select bind:value={sortBy} aria-label="Sort programs">
-      <option value="recommended">Recommended</option>
-      <option value="name">A - Z</option>
-      <option value="payout-desc">Payout: high to low</option>
-      <option value="popularity">Popularity</option>
-      <option value="most-exploited">Most exploited</option>
-    </select>
-  </div>
-  <div class="chip-row">
-    <Chip
-      interactive
-      pill
-      color="var(--success)"
-      active={filterBounty}
-      tooltip={tips.filterBounty}
-      on:click={() => (filterBounty = !filterBounty)}
-    >
-      <DollarSign size={14} />Bounty
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--accent)"
-      active={filterRecognition}
-      tooltip={tips.filterRecognition}
-      on:click={() => (filterRecognition = !filterRecognition)}
-    >
-      <Award size={14} />Recognition
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--info)"
-      active={filterSwag}
-      tooltip={tips.filterSwag}
-      on:click={() => (filterSwag = !filterSwag)}
-    >
-      <Gift size={14} />Swag
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--success)"
-      active={filterSafeHarbor}
-      tooltip={tips.filterSafeHarbor}
-      on:click={() => (filterSafeHarbor = !filterSafeHarbor)}
-    >
-      <Shield size={14} />Safe Harbor
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--primary)"
-      active={filterManaged}
-      tooltip={tips.filterManaged}
-      on:click={() => (filterManaged = !filterManaged)}
-    >
-      <Settings size={14} />Managed
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--primary)"
-      active={filterHasPayout}
-      tooltip={tips.filterHasPayout}
-      on:click={() => (filterHasPayout = !filterHasPayout)}
-    >
-      <Wallet size={14} />Has Payout
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--cyan)"
-      active={filterTop1k}
-      tooltip={tips.filterTop1k}
-      on:click={() => (filterTop1k = !filterTop1k)}
-    >
-      <TrendingUp size={14} />Top 1K Sites
-    </Chip>
-    <Chip
-      interactive
-      pill
-      color="var(--danger)"
-      active={filterHasKev}
-      tooltip={tips.filterKev}
-      on:click={() => (filterHasKev = !filterHasKev)}
-    >
-      <Bug size={14} />Known Exploits
-    </Chip>
-    {#if hasActiveFilters}
-      <span class="count">{sorted.length} of {programs.length}</span>
-      <button class="clear" on:click={clearAll}>Clear all</button>
-    {/if}
-  </div>
-</div>
-
-{#if sorted.length > 0}
-  <ul class="program-list">
-    {#each sorted.slice(0, visibleCount) as program (program.slug)}
-      <CompanyCard
-        {program}
-        trancoRank={trancoRanks[program.slug]}
-        kevCount={kevCounts[program.slug]}
-      />
-    {/each}
-  </ul>
-  {#if visibleCount < sorted.length}
-    <div class="sentinel" use:observeSentinel></div>
-  {/if}
+{#if !ready}
+  <Loading label="Fetching latest bounty programs" />
 {:else}
-  <div class="nothing">
-    <p>No programs match your filters</p>
-    <button class="clear" on:click={clearAll}>Clear all filters</button>
+  <BookmarkedPrograms {programs} {trancoRanks} {kevCounts} />
+
+  <div class="toolbar">
+    <div class="search-row">
+      <input
+        type="text"
+        placeholder="Search programs..."
+        aria-label="Search programs by name or handle"
+        bind:value={searchInput}
+        on:input={onSearchInput}
+      />
+      <select bind:value={sortBy} aria-label="Sort programs">
+        <option value="recommended">Recommended</option>
+        <option value="name">A - Z</option>
+        <option value="payout-desc">Payout: high to low</option>
+        <option value="popularity">Popularity</option>
+        <option value="most-exploited">Most exploited</option>
+      </select>
+    </div>
+    <div class="chip-row">
+      <Chip
+        interactive
+        pill
+        color="var(--success)"
+        active={filterBounty}
+        tooltip={tips.filterBounty}
+        on:click={() => (filterBounty = !filterBounty)}
+      >
+        <DollarSign size={14} />Bounty
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--accent)"
+        active={filterRecognition}
+        tooltip={tips.filterRecognition}
+        on:click={() => (filterRecognition = !filterRecognition)}
+      >
+        <Award size={14} />Recognition
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--info)"
+        active={filterSwag}
+        tooltip={tips.filterSwag}
+        on:click={() => (filterSwag = !filterSwag)}
+      >
+        <Gift size={14} />Swag
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--success)"
+        active={filterSafeHarbor}
+        tooltip={tips.filterSafeHarbor}
+        on:click={() => (filterSafeHarbor = !filterSafeHarbor)}
+      >
+        <Shield size={14} />Safe Harbor
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--primary)"
+        active={filterManaged}
+        tooltip={tips.filterManaged}
+        on:click={() => (filterManaged = !filterManaged)}
+      >
+        <Settings size={14} />Managed
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--primary)"
+        active={filterHasPayout}
+        tooltip={tips.filterHasPayout}
+        on:click={() => (filterHasPayout = !filterHasPayout)}
+      >
+        <Wallet size={14} />Has Payout
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--cyan)"
+        active={filterTop1k}
+        tooltip={tips.filterTop1k}
+        on:click={() => (filterTop1k = !filterTop1k)}
+      >
+        <TrendingUp size={14} />Top 1K Sites
+      </Chip>
+      <Chip
+        interactive
+        pill
+        color="var(--danger)"
+        active={filterHasKev}
+        tooltip={tips.filterKev}
+        on:click={() => (filterHasKev = !filterHasKev)}
+      >
+        <Bug size={14} />Known Exploits
+      </Chip>
+      {#if hasActiveFilters}
+        <span class="count">{sorted.length} of {programs.length}</span>
+        <button class="clear" on:click={clearAll}>Clear all</button>
+      {/if}
+    </div>
   </div>
+
+  {#if sorted.length > 0}
+    <ul class="program-list card-grid">
+      {#each sorted.slice(0, visibleCount) as program (program.slug)}
+        <CompanyCard
+          {program}
+          trancoRank={trancoRanks[program.slug]}
+          kevCount={kevCounts[program.slug]}
+        />
+      {/each}
+    </ul>
+    {#if visibleCount < sorted.length}
+      <div class="sentinel" use:observeSentinel></div>
+    {/if}
+  {:else}
+    <div class="nothing">
+      <p>No programs match your filters</p>
+      <button class="clear" on:click={clearAll}>Clear all filters</button>
+    </div>
+  {/if}
 {/if}
 
 <style>
@@ -340,13 +345,8 @@
     cursor: pointer;
   }
   .program-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
     width: var(--content-width, 90%);
+    margin: 0 auto;
   }
   .nothing {
     display: flex;

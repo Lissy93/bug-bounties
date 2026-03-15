@@ -3,7 +3,10 @@
 </script>
 
 {#if text}
-  <span class="has-tooltip" data-tooltip={text}><slot /></span>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <span class="has-tooltip" data-tooltip={text} tabindex="0" role="note"
+    ><slot /></span
+  >
 {:else}
   <slot />
 {/if}

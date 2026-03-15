@@ -9,18 +9,18 @@ const year = new Date().getFullYear();
     © <a href="https://github.com/Lissy93">Alicia Sykes</a>
     {" " + year}
   </div>
-  <div>
-    <a href="/about">About</a> |
-    <a href="https://github.com/Lissy93/bug-bounties">Source</a> |
+  <nav aria-label="Footer">
+    <a href="/about">About</a>
+    <a href="https://github.com/Lissy93/bug-bounties">Source</a>
     <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE"
       >License</a
-    > |
+    >
     <a
       href="https://github.com/Lissy93/bug-bounties/blob/main/.github/CONTRIBUTING.md"
       >Contribute</a
-    > |
+    >
     <a href="https://apps.aliciasykes.com">More Apps...</a>
-  </div>
+  </nav>
 </footer>
 
 <style>
@@ -41,8 +41,14 @@ const year = new Date().getFullYear();
   footer a:hover {
     filter: brightness(1.25);
   }
-  footer div {
+  footer div,
+  footer nav {
     padding: 0 1rem;
+  }
+  footer nav a + a::before {
+    content: "|";
+    margin: 0 0.35rem;
+    color: var(--muted);
   }
   @media only screen and (max-width: 800px) {
     footer {

@@ -45,7 +45,7 @@ async function extractFirstFileFromZip(zip: Buffer): Promise<Buffer> {
 async function downloadAndParse(): Promise<Map<string, number>> {
   const ranks = new Map<string, number>();
 
-  const res = await fetch(TRANCO_URL);
+  const res = await fetch(TRANCO_URL, { signal: AbortSignal.timeout(30_000) });
   if (!res.ok || !res.body) {
     log.warn("tranco", `Failed to download list: HTTP ${res.status}`);
     return ranks;

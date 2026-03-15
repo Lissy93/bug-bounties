@@ -289,7 +289,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
     }
   }
 
-  /* ========== Compact mode (non-homepage) ========== */
+  /* Compact mode, used all pages except homepage */
   .compact {
     width: 100%;
     background: var(--background-lighter);
@@ -298,7 +298,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
-    border-radius: 0 0 5px 5px;
+    border-radius: 0 0 8px 8px;
   }
 
   .compact-inner {
