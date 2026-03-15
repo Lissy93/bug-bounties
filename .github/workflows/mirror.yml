@@ -1,0 +1,15 @@
+name: 🪞 Mirror
+on:
+  schedule: [{ cron: '45 01 * * 0' }]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lissy93/repo-mirror-action@v1.5.0
+        with:
+          ssh_key: ${{ secrets.MIRROR_SSH }}
+          host: git@codeberg.org
+          user: alicia
+          repo: bug-bounties

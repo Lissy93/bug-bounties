@@ -1,0 +1,140 @@
+name: 🚦 PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      lib: ${{ steps.filter.outputs.lib }}
+      web: ${{ steps.filter.outputs.web }}
+      data: ${{ steps.filter.outputs.data }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            lib:
+              - 'lib/**'
+              - 'Makefile'
+            web:
+              - 'web/**'
+            data:
+              - 'independent-programs.yml'
+              - 'platform-programs.yml'
+              - 'lib/schema.json'
+
+  lib-checks:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.lib == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r lib/requirements.txt
+      - run: make validate
+
+  web-lint:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  web-typecheck:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run type-check
+
+  web-format:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run format:check
+
+  data-validation:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.data == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r lib/requirements.txt
+      - run: make validate
+
+  summary:
+    needs: [lib-checks, web-lint, web-typecheck, web-format, data-validation]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          failed=0
+          echo "## PR Check Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
+
+          for job in lib-checks web-lint web-typecheck web-format data-validation; do
+            case "$job" in
+              lib-checks)     result="${{ needs.lib-checks.result }}" ;;
+              web-lint)       result="${{ needs.web-lint.result }}" ;;
+              web-typecheck)  result="${{ needs.web-typecheck.result }}" ;;
+              web-format)     result="${{ needs.web-format.result }}" ;;
+              data-validation) result="${{ needs.data-validation.result }}" ;;
+            esac
+
+            if [ "$result" = "failure" ]; then
+              echo "| $job | failed |" >> "$GITHUB_STEP_SUMMARY"
+              failed=1
+            elif [ "$result" = "skipped" ]; then
+              echo "| $job | skipped |" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "| $job | passed |" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+
+          exit "$failed"
