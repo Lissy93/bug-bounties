@@ -4,8 +4,7 @@
   </a>
   <br><br>
   <i>A compiled list of companies who accept responsible disclosure</i><br>
-  <a align="center" href="https://bug-bounties.as93.net">🔎 <b>Browse All Programs</b></a> |
-  <a align="center" href="https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml">➕ <b>Submit New Program</b><br></a>
+  <a align="center" href="https://bug-bounties.as93.net">🌐 <b>bug-bounties.as93.net</b><br></a>
 </p>
 
 <br>
@@ -15,10 +14,7 @@
 ## Top Programs
 
 <!-- bounties-start -->
-<details>
-<summary><b>Expand List</b></summary>
-<sub><b>Key:</b> 💰 = bounty. 🏅 = shout-out. 🎁 = swag.<br>View full list and details at <a href="https://bug-bounties.as93.net/">bug-bounties.as93.net</a></sub>
-<details open><summary><h4>A</h4></summary>
+<details><summary>A (106)</summary>
 
 - <img src='https://icon.horse/icon/www.abnamro.nl' width='16'/> [Abn Amro](https://www.abnamro.nl/en/personal/overabnamro/secure-banking/responsible-disclosure.html) 💰
 - <img src='https://icon.horse/icon/personal.rbs.co.uk' width='16'/> [ABNAMRO BANK](https://personal.rbs.co.uk/personal/fraud-and-security/responsible-disclosure.html) 🏅
@@ -128,7 +124,8 @@
 - <img src='https://icon.horse/icon/azimo.com' width='16'/> [Azimo](https://azimo.com/en/lp/responsible-disclosure) 💰
 
 </details>
-<details open><summary><h4>B</h4></summary>
+
+<details><summary>B (85)</summary>
 
 - <img src='https://icon.horse/icon/www.backblaze.com' width='16'/> [Backblaze](https://www.backblaze.com/security.html) 💰
 - <img src='https://icon.horse/icon/corp.badoo.com' width='16'/> [Badoo](https://corp.badoo.com/security) 💰 🏅
@@ -217,7 +214,8 @@
 - <img src='https://icon.horse/icon/security.bytedance.com' width='16'/> [Bytedance](https://security.bytedance.com/media/score-standard/Vulnerability_Rewards_Program.pdf) 💰
 
 </details>
-<details open><summary><h4>C</h4></summary>
+
+<details><summary>C (98)</summary>
 
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Caffeine](https://bugcrowd.com/caffeine) 💰
 - <img src='https://icon.horse/icon/www.campaignmonitor.com' width='16'/> [Campaign Monitor](https://www.campaignmonitor.com/trust/report-a-vulnerability/) 💰
@@ -319,7 +317,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Cybrary](https://bugcrowd.com/cybrary) 🏅
 
 </details>
-<details open><summary><h4>D</h4></summary>
+
+<details><summary>D (71)</summary>
 
 - <img src='https://icon.horse/icon/d66.nl' width='16'/> [D66](https://d66.nl/responsible-disclosure/) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Dailymotion](https://yeswehack.com/programs/dailymotion-public-bug-bounty) 💰
@@ -394,7 +393,8 @@
 - <img src='https://icon.horse/icon/dyson.com' width='16'/> [Dyson](http://dyson.com) 💰
 
 </details>
-<details open><summary><h4>E</h4></summary>
+
+<details><summary>E (50)</summary>
 
 - <img src='https://icon.horse/icon/www.earlywarning.com' width='16'/> [Early Warning](https://www.earlywarning.com/responsible-disclosure-program) 💰
 - <img src='https://icon.horse/icon/www.easyname.de' width='16'/> [Easyname](https://www.easyname.de/de/support/easyname/253-bug-bounty-programm) 💰
@@ -448,7 +448,8 @@
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Ezviz - Bug Bounty Program](https://yeswehack.com/programs/ezviz-bug-bounty-program) 💰
 
 </details>
-<details open><summary><h4>F</h4></summary>
+
+<details><summary>F (52)</summary>
 
 - <img src='https://icon.horse/icon/www.f-secure.com' width='16'/> [F Secure](https://www.f-secure.com/en/business/programs/vulnerability-reward-program) 💰
 - <img src='https://icon.horse/icon/support.f5.com' width='16'/> [F5 Networks](https://support.f5.com/csp/article/K4602) 💰
@@ -504,7 +505,8 @@
 - <img src='https://icon.horse/icon/www.fusion.org' width='16'/> [FUSION](https://www.fusion.org/developers/bug-bounty#bugs) 💰 🏅
 
 </details>
-<details open><summary><h4>G</h4></summary>
+
+<details><summary>G (36)</summary>
 
 - <img src='https://icon.horse/icon/g.co' width='16'/> [g.cn](https://g.co/vrp) 💰
 - <img src='https://icon.horse/icon/www.gamma.nl' width='16'/> [Gamma](https://www.gamma.nl/klantenservice/veiligheid-privacy/responsible-disclosure) 💰 🏅
@@ -544,7 +546,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Gusto](https://bugcrowd.com/gusto) 💰 🏅
 
 </details>
-<details open><summary><h4>H</h4></summary>
+
+<details><summary>H (43)</summary>
 
 - <img src='https://icon.horse/icon/www2.hm.com' width='16'/> [H&M Group](https://www2.hm.com/security.txt) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Hack Me!](https://bugcrowd.com/hackme) 🏅
@@ -591,7 +594,8 @@
 - <img src='https://icon.horse/icon/www.hypr.com' width='16'/> [HYPR](https://www.hypr.com) 💰
 
 </details>
-<details open><summary><h4>I</h4></summary>
+
+<details><summary>I (53)</summary>
 
 - <img src='https://icon.horse/icon/www.ibm.com' width='16'/> [IBM](https://www.ibm.com/security/secure-engineering/report.html) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Ibotta](https://bugcrowd.com/ibotta) 💰
@@ -648,7 +652,8 @@
 - <img src='https://icon.horse/icon/www.ivanti.com' width='16'/> [Ivanti](https://www.ivanti.com/support/contact-security) 🎁
 
 </details>
-<details open><summary><h4>J</h4></summary>
+
+<details><summary>J (15)</summary>
 
 - <img src='https://icon.horse/icon/www.jamieweb.net' width='16'/> [Jamieweb](https://www.jamieweb.net/contact/) 🏅
 - <img src='https://icon.horse/icon/www.jazznetworks.com' width='16'/> [Jazz Networks](https://www.jazznetworks.com/security/) 🏅
@@ -667,7 +672,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Just Eat Takeaway.com](https://bugcrowd.com/justeattakeaway) 💰
 
 </details>
-<details open><summary><h4>K</h4></summary>
+
+<details><summary>K (30)</summary>
 
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [K15t](https://bugcrowd.com/engagements/k15t) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Kaleido](https://bugcrowd.com/kaleido) 💰
@@ -701,7 +707,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [KuCoin Managed Bug Bounty Program](https://bugcrowd.com/engagements/kucoin) 💰
 
 </details>
-<details open><summary><h4>L</h4></summary>
+
+<details><summary>L (40)</summary>
 
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Lansweeper](https://www.intigriti.com/programs/lansweeper/lansweeper1/detail) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Larksuite](https://hackerone.com/lark_technologies) 💰
@@ -745,7 +752,8 @@
 - <img src='https://icon.horse/icon/www.lyft.com' width='16'/> [Lyft](https://www.lyft.com/security) 💰
 
 </details>
-<details open><summary><h4>M</h4></summary>
+
+<details><summary>M (74)</summary>
 
 - <img src='https://icon.horse/icon/www.m-pesa.africa' width='16'/> [M-Pesa Africa Limited](https://www.m-pesa.africa) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Magento](https://hackerone.com/magento) 💰 🏅
@@ -823,7 +831,8 @@
 - <img src='https://icon.horse/icon/www.maddysoft.com' width='16'/> [MyStuff2 App](https://www.maddysoft.com/iphone/mystuff/bounty.php) 🎁 🏅
 
 </details>
-<details open><summary><h4>N</h4></summary>
+
+<details><summary>N (51)</summary>
 
 - <img src='https://icon.horse/icon/n26.com' width='16'/> [N26](https://n26.com/en-eu/bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/support.narkasa.com' width='16'/> [Narkasa](https://support.narkasa.com/hc/en-us/articles/360011019458-Bug-Bounty) 💰
@@ -878,7 +887,8 @@
 - <img src='https://icon.horse/icon/www.nykaa.com' width='16'/> [Nykaa](https://www.nykaa.com/responsible-disclosure) 🏅
 
 </details>
-<details open><summary><h4>O</h4></summary>
+
+<details><summary>O (61)</summary>
 
 - <img src='https://icon.horse/icon/observu.com' width='16'/> [Observu](https://observu.com/security.php) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Octopus](https://bugcrowd.com/octopus-og) 💰 🏅
@@ -943,7 +953,8 @@
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [OX App Suite](https://yeswehack.com/programs/app-suite) 💰
 
 </details>
-<details open><summary><h4>P</h4></summary>
+
+<details><summary>P (67)</summary>
 
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Paddle.com Public Bug Bounty Program](https://yeswehack.com/programs/paddle-com-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Paddy Power Betfair](https://hackerone.com/flutteruki) 💰
@@ -1014,7 +1025,8 @@
 - <img src='https://icon.horse/icon/www.python.org' width='16'/> [Python](https://www.python.org/news/security/) 💰 🏅
 
 </details>
-<details open><summary><h4>Q</h4></summary>
+
+<details><summary>Q (10)</summary>
 
 - <img src='https://icon.horse/icon/www.qiwi.ru' width='16'/> [Qiwi](https://www.qiwi.ru/page/hack.action) 💰
 - <img src='https://icon.horse/icon/cr.yp.to' width='16'/> [Qmail](https://cr.yp.to/qmail/guarantee.html) 💰
@@ -1028,7 +1040,8 @@
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [QWANT](https://yeswehack.com/programs/qwant) 💰 🏅
 
 </details>
-<details open><summary><h4>R</h4></summary>
+
+<details><summary>R (47)</summary>
 
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Rabobank](https://hackerone.com/rabobank) 💰
 - <img src='https://icon.horse/icon/www.rackspace.com' width='16'/> [Rackspace](https://www.rackspace.com/information/legal/rsdp) 🏅
@@ -1079,7 +1092,8 @@
 - <img src='https://icon.horse/icon/rupiahtoken.com' width='16'/> [RupiahToken](https://rupiahtoken.com/blog/bug-bounty-program) 💰
 
 </details>
-<details open><summary><h4>S</h4></summary>
+
+<details><summary>S (135)</summary>
 
 - <img src='https://icon.horse/icon/www.s-pankki.fi' width='16'/> [S-Pankki](https://www.s-pankki.fi) 💰
 - <img src='https://icon.horse/icon/www.sailthru.com' width='16'/> [Sailthru](https://www.sailthru.com/trust/report-a-vulnerability/) 💰
@@ -1218,7 +1232,8 @@
 - <img src='https://icon.horse/icon/docs.szns.io' width='16'/> [szns](https://docs.szns.io/smart-contracts/bug-bounty) 💰
 
 </details>
-<details open><summary><h4>T</h4></summary>
+
+<details><summary>T (86)</summary>
 
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [T-Mobile](https://bugcrowd.com/t-mobile) 💰
 - <img src='https://icon.horse/icon/www.t-mobile.cz' width='16'/> [T-Mobile CZ](https://www.t-mobile.cz/bug-bounty) 💰
@@ -1308,7 +1323,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [tZERO](https://bugcrowd.com/tzero-vdp) 🏅
 
 </details>
-<details open><summary><h4>U</h4></summary>
+
+<details><summary>U (31)</summary>
 
 - <img src='https://icon.horse/icon/ui.com' width='16'/> [Ubiquiti](https://ui.com) 💰 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Ubiquiti Networks](https://hackerone.com/ui) 💰 🏅
@@ -1343,7 +1359,8 @@
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [UZ Leuven](https://www.intigriti.com/programs/uz%20leuven/uzleuven/detail) 💰
 
 </details>
-<details open><summary><h4>V</h4></summary>
+
+<details><summary>V (36)</summary>
 
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Valve Software](https://hackerone.com/valve) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Venly](https://www.intigriti.com/programs/arkane/arkanenetwork/detail) 💰
@@ -1383,7 +1400,8 @@
 - <img src='https://icon.horse/icon/help.vyond.com' width='16'/> [Vyond](https://help.vyond.com/hc/en-us/articles/360000497723-How-do-I-Report-a-Security-Vulnerability-) 🏅
 
 </details>
-<details open><summary><h4>W</h4></summary>
+
+<details><summary>W (35)</summary>
 
 - <img src='https://icon.horse/icon/wagwalking.com' width='16'/> [Wagwalking](https://wagwalking.com/responsible-disclosure) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/www.walla.co.il' width='16'/> [Walla! Communication](https://www.walla.co.il/.well-know/security.txt) 💰
@@ -1422,7 +1440,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Wyze Bug Bounty](https://bugcrowd.com/engagements/wyze) 💰
 
 </details>
-<details open><summary><h4>X</h4></summary>
+
+<details><summary>X (6)</summary>
 
 - <img src='https://icon.horse/icon/x.com' width='16'/> [X / xAI](https://x.com) 💰 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Xfinity Home & xFi](https://bugcrowd.com/xfinity-home) 💰
@@ -1432,7 +1451,8 @@
 - <img src='https://icon.horse/icon/www.xvideos.com' width='16'/> [XVIDEOS](https://www.xvideos.com) 💰
 
 </details>
-<details open><summary><h4>Y</h4></summary>
+
+<details><summary>Y (11)</summary>
 
 - <img src='https://icon.horse/icon/app.intigriti.com' width='16'/> [Yahoo!](https://app.intigriti.com/programs/yahoo/yahoobugbounty/detail) 💰
 - <img src='https://icon.horse/icon/technet.microsoft.com' width='16'/> [Yammer](https://technet.microsoft.com/en-us/security/dn800983) 💰
@@ -1447,7 +1467,8 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Yuga Labs](https://hackerone.com/yuga_labs) 💰
 
 </details>
-<details open><summary><h4>Z</h4></summary>
+
+<details><summary>Z (21)</summary>
 
 - <img src='https://icon.horse/icon/zabbix.com' width='16'/> [Zabbix](https://zabbix.com) 💰 🎁
 - <img src='https://icon.horse/icon/www.zaful.com' width='16'/> [Zaful](https://www.zaful.com/report-security-issues) 💰
@@ -1472,7 +1493,8 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Zynga Whitehat](https://bugcrowd.com/zynga-vdp) 🏅
 
 </details>
-<details open><summary><h4>#</h4></summary>
+
+<details><summary># (16)</summary>
 
 - <img src='https://icon.horse/icon/registry.internetnz.nz' width='16'/> [.nz Registry](https://registry.internetnz.nz/about/vulnerability-disclosure-policy/) 🏅
 - <img src='https://icon.horse/icon/docs.0x.org' width='16'/> [0x](https://docs.0x.org/developer-resources/bounties) 💰
@@ -1492,7 +1514,6 @@
 - <img src='https://icon.horse/icon/www.98point6.com' width='16'/> [98point6](https://www.98point6.com/responsible-disclosure-policy/) 🏅
 
 </details>
-</details>
 
 <!-- bounties-end -->
 
@@ -1511,11 +1532,8 @@ graph LR
     A[Public Sources] -->|fetch| B[Normalize & Dedup]
     B --> C[Validate]
     C --> D[platform-programs.yml]
-    G[Community Submissions] -->|issue form| H[independent-programs.yml]
     D --> E[README]
-    H --> E
     D --> F[Website]
-    H --> F
 
     style A fill:#4a90d9,stroke:#3a7bc8,color:#fff
     style B fill:#7c5cbf,stroke:#6b4aab,color:#fff
@@ -1523,8 +1541,6 @@ graph LR
     style D fill:#27ae60,stroke:#1e8449,color:#fff
     style E fill:#3498db,stroke:#2980b9,color:#fff
     style F fill:#3498db,stroke:#2980b9,color:#fff
-    style G fill:#4a90d9,stroke:#3a7bc8,color:#fff
-    style H fill:#27ae60,stroke:#1e8449,color:#fff
 ```
 
 ---
@@ -1532,8 +1548,7 @@ graph LR
 
 ## Submitting a Program
 
-To include a new self-managed CVD or bug bounty program to the website, add it to [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) (in alphabetical order by company name).
-Either, fork the repo add you entry(s) and then open a PR, or just [fill in this form](https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml), and we will add it for you.
+To include a new self-managed CVD or bug bounty program to the website, add it to [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) (in alphabetical order by company name).  To get started, fork the repo, add you entry(s) and then open a PR.
 
 <details><summary><b>Fields reference</b></summary>
 
@@ -1635,37 +1650,30 @@ Required fields are `company` and `url`, all others are optional
 
 Start by clone the repo with `git clone git@github.com:Lissy93/bug-bounties.git && cd bug-bounties`
 
-#### Data Aggregation
+Then
 1. `make install` - Setup environment and install dependencies (from [`requirements.txt`](https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt))
 2. `make populate` - Fetch the latest directory of programs, format, and write to `platform-programs.yml`
 3. `make validate` - Verify and validate [`platform-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml) and [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) against the [`schema.json`](https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json)
 4. `make readme` - Generate and insert a summarized list of programs into the [`README.md`](https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md)
 
-#### Website
+For the website, 
 1. `cd web` to navigate into the [`web/`](https://github.com/Lissy93/bug-bounties/tree/main/web) directory
 2. `npm i` to install dependencies
 3. `npm run dev` to start the development server
 4. `npm run build` to build the production site
 
-#### Deployment
-- Option 1) Upload the content of `web/dist/` into any web server, static hosting provider or CDN
-- Option 2) Import the project into Vercel or Netlify directly, where it will be automatically deployed
-- Option 3) For Docker, run `docker run -p 8080:8080 ghcr.io/lissy93/bug-bounties:latest`
+To deploy the website, either:
+- upload the content of `web/dist/` into any web server, static hosting provider or CDN.
+- Or, import the project into Vercel, Netlify or a provider of your choice, where it will built and deployed
 
 Alternatively, all the above tasks can be run directly using GitHub Actions. Simply fork the project, and trigger the workflow(s).
 
 ---
 
-## Mirror
-
-A mirror of this repo and all data is published to CodeBerg, at: **[codeberg.org/alicia/bug-bounties](https://codeberg.org/alicia/bug-bounties)**
-
----
-
 ## Credits
 
-### Sponsors
-Huge thanks to the following kind people, for their ongoing support in funding this, and other of my projects via [GitHub Sponsors](https://github.com/sponsors/lissy93)
+### Supporters
+Huge thanks to the following kind people, for their ongoing support in funding this, and other of my projects via GitHub Sponsors
 
 [![Sponsors](https://readme-contribs.as93.net/sponsors/lissy93?shape=squircle&textColor=666666)](https://github.com/sponsors/Lissy93)
 
@@ -1743,5 +1751,4 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               |     /          |     /     ~-.     ~- _
               |_____|          |_____|         ~ - . _ _~_-_
 -->
-
 
