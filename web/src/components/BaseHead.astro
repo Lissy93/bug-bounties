@@ -68,9 +68,14 @@ const structuredData = jsonLd || defaultJsonLd;
 
 <!-- Hit count -->
 <script
+  is:inline
   defer
   data-domain="bug-bounties.as93.net"
   src="https://no-track.as93.net/js/script.js"></script>
 
 <!-- JSON-LD Structure -->
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify(structuredData)}
+/>

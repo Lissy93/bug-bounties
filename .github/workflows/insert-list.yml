@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repository 🛎️
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Get current date-time (used for commit message)
       - name: Get Date 📅
@@ -25,7 +25,7 @@ jobs:
 
       # Downloads + installs Python (used for running gen scripts)
       - name: Set up Python 🐍
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 

@@ -12,9 +12,15 @@ const { totalPrograms, withBounties, withSafeHarbor } = Astro.props;
 ---
 
 <div class="stats">
-  <Tooltip text={tips.statPrograms}><strong>{totalPrograms.toLocaleString()}</strong> programs</Tooltip>
-  <Tooltip text={tips.statBounties}><strong>{withBounties.toLocaleString()}</strong> with bounties</Tooltip>
-  <Tooltip text={tips.statSafeHarbor}><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</Tooltip>
+  <Tooltip text={tips.statPrograms}
+    ><strong>{totalPrograms.toLocaleString()}</strong> programs</Tooltip
+  >
+  <Tooltip text={tips.statBounties}
+    ><strong>{withBounties.toLocaleString()}</strong> with bounties</Tooltip
+  >
+  <Tooltip text={tips.statSafeHarbor}
+    ><strong>{withSafeHarbor.toLocaleString()}</strong> with safe harbor</Tooltip
+  >
 </div>
 
 <style>

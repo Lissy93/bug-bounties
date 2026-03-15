@@ -13,9 +13,6 @@
     position: relative;
     cursor: help;
   }
-  .has-tooltip:has(button) {
-    cursor: pointer;
-  }
   .has-tooltip::after {
     content: attr(data-tooltip);
     position: absolute;

@@ -15,8 +15,8 @@ jobs:
       web: ${{ steps.filter.outputs.web }}
       data: ${{ steps.filter.outputs.data }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
@@ -31,18 +31,21 @@ jobs:
               - 'lib/schema.json'
 
   lib-checks:
+    name: 'Lib: Test'
     needs: detect-changes
     if: needs.detect-changes.outputs.lib == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: pip install -r lib/requirements.txt
       - run: make validate
+      - run: python lib/populate-bounties.py --dry-run --stats
 
   web-lint:
+    name: 'Web: Lint'
     needs: detect-changes
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
@@ -50,8 +53,8 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -60,6 +63,7 @@ jobs:
       - run: npm run lint
 
   web-typecheck:
+    name: 'Web: Type check'
     needs: detect-changes
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
@@ -67,8 +71,8 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -77,6 +81,7 @@ jobs:
       - run: npm run type-check
 
   web-format:
+    name: 'Web: Format'
     needs: detect-changes
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
@@ -84,8 +89,8 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -94,18 +99,20 @@ jobs:
       - run: npm run format:check
 
   data-validation:
+    name: 'Data: Validate'
     needs: detect-changes
     if: needs.detect-changes.outputs.data == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: pip install -r lib/requirements.txt
       - run: make validate
 
   summary:
+    name: 'Finish: Report results'
     needs: [lib-checks, web-lint, web-typecheck, web-format, data-validation]
     if: always()
     runs-on: ubuntu-latest
@@ -127,14 +134,13 @@ jobs:
               data-validation) result="${{ needs.data-validation.result }}" ;;
             esac
 
-            if [ "$result" = "failure" ]; then
-              echo "| $job | failed |" >> "$GITHUB_STEP_SUMMARY"
-              failed=1
-            elif [ "$result" = "skipped" ]; then
-              echo "| $job | skipped |" >> "$GITHUB_STEP_SUMMARY"
-            else
-              echo "| $job | passed |" >> "$GITHUB_STEP_SUMMARY"
-            fi
+            case "$result" in
+              success) status="✅ Passed" ;;
+              failure) status="❌ Failed"; failed=1 ;;
+              skipped) status="⏭️ Skipped" ;;
+              *)       status="❔ Unknown" ;;
+            esac
+            echo "| $job | $status |" >> "$GITHUB_STEP_SUMMARY"
           done
 
           exit "$failed"
