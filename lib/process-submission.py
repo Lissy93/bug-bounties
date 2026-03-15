@@ -120,8 +120,25 @@ def parse_textarea_list(raw):
     return [line.strip() for line in raw.splitlines() if line.strip()]
 
 
+def normalize_url(value):
+    """Add https:// to URLs missing a protocol, mailto: to email addresses."""
+    value = value.strip()
+    if not value:
+        return value
+    if re.match(r"^https?://", value) or value.startswith("mailto:"):
+        return value
+    if re.match(r"^[a-z][a-z0-9+.-]*:", value, re.IGNORECASE):
+        return ""
+    if "@" in value:
+        return f"mailto:{value}"
+    return f"https://{value}"
+
+
 def try_int(value):
     """Convert to int if numeric, else return None."""
+    if not value:
+        return None
+    value = re.sub(r"[,$\s]", "", value)
     try:
         return int(value)
     except (ValueError, TypeError):
@@ -132,13 +149,17 @@ def build_entry(parsed):
     """Convert parsed fields into a program entry dict."""
     entry = {}
 
+    URL_FIELDS = {"url", "pgp_key", "testing_policy_url",
+                   "legal_terms_url", "hall_of_fame_url", "reporting_url"}
+
     # Simple strings
     for field in ("company", "url", "contact", "preferred_languages",
                   "description", "pgp_key", "testing_policy_url",
                   "legal_terms_url", "hall_of_fame_url", "reporting_url",
                   "swag_details", "currency"):
         if field in parsed:
-            entry[field] = parsed[field].strip()
+            value = parsed[field].strip()
+            entry[field] = normalize_url(value) if field in URL_FIELDS else value
 
     # Checkboxes
     for field in CHECKBOX_FIELDS:
@@ -241,7 +262,8 @@ def set_output(name, value):
         return
     with open(output_file, "a") as f:
         if "\n" in str(value):
-            f.write(f"{name}<<EOF\n{value}\nEOF\n")
+            delimiter = f"ghadelim_{os.urandom(8).hex()}"
+            f.write(f"{name}<<{delimiter}\n{value}\n{delimiter}\n")
         else:
             f.write(f"{name}={value}\n")
 
