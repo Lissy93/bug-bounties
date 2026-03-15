@@ -2,6 +2,7 @@ name: Add program entry
 description: Submit a new security program for inclusion in the YAML dataset
 title: "[Program]: "
 labels: ["program-submission"]
+assignees: ["Liss-Bot"]
 body:
   - type: markdown
     attributes:
@@ -90,6 +91,7 @@ body:
     attributes:
       label: Domains
       description: In-scope domains, one per line
+      render: text
       placeholder: |
         *.example.com
         api.example.com
@@ -113,6 +115,7 @@ body:
     attributes:
       label: Out of scope
       description: Explicitly excluded targets or categories, one per line
+      render: text
       placeholder: |
         Third-party services
         Staging environments
@@ -306,6 +309,7 @@ body:
     attributes:
       label: Standards
       description: One standard per line
+      render: text
       placeholder: |
         ISO 29147
         disclose.io

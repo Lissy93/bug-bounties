@@ -1,0 +1,36 @@
+name: Remove program entry
+description: Request the removal of a security program from the YAML dataset
+title: "[Removal]: "
+labels: ["program-removal"]
+assignees: ["Liss-Bot"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Request the removal of an existing program entry.
+
+        Please specify the company name exactly as it appears in the dataset.
+
+  - type: input
+    id: company
+    attributes:
+      label: Program name
+      description: The company name exactly as it appears in the dataset
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Removal reason
+      description: Why should this program be removed?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmation
+      options:
+        - label: I confirm the information provided is accurate and this program should be removed.
+          required: true
