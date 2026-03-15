@@ -1,105 +1,44 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro';
-import Header from '../components/Header.astro';
-import BackLink from '../components/BackLink.astro';
-import FaviconImage from '../components/FaviconImage.svelte';
-import RewardBadges from '../components/RewardBadges.svelte';
-import Tooltip from '../components/Tooltip.svelte';
-import Chip from '../components/Chip.svelte';
-import { Mail, Globe, Home } from 'lucide-svelte';
-import { loadBounties } from '../lib/data';
-import { formatPayout, formatDuration, formatPayoutTable, formatExcludedMethod, getHostname, getHomepageUrl } from '../lib/format';
-import { tips } from '../lib/tooltips';
-import { fetchAllSecurityTxt } from '../lib/security-txt';
-import { fetchAllPlatformData, deriveSources } from '../lib/platform-data';
-import { fetchTrancoRanks, formatRankBadge } from '../lib/tranco';
-import { fetchCisaKev } from '../lib/cisa-kev';
-import { fetchEpssScores } from '../lib/epss';
-import { fetchDiscloseData } from '../lib/disclose-data';
-import type { BountyProgram, SecurityTxtData, PlatformScopeData, KevData } from '../types/Company';
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import Header from "../components/Header.astro";
+import BackLink from "../components/BackLink.astro";
+import FaviconImage from "../components/FaviconImage.svelte";
+import RewardBadges from "../components/RewardBadges.svelte";
+import Tooltip from "../components/Tooltip.svelte";
+import Chip from "../components/Chip.svelte";
+import { Mail, Globe, House } from "lucide-svelte";
+import {
+  formatPayout,
+  formatDuration,
+  formatPayoutTable,
+  formatExcludedMethod,
+  getHostname,
+  getHomepageUrl,
+} from "../lib/format";
+import { tips } from "../lib/tooltips";
+import { formatRankBadge } from "../lib/tranco";
+import { loadAllPrograms } from "../lib/load-all-programs";
+import type {
+  BountyProgram,
+  SecurityTxtData,
+  PlatformScopeData,
+  KevData,
+} from "../types/Company";
 
 export async function getStaticPaths() {
-  const programs = loadBounties();
-  const isDev = import.meta.env.DEV;
+  const { programs, securityTxtMap, platformDataMap, kevMap, trancoRanks } =
+    await loadAllPrograms();
 
-  // Fetch enrichment data once inside getStaticPaths so it doesn't
-  // block module loading. Each function never throws.
-  const [securityTxtMap, platformDataMap, trancoData, kevMap, epssScores, discloseMap] = await Promise.all([
-    // Skip the slow security.txt crawl in dev mode (~2600 HTTP requests)
-    isDev ? Promise.resolve(new Map<string, SecurityTxtData>()) : fetchAllSecurityTxt(programs),
-    fetchAllPlatformData(programs),
-    fetchTrancoRanks(programs),
-    fetchCisaKev(programs),
-    fetchEpssScores(),
-    fetchDiscloseData(programs),
-  ]);
-
-  // Merge EPSS scores into KEV vulnerability entries
-  for (const kevData of kevMap.values()) {
-    for (const vuln of kevData.vulnerabilities) {
-      const epss = epssScores.get(vuln.cveID);
-      if (epss) {
-        vuln.epssScore = epss.score;
-        vuln.epssPercentile = epss.percentile;
-      }
-    }
-  }
-
-  return programs.map((program) => {
-    const pd = platformDataMap.get(program.slug);
-    const dd = discloseMap.get(program.slug);
-
-    // Enrich the program with platform + Disclose metadata.
-    // YAML values take priority (manually curated); enrichment only fills gaps.
-    const enriched: BountyProgram = { ...program };
-
-    if (pd) {
-      enriched.min_payout ??= pd.minPayout;
-      enriched.max_payout ??= pd.maxPayout;
-      enriched.currency ??= pd.currency;
-      enriched.managed ??= pd.managed;
-      enriched.safe_harbor ??= pd.safeHarbor;
-      enriched.allows_disclosure ??= pd.allowsDisclosure;
-      enriched.response_time ??= pd.responseTime;
-      enriched.bounty_time ??= pd.bountyTime;
-      enriched.resolution_time ??= pd.resolutionTime;
-      enriched.response_efficiency ??= pd.responseEfficiency;
-      enriched.confidentiality_level ??= pd.confidentialityLevel;
-      enriched.handle ??= pd.handle;
-      if (!enriched.rewards?.length && pd.rewards?.length) {
-        enriched.rewards = pd.rewards;
-      }
-      if (!enriched.domains?.length && pd.domains?.length) {
-        enriched.domains = pd.domains;
-      }
-    }
-
-    if (dd) {
-      enriched.safe_harbor ??= dd.safeHarbor;
-      enriched.pgp_key ??= dd.pgpKey;
-      enriched.securitytxt_url ??= dd.securitytxtUrl;
-      enriched.preferred_languages ??= dd.preferredLanguages;
-      enriched.hiring ??= dd.hiring;
-      enriched.launch_date ??= dd.launchDate;
-    }
-
-    // Derive sources from URL so it displays without being stored in YAML
-    if (!enriched.sources?.length) {
-      const derived = deriveSources(enriched.url);
-      if (derived.length) enriched.sources = derived;
-    }
-
-    return {
-      params: { slug: program.slug },
-      props: {
-        program: enriched,
-        securityTxt: securityTxtMap.get(program.slug) ?? null,
-        platformData: pd ?? null,
-        trancoRank: trancoData.bySlug.get(program.slug) ?? null,
-        kevData: kevMap.get(program.slug) ?? null,
-      },
-    };
-  });
+  return programs.map((program) => ({
+    params: { slug: program.slug },
+    props: {
+      program,
+      securityTxt: securityTxtMap.get(program.slug) ?? null,
+      platformData: platformDataMap.get(program.slug) ?? null,
+      trancoRank: trancoRanks[program.slug] ?? null,
+      kevData: kevMap.get(program.slug) ?? null,
+    },
+  }));
 }
 
 interface Props {
@@ -112,7 +51,11 @@ interface Props {
 
 const { program, securityTxt, platformData, trancoRank, kevData } = Astro.props;
 
-const payout = formatPayout(program.min_payout, program.max_payout, program.currency);
+const payout = formatPayout(
+  program.min_payout,
+  program.max_payout,
+  program.currency,
+);
 const responseTime = formatDuration(program.response_time);
 const bountyTime = formatDuration(program.bounty_time);
 const resolutionTime = formatDuration(program.resolution_time);
@@ -120,472 +63,889 @@ const hostname = getHostname(program.url);
 const homepageUrl = getHomepageUrl(program.url);
 const showContact = program.contact && program.contact !== program.url;
 const rankBadge = trancoRank ? formatRankBadge(trancoRank) : null;
-const payoutTableRows = formatPayoutTable(program.payout_table, program.currency);
+const payoutTableRows = formatPayoutTable(
+  program.payout_table,
+  program.currency,
+);
 
 const pageTitle = `${program.company} Bug Bounty Program - Bug Bounties`;
 const pageDescription = [
   `${program.company} bug bounty program.`,
   payout ? `Payouts: ${payout}.` : null,
   program.safe_harbor ? `Safe harbor: ${program.safe_harbor}.` : null,
-  program.rewards?.length ? `Rewards: ${program.rewards.join(', ').replace(/\*/g, '')}.` : null,
-].filter(Boolean).join(' ');
+  program.rewards?.length
+    ? `Rewards: ${program.rewards.join(", ").replace(/\*/g, "")}.`
+    : null,
+]
+  .filter(Boolean)
+  .join(" ");
 
 const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bug-bounties.as93.net/' },
-    { '@type': 'ListItem', position: 2, name: program.company, item: `https://bug-bounties.as93.net/${program.slug}` },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://bug-bounties.as93.net/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: program.company,
+      item: `https://bug-bounties.as93.net/${program.slug}`,
+    },
   ],
 };
 ---
 
-<DefaultLayout title={pageTitle} description={pageDescription} jsonLd={breadcrumbJsonLd}>
+<DefaultLayout
+  title={pageTitle}
+  description={pageDescription}
+  jsonLd={breadcrumbJsonLd}
+>
   <Header />
   <article class="detail">
-    <nav class="breadcrumbs">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
       <BackLink />
     </nav>
 
     <!-- Header -->
     <section class="program-header">
-      <FaviconImage url={program.url} alt={program.company} size="4rem"
-        slug={program.slug} domains={program.domains} />
+      <FaviconImage
+        url={program.url}
+        alt={program.company}
+        size="4rem"
+        slug={program.slug}
+        domains={program.domains}
+      />
       <div>
         <div class="title-row">
           <h1>{program.company}</h1>
-          {rankBadge && (
-            <Chip color="var(--accent)" tooltip={tips.trancoRank} size="sm" filled>
-              <span class="rank-text">{rankBadge}</span>
-            </Chip>
-          )}
+          {
+            rankBadge && (
+              <Chip
+                color="var(--accent)"
+                tooltip={tips.trancoRank}
+                size="sm"
+                filled
+              >
+                <span class="rank-text">{rankBadge}</span>
+              </Chip>
+            )
+          }
         </div>
         <div class="header-links">
-          <a href={program.url} target="_blank" rel="noopener noreferrer" class="external-link">
+          <a
+            href={program.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="external-link"
+          >
             {hostname} &rarr;
           </a>
-          {homepageUrl && (
-            <a href={homepageUrl} target="_blank" rel="noopener noreferrer" class="header-btn">
-              <Home size={14} />
-              Homepage
-            </a>
-          )}
-          {showContact && (
-            <a href={program.contact} class="header-btn">
-              {program.contact?.includes('mailto:') ? <Mail size={14} /> : <Globe size={14} />}
-              Contact
-            </a>
-          )}
+          {
+            homepageUrl && (
+              <a
+                href={homepageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="header-btn"
+              >
+                <House size={14} />
+                Homepage
+              </a>
+            )
+          }
+          {
+            showContact && (
+              <a href={program.contact} class="header-btn">
+                {program.contact?.includes("mailto:") ? (
+                  <Mail size={14} />
+                ) : (
+                  <Globe size={14} />
+                )}
+                Contact
+              </a>
+            )
+          }
         </div>
       </div>
     </section>
 
     <!-- Key Info -->
-    {((program.rewards && program.rewards.length > 0) || program.safe_harbor || payout || program.program_type || program.status) && (
-      <section class="key-info">
-        {program.program_type && (
-          <Chip color="var(--accent)" tooltip={tips.programType}>
-            {program.program_type === 'bounty' ? 'Bug Bounty' : program.program_type === 'vdp' ? 'VDP' : 'Hybrid'}
-          </Chip>
-        )}
-        {program.status && (
-          <Chip color={program.status === 'active' ? 'var(--success)' : 'var(--warning)'} tooltip={tips.programStatus} filled>
-            {program.status === 'active' ? 'Active' : 'Paused'}
-          </Chip>
-        )}
-        <RewardBadges rewards={program.rewards || []} />
-        {program.safe_harbor && (
-          <Chip color="var(--success)" tooltip={program.safe_harbor === 'full' ? tips.safeHarborFull : tips.safeHarborPartial}>
-            {program.safe_harbor === 'full' ? 'Full' : 'Partial'} Safe Harbor
-          </Chip>
-        )}
-        {payout && <Chip color="var(--foreground)" tooltip={tips.payout}>{payout}</Chip>}
-      </section>
-    )}
+    {
+      ((program.rewards && program.rewards.length > 0) ||
+        program.safe_harbor ||
+        payout ||
+        program.program_type ||
+        program.status) && (
+        <section class="key-info">
+          {program.program_type && (
+            <Chip color="var(--accent)" tooltip={tips.programType}>
+              {program.program_type === "bounty"
+                ? "Bug Bounty"
+                : program.program_type === "vdp"
+                  ? "VDP"
+                  : "Hybrid"}
+            </Chip>
+          )}
+          {program.status && (
+            <Chip
+              color={
+                program.status === "active"
+                  ? "var(--success)"
+                  : "var(--warning)"
+              }
+              tooltip={tips.programStatus}
+              filled
+            >
+              {program.status === "active" ? "Active" : "Paused"}
+            </Chip>
+          )}
+          <RewardBadges rewards={program.rewards || []} />
+          {program.safe_harbor && (
+            <Chip
+              color="var(--success)"
+              tooltip={
+                program.safe_harbor === "full"
+                  ? tips.safeHarborFull
+                  : tips.safeHarborPartial
+              }
+            >
+              {program.safe_harbor === "full" ? "Full" : "Partial"} Safe Harbor
+            </Chip>
+          )}
+          {payout && (
+            <Chip color="var(--foreground)" tooltip={tips.payout}>
+              {payout}
+            </Chip>
+          )}
+        </section>
+      )
+    }
 
     <!-- Program Details -->
-    {(program.description || program.program || program.handle || program.managed != null || program.confidentiality_level || program.launch_date || program.allows_disclosure != null || program.reporting_url || program.response_sla_days != null || program.disclosure_timeline_days != null) && (
-      <section class="section">
-        <h2>Program Details</h2>
-        {program.description && <p class="program-description">{program.description}</p>}
-        <dl>
-          {program.program && <><dt>Program Name</dt><dd>{program.program}</dd></>}
-          {program.handle && <><dt>Handle</dt><dd>{program.handle}</dd></>}
-          {program.managed != null && <><dt><Tooltip text={tips.managed}>Managed</Tooltip></dt><dd>{program.managed ? 'Yes' : 'No'}</dd></>}
-          {program.confidentiality_level && <><dt><Tooltip text={tips.confidentiality}>Confidentiality</Tooltip></dt><dd>{program.confidentiality_level}</dd></>}
-          {program.launch_date && <><dt>Launch Date</dt><dd>{program.launch_date}</dd></>}
-          {program.allows_disclosure != null && <><dt><Tooltip text={tips.allowsDisclosure}>Allows Disclosure</Tooltip></dt><dd>{program.allows_disclosure ? 'Yes' : 'No'}</dd></>}
-          {program.disclosure_timeline_days != null && <><dt><Tooltip text={tips.disclosureTimeline}>Disclosure Window</Tooltip></dt><dd>{program.disclosure_timeline_days} days</dd></>}
-          {program.response_sla_days != null && <><dt><Tooltip text={tips.responseSla}>Response SLA</Tooltip></dt><dd>{program.response_sla_days} business days</dd></>}
-          {program.reporting_url && (
-            <>
-              <dt><Tooltip text={tips.reportingUrl}>Report Submission</Tooltip></dt>
-              <dd><a href={program.reporting_url} target="_blank" rel="noopener noreferrer">{program.reporting_url}</a></dd>
-            </>
+    {
+      (program.description ||
+        program.program ||
+        program.handle ||
+        program.managed != null ||
+        program.confidentiality_level ||
+        program.launch_date ||
+        program.allows_disclosure != null ||
+        program.reporting_url ||
+        program.response_sla_days != null ||
+        program.disclosure_timeline_days != null) && (
+        <section class="section">
+          <h2>Program Details</h2>
+          {program.description && (
+            <p class="program-description">{program.description}</p>
           )}
-        </dl>
-      </section>
-    )}
-
-    <!-- Response Metrics -->
-    {(responseTime || bountyTime || resolutionTime || program.response_efficiency != null) && (
-      <section class="section">
-        <h2>Response Metrics</h2>
-        <dl>
-          {responseTime && <><dt><Tooltip text={tips.responseTime}>Response Time</Tooltip></dt><dd>{responseTime}</dd></>}
-          {bountyTime && <><dt><Tooltip text={tips.bountyTime}>Bounty Time</Tooltip></dt><dd>{bountyTime}</dd></>}
-          {resolutionTime && <><dt><Tooltip text={tips.resolutionTime}>Resolution Time</Tooltip></dt><dd>{resolutionTime}</dd></>}
-          {program.response_efficiency != null && (
-            <>
-              <dt><Tooltip text={tips.responseEfficiency}>Response Efficiency</Tooltip></dt>
-              <dd>
-                <div class="efficiency-bar">
-                  <div class="efficiency-fill" style={`width: ${program.response_efficiency}%`}></div>
-                </div>
-                <span>{program.response_efficiency}%</span>
-              </dd>
-            </>
-          )}
-        </dl>
-      </section>
-    )}
-
-    <!-- Payout Structure -->
-    {payoutTableRows && (
-      <section class="section">
-        <h2><Tooltip text={tips.payoutTable}>Payout Structure</Tooltip></h2>
-        <div class="payout-table">
-          {payoutTableRows.map((row) => (
-            <div class="payout-row">
-              <span class={`payout-severity sev-${row.severity.toLowerCase()}`}>{row.severity}</span>
-              <span class="payout-amount">{row.amount}</span>
-            </div>
-          ))}
-        </div>
-        {program.swag_details && (
-          <p class="swag-details">
-            <Tooltip text={tips.swagDetails}>Swag:</Tooltip> {program.swag_details}
-          </p>
-        )}
-      </section>
-    )}
-
-    <!-- Rules & Testing -->
-    {(program.testing_policy_url || (program.excluded_methods && program.excluded_methods.length > 0) || program.requires_account != null) && (
-      <section class="section">
-        <h2>Rules & Testing</h2>
-        {(program.requires_account != null || program.testing_policy_url) && (
           <dl>
-            {program.requires_account != null && <><dt><Tooltip text={tips.requiresAccount}>Requires Account</Tooltip></dt><dd>{program.requires_account ? 'Yes' : 'No'}</dd></>}
-            {program.testing_policy_url && (
+            {program.program && (
               <>
-                <dt><Tooltip text={tips.testingPolicy}>Testing Policy</Tooltip></dt>
-                <dd><a href={program.testing_policy_url} target="_blank" rel="noopener noreferrer">{program.testing_policy_url}</a></dd>
+                <dt>Program Name</dt>
+                <dd>{program.program}</dd>
+              </>
+            )}
+            {program.handle && (
+              <>
+                <dt>Handle</dt>
+                <dd>{program.handle}</dd>
+              </>
+            )}
+            {program.managed != null && (
+              <>
+                <dt>
+                  <Tooltip text={tips.managed}>Managed</Tooltip>
+                </dt>
+                <dd>{program.managed ? "Yes" : "No"}</dd>
+              </>
+            )}
+            {program.confidentiality_level && (
+              <>
+                <dt>
+                  <Tooltip text={tips.confidentiality}>Confidentiality</Tooltip>
+                </dt>
+                <dd>{program.confidentiality_level}</dd>
+              </>
+            )}
+            {program.launch_date && (
+              <>
+                <dt>Launch Date</dt>
+                <dd>{program.launch_date}</dd>
+              </>
+            )}
+            {program.allows_disclosure != null && (
+              <>
+                <dt>
+                  <Tooltip text={tips.allowsDisclosure}>
+                    Allows Disclosure
+                  </Tooltip>
+                </dt>
+                <dd>{program.allows_disclosure ? "Yes" : "No"}</dd>
+              </>
+            )}
+            {program.disclosure_timeline_days != null && (
+              <>
+                <dt>
+                  <Tooltip text={tips.disclosureTimeline}>
+                    Disclosure Window
+                  </Tooltip>
+                </dt>
+                <dd>{program.disclosure_timeline_days} days</dd>
+              </>
+            )}
+            {program.response_sla_days != null && (
+              <>
+                <dt>
+                  <Tooltip text={tips.responseSla}>Response SLA</Tooltip>
+                </dt>
+                <dd>{program.response_sla_days} business days</dd>
+              </>
+            )}
+            {program.reporting_url && (
+              <>
+                <dt>
+                  <Tooltip text={tips.reportingUrl}>Report Submission</Tooltip>
+                </dt>
+                <dd>
+                  <a
+                    href={program.reporting_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {program.reporting_url}
+                  </a>
+                </dd>
               </>
             )}
           </dl>
-        )}
-        {program.excluded_methods && program.excluded_methods.length > 0 && (
-          <div class="excluded-methods">
-            <h3><Tooltip text={tips.excludedMethods}>Excluded Methods</Tooltip></h3>
-            <div class="method-chips">
-              {program.excluded_methods.map((m) => (
-                <Chip color="var(--danger)" size="sm">{formatExcludedMethod(m)}</Chip>
-              ))}
-            </div>
+        </section>
+      )
+    }
+
+    <!-- Response Metrics -->
+    {
+      (responseTime ||
+        bountyTime ||
+        resolutionTime ||
+        program.response_efficiency != null) && (
+        <section class="section">
+          <h2>Response Metrics</h2>
+          <dl>
+            {responseTime && (
+              <>
+                <dt>
+                  <Tooltip text={tips.responseTime}>Response Time</Tooltip>
+                </dt>
+                <dd>{responseTime}</dd>
+              </>
+            )}
+            {bountyTime && (
+              <>
+                <dt>
+                  <Tooltip text={tips.bountyTime}>Bounty Time</Tooltip>
+                </dt>
+                <dd>{bountyTime}</dd>
+              </>
+            )}
+            {resolutionTime && (
+              <>
+                <dt>
+                  <Tooltip text={tips.resolutionTime}>Resolution Time</Tooltip>
+                </dt>
+                <dd>{resolutionTime}</dd>
+              </>
+            )}
+            {program.response_efficiency != null && (
+              <>
+                <dt>
+                  <Tooltip text={tips.responseEfficiency}>
+                    Response Efficiency
+                  </Tooltip>
+                </dt>
+                <dd>
+                  <div class="efficiency-bar">
+                    <div
+                      class="efficiency-fill"
+                      style={`width: ${program.response_efficiency}%`}
+                    />
+                  </div>
+                  <span>{program.response_efficiency}%</span>
+                </dd>
+              </>
+            )}
+          </dl>
+        </section>
+      )
+    }
+
+    <!-- Payout Structure -->
+    {
+      payoutTableRows && (
+        <section class="section">
+          <h2>
+            <Tooltip text={tips.payoutTable}>Payout Structure</Tooltip>
+          </h2>
+          <div class="payout-table">
+            {payoutTableRows.map((row) => (
+              <div class="payout-row">
+                <span
+                  class={`payout-severity sev-${row.severity.toLowerCase()}`}
+                >
+                  {row.severity}
+                </span>
+                <span class="payout-amount">{row.amount}</span>
+              </div>
+            ))}
           </div>
-        )}
-      </section>
-    )}
+          {program.swag_details && (
+            <p class="swag-details">
+              <Tooltip text={tips.swagDetails}>Swag:</Tooltip>{" "}
+              {program.swag_details}
+            </p>
+          )}
+        </section>
+      )
+    }
+
+    <!-- Rules & Testing -->
+    {
+      (program.testing_policy_url ||
+        (program.excluded_methods && program.excluded_methods.length > 0) ||
+        program.requires_account != null) && (
+        <section class="section">
+          <h2>Rules & Testing</h2>
+          {(program.requires_account != null || program.testing_policy_url) && (
+            <dl>
+              {program.requires_account != null && (
+                <>
+                  <dt>
+                    <Tooltip text={tips.requiresAccount}>
+                      Requires Account
+                    </Tooltip>
+                  </dt>
+                  <dd>{program.requires_account ? "Yes" : "No"}</dd>
+                </>
+              )}
+              {program.testing_policy_url && (
+                <>
+                  <dt>
+                    <Tooltip text={tips.testingPolicy}>Testing Policy</Tooltip>
+                  </dt>
+                  <dd>
+                    <a
+                      href={program.testing_policy_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {program.testing_policy_url}
+                    </a>
+                  </dd>
+                </>
+              )}
+            </dl>
+          )}
+          {program.excluded_methods && program.excluded_methods.length > 0 && (
+            <div class="excluded-methods">
+              <h3>
+                <Tooltip text={tips.excludedMethods}>Excluded Methods</Tooltip>
+              </h3>
+              <div class="method-chips">
+                {program.excluded_methods.map((m) => (
+                  <Chip color="var(--danger)" size="sm">
+                    {formatExcludedMethod(m)}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )
+    }
 
     <!-- Enhanced Scope (platform data available) -->
-    {platformData ? (
-      <section class="section">
-        <h2>
-          <Tooltip text={tips.scopeTargets}>
-            Scope ({platformData.scopeStats.total} targets)
-          </Tooltip>
-        </h2>
-        <div class="scope-stats">
-          {platformData.scopeStats.web > 0 && <Chip color="var(--muted)"><code>web: {platformData.scopeStats.web}</code></Chip>}
-          {platformData.scopeStats.mobile > 0 && <Chip color="var(--muted)"><code>mobile: {platformData.scopeStats.mobile}</code></Chip>}
-          {platformData.scopeStats.api > 0 && <Chip color="var(--muted)"><code>api: {platformData.scopeStats.api}</code></Chip>}
-          {platformData.scopeStats.other > 0 && <Chip color="var(--muted)"><code>other: {platformData.scopeStats.other}</code></Chip>}
-        </div>
-        {platformData.allowsBountySplitting != null && (
-          <p class="scope-meta">
-            <Tooltip text={tips.bountySplitting}>Bounty splitting:</Tooltip> {platformData.allowsBountySplitting ? 'Yes' : 'No'}
-            {platformData.maxSeverity && <> · Max severity: {platformData.maxSeverity}</>}
-          </p>
-        )}
-        <div class="scope-targets">
-          <h3>In Scope</h3>
+    {
+      platformData ? (
+        <section class="section">
+          <h2>
+            <Tooltip text={tips.scopeTargets}>
+              Scope ({platformData.scopeStats.total} targets)
+            </Tooltip>
+          </h2>
+          <div class="scope-stats">
+            {platformData.scopeStats.web > 0 && (
+              <Chip color="var(--muted)">
+                <code>web: {platformData.scopeStats.web}</code>
+              </Chip>
+            )}
+            {platformData.scopeStats.mobile > 0 && (
+              <Chip color="var(--muted)">
+                <code>mobile: {platformData.scopeStats.mobile}</code>
+              </Chip>
+            )}
+            {platformData.scopeStats.api > 0 && (
+              <Chip color="var(--muted)">
+                <code>api: {platformData.scopeStats.api}</code>
+              </Chip>
+            )}
+            {platformData.scopeStats.other > 0 && (
+              <Chip color="var(--muted)">
+                <code>other: {platformData.scopeStats.other}</code>
+              </Chip>
+            )}
+          </div>
+          {platformData.allowsBountySplitting != null && (
+            <p class="scope-meta">
+              <Tooltip text={tips.bountySplitting}>Bounty splitting:</Tooltip>{" "}
+              {platformData.allowsBountySplitting ? "Yes" : "No"}
+              {platformData.maxSeverity && (
+                <> · Max severity: {platformData.maxSeverity}</>
+              )}
+            </p>
+          )}
+          <div class="scope-targets">
+            <h3>In Scope</h3>
+            <ul class="target-list">
+              {platformData.inScopeTargets.slice(0, 20).map((t) => (
+                <li class="target-item">
+                  <span class="target-id">{t.identifier}</span>
+                  <span class="target-type">{t.type}</span>
+                  {t.eligibleForBounty ? (
+                    <Chip color="var(--success)" size="sm" filled>
+                      bounty-eligible
+                    </Chip>
+                  ) : (
+                    <Chip color="var(--muted)" size="sm">
+                      recognition only
+                    </Chip>
+                  )}
+                </li>
+              ))}
+              {platformData.scopeStats.total > 20 && (
+                <li class="target-more">
+                  and {platformData.scopeStats.total - 20} more targets
+                </li>
+              )}
+            </ul>
+          </div>
+          {platformData.outOfScopeTargets.length > 0 && (
+            <div class="scope-targets">
+              <h3>Out of Scope</h3>
+              <p class="out-of-scope">
+                {platformData.outOfScopeTargets.join(", ")}
+              </p>
+            </div>
+          )}
+        </section>
+      ) : program.scope && program.scope.length > 0 ? (
+        <section class="section">
+          <h2>
+            <Tooltip text={tips.scope}>
+              Scope ({program.scope.length} targets)
+            </Tooltip>
+          </h2>
           <ul class="target-list">
-            {platformData.inScopeTargets.map((t) => (
+            {program.scope.map((s) => (
               <li class="target-item">
-                <span class="target-id">{t.identifier}</span>
-                <span class="target-type">{t.type}</span>
-                {t.eligibleForBounty
-                  ? <Chip color="var(--success)" size="sm" filled>bounty-eligible</Chip>
-                  : <Chip color="var(--muted)" size="sm">recognition only</Chip>
-                }
+                <span class="target-id">{s.target}</span>
+                <span class="target-type">{s.type}</span>
               </li>
             ))}
-            {platformData.scopeStats.total > 20 && (
-              <li class="target-more">and {platformData.scopeStats.total - 20} more targets</li>
-            )}
           </ul>
-        </div>
-        {platformData.outOfScopeTargets.length > 0 && (
-          <div class="scope-targets">
-            <h3>Out of Scope</h3>
-            <p class="out-of-scope">{platformData.outOfScopeTargets.join(', ')}</p>
-          </div>
-        )}
-      </section>
-    ) : (program.scope && program.scope.length > 0) ? (
-      <section class="section">
-        <h2><Tooltip text={tips.scope}>Scope ({program.scope.length} targets)</Tooltip></h2>
-        <ul class="target-list">
-          {program.scope.map((s) => (
-            <li class="target-item">
-              <span class="target-id">{s.target}</span>
-              <span class="target-type">{s.type}</span>
-            </li>
-          ))}
-        </ul>
-        {program.out_of_scope && program.out_of_scope.length > 0 && (
-          <div class="scope-targets">
-            <h3><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h3>
-            <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
-          </div>
-        )}
-      </section>
-    ) : program.domains && program.domains.length > 0 ? (
-      <section class="section">
-        <h2>In-Scope Domains</h2>
-        <ul class="domains">
-          {program.domains.map((d) => <li>{d}</li>)}
-        </ul>
-        {program.out_of_scope && program.out_of_scope.length > 0 && (
-          <div class="scope-targets">
-            <h3><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h3>
-            <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
-          </div>
-        )}
-      </section>
-    ) : program.out_of_scope && program.out_of_scope.length > 0 ? (
-      <section class="section">
-        <h2><Tooltip text={tips.outOfScope}>Out of Scope</Tooltip></h2>
-        <p class="out-of-scope">{program.out_of_scope.join(', ')}</p>
-      </section>
-    ) : null}
+          {program.out_of_scope && program.out_of_scope.length > 0 && (
+            <div class="scope-targets">
+              <h3>
+                <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+              </h3>
+              <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
+            </div>
+          )}
+        </section>
+      ) : program.domains && program.domains.length > 0 ? (
+        <section class="section">
+          <h2>In-Scope Domains</h2>
+          <ul class="domains">
+            {program.domains.map((d) => (
+              <li>{d}</li>
+            ))}
+          </ul>
+          {program.out_of_scope && program.out_of_scope.length > 0 && (
+            <div class="scope-targets">
+              <h3>
+                <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+              </h3>
+              <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
+            </div>
+          )}
+        </section>
+      ) : program.out_of_scope && program.out_of_scope.length > 0 ? (
+        <section class="section">
+          <h2>
+            <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+          </h2>
+          <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
+        </section>
+      ) : null
+    }
 
     <!-- Known Exploited Vulnerabilities -->
-    {kevData && kevData.totalCount > 0 && (
-      <section class="section kev-section">
-        <h2>
-          <Tooltip text={tips.kevSection}>Known Exploited Vulnerabilities</Tooltip>
-          <Chip color="var(--danger)" size="sm" filled><span class="kev-count-text">{kevData.totalCount} {kevData.totalCount === 1 ? 'CVE' : 'CVEs'}</span></Chip>
-        </h2>
-        {kevData.ransomwareCount > 0 && (
-          <p class="kev-ransomware">
-            <Tooltip text={tips.kevRansomware}>
-              {kevData.ransomwareCount} linked to ransomware campaigns
+    {
+      kevData && kevData.totalCount > 0 && (
+        <section class="section kev-section">
+          <h2>
+            <Tooltip text={tips.kevSection}>
+              Known Exploited Vulnerabilities
             </Tooltip>
-          </p>
-        )}
-        <ul class="kev-list">
-          {kevData.vulnerabilities.slice(0, 10).map((vuln) => (
-            <li class="kev-item">
-              <div class="kev-item-header">
-                <a href={`https://nvd.nist.gov/vuln/detail/${vuln.cveID}`} target="_blank" rel="noopener noreferrer" class="kev-cve">
-                  {vuln.cveID}
-                </a>
-                <span class="kev-product">{vuln.product}</span>
-                <span class="kev-date">{vuln.dateAdded}</span>
-                {vuln.epssScore != null && (
-                  <Chip
-                    color={vuln.epssScore > 0.5 ? 'var(--danger)' : vuln.epssScore > 0.1 ? 'var(--warning)' : 'var(--muted)'}
-                    tooltip={tips.epssScore}
-                    size="sm"
-                    filled={vuln.epssScore > 0.1}
+            <Chip color="var(--danger)" size="sm" filled>
+              <span class="kev-count-text">
+                {kevData.totalCount} {kevData.totalCount === 1 ? "CVE" : "CVEs"}
+              </span>
+            </Chip>
+          </h2>
+          {kevData.ransomwareCount > 0 && (
+            <p class="kev-ransomware">
+              <Tooltip text={tips.kevRansomware}>
+                {kevData.ransomwareCount} linked to ransomware campaigns
+              </Tooltip>
+            </p>
+          )}
+          <ul class="kev-list">
+            {kevData.vulnerabilities.slice(0, 10).map((vuln) => (
+              <li class="kev-item">
+                <div class="kev-item-header">
+                  <a
+                    href={`https://nvd.nist.gov/vuln/detail/${vuln.cveID}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="kev-cve"
                   >
-                    <span class="epss-text">{(vuln.epssScore * 100).toFixed(1)}% EPSS</span>
-                  </Chip>
-                )}
-              </div>
-              <p class="kev-desc">{vuln.shortDescription}</p>
-            </li>
-          ))}
-        </ul>
-        {kevData.totalCount > 10 && (
-          <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer" class="kev-more">
-            and {kevData.totalCount - 10} more - view full CISA catalog &rarr;
-          </a>
-        )}
-      </section>
-    )}
+                    {vuln.cveID}
+                  </a>
+                  <span class="kev-product">{vuln.product}</span>
+                  <span class="kev-date">{vuln.dateAdded}</span>
+                  {vuln.epssScore != null && (
+                    <Chip
+                      color={
+                        vuln.epssScore > 0.5
+                          ? "var(--danger)"
+                          : vuln.epssScore > 0.1
+                            ? "var(--warning)"
+                            : "var(--muted)"
+                      }
+                      tooltip={tips.epssScore}
+                      size="sm"
+                      filled={vuln.epssScore > 0.1}
+                    >
+                      <span class="epss-text">
+                        {(vuln.epssScore * 100).toFixed(1)}% EPSS
+                      </span>
+                    </Chip>
+                  )}
+                </div>
+                <p class="kev-desc">{vuln.shortDescription}</p>
+              </li>
+            ))}
+          </ul>
+          {kevData.totalCount > 10 && (
+            <a
+              href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="kev-more"
+            >
+              and {kevData.totalCount - 10} more - view full CISA catalog &rarr;
+            </a>
+          )}
+        </section>
+      )
+    }
 
     <!-- Legal & Standards -->
-    {(program.legal_terms_url || (program.standards && program.standards.length > 0)) && (
-      <section class="section">
-        <h2>Legal & Standards</h2>
-        {program.legal_terms_url && (
-          <dl>
-            <dt><Tooltip text={tips.legalTerms}>Legal Terms</Tooltip></dt>
-            <dd><a href={program.legal_terms_url} target="_blank" rel="noopener noreferrer">{program.legal_terms_url}</a></dd>
-          </dl>
-        )}
-        {program.standards && program.standards.length > 0 && (
-          <div class="standards">
-            <h3><Tooltip text={tips.standards}>Standards</Tooltip></h3>
-            <div class="method-chips">
-              {program.standards.map((s) => (
-                <Chip color="var(--muted)" size="sm">{s}</Chip>
-              ))}
+    {
+      (program.legal_terms_url ||
+        (program.standards && program.standards.length > 0)) && (
+        <section class="section">
+          <h2>Legal & Standards</h2>
+          {program.legal_terms_url && (
+            <dl>
+              <dt>
+                <Tooltip text={tips.legalTerms}>Legal Terms</Tooltip>
+              </dt>
+              <dd>
+                <a
+                  href={program.legal_terms_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {program.legal_terms_url}
+                </a>
+              </dd>
+            </dl>
+          )}
+          {program.standards && program.standards.length > 0 && (
+            <div class="standards">
+              <h3>
+                <Tooltip text={tips.standards}>Standards</Tooltip>
+              </h3>
+              <div class="method-chips">
+                {program.standards.map((s) => (
+                  <Chip color="var(--muted)" size="sm">
+                    {s}
+                  </Chip>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </section>
-    )}
+          )}
+        </section>
+      )
+    }
 
     <!-- Recognition -->
-    {(program.hall_of_fame_url || (program.swag_details && !payoutTableRows)) && (
-      <section class="section">
-        <h2>Recognition</h2>
-        <dl>
-          {program.hall_of_fame_url && (
-            <>
-              <dt><Tooltip text={tips.hallOfFame}>Hall of Fame</Tooltip></dt>
-              <dd><a href={program.hall_of_fame_url} target="_blank" rel="noopener noreferrer">{program.hall_of_fame_url}</a></dd>
-            </>
-          )}
-          {program.swag_details && !payoutTableRows && (
-            <>
-              <dt><Tooltip text={tips.swagDetails}>Swag</Tooltip></dt>
-              <dd>{program.swag_details}</dd>
-            </>
-          )}
-        </dl>
-      </section>
-    )}
-
+    {
+      (program.hall_of_fame_url ||
+        (program.swag_details && !payoutTableRows)) && (
+        <section class="section">
+          <h2>Recognition</h2>
+          <dl>
+            {program.hall_of_fame_url && (
+              <>
+                <dt>
+                  <Tooltip text={tips.hallOfFame}>Hall of Fame</Tooltip>
+                </dt>
+                <dd>
+                  <a
+                    href={program.hall_of_fame_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {program.hall_of_fame_url}
+                  </a>
+                </dd>
+              </>
+            )}
+            {program.swag_details && !payoutTableRows && (
+              <>
+                <dt>
+                  <Tooltip text={tips.swagDetails}>Swag</Tooltip>
+                </dt>
+                <dd>{program.swag_details}</dd>
+              </>
+            )}
+          </dl>
+        </section>
+      )
+    }
 
     <!-- Security -->
-    {(program.pgp_key || program.securitytxt_url || program.preferred_languages) && (
-      <section class="section">
-        <h2>Security</h2>
-        <dl>
-          {program.pgp_key && <><dt><Tooltip text={tips.pgpKey}>PGP Key</Tooltip></dt><dd class="mono">{program.pgp_key}</dd></>}
-          {program.securitytxt_url && (
-            <>
-              <dt><Tooltip text={tips.securityTxt}>security.txt</Tooltip></dt>
-              <dd><a href={program.securitytxt_url} target="_blank" rel="noopener noreferrer">{program.securitytxt_url}</a></dd>
-            </>
-          )}
-          {program.preferred_languages && <><dt><Tooltip text={tips.preferredLanguages}>Preferred Languages</Tooltip></dt><dd>{program.preferred_languages}</dd></>}
-        </dl>
-      </section>
-    )}
+    {
+      (program.pgp_key ||
+        program.securitytxt_url ||
+        program.preferred_languages) && (
+        <section class="section">
+          <h2>Security</h2>
+          <dl>
+            {program.pgp_key && (
+              <>
+                <dt>
+                  <Tooltip text={tips.pgpKey}>PGP Key</Tooltip>
+                </dt>
+                <dd class="mono">{program.pgp_key}</dd>
+              </>
+            )}
+            {program.securitytxt_url && (
+              <>
+                <dt>
+                  <Tooltip text={tips.securityTxt}>security.txt</Tooltip>
+                </dt>
+                <dd>
+                  <a
+                    href={program.securitytxt_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {program.securitytxt_url}
+                  </a>
+                </dd>
+              </>
+            )}
+            {program.preferred_languages && (
+              <>
+                <dt>
+                  <Tooltip text={tips.preferredLanguages}>
+                    Preferred Languages
+                  </Tooltip>
+                </dt>
+                <dd>{program.preferred_languages}</dd>
+              </>
+            )}
+          </dl>
+        </section>
+      )
+    }
 
     <!-- security.txt parsed data -->
-    {securityTxt && (
-      <section class="section">
-        <h2>
-          security.txt
-          {securityTxt.is_expired && (
-            <Chip color="var(--warning)" tooltip={tips.securityTxtExpired} size="sm" filled>expired</Chip>
+    {
+      securityTxt && (
+        <section class="section">
+          <h2>
+            security.txt
+            {securityTxt.is_expired && (
+              <Chip
+                color="var(--warning)"
+                tooltip={tips.securityTxtExpired}
+                size="sm"
+                filled
+              >
+                expired
+              </Chip>
+            )}
+          </h2>
+          <dl>
+            {securityTxt.contact && securityTxt.contact.length > 0 && (
+              <>
+                <dt>
+                  <Tooltip text={tips.securityTxtContact}>Contact</Tooltip>
+                </dt>
+                <dd>
+                  {securityTxt.contact.map((c, i) => (
+                    <>
+                      {i > 0 && ", "}
+                      {c.startsWith("http") ? (
+                        <a href={c} target="_blank" rel="noopener noreferrer">
+                          {c}
+                        </a>
+                      ) : c.startsWith("mailto:") ? (
+                        <a href={c}>{c.replace("mailto:", "")}</a>
+                      ) : (
+                        <span>{c}</span>
+                      )}
+                    </>
+                  ))}
+                </dd>
+              </>
+            )}
+            {securityTxt.encryption && securityTxt.encryption.length > 0 && (
+              <>
+                <dt>Encryption</dt>
+                <dd>
+                  {securityTxt.encryption.map((e, i) => (
+                    <>
+                      {i > 0 && ", "}
+                      <a href={e} target="_blank" rel="noopener noreferrer">
+                        {e}
+                      </a>
+                    </>
+                  ))}
+                </dd>
+              </>
+            )}
+            {securityTxt.policy && (
+              <>
+                <dt>Policy</dt>
+                <dd>
+                  <a
+                    href={securityTxt.policy}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {securityTxt.policy}
+                  </a>
+                </dd>
+              </>
+            )}
+            {securityTxt.hiring && (
+              <>
+                <dt>Hiring</dt>
+                <dd>
+                  <a
+                    href={securityTxt.hiring}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {securityTxt.hiring}
+                  </a>
+                </dd>
+              </>
+            )}
+            {securityTxt.acknowledgments && (
+              <>
+                <dt>Acknowledgments</dt>
+                <dd>
+                  <a
+                    href={securityTxt.acknowledgments}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {securityTxt.acknowledgments}
+                  </a>
+                </dd>
+              </>
+            )}
+            {securityTxt.preferredLanguages && (
+              <>
+                <dt>Languages</dt>
+                <dd>{securityTxt.preferredLanguages}</dd>
+              </>
+            )}
+            {securityTxt.expires && (
+              <>
+                <dt>Expires</dt>
+                <dd class={securityTxt.is_expired ? "expired-text" : ""}>
+                  {securityTxt.expires}
+                </dd>
+              </>
+            )}
+          </dl>
+          {securityTxt.raw_url && (
+            <a
+              href={securityTxt.raw_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="raw-link"
+            >
+              View raw security.txt &rarr;
+            </a>
           )}
-        </h2>
-        <dl>
-          {securityTxt.contact && securityTxt.contact.length > 0 && (
-            <>
-              <dt><Tooltip text={tips.securityTxtContact}>Contact</Tooltip></dt>
-              <dd>
-                {securityTxt.contact.map((c, i) => (
-                  <>
-                    {i > 0 && ', '}
-                    {c.startsWith('http') ? (
-                      <a href={c} target="_blank" rel="noopener noreferrer">{c}</a>
-                    ) : c.startsWith('mailto:') ? (
-                      <a href={c}>{c.replace('mailto:', '')}</a>
-                    ) : (
-                      <span>{c}</span>
-                    )}
-                  </>
-                ))}
-              </dd>
-            </>
-          )}
-          {securityTxt.encryption && securityTxt.encryption.length > 0 && (
-            <>
-              <dt>Encryption</dt>
-              <dd>
-                {securityTxt.encryption.map((e, i) => (
-                  <>
-                    {i > 0 && ', '}
-                    <a href={e} target="_blank" rel="noopener noreferrer">{e}</a>
-                  </>
-                ))}
-              </dd>
-            </>
-          )}
-          {securityTxt.policy && (
-            <>
-              <dt>Policy</dt>
-              <dd><a href={securityTxt.policy} target="_blank" rel="noopener noreferrer">{securityTxt.policy}</a></dd>
-            </>
-          )}
-          {securityTxt.hiring && (
-            <>
-              <dt>Hiring</dt>
-              <dd><a href={securityTxt.hiring} target="_blank" rel="noopener noreferrer">{securityTxt.hiring}</a></dd>
-            </>
-          )}
-          {securityTxt.acknowledgments && (
-            <>
-              <dt>Acknowledgments</dt>
-              <dd><a href={securityTxt.acknowledgments} target="_blank" rel="noopener noreferrer">{securityTxt.acknowledgments}</a></dd>
-            </>
-          )}
-          {securityTxt.preferredLanguages && (
-            <>
-              <dt>Languages</dt>
-              <dd>{securityTxt.preferredLanguages}</dd>
-            </>
-          )}
-          {securityTxt.expires && (
-            <>
-              <dt>Expires</dt>
-              <dd class={securityTxt.is_expired ? 'expired-text' : ''}>{securityTxt.expires}</dd>
-            </>
-          )}
-        </dl>
-        {securityTxt.raw_url && (
-          <a href={securityTxt.raw_url} target="_blank" rel="noopener noreferrer" class="raw-link">
-            View raw security.txt &rarr;
-          </a>
-        )}
-      </section>
-    )}
+        </section>
+      )
+    }
 
     <!-- Additional -->
-    {(program.hiring || program.notes || (program.sources && program.sources.length > 0)) && (
-      <section class="section">
-        <h2>Additional Info</h2>
-        <dl>
-          {program.hiring && <><dt><Tooltip text={tips.hiring}>Hiring</Tooltip></dt><dd class="hiring">Actively hiring security researchers</dd></>}
-          {program.notes && <><dt>Notes</dt><dd>{program.notes}</dd></>}
-          {program.sources && program.sources.length > 0 && (
-            <>
-              <dt>Sources</dt>
-              <dd>{program.sources.join(', ')}</dd>
-            </>
-          )}
-        </dl>
-      </section>
-    )}
+    {
+      (program.hiring ||
+        program.notes ||
+        (program.sources && program.sources.length > 0)) && (
+        <section class="section">
+          <h2>Additional Info</h2>
+          <dl>
+            {program.hiring && (
+              <>
+                <dt>
+                  <Tooltip text={tips.hiring}>Hiring</Tooltip>
+                </dt>
+                <dd class="hiring">Actively hiring security researchers</dd>
+              </>
+            )}
+            {program.notes && (
+              <>
+                <dt>Notes</dt>
+                <dd>{program.notes}</dd>
+              </>
+            )}
+            {program.sources && program.sources.length > 0 && (
+              <>
+                <dt>Sources</dt>
+                <dd>{program.sources.join(", ")}</dd>
+              </>
+            )}
+          </dl>
+        </section>
+      )
+    }
   </article>
 </DefaultLayout>
 
@@ -739,10 +1099,18 @@ const breadcrumbJsonLd = {
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
-  .sev-critical { color: var(--danger); }
-  .sev-high { color: var(--warning); }
-  .sev-medium { color: var(--accent); }
-  .sev-low { color: var(--muted); }
+  .sev-critical {
+    color: var(--danger);
+  }
+  .sev-high {
+    color: var(--warning);
+  }
+  .sev-medium {
+    color: var(--accent);
+  }
+  .sev-low {
+    color: var(--muted);
+  }
   .payout-amount {
     color: var(--foreground);
     font-family: monospace;

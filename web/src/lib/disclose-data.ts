@@ -1,8 +1,8 @@
-import type { BountyProgram, DiscloseData } from '../types/Company';
-import { log } from './log';
+import type { BountyProgram, DiscloseData } from "../types/Company";
+import { log } from "./log";
 
 const DISCLOSE_URL =
-  'https://raw.githubusercontent.com/disclose/diodb/master/program-list.json';
+  "https://raw.githubusercontent.com/disclose/diodb/master/program-list.json";
 
 interface RawDiscloseProgram {
   program_name?: string;
@@ -24,8 +24,8 @@ interface RawDiscloseProgram {
 function normalizeName(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/[^a-z0-9]/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -41,15 +41,19 @@ export async function fetchDiscloseData(
   if (cached) return cached;
 
   try {
-    log.info('disclose-data', 'Fetching Disclose.io program list...');
-    const res = await fetch(DISCLOSE_URL);
+    log.info("disclose-data", "Fetching Disclose.io program list...");
+    const res = await fetch(DISCLOSE_URL, {
+      signal: AbortSignal.timeout(15_000),
+    });
     if (!res.ok) {
-      log.warn('disclose-data', `HTTP ${res.status}`);
+      log.warn("disclose-data", `HTTP ${res.status}`);
       cached = new Map();
       return cached;
     }
 
-    const raw = (await res.json()) as RawDiscloseProgram[] | { program_list?: RawDiscloseProgram[] };
+    const raw = (await res.json()) as
+      | RawDiscloseProgram[]
+      | { program_list?: RawDiscloseProgram[] };
     const list: RawDiscloseProgram[] = Array.isArray(raw)
       ? raw
       : (raw as { program_list?: RawDiscloseProgram[] }).program_list || [];
@@ -57,8 +61,8 @@ export async function fetchDiscloseData(
     // Build a map of normalized name -> Disclose program
     const byName = new Map<string, RawDiscloseProgram>();
     for (const p of list) {
-      if (p.policy_url_status === 'dead') continue;
-      const name = normalizeName(p.program_name || '');
+      if (p.policy_url_status === "dead") continue;
+      const name = normalizeName(p.program_name || "");
       if (name) byName.set(name, p);
     }
 
@@ -73,9 +77,14 @@ export async function fetchDiscloseData(
       if (match.safe_harbor) data.safeHarbor = match.safe_harbor;
       if (match.pgp_key) data.pgpKey = match.pgp_key;
       if (match.securitytxt_url) data.securitytxtUrl = match.securitytxt_url;
-      if (match.preferred_languages) data.preferredLanguages = match.preferred_languages;
+      if (match.preferred_languages)
+        data.preferredLanguages = match.preferred_languages;
       if (match.launch_date) data.launchDate = match.launch_date;
-      if (match.hiring && match.hiring.toLowerCase() !== 'no' && match.hiring.toLowerCase() !== 'false') {
+      if (
+        match.hiring &&
+        match.hiring.toLowerCase() !== "no" &&
+        match.hiring.toLowerCase() !== "false"
+      ) {
         data.hiring = true;
       }
 
@@ -84,11 +93,14 @@ export async function fetchDiscloseData(
       }
     }
 
-    log.info('disclose-data', `Matched Disclose data for ${results.size} programs`);
+    log.info(
+      "disclose-data",
+      `Matched Disclose data for ${results.size} programs`,
+    );
     cached = results;
     return results;
   } catch (err) {
-    log.warn('disclose-data', 'Failed to load', err);
+    log.warn("disclose-data", "Failed to load", err);
     cached = new Map();
     return cached;
   }

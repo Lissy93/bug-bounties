@@ -81,7 +81,7 @@ def build_markdown_content(companies) -> str:
     """
 
     if not companies:
-        logger.info(f"There's no companies yet, cancelling markdown generation")
+        logger.info("There's no companies yet, cancelling markdown generation")
         return ""
 
     reward_emoji = {
@@ -104,9 +104,12 @@ def build_markdown_content(companies) -> str:
         groups.setdefault(first, []).append(company)
 
     md_content = ""
+    md_content += "<details>\n<summary><b>Expand List</b></summary>\n"
+    md_content += "<sub><b>Key:</b> 💰 = bounty. 🏅 = shout-out. 🎁 = swag.<br>"
+    md_content += "View full list and details at <a href=\"https://bug-bounties.as93.net/\">bug-bounties.as93.net</a></sub>\n"
     for letter in sorted(groups.keys(), key=lambda k: (k == "#", k)):
         group = groups[letter]
-        md_content += f"<details><summary>{letter} ({len(group)})</summary>\n\n"
+        md_content += f"<details open><summary><h4>{letter}</h4></summary>\n\n"
         for company in group:
             company_name = company["company"]
             company_url = company["url"]
@@ -114,8 +117,9 @@ def build_markdown_content(companies) -> str:
             icon_tag = f"<img src='https://icon.horse/icon/{resource_host}' width='16'/>"
             rewards = " ".join(reward_emoji.get(r, r) for r in company["rewards"])
             md_content += f"- {icon_tag} [{format_long_string(company_name)}]({company_url}) {rewards}\n"
-        md_content += "\n</details>\n\n"
+        md_content += "\n</details>\n"
 
+    md_content += "</details>\n\n"
     return md_content
 
 
@@ -164,6 +168,6 @@ if __name__ == "__main__":
 """
 Okay, you've got this far...
 As you can tell this is a pretty quickly-put-together and hacky script
-And there's definitely plenty of room for improvement! 
+And there's definitely plenty of room for improvement!
 So if you're up for it, feel free to submit a PR :)
 """

@@ -1,0 +1,19 @@
+{
+  "name": "Bug Bounties",
+  "short_name": "Bug Bounties",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FDC500",
+  "background_color": "#0c121a",
+  "display": "standalone"
+}

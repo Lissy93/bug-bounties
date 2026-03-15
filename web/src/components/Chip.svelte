@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Tooltip from './Tooltip.svelte';
+  import Tooltip from "./Tooltip.svelte";
 
-  export let color: string = 'var(--muted)';
-  export let tooltip: string = '';
-  export let size: 'sm' | 'md' = 'md';
+  export let color: string = "var(--muted)";
+  export let tooltip: string = "";
+  export let size: "sm" | "md" = "md";
   export let pill: boolean = false;
   export let interactive: boolean = false;
   export let active: boolean = false;
@@ -18,8 +18,8 @@
       class:active
       style="--chip-color: {color}"
       aria-pressed={active}
-      on:click
-    ><slot /></button>
+      on:click><slot /></button
+    >
   </Tooltip>
 {:else}
   <Tooltip text={tooltip}>
@@ -27,8 +27,8 @@
       class="chip {size}"
       class:pill
       class:filled
-      style="--chip-color: {color}"
-    ><slot /></span>
+      style="--chip-color: {color}"><slot /></span
+    >
   </Tooltip>
 {/if}
 
@@ -71,7 +71,8 @@
     cursor: pointer;
     transition: var(--transition);
   }
-  button.chip:hover {
+  button.chip:hover,
+  button.chip:focus-visible {
     border-color: var(--chip-color);
     color: var(--chip-color);
   }

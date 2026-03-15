@@ -1,12 +1,12 @@
-import { inflateRaw } from 'node:zlib';
-import { promisify } from 'node:util';
-import type { BountyProgram } from '../types/Company';
-import { resolvePrimaryDomain } from './domain';
-import { log } from './log';
+import { inflateRaw } from "node:zlib";
+import { promisify } from "node:util";
+import type { BountyProgram } from "../types/Company";
+import { resolvePrimaryDomain } from "./domain";
+import { log } from "./log";
 
 const inflateRawAsync = promisify(inflateRaw);
 
-const TRANCO_URL = 'https://tranco-list.eu/top-1m.csv.zip';
+const TRANCO_URL = "https://tranco-list.eu/top-1m.csv.zip";
 
 let cachedRanks: Map<string, number> | null = null;
 
@@ -14,8 +14,14 @@ let cachedRanks: Map<string, number> | null = null;
  * Extract and decompress the first file from a ZIP archive buffer.
  */
 async function extractFirstFileFromZip(zip: Buffer): Promise<Buffer> {
-  if (zip.length < 30 || zip[0] !== 0x50 || zip[1] !== 0x4b || zip[2] !== 0x03 || zip[3] !== 0x04) {
-    throw new Error('Not a valid ZIP file');
+  if (
+    zip.length < 30 ||
+    zip[0] !== 0x50 ||
+    zip[1] !== 0x4b ||
+    zip[2] !== 0x03 ||
+    zip[3] !== 0x04
+  ) {
+    throw new Error("Not a valid ZIP file");
   }
 
   const compressionMethod = zip.readUInt16LE(8);
@@ -25,7 +31,7 @@ async function extractFirstFileFromZip(zip: Buffer): Promise<Buffer> {
   const dataOffset = 30 + filenameLength + extraLength;
 
   if (dataOffset + compressedSize > zip.length) {
-    throw new Error('ZIP file truncated');
+    throw new Error("ZIP file truncated");
   }
 
   const data = zip.subarray(dataOffset, dataOffset + compressedSize);
@@ -39,23 +45,26 @@ async function extractFirstFileFromZip(zip: Buffer): Promise<Buffer> {
 async function downloadAndParse(): Promise<Map<string, number>> {
   const ranks = new Map<string, number>();
 
-  const res = await fetch(TRANCO_URL);
+  const res = await fetch(TRANCO_URL, { signal: AbortSignal.timeout(30_000) });
   if (!res.ok || !res.body) {
-    log.warn('tranco', `Failed to download list: HTTP ${res.status}`);
+    log.warn("tranco", `Failed to download list: HTTP ${res.status}`);
     return ranks;
   }
 
   const zipBuffer = Buffer.from(await res.arrayBuffer());
   const csvBuffer = await extractFirstFileFromZip(zipBuffer);
 
-  const text = csvBuffer.toString('utf-8');
-  for (const line of text.split('\n')) {
+  const text = csvBuffer.toString("utf-8");
+  for (const line of text.split("\n")) {
     const trimmed = line.trim();
     if (!trimmed) continue;
-    const commaIdx = trimmed.indexOf(',');
+    const commaIdx = trimmed.indexOf(",");
     if (commaIdx === -1) continue;
     const rank = parseInt(trimmed.slice(0, commaIdx), 10);
-    const domain = trimmed.slice(commaIdx + 1).trim().toLowerCase();
+    const domain = trimmed
+      .slice(commaIdx + 1)
+      .trim()
+      .toLowerCase();
     if (rank > 0 && domain) {
       ranks.set(domain, rank);
     }
@@ -64,7 +73,7 @@ async function downloadAndParse(): Promise<Map<string, number>> {
   return ranks;
 }
 
-export { formatRankLabel, formatRankBadge } from './tranco-format';
+export { formatRankLabel, formatRankBadge } from "./tranco-format";
 
 /**
  * Load the Tranco list and build a lookup map keyed by program slug.
@@ -76,7 +85,7 @@ export async function fetchTrancoRanks(
   try {
     if (!cachedRanks) {
       cachedRanks = await downloadAndParse();
-      log.info('tranco', `Loaded ${cachedRanks.size} domain ranks`);
+      log.info("tranco", `Loaded ${cachedRanks.size} domain ranks`);
     }
 
     const bySlug = new Map<string, number>();
@@ -91,7 +100,7 @@ export async function fetchTrancoRanks(
 
     return { bySlug };
   } catch (err) {
-    log.warn('tranco', 'Failed to load', err);
+    log.warn("tranco", "Failed to load", err);
     cachedRanks = new Map();
     return { bySlug: new Map() };
   }

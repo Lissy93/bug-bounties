@@ -1,0 +1,167 @@
+name: 🚦 PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      lib: ${{ steps.filter.outputs.lib }}
+      web: ${{ steps.filter.outputs.web }}
+      docker: ${{ steps.filter.outputs.docker }}
+      data: ${{ steps.filter.outputs.data }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            lib:
+              - 'lib/**'
+              - 'Makefile'
+            web:
+              - 'web/**'
+            docker:
+              - 'web/**'
+              - '.github/workflows/docker.yml'
+            data:
+              - 'independent-programs.yml'
+              - 'platform-programs.yml'
+              - 'lib/schema.json'
+
+  lib-checks:
+    name: 'Lib: Test'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.lib == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: pip install -r lib/requirements.txt
+      - run: make validate
+      - run: python lib/populate-bounties.py --dry-run --stats
+
+  web-lint:
+    name: 'Web: Lint'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  web-typecheck:
+    name: 'Web: Type check'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run type-check
+
+  web-format:
+    name: 'Web: Format'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run format
+
+  docker-build:
+    name: 'Docker: Build'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.docker == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: web/Dockerfile
+          push: false
+          load: true
+          cache-from: type=gha
+
+  data-validation:
+    name: 'Data: Validate'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.data == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: pip install -r lib/requirements.txt
+      - run: make validate
+
+  summary:
+    name: 'Finish: Report results'
+    needs: [lib-checks, web-lint, web-typecheck, web-format, docker-build, data-validation]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          failed=0
+          echo "## PR Check Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
+
+          for job in lib-checks web-lint web-typecheck web-format docker-build data-validation; do
+            case "$job" in
+              lib-checks)      result="${{ needs.lib-checks.result }}" ;;
+              web-lint)        result="${{ needs.web-lint.result }}" ;;
+              web-typecheck)   result="${{ needs.web-typecheck.result }}" ;;
+              web-format)      result="${{ needs.web-format.result }}" ;;
+              docker-build)    result="${{ needs.docker-build.result }}" ;;
+              data-validation) result="${{ needs.data-validation.result }}" ;;
+            esac
+
+            case "$result" in
+              success) status="✅ Passed" ;;
+              failure) status="❌ Failed"; failed=1 ;;
+              skipped) status="⏭️ Skipped" ;;
+              *)       status="❔ Unknown" ;;
+            esac
+            echo "| $job | $status |" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+          exit "$failed"

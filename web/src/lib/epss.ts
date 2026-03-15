@@ -1,10 +1,10 @@
-import { gunzip } from 'node:zlib';
-import { promisify } from 'node:util';
-import { log } from './log';
+import { gunzip } from "node:zlib";
+import { promisify } from "node:util";
+import { log } from "./log";
 
 const gunzipAsync = promisify(gunzip);
 
-const EPSS_URL = 'https://epss.cyentia.com/epss_scores-current.csv.gz';
+const EPSS_URL = "https://epss.cyentia.com/epss_scores-current.csv.gz";
 
 export interface EpssEntry {
   score: number;
@@ -23,40 +23,40 @@ export async function fetchEpssScores(): Promise<Map<string, EpssEntry>> {
   const scores = new Map<string, EpssEntry>();
 
   try {
-    const res = await fetch(EPSS_URL);
+    const res = await fetch(EPSS_URL, { signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
-      log.warn('epss', `Failed to download scores: HTTP ${res.status}`);
+      log.warn("epss", `Failed to download scores: HTTP ${res.status}`);
       cachedScores = scores;
       return scores;
     }
 
     const compressed = Buffer.from(await res.arrayBuffer());
     const decompressed = await gunzipAsync(compressed);
-    const text = decompressed.toString('utf-8');
+    const text = decompressed.toString("utf-8");
 
-    for (const line of text.split('\n')) {
+    for (const line of text.split("\n")) {
       // Skip comment lines (start with #) and header
-      if (line.startsWith('#') || line.startsWith('cve,')) continue;
+      if (line.startsWith("#") || line.startsWith("cve,")) continue;
       const trimmed = line.trim();
       if (!trimmed) continue;
 
-      const firstComma = trimmed.indexOf(',');
+      const firstComma = trimmed.indexOf(",");
       if (firstComma === -1) continue;
-      const secondComma = trimmed.indexOf(',', firstComma + 1);
+      const secondComma = trimmed.indexOf(",", firstComma + 1);
       if (secondComma === -1) continue;
 
       const cve = trimmed.slice(0, firstComma);
       const score = parseFloat(trimmed.slice(firstComma + 1, secondComma));
       const percentile = parseFloat(trimmed.slice(secondComma + 1));
 
-      if (cve.startsWith('CVE-') && !isNaN(score) && !isNaN(percentile)) {
+      if (cve.startsWith("CVE-") && !isNaN(score) && !isNaN(percentile)) {
         scores.set(cve, { score, percentile });
       }
     }
 
-    log.info('epss', `Loaded ${scores.size} EPSS scores`);
+    log.info("epss", `Loaded ${scores.size} EPSS scores`);
   } catch (err) {
-    log.warn('epss', 'Failed to load', err);
+    log.warn("epss", "Failed to load", err);
   }
 
   cachedScores = scores;

@@ -1,9 +1,12 @@
 <script lang="ts">
-  export let text: string = '';
+  export let text: string = "";
 </script>
 
 {#if text}
-  <span class="has-tooltip" data-tooltip={text}><slot /></span>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <span class="has-tooltip" data-tooltip={text} tabindex="0" role="note"
+    ><slot /></span
+  >
 {:else}
   <slot />
 {/if}
@@ -12,9 +15,6 @@
   .has-tooltip {
     position: relative;
     cursor: help;
-  }
-  .has-tooltip:has(button) {
-    cursor: pointer;
   }
   .has-tooltip::after {
     content: attr(data-tooltip);
@@ -25,7 +25,7 @@
     background: var(--background, #0c121a);
     color: var(--foreground, #fff);
     font-size: 0.75rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: normal;
     line-height: 1.4;
     padding: 0.35rem 0.6rem;

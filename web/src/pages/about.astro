@@ -1,9 +1,9 @@
 ---
-import Header from '../components/Header.astro';
-import DefaultLayout from '../layouts/DefaultLayout.astro';
-import { loadBounties } from '../lib/data';
+import Header from "../components/Header.astro";
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import { loadAllPrograms } from "../lib/load-all-programs";
 
-const programs = loadBounties();
+const { programs } = await loadAllPrograms();
 const count = programs.length;
 
 const apps = [
@@ -26,7 +26,8 @@ const apps = [
     url: "https://awesome-privacy.xyz/",
     github: "https://github.com/lissy93/awesome-privacy",
     logo: "https://cdn.as93.net/logo/awesome-privacy?w=64&h=64",
-    description: "A curated list of apps, services and alternatives that respect your privacy",
+    description:
+      "A curated list of apps, services and alternatives that respect your privacy",
   },
   {
     name: "Portainer Templates",
@@ -40,7 +41,8 @@ const apps = [
     url: "https://networkingtoolbox.net/",
     github: "https://github.com/lissy93/networking-toolbox",
     logo: "https://cdn.as93.net/logo/networking-toolbox?w=64&h=64",
-    description: "The all-in-one collection of 100+ free offline-first tools for sysadmins",
+    description:
+      "The all-in-one collection of 100+ free offline-first tools for sysadmins",
   },
   {
     name: "Domain Locker",
@@ -66,7 +68,10 @@ const apps = [
 ];
 ---
 
-<DefaultLayout title="About - Bug Bounties" description="About the Bug Bounties directory - how data is collected and how to contribute.">
+<DefaultLayout
+  title="About - Bug Bounties"
+  description="About the Bug Bounties directory - how data is collected and how to contribute."
+>
   <Header />
   <article class="about">
     <h1>About</h1>
@@ -74,82 +79,156 @@ const apps = [
     <section>
       <h2>What is this?</h2>
       <p>
-        Bug Bounties is an open-source directory of <strong>{count.toLocaleString()}</strong> bug bounty
-        and responsible disclosure programs.
-        The aim, is to help security researchers quickly find companies that welcome vulnerability reports,
-        as well as augmenting listing with essential info like scopes, rewards, contact details, known issues, and more.
+        Bug Bounties is an open-source directory of <strong
+          >{count.toLocaleString()}</strong
+        > bug bounty and responsible disclosure programs. The aim, is to help security
+        researchers quickly find companies that welcome vulnerability reports, as
+        well as augmenting listing with essential info like scopes, rewards, contact
+        details, known issues, and more.
       </p>
     </section>
 
     <section>
       <h2>How is data collected?</h2>
       <p>
-        Program data is aggregated from multiple public sources, which is fetched, processed and verified nightly.
-        As well as user-submitted programs, we also fetch from HackerOne, BugCrowd, Intigriti, YesWeHack, Federacy,
-        Disclose.io among other sources.
+        Program data is aggregated from multiple public sources, which is
+        fetched, processed and verified nightly. As well as user-submitted
+        programs, we also fetch from HackerOne, BugCrowd, Intigriti, YesWeHack,
+        Federacy, Disclose.io among other sources.
       </p>
       <p>
-        Platform-managed programs are stored in <a href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"><code>platform-programs.yml</code></a>,
-        while independently-run programs are in <a href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"><code>independent-programs.yml</code></a>.
-        Both files are available in our GitHub repository.
+        Platform-managed programs are stored in <a
+          href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"
+          ><code>platform-programs.yml</code></a
+        >, while independently-run programs are in <a
+          href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"
+          ><code>independent-programs.yml</code></a
+        >. Both files are available in our GitHub repository.
       </p>
-
     </section>
 
     <section>
       <h2>Adding a Program</h2>
       <p>
-          If your bounty program is not listed on any of the platforms which we auto-aggregate, you can submit it as an independent program.
-          Fork the repository, add your program to <code>independent-programs.yml</code>, and open a pull request.
-          Required fields are <code>company</code> and <code>url</code>. Optional fields include <code>contact</code>,
-          <code>rewards</code>, <code>safe_harbor</code>, <code>scope</code>, <code>payout_table</code>, <code>excluded_methods</code>, <code>description</code>,
-          and more. See the <a href="https://github.com/Lissy93/bug-bounties#submitting-a-program">full field reference</a> in the README.
+        If your bounty program is not listed on any of the platforms which we
+        auto-aggregate, you can submit it as an independent program. Fork the
+        repository, add your program to <a
+          href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"
+          target="_blank"
+          rel="noopener noreferrer"><code>independent-programs.yml</code></a
+        >, and open a pull request. Required fields are <code>company</code> and <code
+          >url</code
+        >. Optional fields include <code>contact</code>,
+        <code>rewards</code>, <code>safe_harbor</code>, <code>scope</code>, <code
+          >payout_table</code
+        >, <code>excluded_methods</code>, <code>description</code>, and more.
+        See the <a
+          href="https://github.com/Lissy93/bug-bounties#submitting-a-program"
+          >full field reference</a
+        > in the README.
+      </p>
+      <p>
+        Alternatively, you can just use <a
+          href="https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml"
+          target="_blank"
+          rel="noopener noreferrer">this form</a
+        >, and we will add your bounty program automatically.
       </p>
     </section>
 
     <section>
-        <h2>Contributing</h2>
+      <h2>Contributing</h2>
 
-        <p>
-            Start by clone the repo with <code>git clone git@github.com:Lissy93/bug-bounties.git &amp;&amp; cd bug-bounties</code><br>
-            You will need Python (v3.12+) installed for the scripts, as well as Node.js (v24+) for the website.
-        </p>
-        <p>To run the data gathering and processing scripts:</p>
-        <ol>
-            <li><code>make install</code> - Setup environment and install dependencies (from <a href="https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt"><code>requirements.txt</code></a>)</li>
-            <li><code>make populate</code> - Fetch the latest directory of programs, format, and write to <code>platform-programs.yml</code></li>
-            <li><code>make validate</code> - Verify and validate the <a href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"><code>platform-programs.yml</code></a> and <a href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"><code>independent-programs.yml</code></a> files against the <a href="https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json"><code>schema.json</code></a></li>
-            <li><code>make readme</code> - Generate and insert a summarized list of programs into the <a href="https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md"><code>README.md</code></a></li>
-        </ol>
-        <p>To develop and build the website:</p>
-        <ol>
-            <li><code>cd web</code> to navigate into the <a href="https://github.com/Lissy93/bug-bounties/tree/main/web"><code>web/</code></a> directory</li>
-            <li><code>npm i</code> to install dependencies</li>
-            <li><code>npm run dev</code> to start the development server</li>
-            <li><code>npm run build</code> to build the production site</li>
-            <li>Then, to deploy the website, either:
-                <ul>
-                    <li>Upload the content of <code>web/dist/</code> into any web server, static hosting provider or CDN.</li>
-                    <li>Or import the project into a static hosting provider (like Vercel, Netlify, etc), where it will be auto-build and published</li>
-                </ul>
-            </li>
-        </ol>
-
-        <p>Alternatively, all the above tasks can be run directly using GitHub Actions. Simply fork the project, and trigger the workflow(s).</p>
+      <p>
+        Start by clone the repo with <code
+          >git clone git@github.com:Lissy93/bug-bounties.git &amp;&amp; cd
+          bug-bounties</code
+        ><br />
+        You will need Python (v3.12+) installed for the scripts, as well as Node.js
+        (v24+) for the website.
+      </p>
+      <p>To run the data gathering and processing scripts:</p>
+      <ol>
+        <li>
+          <code>make install</code> - Setup environment and install dependencies (from
+          <a
+            href="https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt"
+            ><code>requirements.txt</code></a
+          >)
+        </li>
+        <li>
+          <code>make populate</code> - Fetch the latest directory of programs, format,
+          and write to <code>platform-programs.yml</code>
+        </li>
+        <li>
+          <code>make validate</code> - Verify and validate the <a
+            href="https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml"
+            ><code>platform-programs.yml</code></a
+          > and <a
+            href="https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml"
+            ><code>independent-programs.yml</code></a
+          > files against the <a
+            href="https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json"
+            ><code>schema.json</code></a
+          >
+        </li>
+        <li>
+          <code>make readme</code> - Generate and insert a summarized list of programs
+          into the <a
+            href="https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md"
+            ><code>README.md</code></a
+          >
+        </li>
+      </ol>
+      <p>To develop and build the website:</p>
+      <ol>
+        <li>
+          <code>cd web</code> to navigate into the <a
+            href="https://github.com/Lissy93/bug-bounties/tree/main/web"
+            ><code>web/</code></a
+          > directory
+        </li>
+        <li><code>npm i</code> to install dependencies</li>
+        <li><code>npm run dev</code> to start the development server</li>
+        <li><code>npm run build</code> to build the production site</li>
+      </ol>
+      <p>
+        If you'd like to deploy/self-host your own version or fork of
+        bug-bounties, you have several options:
+      </p>
+      <ul>
+        <li>
+          <b>Option #1:</b> Upload the content of <code>web/dist/</code> into any
+          web server, static hosting provider or CDN.
+        </li>
+        <li>
+          <b>Option #2:</b> Import the project into a static hosting provider (like
+          Vercel, Netlify, etc), where it will be auto-build and published
+        </li>
+        <li>
+          <b>Option #3:</b> For Docker, run <code
+            >docker run -p 8080:8080 ghcr.io/lissy93/bug-bounties:latest</code
+          >
+        </li>
+      </ul>
     </section>
 
     <section>
       <h2>Responsible disclosure</h2>
       <p>
-        If you find a vulnerability in one of these programs, always follow their specific
-        disclosure policy. General guidance:
+        If you find a vulnerability in one of these programs, always follow
+        their specific disclosure policy. General guidance:
       </p>
       <ul>
         <li>Read the program's rules before testing</li>
         <li>Only test on systems you are authorized to test</li>
         <li>Do not access, modify, or delete user data</li>
-        <li>Report vulnerabilities promptly and provide enough detail to reproduce</li>
-        <li>Give the company reasonable time to fix before any public disclosure</li>
+        <li>
+          Report vulnerabilities promptly and provide enough detail to reproduce
+        </li>
+        <li>
+          Give the company reasonable time to fix before any public disclosure
+        </li>
       </ul>
     </section>
 
@@ -157,29 +236,47 @@ const apps = [
       <h2>Credits and license</h2>
       <h3>Contributors</h3>
       <a href="https://github.com/Lissy93/bug-bounties/graphs/contributors">
-          <img src="https://readme-contribs.as93.net/contributors/lissy93/bug-bounties?shape=squircle&amp;textColor=666666" alt="Top Contributors">
+        <img
+          src="https://readme-contribs.as93.net/contributors/lissy93/bug-bounties?shape=squircle&textColor=666666"
+          alt="Top Contributors"
+        />
       </a>
 
       <h3>Sponsors</h3>
       <a href="https://github.com/sponsors/Lissy93">
-          <img src="https://readme-contribs.as93.net/sponsors/lissy93?shape=squircle&amp;textColor=666666" alt="Sponsors">
+        <img
+          src="https://readme-contribs.as93.net/sponsors/lissy93?shape=squircle&textColor=666666"
+          alt="Sponsors"
+        />
       </a>
 
       <h3>Dependencies</h3>
       <ul>
-        <li><a href="https://astro.build">Astro</a> + <a href="https://svelte.dev">Svelte</a> - website</li>
+        <li>
+          <a href="https://astro.build">Astro</a> + <a href="https://svelte.dev"
+            >Svelte</a
+          > - website
+        </li>
         <li><a href="https://pyyaml.org">PyYAML</a> - YAML parsing</li>
-        <li><a href="https://python-jsonschema.readthedocs.io">jsonschema</a> - schema validation</li>
-        <li><a href="https://github.com/rapidfuzz/RapidFuzz">rapidfuzz</a> - fuzzy deduplication</li>
-        <li><a href="https://requests.readthedocs.io">requests</a> - HTTP client</li>
+        <li>
+          <a href="https://python-jsonschema.readthedocs.io">jsonschema</a> - schema
+          validation
+        </li>
+        <li>
+          <a href="https://github.com/rapidfuzz/RapidFuzz">rapidfuzz</a> - fuzzy deduplication
+        </li>
+        <li>
+          <a href="https://requests.readthedocs.io">requests</a> - HTTP client
+        </li>
       </ul>
 
       <h3>License</h3>
       <a href="https://bug-bounties.as93.net">Bug Bounties</a> is licensed under
-      <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>,
-      © <a href="https://aliciasykes.com">Alicia Sykes</a> 2026.
+      <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a
+      >, © <a href="https://aliciasykes.com">Alicia Sykes</a> 2026.
 
-<pre class="license">
+      <pre
+        class="license">
 MIT License
 
 Copyright (c) 2023 Alicia Sykes https://aliciasykes.com
@@ -202,29 +299,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </pre>
-
     </section>
     <section>
       <h2>More Apps</h2>
-      <p>Enjoy security content? You might be interested in some of the other projects we maintain:</p>
+      <p>
+        Enjoy security content? You might be interested in some of the other
+        projects we maintain:
+      </p>
       <ul class="more-apps-list">
-        {apps.map((app) => (
-          <li>
-            <a href={app.url} target="_blank">
-              <img src={app.logo} width="20" />
-              <span>{app.name}</span>
-            </a>
-            <span> - {app.description}</span>
-            <span>(<a href={app.github} target="_blank">GitHub</a>)</span>
-          </li>
-        ))}
+        {
+          apps.map((app) => (
+            <li>
+              <a href={app.url} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={app.logo}
+                  width="20"
+                  height="20"
+                  alt=""
+                  loading="lazy"
+                />
+                <span>{app.name}</span>
+              </a>
+              <span> - {app.description}</span>
+              <span>
+                (
+                <a href={app.github} target="_blank" rel="noopener noreferrer">
+                  GitHub
+                </a>
+                )
+              </span>
+            </li>
+          ))
+        }
       </ul>
     </section>
   </article>
 </DefaultLayout>
 
 <style>
-
   .about {
     width: var(--content-width);
     margin: 0 auto 2rem;
@@ -251,13 +363,13 @@ SOFTWARE.
   }
   ul {
     padding-left: 1.5rem;
-    line-height: 1.8;
+    line-height: 1.6;
   }
   a {
     color: var(--primary);
   }
   img {
-      max-width: 100%;
+    max-width: 100%;
   }
   code {
     background: var(--background-darker);
@@ -276,17 +388,17 @@ SOFTWARE.
   }
 
   .more-apps-list {
-      padding: 0;
-      margin: 0.25rem 0;
-      li {
-          display: flex;
-          gap: 0.25rem;
-          line-height: 24px;
-      }
-      a {
-          display: inline-flex;
-          gap: 0.25rem;
-          align-items: anchor-center;
-      }
+    padding: 0;
+    margin: 0.25rem 0;
+    li {
+      display: flex;
+      gap: 0.25rem;
+      line-height: 24px;
+    }
+    a {
+      display: inline-flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
   }
 </style>

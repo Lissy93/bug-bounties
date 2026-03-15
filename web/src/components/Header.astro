@@ -1,27 +1,193 @@
 ---
-import { Github } from 'lucide-svelte';
+import {
+  Github,
+  Info,
+  CodeXml,
+  CirclePlus,
+  GraduationCap,
+  Bookmark,
+} from "lucide-svelte";
+
+const navLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/lissy93/bug-bounties",
+    icon: "Github",
+    external: true,
+    showOnHome: true,
+  },
+  {
+    label: "Add Bounty",
+    href: "https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml",
+    icon: "CirclePlus",
+    external: true,
+    showOnHome: false,
+  },
+  {
+    label: "API",
+    href: "/api",
+    icon: "CodeXml",
+    external: false,
+    showOnHome: false,
+  },
+  {
+    label: "Saved",
+    href: "/bookmarks",
+    icon: "Bookmark",
+    external: false,
+    showOnHome: false,
+  },
+  {
+    label: "Learn",
+    href: "/learn",
+    icon: "GraduationCap",
+    external: false,
+    showOnHome: false,
+  },
+  {
+    label: "About",
+    href: "/about",
+    icon: "Info",
+    external: false,
+    showOnHome: false,
+  },
+];
+
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === "/";
+
+function isActive(link: (typeof navLinks)[0]): boolean {
+  if (link.external) return false;
+  if (link.href === "/") return currentPath === "/";
+  return currentPath === link.href || currentPath.startsWith(link.href + "/");
+}
 ---
 
-<header>
-  <div class="title-and-icon">
-    <a href="/">
-      <img src="/favicon.png" alt="Bug Bounties" />
-    </a>
-    <h1><a href="/">Bug Bounties</a></h1>
-  </div>
-  <p class="subtitle">
-      A compiled list of companies which accept responsible disclosure<a href="/about">...</a>
-  </p>
-  <nav>
-    <a class="nav-link github-link" href="https://github.com/lissy93/bug-bounties">
-      <Github size={16} />
-      View on GitHub
-    </a>
-  </nav>
-</header>
+{
+  isHome ? (
+    <header class="hero">
+      <div class="title-and-icon">
+        <a href="/">
+          <img src="/favicon.png" alt="Bug Bounties" />
+        </a>
+        <h1>
+          <a href="/">Bug Bounties</a>
+        </h1>
+      </div>
+      <p class="subtitle">
+        A compiled list of companies which accept responsible disclosure
+        <a href="/about">...</a>
+      </p>
+      <nav aria-label="Main navigation">
+        {navLinks
+          .filter((link) => link.showOnHome)
+          .map((link) => (
+            <a
+              class="nav-link"
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {link.icon === "Github" && <Github size={16} />}
+              {link.icon === "CirclePlus" && <CirclePlus size={16} />}
+              {link.icon === "CodeXml" && <CodeXml size={16} />}
+              {link.icon === "GraduationCap" && <GraduationCap size={16} />}
+              {link.icon === "Info" && <Info size={16} />}
+              {link.label}
+            </a>
+          ))}
+      </nav>
+      <nav aria-label="Secondary navigation" class="sub-nav-wrap">
+        {navLinks
+          .filter(
+            (link) =>
+              !link.showOnHome &&
+              link.href != "/bookmarks" &&
+              link.href != "/learn",
+          )
+          .map((link) => (
+            <a
+              class="nav-link-tiny"
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {link.icon === "Github" && <Github size={16} />}
+              {link.icon === "CirclePlus" && <CirclePlus size={16} />}
+              {link.icon === "CodeXml" && <CodeXml size={16} />}
+              {link.icon === "GraduationCap" && <GraduationCap size={16} />}
+              {link.icon === "Info" && <Info size={16} />}
+              {link.label}
+            </a>
+          ))}
+      </nav>
+    </header>
+  ) : (
+    <header class="compact">
+      <div class="compact-inner">
+        <a href="/" class="compact-brand">
+          <img src="/favicon.png" alt="" />
+          <span>Bug Bounties</span>
+        </a>
+        <nav aria-label="Main navigation" id="nav-menu" class="compact-nav">
+          {navLinks.map((link) => (
+            <a
+              class:list={["compact-link", { active: isActive(link) }]}
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              {...(isActive(link) ? { "aria-current": "page" } : {})}
+            >
+              {link.icon === "Github" && <Github size={14} />}
+              {link.icon === "CirclePlus" && <CirclePlus size={14} />}
+              {link.icon === "CodeXml" && <CodeXml size={14} />}
+              {link.icon === "Bookmark" && <Bookmark size={14} />}
+              {link.icon === "GraduationCap" && <GraduationCap size={14} />}
+              {link.icon === "Info" && <Info size={14} />}
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <button
+          class="hamburger"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+          aria-label="Toggle menu"
+        >
+          <span class="hamburger-line" />
+          <span class="hamburger-line" />
+          <span class="hamburger-line" />
+        </button>
+      </div>
+    </header>
+  )
+}
+
+<script>
+  const btn = document.querySelector(".hamburger");
+  const nav = document.getElementById("nav-menu");
+  if (btn && nav) {
+    btn.addEventListener("click", () => {
+      const open = nav.classList.toggle("menu-open");
+      btn.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("menu-open");
+        btn.classList.remove("menu-open");
+        btn.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+</script>
 
 <style>
-  header {
+  /* ========== Hero mode (homepage) ========== */
+  .hero {
     display: flex;
     flex-direction: column;
     background: var(--background-lighter);
@@ -29,7 +195,19 @@ import { Github } from 'lucide-svelte';
     margin: 2rem auto;
     border-radius: var(--curve);
     box-shadow: var(--shadow);
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem auto;
+      flex-wrap: wrap;
+      &.sub-nav-wrap {
+        margin: 0.5rem auto 1rem auto;
+      }
+    }
   }
+
   .title-and-icon {
     padding: 1rem;
     display: flex;
@@ -39,37 +217,43 @@ import { Github } from 'lucide-svelte';
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+
+    img {
+      width: 5rem;
+    }
+
+    h1 {
+      font-size: 5rem;
+      margin: 0;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
   }
-  .title-and-icon img {
-    width: 5rem;
-  }
-  .title-and-icon h1 {
-    font-size: 5rem;
-    margin: 0;
+
+  .subtitle {
     text-align: center;
     color: var(--primary);
-  }
-  .title-and-icon a {
-    text-decoration: none;
-    color: inherit;
-  }
-  .subtitle, .subtitle a {
-    text-align: center;
-    color: var(--primary);
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 1.2rem;
     margin: 1rem auto;
+
+    a {
+      text-align: center;
+      color: var(--primary);
+      font-family: "Roboto", sans-serif;
+      font-size: 1.2rem;
+      margin: 1rem auto;
+    }
   }
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1rem auto;
-    flex-wrap: wrap;
-  }
+
   .nav-link {
-    font-family: 'Roboto', sans-serif;
-    border: 2px solid var(--primary);
+    font-family: "Roboto", sans-serif;
+    border: 2px solid var(--primary-muted);
     padding: 0.25rem 0.5rem;
     font-size: 1.2rem;
     border-radius: var(--curve);
@@ -79,14 +263,179 @@ import { Github } from 'lucide-svelte';
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-width: 8rem;
+    justify-content: center;
+
+    &:hover {
+      background: var(--primary);
+      color: var(--background);
+    }
   }
-  .nav-link:hover {
-    background: var(--primary);
-    color: var(--background);
+
+  .nav-link-tiny {
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
   }
+
   @media only screen and (max-width: 800px) {
-      .title-and-icon h1  {
-          font-size: 3.5rem;
+    .title-and-icon h1 {
+      font-size: 3.5rem;
+    }
+  }
+
+  /* Compact mode, used all pages except homepage */
+  .compact {
+    width: 100%;
+    background: var(--background-lighter);
+    box-shadow: 0 1px 2px var(--background-darker);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 8px 8px;
+  }
+
+  .compact-inner {
+    width: var(--content-width);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+  }
+
+  .compact-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--primary);
+    font-family: "Wallpoet", sans-serif;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .compact-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .compact-link {
+    font-family: "Roboto", sans-serif;
+    font-size: 0.9rem;
+    color: var(--foreground);
+    text-decoration: none;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--curve);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+
+    &:hover {
+      background: #ffffff10;
+      color: var(--primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    &.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+  }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 101;
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    &.menu-open .hamburger-line {
+      &:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
       }
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      &:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+    }
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--foreground);
+    transition: var(--transition);
+    transform-origin: center;
+  }
+
+  /* Mobile styles for compact mode */
+  @media only screen and (max-width: 800px) {
+    .hamburger {
+      display: flex;
+    }
+
+    .compact-nav {
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: var(--background-lighter);
+      box-shadow: 0 2px 4px var(--background-darker);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+      align-items: stretch;
+      padding: 0;
+
+      &.menu-open {
+        max-height: 20rem;
+        background: var(--background);
+      }
+    }
+
+    .compact-link {
+      padding: 0.75rem 1.5rem;
+      border-bottom: none;
+      font-size: 1rem;
+
+      &.active {
+        background: #ffffff08;
+        border-bottom: none;
+        border-left: 3px solid var(--primary);
+      }
+    }
   }
 </style>

@@ -1,0 +1,29 @@
+---
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
+import Header from "../../components/Header.astro";
+---
+
+<DefaultLayout
+  title="API Documentation - Bug Bounties"
+  description="Interactive API documentation for the Bug Bounties JSON API."
+  noindex={true}
+>
+  <Header />
+  <div id="api-reference" data-url="/api/openapi.json"></div>
+  <script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.48.7"
+    integrity="sha384-cBPqkw2FIsmjfx2PcjFWTPiiqRGMMtb98s3eTuOcI/D7bLT7EhZt0hWnXSoKEAJF"
+    crossorigin="anonymous"></script>
+</DefaultLayout>
+
+<style is:global>
+  .scalar-app {
+    --scalar-background-1: var(--background) !important;
+    --scalar-background-2: var(--background-lighter) !important;
+    --scalar-background-3: var(--background-darker) !important;
+    --scalar-color-1: var(--foreground) !important;
+    --scalar-color-2: var(--muted) !important;
+    --scalar-color-accent: var(--primary) !important;
+  }
+</style>

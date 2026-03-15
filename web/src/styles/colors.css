@@ -1,8 +1,8 @@
 :root {
-  --primary: #FDC500;
+  --primary: #fdc500;
   --foreground: #ffffff;
   --background: #0c121a;
-  --primary-muted: #FDC50087;
+  --primary-muted: #fdc50087;
   --background-lighter: #ffffff08;
   --background-darker: #00000082;
   --muted: #ffffff60;
@@ -12,6 +12,7 @@
   --accent: #f4419e;
   --danger: #ef4444;
   --warning: #f59e0b;
+  --cyan: #72fcfc;
   --curve: 4px;
   --max-width: 1400px;
   --content-width: 90%;

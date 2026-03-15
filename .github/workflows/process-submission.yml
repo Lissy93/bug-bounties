@@ -1,4 +1,4 @@
-name: 🆕 Process program submission
+name: 🆕 Add program entry
 
 on:
   issues:
@@ -10,6 +10,8 @@ jobs:
       (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'program-submission'))
       || (github.event.action == 'labeled' && github.event.label.name == 'program-submission')
     runs-on: ubuntu-latest
+    concurrency:
+      group: program-data-mutation
     permissions:
       issues: write
       pull-requests: write
@@ -17,12 +19,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.BOT_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -78,7 +80,8 @@ jobs:
           BRANCH: ${{ steps.process.outputs.branch }}
         run: |
           PR_URL=$(gh pr view "$BRANCH" --json url -q .url)
-          BODY="Hey @${{ github.event.issue.user.login }}, thank you for your submission!"
+          AUTHOR_LOGIN="${{ github.event.issue.user.login }}"
+          BODY="Hey @${AUTHOR_LOGIN}, thank you for your submission!"
           BODY="${BODY}"$'\n'"I've created a PR at ${PR_URL} to get this merged in 😊"
           gh issue comment "$ISSUE_NUMBER" --body "$BODY"
           # gh issue close "$ISSUE_NUMBER"
@@ -88,15 +91,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.BOT_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
           ERROR_MESSAGE: ${{ steps.process.outputs.error_message }}
         run: |
-          gh issue comment "$ISSUE_NUMBER" \
-            --body "$(cat <<'EOF'
-          Hey @${{ github.event.issue.user.login }} - thanks for your submission!
-          But it looks like there were some validation errors in the content you entered.
-
-          ${{ steps.process.outputs.error_message }}
-
-          Please either close/re-open the issue, or tag a maintainer to take a look
-          EOF
-          )"
+          BODY="Hey @${ISSUE_AUTHOR} - thanks for your submission!"
+          BODY="${BODY}"$'\n'"But it looks like there were some validation errors in the content you entered."
+          BODY="${BODY}"$'\n\n'"${ERROR_MESSAGE}"
+          BODY="${BODY}"$'\n\n'"Please either close/re-open the issue, or tag a maintainer to take a look"
+          gh issue comment "$ISSUE_NUMBER" --body "$BODY"

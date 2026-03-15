@@ -1,6 +1,6 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title?: string;
@@ -15,9 +15,8 @@ const { title, description, canonicalUrl, noindex, jsonLd } = Astro.props;
 
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <BaseHead
       title={title}
       description={description}
@@ -27,7 +26,8 @@ const { title, description, canonicalUrl, noindex, jsonLd } = Astro.props;
     />
   </head>
   <body>
-    <main>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <main id="main-content">
       <slot />
     </main>
     <Footer />
@@ -35,19 +35,38 @@ const { title, description, canonicalUrl, noindex, jsonLd } = Astro.props;
 </html>
 
 <style is:global>
-  @import '../styles/fonts.css';
-  @import '../styles/colors.css';
-  @import '../styles/globals.css';
+  @import "../styles/fonts.css";
+  @import "../styles/colors.css";
+  @import "../styles/globals.css";
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: var(--background);
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
   body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     background: var(--background);
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Wallpoet', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Wallpoet", sans-serif;
     font-weight: normal;
   }
   main {

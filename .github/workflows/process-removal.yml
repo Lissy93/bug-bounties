@@ -1,0 +1,93 @@
+name: 🚮 Remove program entry
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  process:
+    if: >-
+      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'program-removal'))
+      || (github.event.action == 'labeled' && github.event.label.name == 'program-removal')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: program-data-mutation
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r lib/requirements.txt
+
+      - name: Process removal
+        id: process
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        run: python lib/process-removal.py
+
+      - name: Create PR
+        if: steps.process.outputs.result == 'removed'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BRANCH: ${{ steps.process.outputs.branch }}
+          COMPANY: ${{ steps.process.outputs.company }}
+          PR_BODY: ${{ steps.process.outputs.pr_body }}
+        run: |
+          AUTHOR_LOGIN="${{ github.event.issue.user.login }}"
+          AUTHOR_NAME=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.name // empty' 2>/dev/null || true)
+          AUTHOR_NAME="${AUTHOR_NAME:-$AUTHOR_LOGIN}"
+          AUTHOR_EMAIL=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.email // empty' 2>/dev/null || true)
+          AUTHOR_EMAIL="${AUTHOR_EMAIL:-${AUTHOR_LOGIN}@users.noreply.github.com}"
+
+          git config user.name "Liss-Bot"
+          git config user.email "alicia-gh-bot@mail.as93.net"
+          git checkout -b "$BRANCH"
+          git add independent-programs.yml
+          git commit -m "$(printf 'Remove program: %s\n\nCo-Authored-By: %s <%s>' "$COMPANY" "$AUTHOR_NAME" "$AUTHOR_EMAIL")"
+          git push -u origin "$BRANCH" --force
+
+          if gh pr view "$BRANCH" --json number -q .number >/dev/null 2>&1; then
+            gh pr edit "$BRANCH" --title "Remove program: $COMPANY" --body "$PR_BODY"
+          else
+            gh pr create \
+              --head "$BRANCH" \
+              --base main \
+              --title "Remove program: $COMPANY" \
+              --body "$PR_BODY"
+          fi
+
+      - name: Comment on issue (removed)
+        if: steps.process.outputs.result == 'removed'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          BRANCH: ${{ steps.process.outputs.branch }}
+          COMPANY: ${{ steps.process.outputs.company }}
+        run: |
+          PR_URL=$(gh pr view "$BRANCH" --json url -q .url)
+          AUTHOR_LOGIN="${{ github.event.issue.user.login }}"
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "Hey @${AUTHOR_LOGIN}, thanks for your suggestion! I've opened a PR to remove ${COMPANY} in ${PR_URL}. Please take a moment to review it, so that we can get it merged! Thank you 😊"
+
+      - name: Comment on issue (other)
+        if: steps.process.outputs.result != 'removed' && steps.process.outputs.result != ''
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT: ${{ steps.process.outputs.comment }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "$COMMENT"

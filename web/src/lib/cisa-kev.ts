@@ -1,8 +1,13 @@
-import type { BountyProgram, KevVulnerability, KevData } from '../types/Company';
-import { resolvePrimaryDomain } from './domain';
-import { log } from './log';
+import type {
+  BountyProgram,
+  KevVulnerability,
+  KevData,
+} from "../types/Company";
+import { resolvePrimaryDomain } from "./domain";
+import { log } from "./log";
 
-const KEV_URL = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
+const KEV_URL =
+  "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json";
 
 interface RawKevEntry {
   cveID: string;
@@ -11,7 +16,7 @@ interface RawKevEntry {
   vulnerabilityName: string;
   shortDescription: string;
   dateAdded: string;
-  knownRansomwareCampaignUse: 'Known' | 'Unknown';
+  knownRansomwareCampaignUse: "Known" | "Unknown";
 }
 
 interface RawKevCatalog {
@@ -21,26 +26,27 @@ interface RawKevCatalog {
 let cachedResults: Map<string, KevData> | null = null;
 
 // Suffixes to strip when normalizing company names for matching
-const COMPANY_SUFFIXES = /\s*(?:bug\s*bounty(?:\s*program)?|vdp|vulnerability\s*disclosure(?:\s*program)?|inc\.?|llc\.?|ltd\.?|corp\.?|co\.?|group|technologies|technology|software|systems|networks|security)\s*$/gi;
+const COMPANY_SUFFIXES =
+  /\s*(?:bug\s*bounty(?:\s*program)?|vdp|vulnerability\s*disclosure(?:\s*program)?|inc\.?|llc\.?|ltd\.?|corp\.?|co\.?|group|technologies|technology|software|systems|networks|security)\s*$/gi;
 const PARENS = /\s*\(.*?\)\s*/g;
 
 function normalizeCompanyName(name: string): string {
   let normalized = name.toLowerCase().trim();
-  normalized = normalized.replace(PARENS, ' ');
+  normalized = normalized.replace(PARENS, " ");
   // Apply suffix stripping repeatedly since names can have stacked suffixes
-  let prev = '';
+  let prev = "";
   while (prev !== normalized) {
     prev = normalized;
-    normalized = normalized.replace(COMPANY_SUFFIXES, '').trim();
+    normalized = normalized.replace(COMPANY_SUFFIXES, "").trim();
   }
   // Collapse whitespace
-  normalized = normalized.replace(/\s+/g, ' ').trim();
+  normalized = normalized.replace(/\s+/g, " ").trim();
   return normalized;
 }
 
 function domainToVendorGuess(domain: string): string {
   // "cisco.com" -> "cisco", "elastic.co" -> "elastic"
-  const parts = domain.split('.');
+  const parts = domain.split(".");
   return parts[0];
 }
 
@@ -56,15 +62,18 @@ export async function fetchCisaKev(
   const results = new Map<string, KevData>();
 
   try {
-    const res = await fetch(KEV_URL);
+    const res = await fetch(KEV_URL, { signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
-      log.warn('cisa-kev', `Failed to download catalog: HTTP ${res.status}`);
+      log.warn("cisa-kev", `Failed to download catalog: HTTP ${res.status}`);
       cachedResults = results;
       return results;
     }
 
     const catalog: RawKevCatalog = await res.json();
-    log.info('cisa-kev', `Loaded ${catalog.vulnerabilities.length} KEV entries`);
+    log.info(
+      "cisa-kev",
+      `Loaded ${catalog.vulnerabilities.length} KEV entries`,
+    );
 
     // Build vendor -> vulnerabilities lookup
     const vendorMap = new Map<string, RawKevEntry[]>();
@@ -100,7 +109,8 @@ export async function fetchCisaKev(
 
       // Sort by dateAdded descending (most recent first)
       const sorted = [...entries].sort(
-        (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
+        (a, b) =>
+          new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
       );
 
       const vulnerabilities: KevVulnerability[] = sorted.map((e) => ({
@@ -110,10 +120,12 @@ export async function fetchCisaKev(
         vulnerabilityName: e.vulnerabilityName,
         shortDescription: e.shortDescription,
         dateAdded: e.dateAdded,
-        knownRansomwareCampaignUse: e.knownRansomwareCampaignUse === 'Known',
+        knownRansomwareCampaignUse: e.knownRansomwareCampaignUse === "Known",
       }));
 
-      const ransomwareCount = vulnerabilities.filter((v) => v.knownRansomwareCampaignUse).length;
+      const ransomwareCount = vulnerabilities.filter(
+        (v) => v.knownRansomwareCampaignUse,
+      ).length;
 
       results.set(program.slug, {
         totalCount: vulnerabilities.length,
@@ -122,9 +134,9 @@ export async function fetchCisaKev(
       });
     }
 
-    log.info('cisa-kev', `Matched KEV data to ${results.size} programs`);
+    log.info("cisa-kev", `Matched KEV data to ${results.size} programs`);
   } catch (err) {
-    log.warn('cisa-kev', 'Failed to load', err);
+    log.warn("cisa-kev", "Failed to load", err);
   }
 
   cachedResults = results;
