@@ -204,6 +204,11 @@ companies:
   contact: https://bugcrowd.com/acorns
   rewards:
   - '*bounty'
+- company: Acorns Grow, Inc.
+  url: https://bugcrowd.com/engagements/acorns
+  contact: https://bugcrowd.com/engagements/acorns
+  rewards:
+  - '*bounty'
 - company: Acorns LLC
   url: https://bugcrowd.com/acorns
   contact: https://bugcrowd.com/acorns/report
@@ -1343,6 +1348,11 @@ companies:
   url: https://www.belkin.com/us/security/
   contact: https://www.belkin.com/us/security/form/
   rewards: []
+- company: Belvo Technologies Inc.
+  url: https://www.federacy.com/belvo-technologies-inc
+  contact: https://www.federacy.com/belvo-technologies-inc
+  rewards:
+  - '*bounty'
 - company: BENQI
   url: https://immunefi.com/bug-bounty/benqi/
   contact: https://immunefi.com/bug-bounty/benqi/
@@ -1367,6 +1377,7 @@ companies:
   - '*bounty'
 - company: Best Buy
   url: https://www.bestbuy.com/site/help-topics/responsible-disclosure/pcmcat1584549036018.c?id=pcmcat1584549036018
+  handle: bestbuy
   contact: https://www.bestbuy.com/site/help-topics/responsible-disclosure/pcmcat1584549036018.c?id=pcmcat1584549036018
   rewards: []
 - company: Better
@@ -2219,6 +2230,11 @@ companies:
   contact: mailto:security@chalk.com
   rewards:
   - '*recognition'
+- company: Challenge 0326
+  url: https://www.intigriti.com/programs/intigriti/challenge0326/detail
+  handle: challenge0326
+  contact: https://www.intigriti.com/programs/intigriti/challenge0326/detail
+  rewards: []
 - company: Chameleon
   url: https://www.trychameleon.com/security/disclosure
   contact: https://www.trychameleon.com/security/disclosure
@@ -2320,8 +2336,10 @@ companies:
   - '*bounty'
 - company: CircleCi
   url: https://circleci.com/security
+  handle: circle-bbp
   contact: https://circleci.com/security/#concerns
   rewards:
+  - '*bounty'
   - '*swag'
 - company: Circonus
   url: https://www.circonus.com/security/disclosure/
@@ -2560,6 +2578,11 @@ companies:
   contact: https://hackerone.com/coalition
   rewards:
   - '*recognition'
+- company: Coalition, Inc.
+  url: https://www.coalitioninc.com/
+  handle: coalition
+  contact: https://hackerone.com/coalition
+  rewards: []
 - company: Cobalt
   url: https://cobalt.io/security/practices
   contact: mailto:security@cobalt.io
@@ -2662,6 +2685,11 @@ companies:
 - company: Coindcx
   url: https://yeswehack.com/programs/coindcx-bug-bounty-program#program-description
   contact: https://yeswehack.com/programs/coindcx-bug-bounty-program#program-description
+  rewards:
+  - '*bounty'
+- company: Coindcx - Bug Bounty Program
+  url: https://yeswehack.com/programs/coindcx-bug-bounty-program
+  contact: https://yeswehack.com/programs/coindcx-bug-bounty-program
   rewards:
   - '*bounty'
 - company: CoinDesk Data - Data API
@@ -2773,6 +2801,10 @@ companies:
 - company: conferencebadge.com
   url: https://www.conferencebadge.com/security
   contact: mailto:security@conferencebadge.com
+  rewards: []
+- company: Confido
+  url: https://www.federacy.com/confido
+  contact: https://www.federacy.com/confido
   rewards: []
 - company: Connext
   url: https://immunefi.com/bug-bounty/connext/
@@ -3483,6 +3515,11 @@ companies:
   url: https://www.devo.com/responsible-vulnerability-disclosure-program/
   contact: mailto:vuln-report@devo.com
   rewards: []
+- company: DeXe Protocol
+  url: https://immunefi.com/bug-bounty/dexeprotocol/
+  contact: https://immunefi.com/bug-bounty/dexeprotocol/
+  rewards:
+  - '*bounty'
 - company: df.eu
   url: https://df.eu/whitehat/policy
   contact: mailto:security@df.eu
@@ -4026,6 +4063,11 @@ companies:
 - company: Elementor
   url: https://bugcrowd.com/elementor
   contact: https://bugcrowd.com/elementor
+  rewards:
+  - '*bounty'
+- company: 'Elementor: Bug Bounty Program'
+  url: https://bugcrowd.com/engagements/elementor
+  contact: https://bugcrowd.com/engagements/elementor
   rewards:
   - '*bounty'
 - company: Eligible
@@ -4584,6 +4626,12 @@ companies:
   url: https://www.finder.com.au/vulnerability-disclosure-policy
   contact: mailto:security@finder.com
   rewards: []
+- company: Fing Bug Bounty Program
+  url: https://www.intigriti.com/programs/lansweeper/fing/detail
+  handle: fing
+  contact: https://www.intigriti.com/programs/lansweeper/fing/detail
+  rewards:
+  - '*bounty'
 - company: Finleap Connect
   url: https://connect.finleap.com/responsible-disclosure-statement/
   contact: mailto:responsibledisclosure-connect@finleap.com
@@ -5222,6 +5270,11 @@ companies:
   contact: https://immunefi.com/bug-bounty/gnosischain/
   rewards:
   - '*bounty'
+- company: GO-JEK
+  url: https://bugcrowd.com/gojek
+  contact: https://bugcrowd.com/gojek/report
+  rewards:
+  - '*bounty'
 - company: gocardless.com
   url: https://gocardless.com
   handle: gocardless_bbp
@@ -5316,6 +5369,12 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: Grafana Labs
+  url: https://www.intigriti.com/programs/grafanalabs/grafanaossbbp/detail
+  handle: grafanaossbbp
+  contact: https://www.intigriti.com/programs/grafanalabs/grafanaossbbp/detail
+  rewards:
+  - '*bounty'
 - company: Grammarly
   url: https://hackerone.com/grammarly
   contact: https://hackerone.com/grammarly
@@ -5488,6 +5547,16 @@ companies:
 - company: HARMAN International
   url: https://yeswehack.com/programs/harman-international-web-applications
   contact: https://yeswehack.com/programs/harman-international-web-applications
+  rewards:
+  - '*bounty'
+- company: HARMAN International - Web Applications
+  url: https://yeswehack.com/programs/harman-international-web-applications
+  contact: https://yeswehack.com/programs/harman-international-web-applications
+  rewards:
+  - '*bounty'
+- company: Harman International Lifestyle Products & Services
+  url: https://yeswehack.com/programs/harman-international-public-bug-bounty
+  contact: https://yeswehack.com/programs/harman-international-public-bug-bounty
   rewards:
   - '*bounty'
 - company: Harmony
@@ -6195,6 +6264,7 @@ companies:
   rewards: []
 - company: InnoGames
   url: https://hackerone.com/innogames
+  handle: innogames
   contact: https://hackerone.com/innogames
   rewards:
   - '*bounty'
@@ -7737,6 +7807,13 @@ companies:
   url: https://www.merkleinc.com/responsible-disclosure-policy
   contact: mailto:responsibledisclosure@merkleinc.com
   rewards: []
+- company: MetaMask
+  url: https://metamask.io/
+  handle: metamask
+  contact: https://hackerone.com/metamask
+  rewards:
+  - '*bounty'
+  - '*swag'
 - company: MetaStreet
   url: https://immunefi.com/bug-bounty/metastreet/
   contact: https://immunefi.com/bug-bounty/metastreet/
@@ -7969,6 +8046,7 @@ companies:
   rewards: []
 - company: Monzo Public Bug Bounty Program
   url: https://www.intigriti.com/programs/monzobank/monzopublicbugbountyprogram/detail
+  handle: monzopublicbugbountyprogram
   contact: https://www.intigriti.com/programs/monzobank/monzopublicbugbountyprogram/detail
   rewards:
   - '*bounty'
@@ -9812,6 +9890,11 @@ companies:
   url: https://support.plex.tv/articles/reporting-security-issues/
   contact: mailto:security@plex.tv
   rewards: []
+- company: Plisio
+  url: https://plisio.net/bug-bounty
+  contact: mailto:support@plisio.net
+  rewards:
+  - '*bounty'
 - company: Plugin Alliance
   url: https://www.plugin-alliance.com/en/security.html
   contact: https://www.plugin-alliance.com/en/tech-support.html
@@ -9828,7 +9911,8 @@ companies:
 - company: pm.me
   url: https://protonmail.com/blog/protonmail-bug-bounty-program/
   contact: mailto:security@protonmail.com
-  rewards: []
+  rewards:
+  - '*bounty'
 - company: PNC
   url: https://www.pnc.com/en/security-privacy/responsible-disclosure-program.html
   contact: mailto:ResponsibleDisclosure@pnc.com
@@ -9859,6 +9943,12 @@ companies:
 - company: Polygon
   url: https://immunefi.com/bug-bounty/polygon/
   contact: https://immunefi.com/bug-bounty/polygon/
+  rewards:
+  - '*bounty'
+- company: Polygon Technology
+  url: https://polygon.technology
+  handle: polygon-technology
+  contact: https://hackerone.com/polygon-technology
   rewards:
   - '*bounty'
 - company: Polymarket
@@ -10132,6 +10222,11 @@ companies:
   handle: pyca
   contact: https://hackerone.com/pyca
   rewards: []
+- company: Q Blockchain
+  url: https://immunefi.com/bug-bounty/qblockchain/
+  contact: https://immunefi.com/bug-bounty/qblockchain/
+  rewards:
+  - '*bounty'
 - company: QinetiQ Response
   url: https://www.qinetiq.com
   handle: qinetiq
@@ -10409,6 +10504,11 @@ companies:
   - '*bounty'
   - '*recognition'
   - '*swag'
+- company: Recorded Future Public Managed Bug Bounty Engagement
+  url: https://bugcrowd.com/engagements/recorded-future-mbb-og
+  contact: https://bugcrowd.com/engagements/recorded-future-mbb-og
+  rewards:
+  - '*bounty'
 - company: Recreation.gov
   url: https://www.recreation.gov/
   handle: recreation_gov_vdp
@@ -12462,6 +12562,11 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: Tetu
+  url: https://immunefi.com/bug-bounty/tetu/
+  contact: https://immunefi.com/bug-bounty/tetu/
+  rewards:
+  - '*bounty'
 - company: tezos.com
   url: https://tezos.foundation/security/
   contact: mailto:security@tezos.com
@@ -13414,6 +13519,11 @@ companies:
   handle: vdp
   contact: https://www.intigriti.com/programs/showpad/vdp/detail
   rewards: []
+- company: VeChain
+  url: https://immunefi.com/bug-bounty/vechain/
+  contact: https://immunefi.com/bug-bounty/vechain/
+  rewards:
+  - '*bounty'
 - company: Vectra AI, Inc. (Response)
   url: https://www.vectra.ai
   handle: vectra_ai_vdp
@@ -13749,6 +13859,10 @@ companies:
   handle: vueling_vdp
   contact: https://hackerone.com/vueling_vdp
   rewards: []
+- company: VulnCheck
+  url: https://www.vulncheck.com/vulnerability-disclosure-policy
+  contact: mailto:disclosures@vulncheck.com
+  rewards: []
 - company: Vultr
   url: https://www.vultr.com/bug-bounty/
   contact: https://www.vultr.com/bug-bounty/#report-issue
@@ -13938,6 +14052,12 @@ companies:
 - company: Whatbox
   url: https://whatbox.ca/policies/security
   contact: mailto:security@whatbox.ca
+  rewards:
+  - '*bounty'
+- company: Whatnot
+  url: https://www.whatnot.com
+  handle: whatnot
+  contact: https://hackerone.com/whatnot
   rewards:
   - '*bounty'
 - company: Whmcs
@@ -14154,6 +14274,12 @@ companies:
   handle: yacht
   contact: https://www.intigriti.com/programs/randstad/yacht/detail
   rewards: []
+- company: Yahoo Bug Bounty
+  url: https://www.intigriti.com/programs/yahoo/yahoobugbounty/detail
+  handle: yahoobugbounty
+  contact: https://www.intigriti.com/programs/yahoo/yahoobugbounty/detail
+  rewards:
+  - '*bounty'
 - company: Yahoo!
   url: https://app.intigriti.com/programs/yahoo/yahoobugbounty/detail
   handle: yahoobugbounty
