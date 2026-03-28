@@ -528,6 +528,7 @@
 - <img src='https://icon.horse/icon/bounty.ethereum.org' width='16'/> [Ethereum Foundation](https://bounty.ethereum.org/) 💰
 - <img src='https://icon.horse/icon/etherscan.io' width='16'/> [Etherscan](https://etherscan.io/bugbounty) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [eToro](https://hackerone.com/etoro_bbp) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [eToro Managed Bug Bounty Engagement](https://bugcrowd.com/engagements/etoro-mbb-og) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Etsy](https://bugcrowd.com/etsy) 💰 🏅
 - <img src='https://icon.horse/icon/eufy.com' width='16'/> [eufy Security](http://eufy.com) 💰
 - <img src='https://icon.horse/icon/eurid.eu' width='16'/> [Eurid](https://eurid.eu/lv/other-infomation/eurid-responsible-disclosure-policy/) 💰
@@ -561,6 +562,7 @@
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [FDJ United (Online Betting and Gaming) -...](https://yeswehack.com/programs/fdj-united-online-betting-gaming-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/www.federacy.com' width='16'/> [Federacy](https://www.federacy.com/federacy) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Felix](https://immunefi.com/bug-bounty/felix/) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Felix Health Managed Bug Bounty Engageme...](https://bugcrowd.com/engagements/felix-health-mbb-og) 💰
 - <img src='https://icon.horse/icon/ferm-rotterdam.nl' width='16'/> [Ferm Rotterdam](https://ferm-rotterdam.nl/nl/responsible-disclosure-statement) 💰
 - <img src='https://icon.horse/icon/www.fertittaentertainmentinc.com' width='16'/> [Fertitta Entertainment](https://www.fertittaentertainmentinc.com/) 🎁
 - <img src='https://icon.horse/icon/fetlife.com' width='16'/> [Fetlife](https://fetlife.com) 💰
@@ -648,7 +650,7 @@
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [GoGoPool](https://immunefi.com/bug-bounty/gogopool/) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [GOJEK](https://hackerone.com/gojek) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [GOJEK - Public Bounty Program](https://yeswehack.com/programs/gojek-bug-bounty-program) 💰
-- <img src='https://icon.horse/icon/www.goldmansachs.com' width='16'/> [Goldman Sachs](https://www.goldmansachs.com/privacy-and-cookies/global-privacy-policy.html) 💰 🏅
+- <img src='https://icon.horse/icon/www.goldmansachs.com' width='16'/> [Goldman Sachs](https://www.goldmansachs.com/privacy-and-cookies/global-privacy-policy.html) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/www.goodrx.com' width='16'/> [GoodRx](https://www.goodrx.com) 💰
 - <img src='https://icon.horse/icon/www.google.com' width='16'/> [Google](https://www.google.com/about/appsecurity/) 💰
 - <img src='https://icon.horse/icon/www.google.com' width='16'/> [Google Chrome](https://www.google.com/about/appsecurity/chrome-rewards/) 💰 🏅
@@ -805,6 +807,7 @@
 - <img src='https://icon.horse/icon/issuu.com' width='16'/> [Issuu](https://issuu.com/responsible-disclosure) 🏅 🎁
 - <img src='https://icon.horse/icon/itslearning.com' width='16'/> [Itslearning](https://itslearning.com/global/your-data-matters/responsible-disclosure/) 💰
 - <img src='https://icon.horse/icon/www.ivanti.com' width='16'/> [Ivanti](https://www.ivanti.com/support/contact-security) 🎁
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Izymes](https://bugcrowd.com/engagements/izymes) 💰
 
 </details>
 <details open><summary><h4>J</h4></summary>
@@ -1351,6 +1354,7 @@
 <details open><summary><h4>S</h4></summary>
 
 - <img src='https://icon.horse/icon/www.s-pankki.fi' width='16'/> [S-Pankki](https://www.s-pankki.fi) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Safety Bug Bounty](https://bugcrowd.com/engagements/openai-safety) 💰
 - <img src='https://icon.horse/icon/www.sailthru.com' width='16'/> [Sailthru](https://www.sailthru.com/trust/report-a-vulnerability/) 💰
 - <img src='https://icon.horse/icon/trust.salesforce.com' width='16'/> [Salesforce](https://trust.salesforce.com/en/security/responsible-disclosure-policy/) 🏅
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Salt Mobile SA - Bug Bounty Program](https://yeswehack.com/programs/salt-mobile-sa-bug-bounty-program) 💰
@@ -1773,6 +1777,7 @@
 <details open><summary><h4>X</h4></summary>
 
 - <img src='https://icon.horse/icon/x.com' width='16'/> [X / xAI](https://x.com) 💰 🎁
+- <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Xelians - Blackbox program](https://yeswehack.com/programs/xelians-blackbox-program) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Xfinity Home & xFi](https://bugcrowd.com/xfinity-home) 💰
 - <img src='https://icon.horse/icon/www.mi.com' width='16'/> [Xiaomi](http://www.mi.com) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Xilinx](https://hackerone.com/xilinx) 🏅
