@@ -2452,6 +2452,11 @@ companies:
   contact: https://hackerone.com/clear
   rewards:
   - '*bounty'
+- company: Clear Street Disclosure Program
+  url: https://www.clearstreet.io/
+  handle: clear_street_vdp
+  contact: https://hackerone.com/clear_street_vdp
+  rewards: []
 - company: Clenergy
   url: https://clenergy.com/de/cyber-security-policy/?lang=en
   contact: mailto:HWBugBounty@Clenergy.com
@@ -4271,6 +4276,11 @@ companies:
   contact: https://hackerone.com/etoro_bbp
   rewards:
   - '*bounty'
+- company: eToro Managed Bug Bounty Engagement
+  url: https://bugcrowd.com/engagements/etoro-mbb-og
+  contact: https://bugcrowd.com/engagements/etoro-mbb-og
+  rewards:
+  - '*bounty'
 - company: etsi.org
   url: https://www.etsi.org/standards/coordinated-vulnerability-disclosure
   contact: mailto:ETSI_CVD@etsi.org
@@ -4289,6 +4299,7 @@ companies:
   - '*bounty'
 - company: Eurid
   url: https://eurid.eu/lv/other-infomation/eurid-responsible-disclosure-policy/
+  handle: eurid
   contact: mailto:security.office@eurid.eu
   rewards:
   - '*bounty'
@@ -4539,6 +4550,11 @@ companies:
 - company: Felix
   url: https://immunefi.com/bug-bounty/felix/
   contact: https://immunefi.com/bug-bounty/felix/
+  rewards:
+  - '*bounty'
+- company: Felix Health Managed Bug Bounty Engagement
+  url: https://bugcrowd.com/engagements/felix-health-mbb-og
+  contact: https://bugcrowd.com/engagements/felix-health-mbb-og
   rewards:
   - '*bounty'
 - company: Ferm Rotterdam
@@ -5164,6 +5180,7 @@ companies:
   rewards: []
 - company: GetYourGuide
   url: https://www.getyourguide.com/security
+  handle: getyourguide_vdp
   contact: mailto:security@getyourguide.com
   rewards: []
 - company: gexsi.com
@@ -5317,6 +5334,7 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+  - '*swag'
 - company: GoodRx
   url: https://www.goodrx.com
   handle: goodrx
@@ -5515,6 +5533,10 @@ companies:
   contact: https://bugbounty.compass-security.com/bug-bounties/compass-bug-bounty
   rewards:
   - '*bounty'
+- company: Hackrate
+  url: https://www.hckrt.com/Catalog/Program?alias=hackrate
+  contact: https://www.hckrt.com/Catalog/Program?alias=hackrate
+  rewards: []
 - company: Hake Finance
   url: https://immunefi.com/bounty/hakkafinance/
   contact: https://immunefi.com/bounty/hakkafinance/
@@ -6518,6 +6540,11 @@ companies:
   url: https://iwalton.com/legal.html
   contact: mailto:iwalton3@gmail.com
   rewards: []
+- company: Izymes
+  url: https://bugcrowd.com/engagements/izymes
+  contact: https://bugcrowd.com/engagements/izymes
+  rewards:
+  - '*bounty'
 - company: James Madison Memorial Fellowship Foundation
   url: https://www.jamesmadison.gov/vulnerability-disclosure-policy
   contact: mailto:security@jamesmadison.gov
@@ -10969,6 +10996,11 @@ companies:
   url: https://safesendreturns.zendesk.com/hc/en-us/articles/360049940054-Information-Security-Overview
   contact: mailto:support@cPaperless.com
   rewards: []
+- company: Safety Bug Bounty
+  url: https://bugcrowd.com/engagements/openai-safety
+  contact: https://bugcrowd.com/engagements/openai-safety
+  rewards:
+  - '*bounty'
 - company: Sails.js
   url: https://sailsjs.com/security
   contact: mailto:critical@sailsjs.io
@@ -14201,6 +14233,11 @@ companies:
   rewards:
   - '*bounty'
   - '*swag'
+- company: Xelians - Blackbox program
+  url: https://yeswehack.com/programs/xelians-blackbox-program
+  contact: https://yeswehack.com/programs/xelians-blackbox-program
+  rewards:
+  - '*bounty'
 - company: Xen Project
   url: https://www.xenproject.org/security-policy.html
   contact: mailto:security@xenproject
