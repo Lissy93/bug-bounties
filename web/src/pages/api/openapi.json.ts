@@ -7,15 +7,31 @@ const spec = {
     version: "1.0.0",
     description:
       "Consume our bug bounty data programmatically from your own applications, via our free, no-auth, no-CORS REST API.",
+    contact: {
+      name: "Alicia Sykes",
+      url: "https://github.com/lissy93/bug-bounties",
+    },
     license: {
       name: "MIT",
       url: "https://github.com/lissy93/bug-bounties/blob/main/LICENSE",
     },
   },
-  servers: [{ url: "https://bug-bounties.as93.net" }],
+  externalDocs: {
+    description: "Source code on GitHub",
+    url: "https://github.com/lissy93/bug-bounties",
+  },
+  servers: [
+    { url: "https://bug-bounties.as93.net", description: "Production" },
+  ],
+  tags: [
+    { name: "Programs", description: "Browse and search bug bounty programs" },
+    { name: "Lookup", description: "Find security contacts for any website" },
+    { name: "Meta", description: "API metadata and statistics" },
+  ],
   paths: {
     "/api/programs.json": {
       get: {
+        tags: ["Programs"],
         operationId: "listPrograms",
         summary: "List all programs",
         description:
@@ -27,13 +43,16 @@ const spec = {
               "application/json": {
                 schema: {
                   type: "object",
+                  required: ["meta", "programs"],
                   properties: {
                     meta: {
                       type: "object",
+                      required: ["total", "generated"],
                       properties: {
                         total: {
                           type: "integer",
                           description: "Total number of programs",
+                          example: 1042,
                         },
                         generated: {
                           type: "string",
@@ -56,6 +75,7 @@ const spec = {
     },
     "/api/programs/{slug}.json": {
       get: {
+        tags: ["Programs"],
         operationId: "getProgram",
         summary: "Get program details",
         description:
@@ -66,7 +86,8 @@ const spec = {
             in: "path",
             required: true,
             schema: { type: "string" },
-            description: 'Program slug (e.g. "apple", "google")',
+            description: "Program slug",
+            example: "apple",
           },
         ],
         responses: {
@@ -76,6 +97,7 @@ const spec = {
               "application/json": {
                 schema: {
                   type: "object",
+                  required: ["program", "enrichment"],
                   properties: {
                     program: { $ref: "#/components/schemas/Program" },
                     enrichment: { $ref: "#/components/schemas/Enrichment" },
@@ -84,11 +106,120 @@ const spec = {
               },
             },
           },
+          "404": {
+            description: "Program not found",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupSecurityContacts",
+        summary: "Lookup security contacts for a website",
+        description:
+          "Accepts a URL or domain and searches 17 sources for security contact details. Tier 1 (verified security channels) is checked first; tier 2 (general contacts) only runs when tier 1 finds nothing.",
+        parameters: [
+          {
+            name: "url",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description: "Website URL or domain to look up",
+            examples: {
+              full_url: { value: "https://example.com", summary: "Full URL" },
+              bare_domain: { value: "example.com", summary: "Bare domain" },
+              subdomain: {
+                value: "https://shop.example.com",
+                summary: "Subdomain (resolves to parent)",
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Security contact lookup results",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LookupResponse" },
+                example: {
+                  domain: "example.com",
+                  queried_at: "2026-04-01T12:00:00.000Z",
+                  results: [
+                    {
+                      source: "security-txt",
+                      tier: 1,
+                      url: "https://example.com/.well-known/security.txt",
+                      contacts: [
+                        {
+                          type: "email",
+                          value: "security@example.com",
+                          label: "security.txt contact",
+                        },
+                      ],
+                      metadata: {
+                        policy: "https://example.com/security-policy",
+                      },
+                    },
+                  ],
+                  errors: [],
+                  summary: [
+                    { item: "security-txt", status: "found" },
+                    { item: "bounty-db", status: "missing" },
+                    { item: "rdap", status: "skipped" },
+                  ],
+                },
+              },
+            },
+          },
+          "400": {
+            description:
+              "Invalid input (bad URL, private IP, missing parameter)",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+                example: { error: "Invalid hostname", status: 400 },
+              },
+            },
+          },
+          "429": {
+            description: "Rate limit exceeded",
+            headers: {
+              "Retry-After": {
+                description: "Seconds until the rate limit resets",
+                schema: { type: "integer" },
+              },
+            },
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+                example: {
+                  error: "Rate limit exceeded (8 per minute)",
+                  status: 429,
+                },
+              },
+            },
+          },
+          "500": {
+            description: "Internal server error",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+                example: { error: "Internal server error", status: 500 },
+              },
+            },
+          },
         },
       },
     },
     "/api/stats.json": {
       get: {
+        tags: ["Meta"],
         operationId: "getStats",
         summary: "Aggregate statistics",
         description: "Returns aggregate statistics computed from all programs.",
@@ -107,12 +238,28 @@ const spec = {
   },
   components: {
     schemas: {
+      Error: {
+        type: "object",
+        required: ["error", "status"],
+        properties: {
+          error: {
+            type: "string",
+            description: "Human-readable error message",
+          },
+          status: {
+            type: "integer",
+            description: "HTTP status code",
+            example: 400,
+          },
+        },
+      },
       ListProgram: {
         type: "object",
+        required: ["company", "url", "slug"],
         properties: {
-          company: { type: "string" },
+          company: { type: "string", example: "Apple" },
           url: { type: "string", format: "uri" },
-          slug: { type: "string" },
+          slug: { type: "string", example: "apple" },
           rewards: {
             type: "array",
             items: {
@@ -141,6 +288,7 @@ const spec = {
       },
       Program: {
         type: "object",
+        required: ["company", "url", "slug"],
         description: "Full program data with all available fields.",
         properties: {
           company: { type: "string" },
@@ -281,8 +429,126 @@ const spec = {
           },
         },
       },
+      LookupResponse: {
+        type: "object",
+        required: ["domain", "queried_at", "results", "errors", "summary"],
+        properties: {
+          domain: {
+            type: "string",
+            description: "Normalized domain that was looked up",
+            example: "example.com",
+          },
+          queried_at: { type: "string", format: "date-time" },
+          results: {
+            type: "array",
+            description:
+              "Lookup results from sources that returned data. Each result has a tier field (1 = verified security contact, 2 = general/fallback).",
+            items: { $ref: "#/components/schemas/LookupResult" },
+          },
+          errors: {
+            type: "array",
+            description: "Sources that failed during lookup",
+            items: {
+              type: "object",
+              required: ["source", "error"],
+              properties: {
+                source: { type: "string" },
+                error: { type: "string" },
+              },
+            },
+          },
+          summary: {
+            type: "array",
+            description: "Status of every check, in execution order.",
+            items: { $ref: "#/components/schemas/SummaryItem" },
+          },
+        },
+      },
+      LookupResult: {
+        type: "object",
+        required: ["source", "tier", "contacts"],
+        properties: {
+          source: {
+            type: "string",
+            description: "Source identifier",
+            enum: [
+              "security-txt",
+              "bounty-db",
+              "disclose-io",
+              "github-security",
+              "platform-check",
+              "csaf",
+              "dns-security",
+              "http-headers",
+              "rdap",
+              "dmarc",
+              "rfc2142",
+              "ssl-cert",
+              "homepage",
+              "dns-soa",
+              "common-pages",
+              "dns-txt",
+              "robots-humans",
+            ],
+          },
+          tier: {
+            type: "integer",
+            enum: [1, 2],
+            description:
+              "1 = verified security channel, 2 = general/fallback contact",
+          },
+          contacts: {
+            type: "array",
+            items: { $ref: "#/components/schemas/ContactInfo" },
+          },
+          metadata: {
+            type: "object",
+            description:
+              "Source-specific extra data (program info, policy details, etc.)",
+            additionalProperties: true,
+          },
+          url: {
+            type: "string",
+            format: "uri",
+            description: "Where the data was found",
+          },
+        },
+      },
+      ContactInfo: {
+        type: "object",
+        required: ["type", "value"],
+        properties: {
+          type: {
+            type: "string",
+            enum: ["email", "url", "phone", "pgp_key"],
+            description: "Contact method type",
+          },
+          value: {
+            type: "string",
+            description: "Contact address, URL, or phone number",
+          },
+          label: {
+            type: "string",
+            description: "Human-readable description of this contact",
+          },
+        },
+      },
+      SummaryItem: {
+        type: "object",
+        required: ["item", "status"],
+        properties: {
+          item: { type: "string", description: "Source name" },
+          status: {
+            type: "string",
+            enum: ["found", "partial", "missing", "skipped", "error"],
+            description:
+              "found = has contacts, partial = metadata only, missing = no data, skipped = tier 2 bypassed, error = source failed",
+          },
+        },
+      },
       Stats: {
         type: "object",
+        required: ["generated", "total_programs"],
         properties: {
           generated: { type: "string", format: "date-time" },
           total_programs: { type: "integer" },

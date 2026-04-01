@@ -10,7 +10,7 @@ const MAX_BODY_BYTES = 100_000; // security.txt should be small
 const cache = new Map<string, SecurityTxtData | null>();
 let cachedResults: Map<string, SecurityTxtData> | null = null;
 
-async function fetchWithTimeout(url: string): Promise<string | null> {
+export async function fetchWithTimeout(url: string): Promise<string | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
@@ -37,7 +37,10 @@ async function fetchWithTimeout(url: string): Promise<string | null> {
   }
 }
 
-function parseSecurityTxt(text: string, rawUrl: string): SecurityTxtData {
+export function parseSecurityTxt(
+  text: string,
+  rawUrl: string,
+): SecurityTxtData {
   const data: SecurityTxtData = { raw_url: rawUrl };
   const contacts: string[] = [];
   const encryptions: string[] = [];
