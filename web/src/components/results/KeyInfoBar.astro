@@ -1,0 +1,76 @@
+---
+import Chip from "../Chip.svelte";
+import RewardBadges from "../RewardBadges.svelte";
+import { tips } from "../../lib/tooltips";
+import type { Reward } from "../../types/Company";
+
+interface Props {
+  programType?: string | null;
+  status?: string | null;
+  rewards?: Reward[];
+  safeHarbor?: string | null;
+  payout?: string | null;
+}
+
+const { programType, status, rewards, safeHarbor, payout } = Astro.props;
+const hasContent =
+  programType ||
+  status ||
+  (rewards && rewards.length > 0) ||
+  safeHarbor ||
+  payout;
+---
+
+{
+  hasContent && (
+    <div class="key-info">
+      {programType && (
+        <Chip color="var(--accent)" tooltip={tips.programType}>
+          {programType === "bounty"
+            ? "Bug Bounty"
+            : programType === "vdp"
+              ? "VDP"
+              : "Hybrid"}
+        </Chip>
+      )}
+      {status && (
+        <Chip
+          color={status === "active" ? "var(--success)" : "var(--warning)"}
+          tooltip={tips.programStatus}
+          filled
+        >
+          {status === "active" ? "Active" : "Paused"}
+        </Chip>
+      )}
+      <RewardBadges rewards={rewards || []} />
+      {safeHarbor && (
+        <Chip
+          color="var(--success)"
+          tooltip={
+            safeHarbor === "full" ? tips.safeHarborFull : tips.safeHarborPartial
+          }
+        >
+          {safeHarbor === "full" ? "Full" : "Partial"} Safe Harbor
+        </Chip>
+      )}
+      {payout && (
+        <Chip color="var(--foreground)" tooltip={tips.payout}>
+          {payout}
+        </Chip>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .key-info {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+  }
+</style>

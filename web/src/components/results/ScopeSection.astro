@@ -1,0 +1,224 @@
+---
+import Chip from "../Chip.svelte";
+import Tooltip from "../Tooltip.svelte";
+import ResultSection from "./ResultSection.astro";
+import { tips } from "../../lib/tooltips";
+import type { PlatformScopeData } from "../../types/Company";
+
+interface Props {
+  platformData?: PlatformScopeData | null;
+  scope?: { target: string; type: string }[];
+  domains?: string[];
+  outOfScope?: string[];
+}
+
+const { platformData, scope, domains, outOfScope } = Astro.props;
+---
+
+{
+  platformData ? (
+    <ResultSection heading={`Scope (${platformData.scopeStats.total} targets)`}>
+      <Tooltip slot="badge" text={tips.scopeTargets} />
+      <div class="chip-group scope-stats">
+        {platformData.scopeStats.web > 0 && (
+          <Chip color="var(--muted)">
+            <code>web: {platformData.scopeStats.web}</code>
+          </Chip>
+        )}
+        {platformData.scopeStats.mobile > 0 && (
+          <Chip color="var(--muted)">
+            <code>mobile: {platformData.scopeStats.mobile}</code>
+          </Chip>
+        )}
+        {platformData.scopeStats.api > 0 && (
+          <Chip color="var(--muted)">
+            <code>api: {platformData.scopeStats.api}</code>
+          </Chip>
+        )}
+        {platformData.scopeStats.other > 0 && (
+          <Chip color="var(--muted)">
+            <code>other: {platformData.scopeStats.other}</code>
+          </Chip>
+        )}
+      </div>
+      {platformData.allowsBountySplitting != null && (
+        <p class="scope-meta">
+          <Tooltip text={tips.bountySplitting}>Bounty splitting:</Tooltip>{" "}
+          {platformData.allowsBountySplitting ? "Yes" : "No"}
+          {platformData.maxSeverity && (
+            <> · Max severity: {platformData.maxSeverity}</>
+          )}
+        </p>
+      )}
+      <div class="sub-section">
+        <h3>In Scope</h3>
+        <ul class="target-list">
+          {platformData.inScopeTargets.slice(0, 20).map((t) => (
+            <li class="target-item">
+              <span class="target-id">{t.identifier}</span>
+              <span class="target-type">{t.type}</span>
+              {t.eligibleForBounty ? (
+                <Chip color="var(--success)" size="sm" filled>
+                  bounty-eligible
+                </Chip>
+              ) : (
+                <Chip color="var(--muted)" size="sm">
+                  recognition only
+                </Chip>
+              )}
+            </li>
+          ))}
+          {platformData.scopeStats.total > 20 && (
+            <li class="target-more">
+              and {platformData.scopeStats.total - 20} more targets
+            </li>
+          )}
+        </ul>
+      </div>
+      {platformData.outOfScopeTargets.length > 0 && (
+        <div class="sub-section">
+          <h3>Out of Scope</h3>
+          <p class="out-of-scope">
+            {platformData.outOfScopeTargets.join(", ")}
+          </p>
+        </div>
+      )}
+    </ResultSection>
+  ) : scope && scope.length > 0 ? (
+    <ResultSection heading={`Scope (${scope.length} targets)`}>
+      <Tooltip slot="badge" text={tips.scope} />
+      <ul class="target-list">
+        {scope.map((s) => (
+          <li class="target-item">
+            <span class="target-id">{s.target}</span>
+            <span class="target-type">{s.type}</span>
+          </li>
+        ))}
+      </ul>
+      {outOfScope && outOfScope.length > 0 && (
+        <div class="sub-section">
+          <h3>
+            <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+          </h3>
+          <p class="out-of-scope">{outOfScope.join(", ")}</p>
+        </div>
+      )}
+    </ResultSection>
+  ) : domains && domains.length > 0 ? (
+    <ResultSection heading="In-Scope Domains">
+      <ul class="domains">
+        {domains.map((d) => (
+          <li>{d}</li>
+        ))}
+      </ul>
+      {outOfScope && outOfScope.length > 0 && (
+        <div class="sub-section">
+          <h3>
+            <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+          </h3>
+          <p class="out-of-scope">{outOfScope.join(", ")}</p>
+        </div>
+      )}
+    </ResultSection>
+  ) : outOfScope && outOfScope.length > 0 ? (
+    <ResultSection>
+      <h2>
+        <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
+      </h2>
+      <p class="out-of-scope">{outOfScope.join(", ")}</p>
+    </ResultSection>
+  ) : null
+}
+
+<style>
+  @import "../../styles/results.css";
+
+  .scope-stats {
+    margin-bottom: 0.75rem;
+  }
+
+  .scope-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+  }
+
+  .target-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .target-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.3rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--background-darker);
+    flex-wrap: wrap;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .target-id {
+    font-family: monospace;
+    color: var(--foreground);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .target-type {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+    color: var(--muted);
+  }
+
+  .target-more {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    font-style: italic;
+  }
+
+  .out-of-scope {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+    font-family: monospace;
+    word-break: break-all;
+  }
+
+  .domains {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    & li {
+      font-size: 0.85rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--background-darker);
+      border-radius: var(--curve);
+      color: var(--foreground);
+      font-family: monospace;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .target-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+  }
+</style>

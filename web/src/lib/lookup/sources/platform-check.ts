@@ -1,53 +1,62 @@
 import type { LookupSource, ResolvedDomain, ContactInfo } from "../types";
 import { UA } from "../util";
 
-const NOT_FOUND =
-  /page\s+not\s+found|404|does\s+not\s+exist|not\s+found|no\s+results/i;
-const VALID =
-  /policy|scope|bounty|submit\s+a\s+report|vulnerability|reward|program/i;
+async function checkHackerOne(
+  hint: string,
+  signal: AbortSignal,
+): Promise<ContactInfo | null> {
+  const url = `https://hackerone.com/${hint}`;
+  try {
+    const res = await fetch(url, {
+      signal,
+      redirect: "follow",
+      headers: { "User-Agent": UA },
+    });
+    if (!res.ok) return null;
+    const html = (await res.text()).slice(0, 20_000);
+    // HackerOne returns 200 for user profiles too - reject those
+    if (/og:type"\s*content="profile"/i.test(html)) return null;
+    if (/page\s*not\s*found/i.test(html)) return null;
+    return { type: "url", value: url, label: "HackerOne program" };
+  } catch {
+    return null;
+  }
+}
 
-const PLATFORMS = [
-  { name: "HackerOne", url: (h: string) => `https://hackerone.com/${h}` },
-  { name: "Bugcrowd", url: (h: string) => `https://bugcrowd.com/${h}` },
-  {
-    name: "Intigriti",
-    url: (h: string) => `https://app.intigriti.com/programs/${h}`,
-  },
-  {
-    name: "YesWeHack",
-    url: (h: string) => `https://yeswehack.com/programs/${h}`,
-  },
-];
+async function checkBugcrowd(
+  hint: string,
+  signal: AbortSignal,
+): Promise<ContactInfo | null> {
+  const url = `https://bugcrowd.com/${hint}`;
+  try {
+    // Don't follow redirects - we need to inspect where it goes
+    const res = await fetch(url, {
+      signal,
+      redirect: "manual",
+      headers: { "User-Agent": UA },
+    });
+    if (res.status === 404) return null;
+    const location = res.headers.get("location") || "";
+    // 302 to /engagements/ = public program
+    if (location.includes("/engagements/")) {
+      return { type: "url", value: location, label: "Bugcrowd program" };
+    }
+    // 301 to /h/ = private/invite-only, not useful
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export const platformCheck: LookupSource = {
   name: "platform-check",
   tier: 1,
   async execute(ctx: ResolvedDomain, signal: AbortSignal) {
-    const checks = await Promise.allSettled(
-      PLATFORMS.map(async (p): Promise<ContactInfo | null> => {
-        const url = p.url(ctx.companyHint);
-        try {
-          const res = await fetch(url, {
-            signal,
-            redirect: "follow",
-            headers: { "User-Agent": UA },
-          });
-          if (!res.ok) return null;
-          const html = (await res.text()).slice(0, 100_000);
-          return VALID.test(html) && !NOT_FOUND.test(html)
-            ? { type: "url", value: url, label: `${p.name} program` }
-            : null;
-        } catch {
-          return null;
-        }
-      }),
-    );
-    const contacts = checks
-      .filter(
-        (r): r is PromiseFulfilledResult<ContactInfo> =>
-          r.status === "fulfilled" && !!r.value,
-      )
-      .map((r) => r.value);
+    const [h1, bc] = await Promise.all([
+      checkHackerOne(ctx.companyHint, signal),
+      checkBugcrowd(ctx.companyHint, signal),
+    ]);
+    const contacts = [h1, bc].filter((c): c is ContactInfo => c !== null);
     return contacts.length
       ? { source: "platform-check", tier: 1, contacts }
       : null;

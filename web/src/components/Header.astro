@@ -6,6 +6,7 @@ import {
   CirclePlus,
   GraduationCap,
   Bookmark,
+  Search,
 } from "lucide-svelte";
 
 const navLinks = [
@@ -21,6 +22,13 @@ const navLinks = [
     href: "https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml",
     icon: "CirclePlus",
     external: true,
+    showOnHome: false,
+  },
+  {
+    label: "Lookup",
+    href: "/lookup",
+    icon: "Search",
+    external: false,
     showOnHome: false,
   },
   {
@@ -92,6 +100,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
               {link.icon === "Github" && <Github size={16} />}
               {link.icon === "CirclePlus" && <CirclePlus size={16} />}
               {link.icon === "CodeXml" && <CodeXml size={16} />}
+              {link.icon === "Search" && <Search size={16} />}
               {link.icon === "GraduationCap" && <GraduationCap size={16} />}
               {link.icon === "Info" && <Info size={16} />}
               {link.label}
@@ -104,6 +113,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
             (link) =>
               !link.showOnHome &&
               link.href != "/bookmarks" &&
+              link.href != "/lookup" &&
               link.href != "/learn",
           )
           .map((link) => (
@@ -117,6 +127,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
               {link.icon === "Github" && <Github size={16} />}
               {link.icon === "CirclePlus" && <CirclePlus size={16} />}
               {link.icon === "CodeXml" && <CodeXml size={16} />}
+              {link.icon === "Search" && <Search size={16} />}
               {link.icon === "GraduationCap" && <GraduationCap size={16} />}
               {link.icon === "Info" && <Info size={16} />}
               {link.label}
@@ -144,6 +155,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
               {link.icon === "Github" && <Github size={14} />}
               {link.icon === "CirclePlus" && <CirclePlus size={14} />}
               {link.icon === "CodeXml" && <CodeXml size={14} />}
+              {link.icon === "Search" && <Search size={14} />}
               {link.icon === "Bookmark" && <Bookmark size={14} />}
               {link.icon === "GraduationCap" && <GraduationCap size={14} />}
               {link.icon === "Info" && <Info size={14} />}

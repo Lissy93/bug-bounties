@@ -1,3 +1,4 @@
+import { log } from "../log";
 import type {
   LookupSource,
   LookupResult,
@@ -31,6 +32,7 @@ async function runPhase(
           result: await src.execute(ctx, srcAc.signal),
         };
       } catch (err) {
+        log.warn("lookup", `Source ${src.name} failed`, err);
         return {
           ok: false,
           name: src.name,

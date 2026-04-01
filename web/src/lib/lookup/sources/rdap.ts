@@ -46,7 +46,7 @@ function collectContacts(
     const label = roleLabel(roles);
     if (!label) continue;
     for (const email of extractEmails(entity)) {
-      if (/redacted|private|not\s*disclosed/i.test(email)) continue;
+      if (!email || /redacted|private|not\s*disclosed/i.test(email)) continue;
       contacts.push({ type: "email", value: email, label });
     }
     const subs = (entity.entities || []) as Record<string, unknown>[];

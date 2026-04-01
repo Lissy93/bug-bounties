@@ -1,3 +1,26 @@
+/**
+ * Format a date string into a human-readable form.
+ * Returns the original value if it cannot be parsed.
+ */
+export function formatDate(value: string, includeTime = false): string {
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return value;
+  if (includeTime) {
+    return d.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  }
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 export function formatPayout(
   min?: number,
   max?: number,

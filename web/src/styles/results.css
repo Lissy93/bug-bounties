@@ -1,0 +1,54 @@
+/* Shared styles for result display components.
+   Imported by components in src/components/results/ and result pages. */
+
+/* Page-level detail layout */
+.detail-page {
+  width: var(--content-width);
+  margin: 0 auto 2rem;
+
+  & .breadcrumbs {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Inline text link (action links, "view source", "see more") */
+.text-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Muted variant for secondary links */
+.text-link-muted {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--foreground);
+  }
+}
+
+/* Flex-wrap container for chips/badges */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Subsection within a ResultSection (adds spacing) */
+.sub-section {
+  margin-top: 0.75rem;
+
+  & h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+  }
+}

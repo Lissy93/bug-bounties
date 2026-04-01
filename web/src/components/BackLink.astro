@@ -1,8 +1,13 @@
 ---
+interface Props {
+  href?: string;
+  label?: string;
+}
 
+const { href = "/", label = "Back to all programs" } = Astro.props;
 ---
 
-<a class="back-link" href="/">&larr; Back to all programs</a>
+<a class="back-link" href={href}>&larr; {label}</a>
 
 <style>
   .back-link {
@@ -12,8 +17,9 @@
     font-size: 0.95rem;
     padding: 0.5rem 0;
     transition: var(--transition);
-  }
-  .back-link:hover {
-    text-decoration: underline;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 </style>

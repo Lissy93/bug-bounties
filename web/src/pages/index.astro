@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import SearchableList from "../components/SearchableList.svelte";
 import StatsBar from "../components/StatsBar.astro";
+import LookupSearch from "../components/LookupSearch.svelte";
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 import { loadAllPrograms } from "../lib/load-all-programs";
 
@@ -21,6 +22,16 @@ const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
 >
   <Header />
   <StatsBar {totalPrograms} {withBounties} {withSafeHarbor} />
+  <section class="lookup-card">
+    <h2>Find Reporting Method</h2>
+    <p>
+      Discovered a security vulnerability on a website, and not sure where to
+      report it? Enter the website URL, and we'll search across all disclosure
+      programs, security contact details and bug bounties to find you the best
+      channel to securely disclose the vulnerability.
+    </p>
+    <LookupSearch bare client:idle />
+  </section>
   <SearchableList
     programs={listPrograms}
     {trancoRanks}
@@ -28,3 +39,26 @@ const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
     client:idle
   />
 </DefaultLayout>
+
+<style>
+  .lookup-card {
+    width: var(--content-width);
+    margin: 0 auto 1rem;
+    padding: 1.25rem;
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+
+    & h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    & p {
+      margin: 0 0 0.75rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+  }
+</style>

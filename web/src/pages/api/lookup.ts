@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { log } from "../../lib/log";
 import { resolveDomain } from "../../lib/lookup/resolve-domain";
 import { runLookup } from "../../lib/lookup/runner";
 import { checkRateLimit } from "../../lib/lookup/rate-limit";
@@ -102,10 +103,12 @@ export const GET: APIRoute = async ({ url, request }) => {
     return error(400, err instanceof Error ? err.message : "Invalid input");
   }
 
+  log.info("lookup", `Lookup: ${ctx.domain}`);
+
   try {
     return json(await runLookup(ctx, tier1, tier2));
   } catch (err) {
-    console.error("[lookup] Unhandled error:", err);
+    log.error("lookup", "Unhandled error", err);
     return error(500, "Internal server error");
   }
 };

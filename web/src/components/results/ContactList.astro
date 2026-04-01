@@ -1,0 +1,139 @@
+---
+import { Mail, ExternalLink, Phone, Lock } from "lucide-svelte";
+import type { ContactInfo } from "../../lib/lookup/types";
+
+interface Props {
+  contacts: ContactInfo[];
+}
+
+const { contacts } = Astro.props;
+
+function getHref(c: ContactInfo): string {
+  if (c.type === "email") return `mailto:${c.value}`;
+  if (c.type === "phone") return `tel:${c.value}`;
+  return c.value;
+}
+
+function isExternal(c: ContactInfo): boolean {
+  return c.type === "url" || c.type === "pgp_key";
+}
+
+function getHostname(url: string): string | null {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return null;
+  }
+}
+---
+
+{
+  contacts.length > 0 && (
+    <ul class="contact-list">
+      {contacts.map((c) => {
+        const ext = isExternal(c);
+        const hostname = c.type === "url" ? getHostname(c.value) : null;
+        return (
+          <li>
+            <a
+              href={getHref(c)}
+              target={ext ? "_blank" : undefined}
+              rel={ext ? "noopener noreferrer" : undefined}
+              class="contact-link"
+              title={c.value}
+            >
+              <span class="icon" aria-hidden="true">
+                {c.type === "email" ? (
+                  <Mail size={14} />
+                ) : c.type === "phone" ? (
+                  <Phone size={14} />
+                ) : c.type === "pgp_key" ? (
+                  <Lock size={14} />
+                ) : hostname ? (
+                  <img
+                    src={`https://favicon.im/${hostname}`}
+                    alt=""
+                    width="14"
+                    height="14"
+                    loading="lazy"
+                  />
+                ) : (
+                  <ExternalLink size={14} />
+                )}
+              </span>
+              <span class="value">{c.value}</span>
+              {ext && (
+                <sup class="ext" aria-hidden="true">
+                  <ExternalLink size={10} />
+                </sup>
+              )}
+            </a>
+            {c.label && <span class="label">{c.label}</span>}
+          </li>
+        );
+      })}
+    </ul>
+  )
+}
+
+<style>
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  li {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    min-width: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .icon {
+    flex-shrink: 0;
+    display: flex;
+
+    & img {
+      border-radius: 2px;
+    }
+  }
+
+  .value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ext {
+    flex-shrink: 0;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding-left: 1.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

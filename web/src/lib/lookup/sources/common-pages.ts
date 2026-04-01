@@ -16,26 +16,39 @@ const PATHS = [
   ["/.well-known/change-password", "Change password (security-aware)"],
 ] as const;
 
+async function headOk(url: string, signal: AbortSignal): Promise<boolean> {
+  try {
+    const res = await fetch(url, {
+      method: "HEAD",
+      signal,
+      redirect: "follow",
+      headers: { "User-Agent": UA },
+    });
+    if (!res.ok) return false;
+    const final = new URL(res.url).pathname;
+    return final !== "/" && final !== "";
+  } catch {
+    return false;
+  }
+}
+
 export const commonPages: LookupSource = {
   name: "common-pages",
   tier: 2,
   async execute(ctx: ResolvedDomain, signal: AbortSignal) {
+    // Canary: if a random path returns 200, the site is a SPA catch-all
+    const canary = await headOk(
+      `https://${ctx.domain}/_bb_canary_${Date.now()}`,
+      signal,
+    );
+    if (canary) return null;
+
     const checks = await Promise.allSettled(
       PATHS.map(async ([path, label]): Promise<ContactInfo | null> => {
-        try {
-          const res = await fetch(`https://${ctx.domain}${path}`, {
-            method: "HEAD",
-            signal,
-            redirect: "follow",
-            headers: { "User-Agent": UA },
-          });
-          if (!res.ok) return null;
-          const final = new URL(res.url).pathname;
-          if (final === "/" || final === "") return null;
-          return { type: "url", value: `https://${ctx.domain}${path}`, label };
-        } catch {
-          return null;
-        }
+        const ok = await headOk(`https://${ctx.domain}${path}`, signal);
+        return ok
+          ? { type: "url", value: `https://${ctx.domain}${path}`, label }
+          : null;
       }),
     );
     const contacts = checks
