@@ -24,6 +24,7 @@ import {
 import { tips } from "../lib/tooltips";
 import { formatRankBadge } from "../lib/tranco";
 import { loadAllPrograms } from "../lib/load-all-programs";
+import { companySchema } from "../lib/json-ld";
 import type {
   BountyProgram,
   SecurityTxtData,
@@ -87,24 +88,12 @@ const pageDescription = [
   .filter(Boolean)
   .join(" ");
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://bug-bounties.as93.net/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: program.company,
-      item: `https://bug-bounties.as93.net/${program.slug}`,
-    },
-  ],
-};
+const breadcrumbJsonLd = companySchema({
+  company: program.company,
+  slug: program.slug,
+  url: homepageUrl || program.url,
+  description: program.description,
+});
 
 /* Filter helper that TypeScript can narrow correctly */
 function items(...entries: (DefListItem | null | undefined)[]): DefListItem[] {

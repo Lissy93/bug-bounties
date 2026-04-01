@@ -36,7 +36,7 @@
     <h2>Scanning {domain || "domain"}</h2>
 
     <ul class="steps" aria-label="Lookup progress">
-      {#each steps as step, i}
+      {#each steps as step, i (step)}
         <li class:done={i < activeStep} class:active={i === activeStep}>
           <span class="pip"></span>
           {step}

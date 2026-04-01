@@ -2,7 +2,8 @@
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import Header from "../../components/Header.astro";
 import LookupSearch from "../../components/LookupSearch.svelte";
-import { Search, Eye, BarChart3 } from "lucide-svelte";
+import { lookupSchema } from "../../lib/json-ld";
+import { Search, Eye, ChartColumn } from "lucide-svelte";
 
 export const prerender = false;
 
@@ -10,14 +11,7 @@ const title = "Security Contact Lookup - Find Vulnerability Reporting Details";
 const description =
   "Look up any domain to find security contacts, vulnerability disclosure policies, and bug bounty programs. Scans 17+ sources to identify the right way to report a security issue.";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Security Contact Lookup",
-  url: "https://bug-bounties.as93.net/lookup",
-  description,
-  applicationCategory: "SecurityApplication",
-};
+const jsonLd = lookupSchema(description);
 ---
 
 <DefaultLayout {title} {description} jsonLd={jsonLd}>
@@ -51,7 +45,7 @@ const jsonLd = {
         </p>
       </div>
       <div class="highlight">
-        <BarChart3 size={18} />
+        <ChartColumn size={18} />
         <strong>High success rate</strong>
         <p>
           We find verified security contacts for the majority of sites, using

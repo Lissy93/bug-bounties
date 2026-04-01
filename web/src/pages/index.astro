@@ -5,6 +5,7 @@ import StatsBar from "../components/StatsBar.astro";
 import LookupSearch from "../components/LookupSearch.svelte";
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 import { loadAllPrograms } from "../lib/load-all-programs";
+import { homeSchema } from "../lib/json-ld";
 
 const { programs, listPrograms, trancoRanks, kevCounts } =
   await loadAllPrograms();
@@ -14,14 +15,18 @@ const withBounties = programs.filter((p) =>
   p.rewards?.includes("*bounty"),
 ).length;
 const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
+
+const jsonLd = homeSchema(
+  `Browse ${totalPrograms.toLocaleString()} bug bounty and responsible disclosure programs.`,
+);
 ---
 
 <DefaultLayout
   title="Bug Bounties - Directory of Bug Bounty Programs"
   description={`Browse ${totalPrograms.toLocaleString()} bug bounty and responsible disclosure programs. Find companies that welcome vulnerability reports, with scopes, rewards and contact details.`}
+  jsonLd={jsonLd}
 >
   <Header />
-  <StatsBar {totalPrograms} {withBounties} {withSafeHarbor} />
   <section class="lookup-card">
     <h2>Find Reporting Method</h2>
     <p>
@@ -32,15 +37,24 @@ const withSafeHarbor = programs.filter((p) => p.safe_harbor).length;
     </p>
     <LookupSearch bare client:idle />
   </section>
+  <hr />
   <SearchableList
     programs={listPrograms}
     {trancoRanks}
     {kevCounts}
     client:idle
   />
+  <hr />
+  <StatsBar {totalPrograms} {withBounties} {withSafeHarbor} />
 </DefaultLayout>
 
 <style>
+  hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 1.6rem auto;
+    width: var(--content-width, 90%);
+  }
   .lookup-card {
     width: var(--content-width);
     margin: 0 auto 1rem;

@@ -170,7 +170,6 @@
     <span class="section-count">{sorted.length}</span>
   </h2>
 
-
   <div class="toolbar">
     <div class="search-row">
       <input

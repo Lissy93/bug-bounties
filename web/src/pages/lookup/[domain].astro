@@ -9,6 +9,7 @@ import Summary from "../../components/results/Summary.astro";
 import ResultSection from "../../components/results/ResultSection.astro";
 import type { SummaryAction } from "../../components/results/Summary.astro";
 import { formatDate } from "../../lib/format";
+import { lookupResultSchema } from "../../lib/json-ld";
 import { resolveDomain } from "../../lib/lookup/resolve-domain";
 import { runLookup } from "../../lib/lookup/runner";
 import type { LookupSource, LookupResponse } from "../../lib/lookup/types";
@@ -239,34 +240,7 @@ const pageDescription = data
   ? `Security contact information for ${data.domain}. Found ${totalContacts} contact${totalContacts !== 1 ? "s" : ""} across ${data.results.length} source${data.results.length !== 1 ? "s" : ""}.`
   : "Security contact lookup.";
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://bug-bounties.as93.net/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Lookup",
-      item: "https://bug-bounties.as93.net/lookup",
-    },
-    ...(data
-      ? [
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: data.domain,
-            item: `https://bug-bounties.as93.net/lookup/${data.domain}`,
-          },
-        ]
-      : []),
-  ],
-};
+const breadcrumbJsonLd = lookupResultSchema(data?.domain);
 ---
 
 <DefaultLayout
@@ -294,7 +268,7 @@ const breadcrumbJsonLd = {
             <img
               src={`https://favicon.im/${data.domain}?default-avatar=https://pixelflare.cc/i/fqtfmw`}
               width="24"
-              alt="Icon"
+              alt={`${data.domain} favicon`}
             />
             Security Contacts for <span class="domain">{data.domain}</span>
           </h1>
