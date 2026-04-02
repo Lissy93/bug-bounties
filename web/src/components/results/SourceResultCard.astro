@@ -1,0 +1,305 @@
+---
+import Chip from "../Chip.svelte";
+import SourceIcon from "./SourceIcon.svelte";
+import ContactList from "./ContactList.astro";
+import GitHubUserCard from "./GitHubUserCard.astro";
+import SourceDisclaimer from "./SourceDisclaimer.astro";
+import ResultSection from "./ResultSection.astro";
+import DefList from "./DefList.astro";
+import RewardBadges from "../RewardBadges.svelte";
+import { DollarSign, ShieldCheck } from "lucide-svelte";
+import { formatDate } from "../../lib/format";
+import { SOURCE_META } from "../../lib/lookup/source-meta";
+import type { LookupResult } from "../../lib/lookup/types";
+import type { DefListItem } from "./DefList.astro";
+import type { Reward } from "../../types/Company";
+
+interface Props {
+  result: LookupResult;
+}
+
+const { result } = Astro.props;
+const meta = SOURCE_META[result.source] || {
+  label: result.source,
+  icon: "Shield",
+};
+
+/* Build metadata display items based on source type */
+function buildMetadataItems(
+  source: string,
+  metadata: Record<string, unknown>,
+): DefListItem[] {
+  const out: DefListItem[] = [];
+
+  if (source === "security-txt") {
+    if (metadata.policy)
+      out.push({
+        label: "Policy",
+        value: String(metadata.policy),
+        href: String(metadata.policy),
+      });
+    if (metadata.acknowledgments)
+      out.push({
+        label: "Acknowledgments",
+        value: String(metadata.acknowledgments),
+        href: String(metadata.acknowledgments),
+      });
+    if (metadata.preferredLanguages)
+      out.push({
+        label: "Languages",
+        value: String(metadata.preferredLanguages),
+      });
+    if (metadata.expires)
+      out.push({
+        label: "Expires",
+        value: formatDate(String(metadata.expires)),
+        color: metadata.is_expired ? "expired-text" : undefined,
+      });
+    return out;
+  }
+
+  if (source === "rfc2142") return out;
+
+  if (source === "ssl-cert" && metadata.organization) {
+    out.push({
+      label: "Organization",
+      value: String(metadata.organization),
+    });
+    return out;
+  }
+
+  if (source === "github-security" && metadata.org) {
+    out.push({ label: "GitHub Org", value: String(metadata.org) });
+    return out;
+  }
+
+  if (source === "github-security-md" && metadata.file) {
+    out.push({ label: "File", value: String(metadata.file) });
+    return out;
+  }
+
+  if (source === "github-author") return out;
+
+  if (source === "github-advisories") {
+    if (metadata.privateReporting)
+      out.push({ label: "Private Reporting", value: "Enabled" });
+    if (metadata.advisoryCount != null) {
+      const label = metadata.hasMoreThanFive
+        ? "Recent Advisories"
+        : "Advisories";
+      out.push({
+        label,
+        value: `${metadata.advisoryCount}${metadata.hasMoreThanFive ? "+" : ""}`,
+      });
+    }
+    if (metadata.latestSummary)
+      out.push({ label: "Latest", value: String(metadata.latestSummary) });
+    if (metadata.latestSeverity)
+      out.push({ label: "Severity", value: String(metadata.latestSeverity) });
+    if (metadata.latestCve)
+      out.push({
+        label: "CVE",
+        value: String(metadata.latestCve),
+        href: `https://nvd.nist.gov/vuln/detail/${metadata.latestCve}`,
+        mono: true,
+      });
+    if (metadata.latestDate)
+      out.push({
+        label: "Published",
+        value: formatDate(String(metadata.latestDate)),
+      });
+    return out;
+  }
+
+  if (source === "github-commit-emails") return out;
+
+  if (source === "github-codeowners" || source === "github-issue-templates") {
+    return out;
+  }
+
+  for (const [key, val] of Object.entries(metadata)) {
+    if (val == null || key === "programs") continue;
+    out.push({ label: key, value: String(val) });
+  }
+  return out;
+}
+
+/* Extract program info from bounty-db and disclose-io metadata */
+interface ProgramInfo {
+  name: string;
+  url?: string;
+  safeHarbor?: string;
+  rewards?: Reward[];
+  offersBounty?: string;
+}
+
+function extractPrograms(
+  source: string,
+  metadata: Record<string, unknown>,
+): ProgramInfo[] {
+  const programs = metadata.programs as Record<string, unknown>[] | undefined;
+  if (!programs || !Array.isArray(programs)) return [];
+
+  if (source === "bounty-db") {
+    return programs.map((p) => ({
+      name: String(p.company || ""),
+      url: p.url ? String(p.url) : undefined,
+      safeHarbor: p.safe_harbor ? String(p.safe_harbor) : undefined,
+      rewards: Array.isArray(p.rewards) ? (p.rewards as Reward[]) : undefined,
+    }));
+  }
+
+  if (source === "disclose-io") {
+    return programs.map((p) => ({
+      name: String(p.program_name || ""),
+      url: p.policy_url ? String(p.policy_url) : undefined,
+      safeHarbor: p.safe_harbor ? String(p.safe_harbor) : undefined,
+      offersBounty: p.offers_bounty ? String(p.offers_bounty) : undefined,
+    }));
+  }
+
+  return [];
+}
+
+const isUserCard = result.source === "github-author" && !!result.metadata;
+const metadataItems =
+  result.metadata && !isUserCard
+    ? buildMetadataItems(result.source, result.metadata)
+    : [];
+const programs = result.metadata
+  ? extractPrograms(result.source, result.metadata)
+  : [];
+---
+
+<ResultSection>
+  <div class="card-header">
+    <SourceIcon icon={meta.icon} size={18} />
+    <span class="source-name">{meta.label}</span>
+    <Chip
+      color={result.tier === 1 ? "var(--success)" : "var(--muted)"}
+      size="sm"
+      filled
+    >
+      {result.tier === 1 ? "Verified" : "Unverified"}
+    </Chip>
+    {
+      result.url && (
+        <a
+          href={result.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-link-muted source-link"
+        >
+          source
+        </a>
+      )
+    }
+  </div>
+
+  {
+    isUserCard ? (
+      <GitHubUserCard
+        metadata={result.metadata as Record<string, unknown>}
+        contacts={result.contacts}
+      />
+    ) : (
+      <ContactList contacts={result.contacts} />
+    )
+  }
+
+  {
+    programs.length > 0 && (
+      <div class="programs">
+        {programs.map((p) => (
+          <div class="program-entry">
+            <span class="program-name">{p.name}</span>
+            {p.url && (
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-link program-url"
+              >
+                {p.url}
+              </a>
+            )}
+            <div class="chip-group program-chips">
+              {p.rewards && <RewardBadges rewards={p.rewards} />}
+              {p.safeHarbor && (
+                <Chip color="var(--success)" size="sm" filled>
+                  <ShieldCheck size={12} />
+                  {p.safeHarbor === "full" ? "Full" : "Partial"} Safe Harbor
+                </Chip>
+              )}
+              {p.offersBounty === "yes" && !p.rewards && (
+                <Chip color="var(--success)" size="sm" filled>
+                  <DollarSign size={12} />
+                  Bounty
+                </Chip>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {metadataItems.length > 0 && <DefList items={metadataItems} />}
+
+  {meta.disclaimer && <SourceDisclaimer text={meta.disclaimer} />}
+</ResultSection>
+
+<style>
+  @import "../../styles/results.css";
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    svg {
+      color: var(--primary);
+    }
+  }
+
+  .source-name {
+    font-family: "Wallpoet", sans-serif;
+    font-size: 1rem;
+    color: var(--primary);
+  }
+
+  .source-link {
+    margin-left: auto;
+  }
+
+  .programs {
+    margin: 0.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .program-entry {
+    padding: 0.5rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+  }
+
+  .program-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--foreground);
+  }
+
+  .program-url {
+    display: block;
+    font-size: 0.8rem;
+    word-break: break-all;
+    margin-top: 0.15rem;
+  }
+
+  .program-chips {
+    margin-top: 0.35rem;
+  }
+</style>

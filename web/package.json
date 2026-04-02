@@ -32,6 +32,7 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/svelte": "^7.2.5",
+    "@astrojs/vercel": "^9.0.5",
     "astro": "^5.18.0",
     "js-yaml": "^4.1.0",
     "lucide-svelte": "^0.577.0",

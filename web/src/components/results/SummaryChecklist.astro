@@ -1,0 +1,172 @@
+---
+import {
+  CircleCheck,
+  CircleDot,
+  CircleX,
+  CircleSlash,
+  CircleAlert,
+} from "lucide-svelte";
+import ResultSection from "./ResultSection.astro";
+import SourceIcon from "./SourceIcon.svelte";
+import { SOURCE_META } from "../../lib/lookup/source-meta";
+import type { SummaryItem } from "../../lib/lookup/types";
+
+interface Props {
+  summary: SummaryItem[];
+  hasVerified?: boolean;
+}
+
+const { summary, hasVerified = false } = Astro.props;
+
+const totalSources = summary.length;
+const checkedCount = summary.filter((s) => s.status !== "skipped").length;
+const foundCount = summary.filter((s) => s.status === "found").length;
+const checkedLabel =
+  checkedCount < totalSources
+    ? `${checkedCount} (out of ${totalSources})`
+    : String(checkedCount);
+
+const statusConfig: Record<
+  string,
+  { icon: typeof CircleCheck; color: string; label: string }
+> = {
+  found: { icon: CircleCheck, color: "var(--success)", label: "Found" },
+  partial: { icon: CircleDot, color: "var(--warning)", label: "Partial" },
+  missing: { icon: CircleX, color: "var(--warning)", label: "Not found" },
+  skipped: { icon: CircleSlash, color: "var(--muted)", label: "Skipped" },
+  error: { icon: CircleAlert, color: "var(--danger)", label: "Error" },
+};
+---
+
+<ResultSection heading="About the Data">
+  <p class="intro">
+    The results above were gathered by scanning {checkedLabel} sources for security
+    contacts. Sources are checked in two tiers - verified security channels first,
+    then general/fallback contacts only if no primary channels were found. {
+      foundCount > 0
+        ? `${foundCount} source${foundCount !== 1 ? "s" : ""} returned results.`
+        : "No sources returned results."
+    }
+  </p>
+
+  {
+    !hasVerified && (
+      <div class="submit-section">
+        <h3>Submit a Contact Method</h3>
+        <p>
+          If you own or manage this domain, you can add your security contact
+          details or vulnerability disclosure policy to our database so
+          researchers can report issues securely.
+        </p>
+        <a
+          href="https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-link"
+        >
+          Submit Security Contact &rarr;
+        </a>
+      </div>
+    )
+  }
+
+  <h3>Sources Checked</h3>
+  <ul class="checklist">
+    {
+      summary.map((item) => {
+        const meta = SOURCE_META[item.item] || {
+          label: item.item,
+          icon: "Shield",
+        };
+        const cfg = statusConfig[item.status] || statusConfig.missing;
+        const StatusIcon = cfg.icon;
+        return (
+          <li aria-label={`${meta.label}: ${cfg.label}`}>
+            <span class="source-info">
+              <SourceIcon icon={meta.icon} size={14} />
+              <span>{meta.label}</span>
+            </span>
+            <span class="status" style={`color: ${cfg.color}`}>
+              <StatusIcon size={14} />
+              <span class="status-text">{cfg.label}</span>
+            </span>
+          </li>
+        );
+      })
+    }
+  </ul>
+</ResultSection>
+
+<style>
+  @import "../../styles/results.css";
+
+  .intro {
+    line-height: 1.5;
+    color: var(--foreground);
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+  }
+
+  h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+  }
+
+  .submit-section {
+    margin-bottom: 1rem;
+
+    & p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--foreground);
+      margin: 0 0 0.25rem;
+    }
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.4rem;
+
+    & li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: var(--curve);
+      background: var(--background-darker);
+      font-size: 0.8rem;
+    }
+  }
+
+  .source-info {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--foreground);
+
+    & span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+
+    & .status-text {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+  }
+</style>

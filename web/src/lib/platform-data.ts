@@ -547,6 +547,66 @@ export async function fetchAllPlatformData(
 
     const results = new Map<string, PlatformScopeData>();
 
+    // Each platform: source key, handle lookup map, name lookup map, normalizer
+    const platforms: {
+      source: string;
+      byHandle: Map<string, unknown>;
+      byName: Map<string, unknown>;
+      normalize: (raw: never) => PlatformScopeData | null;
+    }[] = [
+      {
+        source: "hackerone",
+        byHandle: h1ByHandle,
+        byName: h1ByName,
+        normalize: normalizeH1 as (raw: never) => PlatformScopeData | null,
+      },
+      {
+        source: "bugcrowd",
+        byHandle: bcByPath,
+        byName: bcByName,
+        normalize: normalizeBC as (raw: never) => PlatformScopeData | null,
+      },
+      {
+        source: "intigriti",
+        byHandle: intigritiByHandle,
+        byName: intigritiByName,
+        normalize: normalizeIntigriti as (
+          raw: never,
+        ) => PlatformScopeData | null,
+      },
+      {
+        source: "yeswehack",
+        byHandle: ywhById,
+        byName: ywhByName,
+        normalize: normalizeYWH as (raw: never) => PlatformScopeData | null,
+      },
+      {
+        source: "federacy",
+        byHandle: federacyBySlug,
+        byName: federacyByName,
+        normalize: normalizeFederacy as (
+          raw: never,
+        ) => PlatformScopeData | null,
+      },
+    ];
+
+    function tryMatch(
+      key: string,
+      lookups: {
+        map: Map<string, unknown>;
+        normalize: (raw: never) => PlatformScopeData | null;
+      }[],
+    ): PlatformScopeData | null {
+      for (const { map, normalize } of lookups) {
+        const raw = map.get(key);
+        if (raw) {
+          const result = normalize(raw as never);
+          if (result) return result;
+        }
+      }
+      return null;
+    }
+
     for (const program of programs) {
       const sources = deriveSources(program.url);
       const handle =
@@ -555,75 +615,29 @@ export async function fetchAllPlatformData(
       let data: PlatformScopeData | null = null;
 
       // Try the platform indicated by URL first
-      if (sources.includes("hackerone")) {
-        if (handle) {
-          const raw = h1ByHandle.get(handle);
-          if (raw) data = normalizeH1(raw);
-        }
-      } else if (sources.includes("bugcrowd")) {
-        if (handle) {
-          const raw = bcByPath.get(handle);
-          if (raw) data = normalizeBC(raw);
-        }
-      } else if (sources.includes("intigriti")) {
-        if (handle) {
-          const raw = intigritiByHandle.get(handle);
-          if (raw) data = normalizeIntigriti(raw);
-        }
-      } else if (sources.includes("yeswehack")) {
-        if (handle) {
-          const raw = ywhById.get(handle);
-          if (raw) data = normalizeYWH(raw);
-        }
-      } else if (sources.includes("federacy")) {
-        if (handle) {
-          const raw = federacyBySlug.get(handle);
-          if (raw) data = normalizeFederacy(raw);
+      if (handle) {
+        const match = platforms.find((p) => sources.includes(p.source));
+        if (match) {
+          data = tryMatch(handle, [
+            { map: match.byHandle, normalize: match.normalize },
+          ]);
         }
       }
 
       // For non-platform URLs or unmatched programs, try matching by
       // handle across all platforms, then fall back to company name
       if (!data && handle) {
-        const h1 = h1ByHandle.get(handle);
-        if (h1) data = normalizeH1(h1);
-        if (!data) {
-          const bc = bcByPath.get(handle);
-          if (bc) data = normalizeBC(bc);
-        }
-        if (!data) {
-          const ig = intigritiByHandle.get(handle);
-          if (ig) data = normalizeIntigriti(ig);
-        }
-        if (!data) {
-          const ywh = ywhById.get(handle);
-          if (ywh) data = normalizeYWH(ywh);
-        }
-        if (!data) {
-          const fed = federacyBySlug.get(handle);
-          if (fed) data = normalizeFederacy(fed);
-        }
+        data = tryMatch(
+          handle,
+          platforms.map((p) => ({ map: p.byHandle, normalize: p.normalize })),
+        );
       }
 
       if (!data) {
-        const h1 = h1ByName.get(companyLower);
-        if (h1) data = normalizeH1(h1);
-        if (!data) {
-          const bc = bcByName.get(companyLower);
-          if (bc) data = normalizeBC(bc);
-        }
-        if (!data) {
-          const ig = intigritiByName.get(companyLower);
-          if (ig) data = normalizeIntigriti(ig);
-        }
-        if (!data) {
-          const ywh = ywhByName.get(companyLower);
-          if (ywh) data = normalizeYWH(ywh);
-        }
-        if (!data) {
-          const fed = federacyByName.get(companyLower);
-          if (fed) data = normalizeFederacy(fed);
-        }
+        data = tryMatch(
+          companyLower,
+          platforms.map((p) => ({ map: p.byName, normalize: p.normalize })),
+        );
       }
 
       if (data && data.scopeStats.total > 0) {

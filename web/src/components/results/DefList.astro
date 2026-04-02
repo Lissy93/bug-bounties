@@ -1,0 +1,88 @@
+---
+import Tooltip from "../Tooltip.svelte";
+
+export interface DefListItem {
+  label: string;
+  value: string;
+  tooltip?: string;
+  href?: string;
+  mono?: boolean;
+  color?: string;
+}
+
+interface Props {
+  items: DefListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl>
+  {
+    items.map((item) => (
+      <>
+        <dt>
+          {item.tooltip ? (
+            <Tooltip text={item.tooltip}>{item.label}</Tooltip>
+          ) : (
+            item.label
+          )}
+        </dt>
+        <dd class:list={[item.mono && "mono", item.color]}>
+          {item.href ? (
+            <a href={item.href} target="_blank" rel="noopener noreferrer">
+              {item.value}
+            </a>
+          ) : (
+            item.value
+          )}
+        </dd>
+      </>
+    ))
+  }
+</dl>
+
+<style>
+  dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    margin: 0;
+  }
+
+  dt {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 0.9rem;
+
+    & a {
+      color: var(--primary);
+      word-break: break-all;
+    }
+
+    &.mono {
+      font-family: monospace;
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
+
+    &.hiring {
+      color: var(--success);
+    }
+
+    &.expired-text {
+      color: var(--warning);
+    }
+  }
+
+  @media (max-width: 600px) {
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

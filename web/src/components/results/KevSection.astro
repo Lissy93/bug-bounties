@@ -1,0 +1,154 @@
+---
+import Chip from "../Chip.svelte";
+import Tooltip from "../Tooltip.svelte";
+import ResultSection from "./ResultSection.astro";
+import { formatDate } from "../../lib/format";
+import { tips } from "../../lib/tooltips";
+import type { KevData } from "../../types/Company";
+
+interface Props {
+  kevData: KevData;
+}
+
+const { kevData } = Astro.props;
+---
+
+{
+  kevData.totalCount > 0 && (
+    <ResultSection heading="Known Exploited Vulnerabilities">
+      <Tooltip slot="badge" text={tips.kevSection} />
+      <Chip slot="badge" color="var(--danger)" size="sm" filled>
+        <span class="bold">
+          {kevData.totalCount} {kevData.totalCount === 1 ? "CVE" : "CVEs"}
+        </span>
+      </Chip>
+      {kevData.ransomwareCount > 0 && (
+        <p class="ransomware-note">
+          <Tooltip text={tips.kevRansomware}>
+            {kevData.ransomwareCount} linked to ransomware campaigns
+          </Tooltip>
+        </p>
+      )}
+      <ul class="kev-list">
+        {kevData.vulnerabilities.slice(0, 10).map((vuln) => (
+          <li>
+            <div class="kev-header">
+              <a
+                href={`https://nvd.nist.gov/vuln/detail/${vuln.cveID}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="kev-cve"
+              >
+                {vuln.cveID}
+              </a>
+              <span class="kev-product">{vuln.product}</span>
+              <span class="kev-date">{formatDate(vuln.dateAdded)}</span>
+              {vuln.epssScore != null && (
+                <Chip
+                  color={
+                    vuln.epssScore > 0.5
+                      ? "var(--danger)"
+                      : vuln.epssScore > 0.1
+                        ? "var(--warning)"
+                        : "var(--muted)"
+                  }
+                  tooltip={tips.epssScore}
+                  size="sm"
+                  filled={vuln.epssScore > 0.1}
+                >
+                  <span class="bold">
+                    {(vuln.epssScore * 100).toFixed(1)}% EPSS
+                  </span>
+                </Chip>
+              )}
+            </div>
+            <p class="kev-desc">{vuln.shortDescription}</p>
+          </li>
+        ))}
+      </ul>
+      {kevData.totalCount > 10 && (
+        <a
+          href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-link"
+        >
+          and {kevData.totalCount - 10} more - view full CISA catalog &rarr;
+        </a>
+      )}
+    </ResultSection>
+  )
+}
+
+<style>
+  @import "../../styles/results.css";
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .ransomware-note {
+    font-size: 0.85rem;
+    color: var(--warning);
+    margin: 0 0 0.75rem;
+  }
+
+  .kev-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    & li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--background-darker);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .kev-header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .kev-cve {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .kev-product {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--background-darker);
+    border-radius: var(--curve);
+    color: var(--muted);
+  }
+
+  .kev-date {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .kev-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0.25rem 0 0;
+    line-height: 1.4;
+  }
+
+  .text-link {
+    margin-top: 0.75rem;
+  }
+</style>
