@@ -9,11 +9,31 @@
   let error = "";
   let loading = false;
   let loadingDomain = "";
+  let loadingType: "website" | "github" = "website";
+
+  const GITHUB_RE = /github\.com[/:]([^/\s]+)\/([^/\s#?.]+)/;
+
+  function parseGitHub(raw: string): { owner: string; repo: string } | null {
+    const m = raw.match(GITHUB_RE);
+    if (!m) return null;
+    return { owner: m[1], repo: m[2].replace(/\.git$/, "") };
+  }
 
   function handleSubmit() {
     const trimmed = input.trim();
     if (!trimmed) {
-      error = "Please enter a domain or URL.";
+      error = "Please enter a domain, URL, or GitHub repo.";
+      return;
+    }
+
+    /* Check for GitHub repo URL first */
+    const gh = parseGitHub(trimmed);
+    if (gh) {
+      error = "";
+      loading = true;
+      loadingType = "github";
+      loadingDomain = `${gh.owner}/${gh.repo}`;
+      window.location.href = `/lookup/github/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}`;
       return;
     }
 
@@ -38,6 +58,7 @@
 
     error = "";
     loading = true;
+    loadingType = "website";
     loadingDomain = domain;
     window.location.href = `/lookup/${encodeURIComponent(domain)}`;
   }
@@ -57,8 +78,8 @@
       <input
         type="text"
         bind:value={input}
-        placeholder="Enter a domain or URL (e.g. stripe.com)"
-        aria-label="Domain or URL to look up"
+        placeholder="Enter any domain or GitHub URL"
+        aria-label="Domain, URL, or GitHub repo to look up"
       />
     </div>
     <button type="submit">Lookup</button>
@@ -69,7 +90,7 @@
 </div>
 
 {#if loading}
-  <LookupLoading domain={loadingDomain} />
+  <LookupLoading domain={loadingDomain} type={loadingType} />
 {/if}
 
 <style>

@@ -14,6 +14,10 @@
     Home,
     FileSearch,
     FileText,
+    User,
+    Users,
+    GitCommit,
+    TriangleAlert,
   } from "lucide-svelte";
 
   export let icon: string = "Shield";
@@ -34,6 +38,10 @@
     Home,
     FileSearch,
     FileText,
+    User,
+    Users,
+    GitCommit,
+    AlertTriangle: TriangleAlert,
   };
 
   $: Component = icons[icon] || Shield;

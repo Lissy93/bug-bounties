@@ -46,3 +46,18 @@ export interface LookupResponse {
   errors: { source: string; error: string }[];
   summary: SummaryItem[];
 }
+
+export interface ResolvedRepo {
+  owner: string;
+  repo: string;
+  slug: string;
+  fullUrl: string;
+  defaultBranch?: string;
+  homepage?: string;
+}
+
+export interface GitHubLookupSource {
+  name: string;
+  tier: 1 | 2;
+  execute(ctx: ResolvedRepo, signal: AbortSignal): Promise<LookupResult | null>;
+}

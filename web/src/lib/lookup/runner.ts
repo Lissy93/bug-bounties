@@ -4,19 +4,27 @@ import type {
   LookupResult,
   LookupResponse,
   ResolvedDomain,
+  ResolvedRepo,
+  GitHubLookupSource,
   SummaryItem,
 } from "./types";
 
 const PHASE_TIMEOUT = 10_000;
 const PER_SOURCE_TIMEOUT = 5_000;
 
+interface AnySource<T> {
+  name: string;
+  tier: 1 | 2;
+  execute(ctx: T, signal: AbortSignal): Promise<LookupResult | null>;
+}
+
 type SourceOutcome =
   | { ok: true; name: string; result: LookupResult | null }
   | { ok: false; name: string; error: string };
 
-async function runPhase(
-  ctx: ResolvedDomain,
-  sources: LookupSource[],
+async function runPhase<T>(
+  ctx: T,
+  sources: AnySource<T>[],
 ): Promise<SourceOutcome[]> {
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), PHASE_TIMEOUT);
@@ -64,18 +72,30 @@ function collect(outcomes: SourceOutcome[], seen: Set<string>) {
       summary.push({ item: val.name, status: "missing" });
       continue;
     }
-    val.result.contacts = val.result.contacts.filter((c) => {
-      const key = `${c.type}:${c.value}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
+    /* Track duplicates but keep contacts on each source card so every
+       card shows what it found.  The seen set is still used to determine
+       the summary status: a source whose contacts were ALL already seen
+       by an earlier source is "partial" (corroborating), not "found". */
     const hasContacts = val.result.contacts.length > 0;
+    let hasNew = false;
+    for (const c of val.result.contacts) {
+      const key = `${c.type}:${c.value}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        hasNew = true;
+      }
+    }
     const hasMeta = !!val.result.metadata;
     if (hasContacts || hasMeta) results.push(val.result);
     summary.push({
       item: val.name,
-      status: hasContacts ? "found" : hasMeta ? "partial" : "missing",
+      status: hasContacts
+        ? hasNew
+          ? "found"
+          : "partial"
+        : hasMeta
+          ? "partial"
+          : "missing",
     });
   }
 
@@ -86,12 +106,41 @@ export async function runLookup(
   ctx: ResolvedDomain,
   tier1: LookupSource[],
   tier2: LookupSource[],
+  deep = false,
+): Promise<LookupResponse> {
+  return runTiered(ctx.domain, ctx, tier1, tier2, undefined, deep);
+}
+
+export async function runGitHubLookup(
+  ctx: ResolvedRepo,
+  tier1: GitHubLookupSource[],
+  tier2: GitHubLookupSource[],
+  skipT2Only?: Set<string>,
+  deep = false,
+): Promise<LookupResponse> {
+  return runTiered(ctx.slug, ctx, tier1, tier2, skipT2Only, deep);
+}
+
+async function runTiered<T>(
+  label: string,
+  ctx: T,
+  tier1: AnySource<T>[],
+  tier2: AnySource<T>[],
+  skipT2Only?: Set<string>,
+  deep = false,
 ): Promise<LookupResponse> {
   const seen = new Set<string>();
   const t1 = collect(await runPhase(ctx, tier1), seen);
-  const hasT1Contacts = t1.results.some((r) => r.contacts.length > 0);
 
-  const t2 = hasT1Contacts
+  /* In deep mode, always run tier 2.  Otherwise skip tier 2 when sources
+     that represent definitive security channels found contacts. */
+  const hasStrongT1 =
+    !deep &&
+    t1.results.some(
+      (r) => r.contacts.length > 0 && (!skipT2Only || skipT2Only.has(r.source)),
+    );
+
+  const t2 = hasStrongT1
     ? {
         results: [],
         errors: [],
@@ -102,7 +151,7 @@ export async function runLookup(
     : collect(await runPhase(ctx, tier2), seen);
 
   return {
-    domain: ctx.domain,
+    domain: label,
     queried_at: new Date().toISOString(),
     results: [...t1.results, ...t2.results],
     errors: [...t1.errors, ...t2.errors],

@@ -8,34 +8,18 @@ import ErrorCard from "../../components/results/ErrorCard.astro";
 import Summary from "../../components/results/Summary.astro";
 import ResultSection from "../../components/results/ResultSection.astro";
 import type { SummaryAction } from "../../components/results/Summary.astro";
+import DeepSearchToggle from "../../components/results/DeepSearchToggle.svelte";
 import { formatDate } from "../../lib/format";
 import { lookupResultSchema } from "../../lib/json-ld";
 import { resolveDomain } from "../../lib/lookup/resolve-domain";
 import { runLookup } from "../../lib/lookup/runner";
-import type { LookupSource, LookupResponse } from "../../lib/lookup/types";
-import {
-  securityTxt,
-  bountyDb,
-  discloseIo,
-  githubSecurity,
-  platformCheck,
-  csaf,
-  dnsSecurity,
-  httpHeaders,
-  rdap,
-  dmarc,
-  rfc2142,
-  sslCert,
-  homepage,
-  dnsSoa,
-  commonPages,
-  dnsTxt,
-  robotsHumans,
-} from "../../lib/lookup/sources";
+import type { LookupResponse } from "../../lib/lookup/types";
+import { webTier1, webTier2 } from "../../lib/lookup/website-tiers";
 
 export const prerender = false;
 
 const { domain } = Astro.params;
+const deep = Astro.url.searchParams.get("deep") === "true";
 
 let data: LookupResponse | null = null;
 let errorTitle = "";
@@ -49,30 +33,7 @@ if (!domain) {
 } else {
   try {
     const ctx = resolveDomain(domain);
-
-    const tier1: LookupSource[] = [
-      securityTxt,
-      bountyDb,
-      discloseIo,
-      githubSecurity,
-      platformCheck,
-      csaf,
-      dnsSecurity,
-      httpHeaders,
-    ];
-    const tier2: LookupSource[] = [
-      rdap,
-      dmarc,
-      rfc2142,
-      sslCert,
-      homepage,
-      dnsSoa,
-      commonPages,
-      dnsTxt,
-      robotsHumans,
-    ];
-
-    data = await runLookup(ctx, tier1, tier2);
+    data = await runLookup(ctx, webTier1, webTier2, deep);
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     if (
@@ -240,6 +201,7 @@ const pageDescription = data
   ? `Security contact information for ${data.domain}. Found ${totalContacts} contact${totalContacts !== 1 ? "s" : ""} across ${data.results.length} source${data.results.length !== 1 ? "s" : ""}.`
   : "Security contact lookup.";
 
+const hasSkipped = !deep && !!data?.summary.some((s) => s.status === "skipped");
 const breadcrumbJsonLd = lookupResultSchema(data?.domain);
 ---
 
@@ -272,7 +234,18 @@ const breadcrumbJsonLd = lookupResultSchema(data?.domain);
             />
             Security Contacts for <span class="domain">{data.domain}</span>
           </h1>
-          <p class="queried-at">Queried {formatDate(data.queried_at, true)}</p>
+          <div class="meta-row">
+            <p class="queried-at">
+              Queried {formatDate(data.queried_at, true)}
+            </p>
+            {hasSkipped && (
+              <DeepSearchToggle
+                domain={data.domain}
+                type="website"
+                client:only="svelte"
+              />
+            )}
+          </div>
 
           {tier1Results.length > 0 ? (
             <Summary
@@ -358,10 +331,19 @@ const breadcrumbJsonLd = lookupResultSchema(data?.domain);
     }
   }
 
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
   .queried-at {
     font-size: 0.8rem;
     color: var(--muted);
-    margin: 0 0 1rem;
+    margin: 0;
   }
 
   .tier-heading {

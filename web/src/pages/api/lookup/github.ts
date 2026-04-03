@@ -1,53 +1,11 @@
 import type { APIRoute } from "astro";
-import { log } from "../../lib/log";
-import { resolveDomain } from "../../lib/lookup/resolve-domain";
-import { runLookup } from "../../lib/lookup/runner";
-import { checkRateLimit } from "../../lib/lookup/rate-limit";
-import type { LookupSource } from "../../lib/lookup/types";
-import {
-  securityTxt,
-  bountyDb,
-  discloseIo,
-  githubSecurity,
-  platformCheck,
-  csaf,
-  dnsSecurity,
-  httpHeaders,
-  rdap,
-  dmarc,
-  rfc2142,
-  sslCert,
-  homepage,
-  dnsSoa,
-  commonPages,
-  dnsTxt,
-  robotsHumans,
-} from "../../lib/lookup/sources";
+import { log } from "../../../lib/log";
+import { resolveRepo } from "../../../lib/lookup/resolve-repo";
+import { runFullGitHubLookup } from "../../../lib/lookup/run-github-lookup";
+import { hasGitHubToken } from "../../../lib/lookup/github-fetch";
+import { checkRateLimit } from "../../../lib/lookup/rate-limit";
 
 export const prerender = false;
-
-const tier1: LookupSource[] = [
-  securityTxt,
-  bountyDb,
-  discloseIo,
-  githubSecurity,
-  platformCheck,
-  csaf,
-  dnsSecurity,
-  httpHeaders,
-];
-
-const tier2: LookupSource[] = [
-  rdap,
-  dmarc,
-  rfc2142,
-  sslCert,
-  homepage,
-  dnsSoa,
-  commonPages,
-  dnsTxt,
-  robotsHumans,
-];
 
 const json = (body: unknown, status = 200, headers?: Record<string, string>) =>
   new Response(JSON.stringify(body), {
@@ -93,22 +51,30 @@ export const GET: APIRoute = async ({ url, request }) => {
       "Retry-After": String(limit.retryAfter),
     });
 
-  const input = url.searchParams.get("url");
-  if (!input) return error(400, "Missing 'url' query parameter");
+  if (!hasGitHubToken()) {
+    return error(
+      401,
+      "GitHub API token not configured. GitHub lookups are unavailable.",
+    );
+  }
+
+  const input = url.searchParams.get("repo");
+  if (!input) return error(400, "Missing 'repo' query parameter");
 
   let ctx;
   try {
-    ctx = resolveDomain(input);
+    ctx = resolveRepo(input);
   } catch (err) {
     return error(400, err instanceof Error ? err.message : "Invalid input");
   }
 
-  log.info("lookup", `Lookup: ${ctx.domain}`);
+  log.info("github-lookup", `Lookup: ${ctx.slug}`);
 
   try {
-    return json(await runLookup(ctx, tier1, tier2));
+    const deep = url.searchParams.get("deep") === "true";
+    return json(await runFullGitHubLookup(ctx.owner, ctx.repo, deep));
   } catch (err) {
-    log.error("lookup", "Unhandled error", err);
+    log.error("github-lookup", "Unhandled error", err);
     return error(500, "Internal server error");
   }
 };

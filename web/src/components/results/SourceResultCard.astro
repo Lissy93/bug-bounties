@@ -2,6 +2,7 @@
 import Chip from "../Chip.svelte";
 import SourceIcon from "./SourceIcon.svelte";
 import ContactList from "./ContactList.astro";
+import GitHubUserCard from "./GitHubUserCard.astro";
 import SourceDisclaimer from "./SourceDisclaimer.astro";
 import ResultSection from "./ResultSection.astro";
 import DefList from "./DefList.astro";
@@ -72,6 +73,50 @@ function buildMetadataItems(
     return out;
   }
 
+  if (source === "github-security-md" && metadata.file) {
+    out.push({ label: "File", value: String(metadata.file) });
+    return out;
+  }
+
+  if (source === "github-author") return out;
+
+  if (source === "github-advisories") {
+    if (metadata.privateReporting)
+      out.push({ label: "Private Reporting", value: "Enabled" });
+    if (metadata.advisoryCount != null) {
+      const label = metadata.hasMoreThanFive
+        ? "Recent Advisories"
+        : "Advisories";
+      out.push({
+        label,
+        value: `${metadata.advisoryCount}${metadata.hasMoreThanFive ? "+" : ""}`,
+      });
+    }
+    if (metadata.latestSummary)
+      out.push({ label: "Latest", value: String(metadata.latestSummary) });
+    if (metadata.latestSeverity)
+      out.push({ label: "Severity", value: String(metadata.latestSeverity) });
+    if (metadata.latestCve)
+      out.push({
+        label: "CVE",
+        value: String(metadata.latestCve),
+        href: `https://nvd.nist.gov/vuln/detail/${metadata.latestCve}`,
+        mono: true,
+      });
+    if (metadata.latestDate)
+      out.push({
+        label: "Published",
+        value: formatDate(String(metadata.latestDate)),
+      });
+    return out;
+  }
+
+  if (source === "github-commit-emails") return out;
+
+  if (source === "github-codeowners" || source === "github-issue-templates") {
+    return out;
+  }
+
   for (const [key, val] of Object.entries(metadata)) {
     if (val == null || key === "programs") continue;
     out.push({ label: key, value: String(val) });
@@ -116,9 +161,11 @@ function extractPrograms(
   return [];
 }
 
-const metadataItems = result.metadata
-  ? buildMetadataItems(result.source, result.metadata)
-  : [];
+const isUserCard = result.source === "github-author" && !!result.metadata;
+const metadataItems =
+  result.metadata && !isUserCard
+    ? buildMetadataItems(result.source, result.metadata)
+    : [];
 const programs = result.metadata
   ? extractPrograms(result.source, result.metadata)
   : [];
@@ -149,7 +196,16 @@ const programs = result.metadata
     }
   </div>
 
-  <ContactList contacts={result.contacts} />
+  {
+    isUserCard ? (
+      <GitHubUserCard
+        metadata={result.metadata as Record<string, unknown>}
+        contacts={result.contacts}
+      />
+    ) : (
+      <ContactList contacts={result.contacts} />
+    )
+  }
 
   {
     programs.length > 0 && (

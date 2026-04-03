@@ -2,8 +2,9 @@
   import { onMount } from "svelte";
 
   export let domain: string = "";
+  export let type: "website" | "github" = "website";
 
-  const steps = [
+  const websiteSteps = [
     "Resolving domain",
     "Checking security.txt",
     "Searching bug bounty databases",
@@ -13,6 +14,18 @@
     "Analyzing TLS certificates",
     "Compiling results",
   ];
+
+  const githubSteps = [
+    "Resolving repository",
+    "Checking SECURITY.md",
+    "Searching security advisories",
+    "Fetching owner profile",
+    "Scanning commit history",
+    "Checking website contacts",
+    "Compiling results",
+  ];
+
+  $: steps = type === "github" ? githubSteps : websiteSteps;
 
   let activeStep = 0;
   let interval: ReturnType<typeof setInterval>;
@@ -44,7 +57,11 @@
       {/each}
     </ul>
 
-    <p class="note">Querying 17 sources across two verification tiers</p>
+    <p class="note">
+      {type === "github"
+        ? "Querying 7 sources across two verification tiers"
+        : "Querying 17 sources across two verification tiers"}
+    </p>
   </div>
 </div>
 

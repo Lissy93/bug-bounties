@@ -22,6 +22,7 @@ const spec = {
   },
   servers: [
     { url: "https://bug-bounties.as93.net", description: "Production" },
+    { url: "http://localhost:4321", description: "Development" },
   ],
   tags: [
     { name: "Programs", description: "Browse and search bug bounty programs" },
@@ -120,8 +121,43 @@ const spec = {
     "/api/lookup": {
       get: {
         tags: ["Lookup"],
-        operationId: "lookupSecurityContacts",
-        summary: "Lookup security contacts for a website",
+        operationId: "listLookupTypes",
+        summary: "List lookup types",
+        description:
+          "Returns the available lookup endpoints (website, GitHub).",
+        responses: {
+          "200": {
+            description: "Available lookup types",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    lookups: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          type: { type: "string" },
+                          endpoint: { type: "string" },
+                          param: { type: "string" },
+                          description: { type: "string" },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup/website": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupWebsiteContacts",
+        summary: "Find website contacts",
         description:
           "Accepts a URL or domain and searches 17 sources for security contact details. Tier 1 (verified security channels) is checked first; tier 2 (general contacts) only runs when tier 1 finds nothing.",
         parameters: [
@@ -211,6 +247,82 @@ const spec = {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Error" },
                 example: { error: "Internal server error", status: 500 },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup/github": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupGitHubContacts",
+        summary: "Find GitHub contacts",
+        description:
+          "Accepts a GitHub repository (owner/repo or full URL) and searches for security contacts via SECURITY.md, advisories, owner profile, commit emails, and more.",
+        parameters: [
+          {
+            name: "repo",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description: "GitHub repository (owner/repo or full URL)",
+            examples: {
+              slug: {
+                value: "expressjs/express",
+                summary: "Owner/repo slug",
+              },
+              full_url: {
+                value: "https://github.com/facebook/react",
+                summary: "Full GitHub URL",
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "GitHub security contact lookup results",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LookupResponse" },
+              },
+            },
+          },
+          "400": {
+            description: "Invalid input (bad repo format, missing parameter)",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "401": {
+            description: "GitHub token not configured",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "429": {
+            description: "Rate limit exceeded",
+            headers: {
+              "Retry-After": {
+                description: "Seconds until the rate limit resets",
+                schema: { type: "integer" },
+              },
+            },
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "500": {
+            description: "Internal server error",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
               },
             },
           },

@@ -67,4 +67,25 @@ export const SOURCE_META: Record<string, SourceMeta> = {
     disclaimer:
       "Extracted from robots.txt or humans.txt. These are general contacts, not security-specific.",
   },
+  "github-security-md": { label: "SECURITY.md", icon: "Shield" },
+  "github-advisories": { label: "Security Advisories", icon: "AlertTriangle" },
+  "github-author": { label: "Repository Owner", icon: "User" },
+  "github-commit-emails": {
+    label: "Commit Authors",
+    icon: "GitCommit",
+    disclaimer:
+      "Extracted from recent commit history. These are code contributors, not necessarily security contacts.",
+  },
+  "github-codeowners": {
+    label: "CODEOWNERS / Contributing",
+    icon: "Users",
+    disclaimer:
+      "Extracted from CODEOWNERS or CONTRIBUTING.md. These are project maintainers, not dedicated security contacts.",
+  },
+  "github-issue-templates": {
+    label: "Issue Templates",
+    icon: "FileText",
+    disclaimer:
+      "Found in issue templates or SECURITY_CONTACTS. These may provide a reporting path for security issues.",
+  },
 };
