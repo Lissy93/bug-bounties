@@ -976,6 +976,11 @@ companies:
   contact: https://bugcrowd.com/engagements/atlassianapps
   rewards:
   - '*bounty'
+- company: Atolls Vulnerability Disclosure Program (VDP)
+  url: https://www.intigriti.com/programs/atolls/atollsvdp/detail
+  handle: atollsvdp
+  contact: https://www.intigriti.com/programs/atolls/atollsvdp/detail
+  rewards: []
 - company: Audere
   url: https://auderenow.org/security
   contact: mailto:security@auderenow.org
@@ -7395,6 +7400,12 @@ companies:
   url: https://lumindigital.com/security/
   contact: mailto:security-disclosure@lumindigital.com
   rewards: []
+- company: Luminor
+  url: http://www.luminor.lv
+  handle: luminor
+  contact: https://hackerone.com/luminor
+  rewards:
+  - '*swag'
 - company: Lumosity
   url: https://www.lookout.com/legal/responsible-disclosure
   contact: mailto:security@lookout.com
@@ -9306,6 +9317,11 @@ companies:
   url: https://www.oshkoshcorp.com/contact/Contacts~CyberSecurity.html
   contact: mailto:sirt@oshkoshcorp.com
   rewards: []
+- company: OSL Managed Public Bug Bounty Engagement
+  url: https://bugcrowd.com/engagements/osl-mbb-og1
+  contact: https://bugcrowd.com/engagements/bitgo-mbb-og-public
+  rewards:
+  - '*bounty'
 - company: OSLO BORS
   url: https://www.oslobors.no/ob_eng/Oslo-Boers/About-Oslo-Boers/Responsible-Disclosure
   contact: mailto:security@oslobors.no
