@@ -920,6 +920,7 @@
 - <img src='https://icon.horse/icon/looker.com' width='16'/> [Looker](https://looker.com/product/security/disclosure) 🏅
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Louis Vuitton Malletier - Public Bug Bou...](https://yeswehack.com/programs/louis-vuitton-malletier-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Lululemon](https://bugcrowd.com/lululemon) 💰
+- <img src='https://icon.horse/icon/www.luminor.lv' width='16'/> [Luminor](http://www.luminor.lv) 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Luno](https://bugcrowd.com/luno-og) 💰 🏅
 - <img src='https://icon.horse/icon/www.lyft.com' width='16'/> [Lyft](https://www.lyft.com/security) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Lyra](https://immunefi.com/bug-bounty/lyra/) 💰
@@ -1151,6 +1152,7 @@
 - <img src='https://icon.horse/icon/orionhealth.com' width='16'/> [Orion Health](https://orionhealth.com/us/support/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/www.google.com' width='16'/> [Orkut](https://www.google.com/about/appsecurity/reward-program/) 💰 🏅
 - <img src='https://icon.horse/icon/oroinc.com' width='16'/> [Oro](https://oroinc.com/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [OSL Managed Public Bug Bounty Engagement](https://bugcrowd.com/engagements/osl-mbb-og1) 💰
 - <img src='https://icon.horse/icon/www.oslobors.no' width='16'/> [OSLO BORS](https://www.oslobors.no/ob_eng/Oslo-Boers/About-Oslo-Boers/Responsible-Disclosure) 🏅
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [OTTO.DE Bug Bounty](https://yeswehack.com/programs/otto-de-bug-bounty) 💰
 - <img src='https://icon.horse/icon/www.ourfabriq.com' width='16'/> [OurFabriq](https://www.ourfabriq.com/responsible-disclosure-policy) 🏅
