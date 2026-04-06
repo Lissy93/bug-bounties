@@ -1,5 +1,9 @@
-import { fetchWithTimeout, parseSecurityTxt } from "../../security-txt";
-import type { LookupSource, LookupResult, ResolvedDomain } from "../types";
+import { fetchWithTimeout, parseSecurityTxt } from "@lib/security-txt";
+import type {
+  LookupSource,
+  LookupResult,
+  ResolvedDomain,
+} from "@lib/lookup/types";
 
 async function tryDomain(domain: string): Promise<LookupResult | null> {
   const wellKnown = `https://${domain}/.well-known/security.txt`;

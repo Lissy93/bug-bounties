@@ -1,4 +1,4 @@
-import type { BountyProgram, DiscloseData } from "../types/Company";
+import type { BountyProgram, DiscloseData } from "@app-types/Company";
 import { log } from "./log";
 
 const DISCLOSE_URL =

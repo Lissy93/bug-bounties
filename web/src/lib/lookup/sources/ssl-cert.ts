@@ -4,7 +4,7 @@ import type {
   LookupResult,
   ResolvedDomain,
   ContactInfo,
-} from "../types";
+} from "@lib/lookup/types";
 
 function getCert(domain: string): Promise<tls.PeerCertificate | null> {
   return new Promise((resolve) => {

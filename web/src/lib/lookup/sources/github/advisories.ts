@@ -1,5 +1,5 @@
-import type { GitHubLookupSource } from "../../types";
-import { githubFetch } from "../../github-fetch";
+import type { GitHubLookupSource } from "@lib/lookup/types";
+import { githubFetch } from "@lib/lookup/github-fetch";
 
 interface Advisory {
   ghsa_id: string;

@@ -17,7 +17,7 @@ const {
   jsonLd,
 } = Astro.props;
 
-import { defaultSchema } from "../lib/json-ld";
+import { defaultSchema } from "@lib/json-ld";
 
 const structuredData = jsonLd || defaultSchema(description);
 ---

@@ -1,8 +1,8 @@
 ---
-import Header from "../components/Header.astro";
-import DefaultLayout from "../layouts/DefaultLayout.astro";
-import BookmarksList from "../components/BookmarksList.svelte";
-import { loadAllPrograms } from "../lib/load-all-programs";
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import BookmarksList from "@components/BookmarksList.svelte";
+import { loadAllPrograms } from "@lib/load-all-programs";
 
 const { listPrograms, trancoRanks, kevCounts } = await loadAllPrograms();
 ---

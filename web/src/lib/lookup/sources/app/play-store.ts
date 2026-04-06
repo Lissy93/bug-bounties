@@ -1,10 +1,10 @@
-import type { AppLookupSource, ContactInfo } from "../../types";
+import type { AppLookupSource, ContactInfo } from "@lib/lookup/types";
 import {
   safeFetch,
   EMAIL_RE,
   decodeGoogleRedirect,
   buildResult,
-} from "../../util";
+} from "@lib/lookup/util";
 
 export const playStore: AppLookupSource = {
   name: "play-store",

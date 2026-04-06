@@ -1,10 +1,10 @@
 ---
-import Chip from "../Chip.svelte";
-import Tooltip from "../Tooltip.svelte";
+import Chip from "@components/Chip.svelte";
+import Tooltip from "@components/Tooltip.svelte";
 import ResultSection from "./ResultSection.astro";
-import { formatDate } from "../../lib/format";
-import { tips } from "../../lib/tooltips";
-import type { KevData } from "../../types/Company";
+import { formatDate } from "@lib/format";
+import { tips } from "@lib/tooltips";
+import type { KevData } from "@app-types/Company";
 
 interface Props {
   kevData: KevData;

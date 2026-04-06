@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
-import { log } from "../../../lib/log";
-import { resolvePackage } from "../../../lib/lookup/resolve-package";
-import { runFullPackageLookup } from "../../../lib/lookup/run-package-lookup";
-import type { PackageRegistry } from "../../../lib/lookup/types";
+import { log } from "@lib/log";
+import { resolvePackage } from "@lib/lookup/resolve-package";
+import { runFullPackageLookup } from "@lib/lookup/run-package-lookup";
+import type { PackageRegistry } from "@lib/lookup/types";
 import {
   json,
   error,
@@ -10,7 +10,7 @@ import {
   ALL,
   getClientIp,
   enforceRateLimit,
-} from "../../../lib/lookup/api-helpers";
+} from "@lib/lookup/api-helpers";
 
 export const prerender = false;
 export { OPTIONS, ALL };

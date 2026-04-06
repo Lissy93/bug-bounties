@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { resolveLogoDomain } from "../lib/domain";
+  import { resolveLogoDomain } from "@lib/domain";
 
   export let url: string;
   export let alt: string = "";

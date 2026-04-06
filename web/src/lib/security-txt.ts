@@ -1,5 +1,5 @@
 import pLimit from "p-limit";
-import type { BountyProgram, SecurityTxtData } from "../types/Company";
+import type { BountyProgram, SecurityTxtData } from "@app-types/Company";
 import { resolvePrimaryDomain } from "./domain";
 import { log } from "./log";
 

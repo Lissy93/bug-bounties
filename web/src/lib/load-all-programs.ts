@@ -12,7 +12,7 @@ import type {
   SecurityTxtData,
   PlatformScopeData,
   KevData,
-} from "../types/Company";
+} from "@app-types/Company";
 
 export interface AllProgramData {
   programs: BountyProgram[];

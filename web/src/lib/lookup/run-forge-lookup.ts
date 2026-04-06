@@ -1,4 +1,4 @@
-import { log } from "../log";
+import { log } from "@lib/log";
 import { runForgeLookup, runLookup } from "./runner";
 import { resolveDomain } from "./resolve-domain";
 import { forgeTier1, forgeTier2, forgeSkipT2Only } from "./forge-tiers";

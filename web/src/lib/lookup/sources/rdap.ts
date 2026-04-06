@@ -1,4 +1,8 @@
-import type { LookupSource, ResolvedDomain, ContactInfo } from "../types";
+import type {
+  LookupSource,
+  ResolvedDomain,
+  ContactInfo,
+} from "@lib/lookup/types";
 
 let bootstrapCache: Record<string, string> | null = null;
 let bootstrapTime = 0;

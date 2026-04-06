@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
-import { log } from "../../../lib/log";
-import { resolveForgeFromUrl } from "../../../lib/lookup/resolve-forge-repo";
-import { runFullForgeLookup } from "../../../lib/lookup/run-forge-lookup";
+import { log } from "@lib/log";
+import { resolveForgeFromUrl } from "@lib/lookup/resolve-forge-repo";
+import { runFullForgeLookup } from "@lib/lookup/run-forge-lookup";
 import {
   json,
   error,
@@ -9,7 +9,7 @@ import {
   ALL,
   getClientIp,
   enforceRateLimit,
-} from "../../../lib/lookup/api-helpers";
+} from "@lib/lookup/api-helpers";
 
 export const prerender = false;
 export { OPTIONS, ALL };

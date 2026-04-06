@@ -1,6 +1,6 @@
-import type { GitHubLookupSource, ContactInfo } from "../../types";
-import { EMAIL_RE, safeFetch } from "../../util";
-import { githubFetch, fetchRepoMeta } from "../../github-fetch";
+import type { GitHubLookupSource, ContactInfo } from "@lib/lookup/types";
+import { EMAIL_RE, safeFetch } from "@lib/lookup/util";
+import { githubFetch, fetchRepoMeta } from "@lib/lookup/github-fetch";
 
 interface ContentEntry {
   name: string;

@@ -3,8 +3,12 @@ import type {
   LookupResult,
   ResolvedDomain,
   ContactInfo,
-} from "../types";
-import { HOSTING_DOMAINS, DOMAIN_ALIASES, normalizeName } from "../util";
+} from "@lib/lookup/types";
+import {
+  HOSTING_DOMAINS,
+  DOMAIN_ALIASES,
+  normalizeName,
+} from "@lib/lookup/util";
 
 const DISCLOSE_URL =
   "https://raw.githubusercontent.com/disclose/diodb/master/program-list.json";

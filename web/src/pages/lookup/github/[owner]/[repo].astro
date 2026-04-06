@@ -1,18 +1,18 @@
 ---
-import DefaultLayout from "../../../../layouts/DefaultLayout.astro";
-import Header from "../../../../components/Header.astro";
-import BackLink from "../../../../components/BackLink.astro";
-import SourceResultCard from "../../../../components/results/SourceResultCard.astro";
-import SummaryChecklist from "../../../../components/results/SummaryChecklist.astro";
-import ErrorCard from "../../../../components/results/ErrorCard.astro";
-import Summary from "../../../../components/results/Summary.astro";
-import ResultSection from "../../../../components/results/ResultSection.astro";
-import type { SummaryAction } from "../../../../components/results/Summary.astro";
-import DeepSearchToggle from "../../../../components/results/DeepSearchToggle.svelte";
-import { formatDate } from "../../../../lib/format";
-import { runFullGitHubLookup } from "../../../../lib/lookup/run-github-lookup";
-import { hasGitHubToken } from "../../../../lib/lookup/github-fetch";
-import type { LookupResponse } from "../../../../lib/lookup/types";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import SourceResultCard from "@components/results/SourceResultCard.astro";
+import SummaryChecklist from "@components/results/SummaryChecklist.astro";
+import ErrorCard from "@components/results/ErrorCard.astro";
+import Summary from "@components/results/Summary.astro";
+import ResultSection from "@components/results/ResultSection.astro";
+import type { SummaryAction } from "@components/results/Summary.astro";
+import DeepSearchToggle from "@components/results/DeepSearchToggle.svelte";
+import { formatDate } from "@lib/format";
+import { runFullGitHubLookup } from "@lib/lookup/run-github-lookup";
+import { hasGitHubToken } from "@lib/lookup/github-fetch";
+import type { LookupResponse } from "@lib/lookup/types";
 
 export const prerender = false;
 

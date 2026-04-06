@@ -1,5 +1,9 @@
-import type { LookupSource, ResolvedDomain, ContactInfo } from "../types";
-import { EMAIL_RE, UA } from "../util";
+import type {
+  LookupSource,
+  ResolvedDomain,
+  ContactInfo,
+} from "@lib/lookup/types";
+import { EMAIL_RE, UA } from "@lib/lookup/util";
 
 const JSON_LD_RE =
   /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;

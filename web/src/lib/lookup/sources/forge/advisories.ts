@@ -1,5 +1,5 @@
-import type { ForgeLookupSource } from "../../types";
-import { safeFetch, buildResult } from "../../util";
+import type { ForgeLookupSource } from "@lib/lookup/types";
+import { safeFetch, buildResult } from "@lib/lookup/util";
 
 export const forgeAdvisories: ForgeLookupSource = {
   name: "forge-advisories",

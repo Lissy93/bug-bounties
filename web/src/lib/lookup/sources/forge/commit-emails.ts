@@ -1,5 +1,5 @@
-import type { ForgeLookupSource, ContactInfo } from "../../types";
-import { safeFetch, SKIP_EMAIL_RE, buildResult } from "../../util";
+import type { ForgeLookupSource, ContactInfo } from "@lib/lookup/types";
+import { safeFetch, SKIP_EMAIL_RE, buildResult } from "@lib/lookup/util";
 
 interface Commit {
   author_email?: string;

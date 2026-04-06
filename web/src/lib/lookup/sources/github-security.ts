@@ -1,5 +1,9 @@
-import type { LookupSource, ResolvedDomain, ContactInfo } from "../types";
-import { EMAIL_RE, safeFetch } from "../util";
+import type {
+  LookupSource,
+  ResolvedDomain,
+  ContactInfo,
+} from "@lib/lookup/types";
+import { EMAIL_RE, safeFetch } from "@lib/lookup/util";
 
 const SEC_URL_RE =
   /https?:\/\/[^\s)>\]"']+(?:security|vulnerabilit|report|bounty|hackerone|bugcrowd)[^\s)>\]"']*/gi;

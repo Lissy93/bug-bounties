@@ -1,4 +1,4 @@
-import { getRegistrableDomain, stripWww } from "../domain";
+import { getRegistrableDomain, stripWww } from "@lib/domain";
 import type { ResolvedDomain } from "./types";
 
 const PRIVATE_RANGES = [

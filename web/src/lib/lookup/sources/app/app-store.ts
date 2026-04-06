@@ -1,5 +1,5 @@
-import type { AppLookupSource, ContactInfo } from "../../types";
-import { safeFetch, buildResult } from "../../util";
+import type { AppLookupSource, ContactInfo } from "@lib/lookup/types";
+import { safeFetch, buildResult } from "@lib/lookup/util";
 
 interface ITunesResult {
   sellerUrl?: string;

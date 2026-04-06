@@ -1,6 +1,6 @@
-import type { GitHubLookupSource, ContactInfo } from "../../types";
-import { EMAIL_RE, safeFetch } from "../../util";
-import { fetchRepoMeta } from "../../github-fetch";
+import type { GitHubLookupSource, ContactInfo } from "@lib/lookup/types";
+import { EMAIL_RE, safeFetch } from "@lib/lookup/util";
+import { fetchRepoMeta } from "@lib/lookup/github-fetch";
 
 const SEC_URL_RE =
   /https?:\/\/[^\s)>\]"']+(?:security|vulnerabilit|report|bounty|hackerone|bugcrowd)[^\s)>\]"']*/gi;

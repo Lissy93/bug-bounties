@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
-import { log } from "../../../lib/log";
-import { resolveRepo } from "../../../lib/lookup/resolve-repo";
-import { runFullGitHubLookup } from "../../../lib/lookup/run-github-lookup";
-import { hasGitHubToken } from "../../../lib/lookup/github-fetch";
+import { log } from "@lib/log";
+import { resolveRepo } from "@lib/lookup/resolve-repo";
+import { runFullGitHubLookup } from "@lib/lookup/run-github-lookup";
+import { hasGitHubToken } from "@lib/lookup/github-fetch";
 import {
   json,
   error,
@@ -10,7 +10,7 @@ import {
   ALL,
   getClientIp,
   enforceRateLimit,
-} from "../../../lib/lookup/api-helpers";
+} from "@lib/lookup/api-helpers";
 
 export const prerender = false;
 export { OPTIONS, ALL };

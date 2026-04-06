@@ -1,4 +1,4 @@
-import type { BountyProgram } from "../types/Company";
+import type { BountyProgram } from "@app-types/Company";
 
 export const PLATFORM_HOSTNAMES = new Set([
   "hackerone.com",

@@ -1,5 +1,5 @@
-import type { PackageLookupSource, ContactInfo } from "../../types";
-import { safeFetch, buildResult } from "../../util";
+import type { PackageLookupSource, ContactInfo } from "@lib/lookup/types";
+import { safeFetch, buildResult } from "@lib/lookup/util";
 
 interface CrateData {
   crate: {

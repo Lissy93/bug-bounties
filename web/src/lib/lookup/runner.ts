@@ -1,4 +1,4 @@
-import { log } from "../log";
+import { log } from "@lib/log";
 import type {
   LookupSource,
   LookupResult,

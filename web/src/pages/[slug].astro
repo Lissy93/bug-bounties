@@ -1,16 +1,16 @@
 ---
-import DefaultLayout from "../layouts/DefaultLayout.astro";
-import Header from "../components/Header.astro";
-import BackLink from "../components/BackLink.astro";
-import FaviconImage from "../components/FaviconImage.svelte";
-import Tooltip from "../components/Tooltip.svelte";
-import Chip from "../components/Chip.svelte";
-import ResultSection from "../components/results/ResultSection.astro";
-import DefList from "../components/results/DefList.astro";
-import PayoutTable from "../components/results/PayoutTable.astro";
-import KeyInfoBar from "../components/results/KeyInfoBar.astro";
-import ScopeSection from "../components/results/ScopeSection.astro";
-import KevSection from "../components/results/KevSection.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import FaviconImage from "@components/FaviconImage.svelte";
+import Tooltip from "@components/Tooltip.svelte";
+import Chip from "@components/Chip.svelte";
+import ResultSection from "@components/results/ResultSection.astro";
+import DefList from "@components/results/DefList.astro";
+import PayoutTable from "@components/results/PayoutTable.astro";
+import KeyInfoBar from "@components/results/KeyInfoBar.astro";
+import ScopeSection from "@components/results/ScopeSection.astro";
+import KevSection from "@components/results/KevSection.astro";
 import { Mail, Globe, House } from "lucide-svelte";
 import {
   formatDate,
@@ -20,18 +20,18 @@ import {
   formatExcludedMethod,
   getHostname,
   getHomepageUrl,
-} from "../lib/format";
-import { tips } from "../lib/tooltips";
-import { formatRankBadge } from "../lib/tranco";
-import { loadAllPrograms } from "../lib/load-all-programs";
-import { companySchema } from "../lib/json-ld";
+} from "@lib/format";
+import { tips } from "@lib/tooltips";
+import { formatRankBadge } from "@lib/tranco";
+import { loadAllPrograms } from "@lib/load-all-programs";
+import { companySchema } from "@lib/json-ld";
 import type {
   BountyProgram,
   SecurityTxtData,
   PlatformScopeData,
   KevData,
-} from "../types/Company";
-import type { DefListItem } from "../components/results/DefList.astro";
+} from "@app-types/Company";
+import type { DefListItem } from "@components/results/DefList.astro";
 
 export async function getStaticPaths() {
   const { programs, securityTxtMap, platformDataMap, kevMap, trancoRanks } =

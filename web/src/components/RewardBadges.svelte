@@ -1,8 +1,8 @@
 <script lang="ts">
   import { DollarSign, Gift, Award } from "lucide-svelte";
   import Chip from "./Chip.svelte";
-  import { tips } from "../lib/tooltips";
-  import type { Reward } from "../types/Company";
+  import { tips } from "@lib/tooltips";
+  import type { Reward } from "@app-types/Company";
 
   export let rewards: Reward[] = [];
 </script>

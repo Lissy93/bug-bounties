@@ -1,9 +1,9 @@
 ---
-import Chip from "../Chip.svelte";
-import Tooltip from "../Tooltip.svelte";
+import Chip from "@components/Chip.svelte";
+import Tooltip from "@components/Tooltip.svelte";
 import ResultSection from "./ResultSection.astro";
-import { tips } from "../../lib/tooltips";
-import type { PlatformScopeData } from "../../types/Company";
+import { tips } from "@lib/tooltips";
+import type { PlatformScopeData } from "@app-types/Company";
 
 interface Props {
   platformData?: PlatformScopeData | null;

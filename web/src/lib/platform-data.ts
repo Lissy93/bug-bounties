@@ -4,7 +4,7 @@ import type {
   Reward,
   ScopeTarget,
   ScopeStats,
-} from "../types/Company";
+} from "@app-types/Company";
 import { log } from "./log";
 
 const GITHUB_RAW = "https://raw.githubusercontent.com";

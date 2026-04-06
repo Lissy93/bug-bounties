@@ -1,5 +1,9 @@
-import type { LookupSource, ResolvedDomain, ContactInfo } from "../types";
-import { UA } from "../util";
+import type {
+  LookupSource,
+  ResolvedDomain,
+  ContactInfo,
+} from "@lib/lookup/types";
+import { UA } from "@lib/lookup/util";
 
 async function checkHackerOne(
   hint: string,

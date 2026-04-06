@@ -1,5 +1,11 @@
-import type { ForgeLookupSource, ContactInfo } from "../../types";
-import { safeFetch, emails, urls, SECURITY_RE, buildResult } from "../../util";
+import type { ForgeLookupSource, ContactInfo } from "@lib/lookup/types";
+import {
+  safeFetch,
+  emails,
+  urls,
+  SECURITY_RE,
+  buildResult,
+} from "@lib/lookup/util";
 
 const PATHS = ["SECURITY.md", ".github/SECURITY.md", "docs/SECURITY.md"];
 const MAX_SIZE = 500_000;

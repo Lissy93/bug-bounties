@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
-import { log } from "../../../lib/log";
-import { resolveDomain } from "../../../lib/lookup/resolve-domain";
-import { runLookup } from "../../../lib/lookup/runner";
-import { webTier1, webTier2 } from "../../../lib/lookup/website-tiers";
+import { log } from "@lib/log";
+import { resolveDomain } from "@lib/lookup/resolve-domain";
+import { runLookup } from "@lib/lookup/runner";
+import { webTier1, webTier2 } from "@lib/lookup/website-tiers";
 import {
   json,
   error,
@@ -10,7 +10,7 @@ import {
   ALL,
   getClientIp,
   enforceRateLimit,
-} from "../../../lib/lookup/api-helpers";
+} from "@lib/lookup/api-helpers";
 
 export const prerender = false;
 export { OPTIONS, ALL };

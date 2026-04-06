@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { loadAllPrograms } from "../../lib/load-all-programs";
+import { loadAllPrograms } from "@lib/load-all-programs";
 
 export const GET: APIRoute = async () => {
   const { programs, trancoRanks, kevCounts } = await loadAllPrograms();

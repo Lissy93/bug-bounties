@@ -1,5 +1,5 @@
-import type { PackageLookupSource, ContactInfo } from "../../types";
-import { safeFetch, emails, buildResult, SECURITY_RE } from "../../util";
+import type { PackageLookupSource, ContactInfo } from "@lib/lookup/types";
+import { safeFetch, emails, buildResult, SECURITY_RE } from "@lib/lookup/util";
 
 interface PyPIInfo {
   author_email?: string;

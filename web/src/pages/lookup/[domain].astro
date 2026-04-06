@@ -1,20 +1,20 @@
 ---
-import DefaultLayout from "../../layouts/DefaultLayout.astro";
-import Header from "../../components/Header.astro";
-import BackLink from "../../components/BackLink.astro";
-import SourceResultCard from "../../components/results/SourceResultCard.astro";
-import SummaryChecklist from "../../components/results/SummaryChecklist.astro";
-import ErrorCard from "../../components/results/ErrorCard.astro";
-import Summary from "../../components/results/Summary.astro";
-import ResultSection from "../../components/results/ResultSection.astro";
-import type { SummaryAction } from "../../components/results/Summary.astro";
-import DeepSearchToggle from "../../components/results/DeepSearchToggle.svelte";
-import { formatDate } from "../../lib/format";
-import { lookupResultSchema } from "../../lib/json-ld";
-import { resolveDomain } from "../../lib/lookup/resolve-domain";
-import { runLookup } from "../../lib/lookup/runner";
-import type { LookupResponse } from "../../lib/lookup/types";
-import { webTier1, webTier2 } from "../../lib/lookup/website-tiers";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import SourceResultCard from "@components/results/SourceResultCard.astro";
+import SummaryChecklist from "@components/results/SummaryChecklist.astro";
+import ErrorCard from "@components/results/ErrorCard.astro";
+import Summary from "@components/results/Summary.astro";
+import ResultSection from "@components/results/ResultSection.astro";
+import type { SummaryAction } from "@components/results/Summary.astro";
+import DeepSearchToggle from "@components/results/DeepSearchToggle.svelte";
+import { formatDate } from "@lib/format";
+import { lookupResultSchema } from "@lib/json-ld";
+import { resolveDomain } from "@lib/lookup/resolve-domain";
+import { runLookup } from "@lib/lookup/runner";
+import type { LookupResponse } from "@lib/lookup/types";
+import { webTier1, webTier2 } from "@lib/lookup/website-tiers";
 
 export const prerender = false;
 

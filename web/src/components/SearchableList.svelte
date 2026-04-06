@@ -10,12 +10,12 @@
     TrendingUp,
     Bug,
   } from "lucide-svelte";
-  import type { ListProgram } from "../types/Company";
+  import type { ListProgram } from "@app-types/Company";
   import CompanyCard from "./CompanyCard.svelte";
   import BookmarkedPrograms from "./BookmarkedPrograms.svelte";
   import Loading from "./Loading.svelte";
   import Chip from "./Chip.svelte";
-  import { tips } from "../lib/tooltips";
+  import { tips } from "@lib/tooltips";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};

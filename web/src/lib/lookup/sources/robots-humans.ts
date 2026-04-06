@@ -1,5 +1,5 @@
-import type { LookupSource, ResolvedDomain } from "../types";
-import { emails, UA } from "../util";
+import type { LookupSource, ResolvedDomain } from "@lib/lookup/types";
+import { emails, UA } from "@lib/lookup/util";
 
 async function fetchPlain(
   url: string,

@@ -1,18 +1,18 @@
 ---
-import Chip from "../Chip.svelte";
+import Chip from "@components/Chip.svelte";
 import SourceIcon from "./SourceIcon.svelte";
 import ContactList from "./ContactList.astro";
 import GitHubUserCard from "./GitHubUserCard.astro";
 import SourceDisclaimer from "./SourceDisclaimer.astro";
 import ResultSection from "./ResultSection.astro";
 import DefList from "./DefList.astro";
-import RewardBadges from "../RewardBadges.svelte";
+import RewardBadges from "@components/RewardBadges.svelte";
 import { DollarSign, ShieldCheck } from "lucide-svelte";
-import { formatDate } from "../../lib/format";
-import { SOURCE_META } from "../../lib/lookup/source-meta";
-import type { LookupResult } from "../../lib/lookup/types";
+import { formatDate } from "@lib/format";
+import { SOURCE_META } from "@lib/lookup/source-meta";
+import type { LookupResult } from "@lib/lookup/types";
 import type { DefListItem } from "./DefList.astro";
-import type { Reward } from "../../types/Company";
+import type { Reward } from "@app-types/Company";
 
 interface Props {
   result: LookupResult;

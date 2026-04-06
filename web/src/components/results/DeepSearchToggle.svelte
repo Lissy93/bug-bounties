@@ -1,6 +1,6 @@
 <script lang="ts">
   import { BrainCircuit } from "lucide-svelte";
-  import Tooltip from "../Tooltip.svelte";
+  import Tooltip from "@components/Tooltip.svelte";
   import LookupLoading from "./LookupLoading.svelte";
 
   export let domain: string = "";

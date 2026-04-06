@@ -1,11 +1,11 @@
 ---
-import Header from "../components/Header.astro";
-import SearchableList from "../components/SearchableList.svelte";
-import StatsBar from "../components/StatsBar.astro";
-import LookupSearch from "../components/LookupSearch.svelte";
-import DefaultLayout from "../layouts/DefaultLayout.astro";
-import { loadAllPrograms } from "../lib/load-all-programs";
-import { homeSchema } from "../lib/json-ld";
+import Header from "@components/Header.astro";
+import SearchableList from "@components/SearchableList.svelte";
+import StatsBar from "@components/StatsBar.astro";
+import LookupSearch from "@components/LookupSearch.svelte";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { loadAllPrograms } from "@lib/load-all-programs";
+import { homeSchema } from "@lib/json-ld";
 
 const { programs, listPrograms, trancoRanks, kevCounts } =
   await loadAllPrograms();

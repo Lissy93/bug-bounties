@@ -4,8 +4,8 @@ import type {
   LookupResult,
   LookupSource,
   ResolvedDomain,
-} from "../types";
-import { EMAIL_RE, URL_RE } from "../util";
+} from "@lib/lookup/types";
+import { EMAIL_RE, URL_RE } from "@lib/lookup/util";
 
 const DMARC_SERVICES =
   /dmarcian|agari|ondmarc|valimail|vali\.email|proofpoint|250ok|postmarkapp|socketlabs/i;

@@ -1,5 +1,9 @@
-import type { LookupSource, LookupResult, ResolvedDomain } from "../types";
-import { emails, urls, safeFetch } from "../util";
+import type {
+  LookupSource,
+  LookupResult,
+  ResolvedDomain,
+} from "@lib/lookup/types";
+import { emails, urls, safeFetch } from "@lib/lookup/util";
 
 async function tryFetch(
   domain: string,

@@ -1,5 +1,5 @@
-import type { GitHubLookupSource, ContactInfo } from "../../types";
-import { githubFetch } from "../../github-fetch";
+import type { GitHubLookupSource, ContactInfo } from "@lib/lookup/types";
+import { githubFetch } from "@lib/lookup/github-fetch";
 
 interface GitHubUser {
   login: string;

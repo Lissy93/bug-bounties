@@ -1,4 +1,4 @@
-import { log } from "../log";
+import { log } from "@lib/log";
 import { runPackageLookup, runLookup } from "./runner";
 import { resolveDomain } from "./resolve-domain";
 import { runFullGitHubLookup } from "./run-github-lookup";

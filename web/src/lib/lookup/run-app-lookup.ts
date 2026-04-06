@@ -1,4 +1,4 @@
-import { log } from "../log";
+import { log } from "@lib/log";
 import { runAppLookup, runLookup } from "./runner";
 import { resolveDomain } from "./resolve-domain";
 import { appTier1, appTier2, appSkipT2Only } from "./app-tiers";

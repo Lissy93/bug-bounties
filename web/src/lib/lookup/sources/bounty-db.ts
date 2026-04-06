@@ -1,12 +1,16 @@
 import yaml from "js-yaml";
-import { getRegistrableDomain, stripWww } from "../../domain";
+import { getRegistrableDomain, stripWww } from "@lib/domain";
 import type {
   LookupSource,
   LookupResult,
   ResolvedDomain,
   ContactInfo,
-} from "../types";
-import { HOSTING_DOMAINS, DOMAIN_ALIASES, normalizeName } from "../util";
+} from "@lib/lookup/types";
+import {
+  HOSTING_DOMAINS,
+  DOMAIN_ALIASES,
+  normalizeName,
+} from "@lib/lookup/util";
 
 import platformRaw from "../../../../../platform-programs.yml?raw";
 import independentRaw from "../../../../../independent-programs.yml?raw";

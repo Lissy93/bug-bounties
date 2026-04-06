@@ -1,5 +1,5 @@
-import type { ForgeLookupSource, ContactInfo } from "../../types";
-import { safeFetch, emails, SECURITY_RE, buildResult } from "../../util";
+import type { ForgeLookupSource, ContactInfo } from "@lib/lookup/types";
+import { safeFetch, emails, SECURITY_RE, buildResult } from "@lib/lookup/util";
 
 interface TreeFile {
   name: string;
