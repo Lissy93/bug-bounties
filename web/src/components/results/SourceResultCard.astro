@@ -117,6 +117,73 @@ function buildMetadataItems(
     return out;
   }
 
+  /* Package registry sources */
+  if (
+    source === "npm-registry" ||
+    source === "pypi-registry" ||
+    source === "crates-registry"
+  ) {
+    if (metadata.description)
+      out.push({ label: "Description", value: String(metadata.description) });
+    if (metadata.maintainerCount)
+      out.push({
+        label: "Maintainers",
+        value: String(metadata.maintainerCount),
+      });
+    if (metadata.repository)
+      out.push({
+        label: "Repository",
+        value: String(metadata.repository),
+        href: String(metadata.repository),
+      });
+    if (metadata.homepage)
+      out.push({
+        label: "Homepage",
+        value: String(metadata.homepage),
+        href: String(metadata.homepage),
+      });
+    if (metadata.ownerCount)
+      out.push({ label: "Owners", value: String(metadata.ownerCount) });
+    return out;
+  }
+
+  /* Forge sources */
+  if (source === "forge-security-md") {
+    if (metadata.file)
+      out.push({ label: "File", value: String(metadata.file) });
+    return out;
+  }
+
+  if (source === "forge-owner") return out;
+  if (source === "forge-advisories") {
+    if (metadata.vulnerabilityReporting)
+      out.push({ label: "Vulnerability Reporting", value: "Enabled" });
+    return out;
+  }
+  if (source === "forge-commit-emails" || source === "forge-issue-templates")
+    return out;
+
+  /* App sources */
+  if (source === "play-store" || source === "app-store") {
+    if (metadata.developer)
+      out.push({ label: "Developer", value: String(metadata.developer) });
+    if (metadata.developerWebsite)
+      out.push({
+        label: "Website",
+        value: String(metadata.developerWebsite),
+        href: String(metadata.developerWebsite),
+      });
+    if (metadata.privacyPolicy)
+      out.push({
+        label: "Privacy Policy",
+        value: String(metadata.privacyPolicy),
+        href: String(metadata.privacyPolicy),
+      });
+    if (metadata.genre)
+      out.push({ label: "Genre", value: String(metadata.genre) });
+    return out;
+  }
+
   for (const [key, val] of Object.entries(metadata)) {
     if (val == null || key === "programs") continue;
     out.push({ label: key, value: String(val) });

@@ -88,4 +88,30 @@ export const SOURCE_META: Record<string, SourceMeta> = {
     disclaimer:
       "Found in issue templates or SECURITY_CONTACTS. These may provide a reporting path for security issues.",
   },
+
+  /* ── Package registry sources ── */
+  "npm-registry": { label: "npm Registry", icon: "Package" },
+  "pypi-registry": { label: "PyPI", icon: "Package" },
+  "crates-registry": { label: "crates.io", icon: "Package" },
+
+  /* ── Forge (GitLab / Codeberg) sources ── */
+  "forge-security-md": { label: "SECURITY.md", icon: "Shield" },
+  "forge-owner": { label: "Repository Owner", icon: "User" },
+  "forge-advisories": { label: "Security Advisories", icon: "AlertTriangle" },
+  "forge-commit-emails": {
+    label: "Commit Authors",
+    icon: "GitCommit",
+    disclaimer:
+      "Extracted from recent commit history. These are code contributors, not necessarily security contacts.",
+  },
+  "forge-issue-templates": {
+    label: "Issue Templates",
+    icon: "FileText",
+    disclaimer:
+      "Found in issue templates. These may provide a reporting path for security issues.",
+  },
+
+  /* ── Mobile app sources ── */
+  "play-store": { label: "Google Play Store", icon: "Smartphone" },
+  "app-store": { label: "Apple App Store", icon: "Smartphone" },
 };

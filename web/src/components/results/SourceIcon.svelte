@@ -18,6 +18,8 @@
     Users,
     GitCommit,
     TriangleAlert,
+    Package,
+    Smartphone,
   } from "lucide-svelte";
 
   export let icon: string = "Shield";
@@ -42,6 +44,8 @@
     Users,
     GitCommit,
     AlertTriangle: TriangleAlert,
+    Package,
+    Smartphone,
   };
 
   $: Component = icons[icon] || Shield;

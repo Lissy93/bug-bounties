@@ -2,7 +2,8 @@
   import { onMount } from "svelte";
 
   export let domain: string = "";
-  export let type: "website" | "github" = "website";
+  export let type: "website" | "github" | "package" | "forge" | "app" =
+    "website";
 
   const websiteSteps = [
     "Resolving domain",
@@ -25,7 +26,42 @@
     "Compiling results",
   ];
 
-  $: steps = type === "github" ? githubSteps : websiteSteps;
+  const packageSteps = [
+    "Resolving package",
+    "Querying package registry",
+    "Extracting maintainer contacts",
+    "Checking linked repository",
+    "Scanning project website",
+    "Compiling results",
+  ];
+
+  const forgeSteps = [
+    "Resolving repository",
+    "Checking SECURITY.md",
+    "Fetching owner profile",
+    "Scanning security advisories",
+    "Checking commit history",
+    "Scanning project website",
+    "Compiling results",
+  ];
+
+  const appSteps = [
+    "Resolving app listing",
+    "Querying app store",
+    "Extracting developer info",
+    "Checking developer website",
+    "Compiling results",
+  ];
+
+  const stepMap: Record<string, string[]> = {
+    website: websiteSteps,
+    github: githubSteps,
+    package: packageSteps,
+    forge: forgeSteps,
+    app: appSteps,
+  };
+
+  $: steps = stepMap[type] || websiteSteps;
 
   let activeStep = 0;
   let interval: ReturnType<typeof setInterval>;
@@ -57,11 +93,7 @@
       {/each}
     </ul>
 
-    <p class="note">
-      {type === "github"
-        ? "Querying 7 sources across two verification tiers"
-        : "Querying 17 sources across two verification tiers"}
-    </p>
+    <p class="note">Querying multiple sources across two verification tiers</p>
   </div>
 </div>
 

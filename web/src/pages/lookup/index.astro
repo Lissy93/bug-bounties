@@ -9,7 +9,7 @@ export const prerender = false;
 
 const title = "Security Contact Lookup - Find Vulnerability Reporting Details";
 const description =
-  "Look up any domain to find security contacts, vulnerability disclosure policies, and bug bounty programs. Scans 17+ sources to identify the right way to report a security issue.";
+  "Look up any domain, repo, package, or app to find security contacts, vulnerability disclosure policies, and bug bounty programs. Scans 30+ sources to identify the right way to report a security issue.";
 
 const jsonLd = lookupSchema(description);
 ---
@@ -18,11 +18,11 @@ const jsonLd = lookupSchema(description);
   <Header />
   <div class="lookup-page">
     <section class="hero-card">
-      <h1>Find Security Contacts for Any Website or Repo</h1>
+      <h1>Find Security Contacts for Any Software</h1>
       <p class="tagline">
-        Found a vulnerability? Enter a domain or GitHub repo URL to instantly
-        discover how to report it - we'll find the right email, disclosure
-        policy, or bug bounty program for you.
+        Found a vulnerability? Enter a domain, repo URL, package name, or app ID
+        to instantly discover how to report it - we'll find the right email,
+        disclosure policy, or bug bounty program for you.
       </p>
       <LookupSearch bare client:idle />
     </section>
@@ -30,10 +30,10 @@ const jsonLd = lookupSchema(description);
     <section class="highlights">
       <div class="highlight">
         <Search size={18} />
-        <strong>17+ sources scanned</strong>
+        <strong>30+ sources scanned</strong>
         <p>
-          From security.txt and bug bounty platforms to DNS records and WHOIS
-          data, we leave no stone unturned.
+          From security.txt and bug bounty platforms to package registries, app
+          stores, and DNS records - we leave no stone unturned.
         </p>
       </div>
       <div class="highlight">

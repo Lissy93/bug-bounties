@@ -9,34 +9,126 @@
   let error = "";
   let loading = false;
   let loadingDomain = "";
-  let loadingType: "website" | "github" = "website";
+  let loadingType: "website" | "github" | "package" | "forge" | "app" =
+    "website";
 
   const GITHUB_RE = /github\.com[/:]([^/\s]+)\/([^/\s#?.]+)/;
+  const GITLAB_RE = /gitlab\.com\/(.+?)(?:\.git)?(?:[#?].*)?$/;
+  const CODEBERG_RE = /codeberg\.org\/([^/\s]+)\/([^/\s#?.]+)/;
+  const NPM_RE = /npmjs\.com\/package\/(@?[^/\s#?]+(?:\/[^/\s#?]+)?)/;
+  const PYPI_RE = /pypi\.org\/project\/([^/\s#?]+)/;
+  const CRATES_RE = /crates\.io\/crates\/([^/\s#?]+)/;
+  const PLAY_RE =
+    /play\.google\.com\/store\/apps\/details\?.*id=([a-zA-Z0-9._]+)/;
+  const APPSTORE_RE = /apps\.apple\.com\/.+\/app\/.+\/id(\d+)/;
+  const REVERSE_DOMAIN_RE = /^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*){2,}$/i;
 
-  function parseGitHub(raw: string): { owner: string; repo: string } | null {
-    const m = raw.match(GITHUB_RE);
-    if (!m) return null;
-    return { owner: m[1], repo: m[2].replace(/\.git$/, "") };
+  function nav(path: string, domain: string, type: typeof loadingType) {
+    error = "";
+    loading = true;
+    loadingType = type;
+    loadingDomain = domain;
+    window.location.href = path;
   }
 
   function handleSubmit() {
     const trimmed = input.trim();
     if (!trimmed) {
-      error = "Please enter a domain, URL, or GitHub repo.";
+      error = "Please enter a domain, URL, repo, package name, or app ID.";
       return;
     }
 
-    /* Check for GitHub repo URL first */
-    const gh = parseGitHub(trimmed);
+    /* 1. GitHub repo */
+    const gh = trimmed.match(GITHUB_RE);
     if (gh) {
-      error = "";
-      loading = true;
-      loadingType = "github";
-      loadingDomain = `${gh.owner}/${gh.repo}`;
-      window.location.href = `/lookup/github/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}`;
-      return;
+      const owner = gh[1];
+      const repo = gh[2].replace(/\.git$/, "");
+      return nav(
+        `/lookup/github/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+        `${owner}/${repo}`,
+        "github",
+      );
     }
 
+    /* 2. GitLab repo */
+    const gl = trimmed.match(GITLAB_RE);
+    if (gl) {
+      const path = gl[1].replace(/\/$/, "");
+      return nav(`/lookup/gitlab/${encodeURIComponent(path)}`, path, "forge");
+    }
+
+    /* 3. Codeberg repo */
+    const cb = trimmed.match(CODEBERG_RE);
+    if (cb) {
+      const owner = cb[1];
+      const repo = cb[2].replace(/\.git$/, "");
+      return nav(
+        `/lookup/codeberg/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+        `${owner}/${repo}`,
+        "forge",
+      );
+    }
+
+    /* 4. npm package URL */
+    const npm = trimmed.match(NPM_RE);
+    if (npm) {
+      return nav(
+        `/lookup/package/npm/${encodeURIComponent(npm[1])}`,
+        npm[1],
+        "package",
+      );
+    }
+
+    /* 5. PyPI package URL */
+    const pypi = trimmed.match(PYPI_RE);
+    if (pypi) {
+      return nav(
+        `/lookup/package/pypi/${encodeURIComponent(pypi[1])}`,
+        pypi[1],
+        "package",
+      );
+    }
+
+    /* 6. crates.io URL */
+    const crate = trimmed.match(CRATES_RE);
+    if (crate) {
+      return nav(
+        `/lookup/package/crates/${encodeURIComponent(crate[1])}`,
+        crate[1],
+        "package",
+      );
+    }
+
+    /* 7. Play Store URL */
+    const play = trimmed.match(PLAY_RE);
+    if (play) {
+      return nav(
+        `/lookup/app/play/${encodeURIComponent(play[1])}`,
+        play[1],
+        "app",
+      );
+    }
+
+    /* 8. App Store URL */
+    const apple = trimmed.match(APPSTORE_RE);
+    if (apple) {
+      return nav(
+        `/lookup/app/appstore/${encodeURIComponent(apple[1])}`,
+        apple[1],
+        "app",
+      );
+    }
+
+    /* 9. Reverse-domain app ID (e.g. com.whatsapp) */
+    if (REVERSE_DOMAIN_RE.test(trimmed) && !trimmed.includes("/")) {
+      return nav(
+        `/lookup/app/play/${encodeURIComponent(trimmed)}`,
+        trimmed,
+        "app",
+      );
+    }
+
+    /* 10. Domain (fallback) */
     let domain = trimmed;
     try {
       if (domain.includes("://")) {
@@ -56,11 +148,7 @@
       return;
     }
 
-    error = "";
-    loading = true;
-    loadingType = "website";
-    loadingDomain = domain;
-    window.location.href = `/lookup/${encodeURIComponent(domain)}`;
+    nav(`/lookup/${encodeURIComponent(domain)}`, domain, "website");
   }
 </script>
 
@@ -78,8 +166,8 @@
       <input
         type="text"
         bind:value={input}
-        placeholder="Enter any domain or GitHub URL"
-        aria-label="Domain, URL, or GitHub repo to look up"
+        placeholder="Enter a domain, repo URL, package name, or app ID"
+        aria-label="Domain, repo URL, package name, or app ID to look up"
       />
     </div>
     <button type="submit">Lookup</button>

@@ -5,7 +5,13 @@ import type {
   LookupResponse,
   ResolvedDomain,
   ResolvedRepo,
+  ResolvedPackage,
+  ResolvedForgeRepo,
+  ResolvedApp,
   GitHubLookupSource,
+  PackageLookupSource,
+  ForgeLookupSource,
+  AppLookupSource,
   SummaryItem,
 } from "./types";
 
@@ -115,6 +121,36 @@ export async function runGitHubLookup(
   ctx: ResolvedRepo,
   tier1: GitHubLookupSource[],
   tier2: GitHubLookupSource[],
+  skipT2Only?: Set<string>,
+  deep = false,
+): Promise<LookupResponse> {
+  return runTiered(ctx.slug, ctx, tier1, tier2, skipT2Only, deep);
+}
+
+export async function runPackageLookup(
+  ctx: ResolvedPackage,
+  tier1: PackageLookupSource[],
+  tier2: PackageLookupSource[],
+  skipT2Only?: Set<string>,
+  deep = false,
+): Promise<LookupResponse> {
+  return runTiered(ctx.slug, ctx, tier1, tier2, skipT2Only, deep);
+}
+
+export async function runForgeLookup(
+  ctx: ResolvedForgeRepo,
+  tier1: ForgeLookupSource[],
+  tier2: ForgeLookupSource[],
+  skipT2Only?: Set<string>,
+  deep = false,
+): Promise<LookupResponse> {
+  return runTiered(ctx.slug, ctx, tier1, tier2, skipT2Only, deep);
+}
+
+export async function runAppLookup(
+  ctx: ResolvedApp,
+  tier1: AppLookupSource[],
+  tier2: AppLookupSource[],
   skipT2Only?: Set<string>,
   deep = false,
 ): Promise<LookupResponse> {

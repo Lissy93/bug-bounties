@@ -4,7 +4,8 @@
   import LookupLoading from "./LookupLoading.svelte";
 
   export let domain: string = "";
-  export let type: "website" | "github" = "website";
+  export let type: "website" | "github" | "package" | "forge" | "app" =
+    "website";
 
   let loading = false;
 

@@ -1,0 +1,269 @@
+---
+import DefaultLayout from "../../../../layouts/DefaultLayout.astro";
+import Header from "../../../../components/Header.astro";
+import BackLink from "../../../../components/BackLink.astro";
+import SourceResultCard from "../../../../components/results/SourceResultCard.astro";
+import SummaryChecklist from "../../../../components/results/SummaryChecklist.astro";
+import ErrorCard from "../../../../components/results/ErrorCard.astro";
+import Summary from "../../../../components/results/Summary.astro";
+import ResultSection from "../../../../components/results/ResultSection.astro";
+import type { SummaryAction } from "../../../../components/results/Summary.astro";
+import DeepSearchToggle from "../../../../components/results/DeepSearchToggle.svelte";
+import { formatDate } from "../../../../lib/format";
+import { resolveApp } from "../../../../lib/lookup/resolve-app";
+import { runFullAppLookup } from "../../../../lib/lookup/run-app-lookup";
+import type { LookupResponse, AppStore } from "../../../../lib/lookup/types";
+
+export const prerender = false;
+
+const { store, id } = Astro.params;
+const deep = Astro.url.searchParams.get("deep") === "true";
+
+const STORE_LABELS: Record<string, string> = {
+  play: "Google Play",
+  appstore: "App Store",
+};
+
+let data: LookupResponse | null = null;
+let errorTitle = "";
+let errorMessage = "";
+let errorSuggestion = "";
+
+if (!store || !id) {
+  errorTitle = "Missing App";
+  errorMessage = "No app was provided.";
+  errorSuggestion = "Try a URL like /lookup/app/play/com.whatsapp.";
+} else if (store !== "play" && store !== "appstore") {
+  errorTitle = "Invalid Store";
+  errorMessage = `Unknown store: ${store}`;
+  errorSuggestion = "Supported stores: play, appstore.";
+} else {
+  try {
+    const ctx = resolveApp(decodeURIComponent(id), store as AppStore);
+    data = await runFullAppLookup(ctx, deep);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    errorTitle = "Lookup Failed";
+    errorMessage = msg;
+    errorSuggestion = "Check the app ID and try again.";
+  }
+}
+
+const appId = id ? decodeURIComponent(id) : "";
+const storeLabel = store ? STORE_LABELS[store] || store : "";
+
+const tier1Results = data?.results.filter((r) => r.tier === 1) || [];
+const tier2Results = data?.results.filter((r) => r.tier === 2) || [];
+const totalContacts =
+  data?.results.reduce((n, r) => n + r.contacts.length, 0) || 0;
+
+function buildActions(results: typeof tier1Results): SummaryAction[] {
+  const actions: SummaryAction[] = [];
+  const seen = new Set<string>();
+  const emailList: string[] = [];
+  const urlCandidates: { href: string; hint: string }[] = [];
+
+  for (const r of results) {
+    for (const c of r.contacts) {
+      if (seen.has(c.value)) continue;
+      seen.add(c.value);
+      if (c.type === "email") emailList.push(c.value);
+      else if (c.type === "url")
+        urlCandidates.push({ href: c.value, hint: c.label || r.source });
+    }
+  }
+
+  if (emailList.length > 0) {
+    actions.push({
+      label: "Email Developer",
+      href: emailList[0],
+      type: "email",
+    });
+  }
+  if (urlCandidates.length > 0) {
+    actions.push({
+      label: "Developer Website",
+      href: urlCandidates[0].href,
+      type: "url",
+    });
+  }
+  return actions;
+}
+
+const summaryActions = data ? buildActions(tier1Results) : [];
+const hasSkipped = !deep && !!data?.summary.some((s) => s.status === "skipped");
+
+const pageTitle = data
+  ? `Security Contacts for ${appId} (${storeLabel}) - Bug Bounties`
+  : `App Lookup - Bug Bounties`;
+const pageDescription = data
+  ? `Security contact information for ${appId} on ${storeLabel}.`
+  : "Mobile app security contact lookup.";
+---
+
+<DefaultLayout title={pageTitle} description={pageDescription} noindex>
+  <Header />
+  <article class="detail-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <BackLink href="/lookup" label="Search for Security Contacts" />
+    </nav>
+
+    {
+      errorTitle ? (
+        <ErrorCard
+          title={errorTitle}
+          message={errorMessage}
+          suggestion={errorSuggestion}
+        />
+      ) : data ? (
+        <>
+          <h1>
+            Security Contacts for <span class="app-id">{appId}</span>
+            <span class="store-badge">{storeLabel}</span>
+          </h1>
+          <div class="meta-row">
+            <p class="queried-at">
+              Queried {formatDate(data.queried_at, true)}
+            </p>
+            {hasSkipped && (
+              <DeepSearchToggle
+                domain={appId}
+                type="app"
+                client:only="svelte"
+              />
+            )}
+          </div>
+
+          {tier1Results.length > 0 ? (
+            <Summary
+              status="success"
+              title="Security contacts found"
+              message={`Found ${totalContacts} contact${totalContacts !== 1 ? "s" : ""} across ${data.results.length} source${data.results.length !== 1 ? "s" : ""} for ${appId}.`}
+              actions={summaryActions}
+            />
+          ) : tier2Results.length > 0 ? (
+            <Summary
+              status="warning"
+              title="No verified security channels found"
+              message={`We could not find verified security contacts for ${appId}. The results below are fallback contacts - manual verification is recommended.`}
+            />
+          ) : (
+            <Summary
+              status="error"
+              title="No reporting methods found"
+              message={`We checked all available sources but could not find any security contacts for ${appId}.`}
+            />
+          )}
+
+          {tier1Results.length > 0 && (
+            <>
+              <h2 class="tier-heading">Primary Sources</h2>
+              {tier1Results.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {tier2Results.length > 0 && (
+            <>
+              <h2 class="tier-heading">Fallback Sources</h2>
+              {tier2Results.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {data.errors.length > 0 && (
+            <ResultSection heading="Errors">
+              <ul class="error-list">
+                {data.errors.map((e) => (
+                  <li>
+                    <strong>{e.source}:</strong> {e.error}
+                  </li>
+                ))}
+              </ul>
+            </ResultSection>
+          )}
+
+          <SummaryChecklist
+            summary={data.summary}
+            hasVerified={tier1Results.length > 0}
+          />
+        </>
+      ) : null
+    }
+  </article>
+</DefaultLayout>
+
+<style>
+  @import "../../../../styles/results.css";
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.6rem;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .app-id {
+    color: var(--primary);
+    word-break: break-all;
+  }
+
+  .store-badge {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    background: var(--background-lighter);
+    border: 1px solid var(--border);
+    border-radius: var(--curve);
+    color: var(--muted);
+    font-family: inherit;
+    vertical-align: middle;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  .queried-at {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .tier-heading {
+    color: var(--muted);
+    margin: 1.5rem 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: none;
+  }
+
+  .error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--danger);
+    & li {
+      padding: 0.25rem 0;
+    }
+    & strong {
+      color: var(--foreground);
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+</style>

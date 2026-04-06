@@ -26,7 +26,11 @@ const spec = {
   ],
   tags: [
     { name: "Programs", description: "Browse and search bug bounty programs" },
-    { name: "Lookup", description: "Find security contacts for any website" },
+    {
+      name: "Lookup",
+      description:
+        "Find security contacts for websites, repos, packages, and apps",
+    },
     { name: "Meta", description: "API metadata and statistics" },
   ],
   paths: {
@@ -124,7 +128,7 @@ const spec = {
         operationId: "listLookupTypes",
         summary: "List lookup types",
         description:
-          "Returns the available lookup endpoints (website, GitHub).",
+          "Returns the available lookup endpoints (website, GitHub, package, forge, app).",
         responses: {
           "200": {
             description: "Available lookup types",
@@ -175,6 +179,13 @@ const spec = {
                 summary: "Subdomain (resolves to parent)",
               },
             },
+          },
+          {
+            name: "deep",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["true"] },
+            description: "Run all tiers regardless of tier 1 results",
           },
         ],
         responses: {
@@ -278,6 +289,13 @@ const spec = {
               },
             },
           },
+          {
+            name: "deep",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["true"] },
+            description: "Run all tiers regardless of tier 1 results",
+          },
         ],
         responses: {
           "200": {
@@ -298,6 +316,249 @@ const spec = {
           },
           "401": {
             description: "GitHub token not configured",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "429": {
+            description: "Rate limit exceeded",
+            headers: {
+              "Retry-After": {
+                description: "Seconds until the rate limit resets",
+                schema: { type: "integer" },
+              },
+            },
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "500": {
+            description: "Internal server error",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup/package": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupPackageContacts",
+        summary: "Find package contacts",
+        description:
+          "Accepts a package name and registry (npm, pypi, or crates) and searches for security contacts via registry metadata, linked repository, and project homepage.",
+        parameters: [
+          {
+            name: "name",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description: "Package name",
+            examples: {
+              npm: { value: "express", summary: "npm package" },
+              scoped_npm: {
+                value: "@angular/core",
+                summary: "Scoped npm package",
+              },
+              pypi: { value: "requests", summary: "PyPI package" },
+              crates: { value: "serde", summary: "crates.io package" },
+            },
+          },
+          {
+            name: "registry",
+            in: "query",
+            required: true,
+            schema: { type: "string", enum: ["npm", "pypi", "crates"] },
+            description: "Package registry",
+          },
+          {
+            name: "deep",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["true"] },
+            description: "Run all tiers regardless of tier 1 results",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Package security contact lookup results",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LookupResponse" },
+              },
+            },
+          },
+          "400": {
+            description: "Invalid input (bad name, missing registry)",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "429": {
+            description: "Rate limit exceeded",
+            headers: {
+              "Retry-After": {
+                description: "Seconds until the rate limit resets",
+                schema: { type: "integer" },
+              },
+            },
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "500": {
+            description: "Internal server error",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup/forge": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupForgeContacts",
+        summary: "Find GitLab/Codeberg contacts",
+        description:
+          "Accepts a GitLab or Codeberg repository URL and searches for security contacts via SECURITY.md, owner profile, advisories, commit history, and project homepage.",
+        parameters: [
+          {
+            name: "repo",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description: "Repository URL (gitlab.com/... or codeberg.org/...)",
+            examples: {
+              gitlab: {
+                value: "gitlab.com/gitlab-org/gitlab",
+                summary: "GitLab repository",
+              },
+              codeberg: {
+                value: "codeberg.org/forgejo/forgejo",
+                summary: "Codeberg repository",
+              },
+            },
+          },
+          {
+            name: "deep",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["true"] },
+            description: "Run all tiers regardless of tier 1 results",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Forge repository security contact lookup results",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LookupResponse" },
+              },
+            },
+          },
+          "400": {
+            description: "Invalid input (bad URL, unsupported forge)",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "429": {
+            description: "Rate limit exceeded",
+            headers: {
+              "Retry-After": {
+                description: "Seconds until the rate limit resets",
+                schema: { type: "integer" },
+              },
+            },
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+          "500": {
+            description: "Internal server error",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/api/lookup/app": {
+      get: {
+        tags: ["Lookup"],
+        operationId: "lookupAppContacts",
+        summary: "Find mobile app contacts",
+        description:
+          "Accepts a mobile app package ID or numeric App Store ID and searches for security contacts via the Google Play Store or Apple App Store listing, plus the developer's website.",
+        parameters: [
+          {
+            name: "id",
+            in: "query",
+            required: true,
+            schema: { type: "string" },
+            description:
+              "App package ID (e.g. com.whatsapp) or numeric App Store ID",
+            examples: {
+              play: {
+                value: "com.whatsapp",
+                summary: "Android package ID",
+              },
+              appstore: {
+                value: "310633997",
+                summary: "Numeric App Store ID",
+              },
+            },
+          },
+          {
+            name: "store",
+            in: "query",
+            required: false,
+            schema: {
+              type: "string",
+              enum: ["play", "appstore"],
+              default: "play",
+            },
+            description: "App store to search (defaults to play)",
+          },
+          {
+            name: "deep",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["true"] },
+            description: "Run all tiers regardless of tier 1 results",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Mobile app security contact lookup results",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/LookupResponse" },
+              },
+            },
+          },
+          "400": {
+            description: "Invalid input (bad ID, unsupported store)",
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Error" },
@@ -547,8 +808,15 @@ const spec = {
         properties: {
           domain: {
             type: "string",
-            description: "Normalized domain that was looked up",
-            example: "example.com",
+            description:
+              "Identifier for what was looked up (domain, repo slug, package slug, or app slug)",
+            examples: [
+              "example.com",
+              "expressjs/express",
+              "npm/express",
+              "gitlab/gitlab-org/gitlab",
+              "play/com.whatsapp",
+            ],
           },
           queried_at: { type: "string", format: "date-time" },
           results: {
@@ -601,6 +869,22 @@ const spec = {
               "common-pages",
               "dns-txt",
               "robots-humans",
+              "github-security-md",
+              "github-advisories",
+              "github-author",
+              "github-commit-emails",
+              "github-codeowners",
+              "github-issue-templates",
+              "npm-registry",
+              "pypi-registry",
+              "crates-registry",
+              "forge-security-md",
+              "forge-owner",
+              "forge-advisories",
+              "forge-commit-emails",
+              "forge-issue-templates",
+              "play-store",
+              "app-store",
             ],
           },
           tier: {

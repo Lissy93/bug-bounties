@@ -1,4 +1,4 @@
-import type { ContactInfo } from "./types";
+import type { ContactInfo, LookupResult } from "./types";
 
 export const HOSTING_DOMAINS = new Set([
   "github.com",
@@ -39,6 +39,40 @@ export function normalizeName(s: string): string {
 export const EMAIL_RE = /[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi;
 export const URL_RE = /https?:\/\/[^\s,;>"')}]+/gi;
 export const UA = "bug-bounties-lookup/1.0";
+
+export const SECURITY_RE = /security|vulnerabilit|report|bounty|disclosure/gi;
+
+export const SKIP_EMAIL_RE =
+  /no-?reply|donotreply|example\.|localhost|test\.|noreply\.github\.com/i;
+
+export function decodeGoogleRedirect(url: string): string {
+  try {
+    if (url.includes("google.com/url")) {
+      return new URL(url).searchParams.get("q") || url;
+    }
+  } catch {
+    /* use as-is */
+  }
+  return url;
+}
+
+export function buildResult(
+  source: string,
+  tier: 1 | 2,
+  contacts: ContactInfo[],
+  url: string,
+  metadata?: Record<string, unknown>,
+): LookupResult | null {
+  const hasMeta = metadata && Object.keys(metadata).length > 0;
+  if (!contacts.length && !hasMeta) return null;
+  return {
+    source,
+    tier,
+    contacts,
+    url,
+    metadata: hasMeta ? metadata : undefined,
+  };
+}
 
 export function emails(text: string, label: string): ContactInfo[] {
   return [...new Set(text.match(EMAIL_RE) || [])].map((v) => ({
