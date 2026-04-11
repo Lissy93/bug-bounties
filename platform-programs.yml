@@ -59,6 +59,12 @@ companies:
   url: https://bugcrowd.com/shoppingcart
   contact: https://bugcrowd.com/shoppingcart
   rewards: []
+- company: 1win
+  url: https://1win.com
+  handle: 1win_com
+  contact: https://hackerone.com/1win_com
+  rewards:
+  - '*bounty'
 - company: 20 Minuten
   url: https://bugcrowd.com/engagements/twentyminuten
   contact: https://bugcrowd.com/engagements/twentyminuten
@@ -2726,6 +2732,12 @@ companies:
 - company: CoinJar
   url: https://www.coinjar.com/bounty
   contact: mailto:security@coinjar.com
+  rewards:
+  - '*bounty'
+- company: CoinMate.io
+  url: https://coinmate.io
+  handle: coinmate
+  contact: https://hackerone.com/coinmate
   rewards:
   - '*bounty'
 - company: Coinpayments
@@ -6455,6 +6467,12 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: Invision Power Services, Inc.
+  url: http://www.invisioncommunity.com
+  handle: ips
+  contact: https://hackerone.com/ips
+  rewards:
+  - '*bounty'
 - company: ION Group
   url: https://iongroup.com/
   handle: ion
@@ -11214,6 +11232,11 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: SecureFlag Marketplace Bug Bounty
+  url: https://bugcrowd.com/engagements/secureflag-mbb-market
+  contact: https://bugcrowd.com/engagements/secureflag-mbb-market
+  rewards:
+  - '*bounty'
 - company: securepractice.co
   url: https://securepractice.co/support
   contact: mailto:security@securepractice.co
@@ -11805,6 +11828,11 @@ companies:
   url: https://sorare.com
   handle: sorare
   contact: https://hackerone.com/sorare
+  rewards:
+  - '*bounty'
+- company: Soteri Marketplace Bug Bounty
+  url: https://bugcrowd.com/engagements/soteri
+  contact: https://bugcrowd.com/engagements/soteri
   rewards:
   - '*bounty'
 - company: SoundCloud
