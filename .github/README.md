@@ -343,6 +343,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [CoinDesk.com](https://bugcrowd.com/engagements/coindesk-mbb-og) 💰
 - <img src='https://icon.horse/icon/coinhako.com' width='16'/> [Coinhako](https://coinhako.com) 💰
 - <img src='https://icon.horse/icon/www.coinjar.com' width='16'/> [CoinJar](https://www.coinjar.com/bounty) 💰
+- <img src='https://icon.horse/icon/coinmate.io' width='16'/> [CoinMate.io](https://coinmate.io) 💰
 - <img src='https://icon.horse/icon/www.coinpayments.net' width='16'/> [Coinpayments](https://www.coinpayments.net/help-bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/coinspot.com.au' width='16'/> [Coinspot](http://coinspot.com.au) 💰
 - <img src='https://icon.horse/icon/www.cointracker.io' width='16'/> [Cointracker](https://www.cointracker.io/security) 💰
@@ -795,6 +796,7 @@
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [INTMAX](https://immunefi.com/bug-bounty/intmax/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Inverse Finance](https://immunefi.com/bug-bounty/inversefinance/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [InVision](https://bugcrowd.com/invision) 💰 🏅
+- <img src='https://icon.horse/icon/www.invisioncommunity.com' width='16'/> [Invision Power Services, Inc.](http://www.invisioncommunity.com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [IOTA](https://bugcrowd.com/iota) 💰 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [IOVLabs](https://hackerone.com/iovlabs) 💰
 - <img src='https://icon.horse/icon/ipaidthat.io' width='16'/> [iPaidThat](https://ipaidthat.io/en/faq/safety/vulnerability-disclosure-program/) 🏅
@@ -1380,6 +1382,7 @@
 - <img src='https://icon.horse/icon/www.secura.com' width='16'/> [Secura](https://www.secura.com/ResponsibleDisclosure) 🏅
 - <img src='https://icon.horse/icon/www.securecyberfuture.com' width='16'/> [Secure Cyber Future](https://www.securecyberfuture.com/responsible-disclosure) 💰 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SecureDrop](https://bugcrowd.com/freedomofpress) 💰 🏅
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SecureFlag Marketplace Bug Bounty](https://bugcrowd.com/engagements/secureflag-mbb-market) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SEEK](https://bugcrowd.com/seek) 💰 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Seek.com](https://bugcrowd.com/engagements/seek-com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Segment](https://bugcrowd.com/segment) 💰 🏅
@@ -1455,6 +1458,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Sophos](https://bugcrowd.com/sophos) 💰 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [SORA](https://immunefi.com/bug-bounty/sora/) 💰
 - <img src='https://icon.horse/icon/sorare.com' width='16'/> [Sorare](https://sorare.com) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Soteri Marketplace Bug Bounty](https://bugcrowd.com/engagements/soteri) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SoundCloud](https://bugcrowd.com/soundcloud) 💰 🏅
 - <img src='https://icon.horse/icon/www.federacy.com' width='16'/> [Spacelift](https://www.federacy.com/spacelift) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Spacelift.io - Bug Bounty Program](https://yeswehack.com/programs/spacelift-io-bug-bounty-program) 💰
@@ -1851,6 +1855,7 @@
 - <img src='https://icon.horse/icon/www.123contactform.com' width='16'/> [123 Contact Form](https://www.123contactform.com/security-acknowledgements.htm) 🏅
 - <img src='https://icon.horse/icon/1password.com' width='16'/> [1Password - CTF](http://1password.com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [1Password Game](https://bugcrowd.com/agilebits) 💰
+- <img src='https://icon.horse/icon/1win.com' width='16'/> [1win](https://1win.com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [20 Minuten](https://bugcrowd.com/engagements/twentyminuten) 💰
 - <img src='https://icon.horse/icon/www.23andme.com' width='16'/> [23andme](https://www.23andme.com/security-report/) 💰
 - <img src='https://icon.horse/icon/www.24sessions.com' width='16'/> [24sessions](https://www.24sessions.com/responsible-disclosure) 💰 🏅
