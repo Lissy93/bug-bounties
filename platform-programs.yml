@@ -343,7 +343,14 @@ companies:
   rewards: []
 - company: 'Aikido Security: Bug Bounty Program'
   url: https://www.intigriti.com/programs/aikido/aikido/detail
+  handle: aikido
   contact: https://www.intigriti.com/programs/aikido/aikido/detail
+  rewards:
+  - '*bounty'
+- company: 'Aikido Security: Zen by Aikido'
+  url: https://www.intigriti.com/programs/aikido/aikidoruntime/detail
+  handle: aikidoruntime
+  contact: https://www.intigriti.com/programs/aikido/aikidoruntime/detail
   rewards:
   - '*bounty'
 - company: Aims360
@@ -544,6 +551,7 @@ companies:
   rewards: []
 - company: Altera
   url: https://www.intigriti.com/programs/altera/altera/detail
+  handle: altera
   contact: https://www.intigriti.com/programs/altera/altera/detail
   rewards:
   - '*bounty'
@@ -2759,6 +2767,11 @@ companies:
 - company: Cointracker
   url: https://www.cointracker.io/security
   contact: mailto:security@cointracker.io
+  rewards:
+  - '*bounty'
+- company: Colined
+  url: https://bugcrowd.com/engagements/colined
+  contact: https://bugcrowd.com/engagements/colined
   rewards:
   - '*bounty'
 - company: collabim.cz
@@ -8673,6 +8686,7 @@ companies:
   - '*bounty'
 - company: Ninja Kiwi Games
   url: https://www.intigriti.com/programs/ninjakiwigames/ninjakiwigames/detail
+  handle: ninjakiwigames
   contact: https://www.intigriti.com/programs/ninjakiwigames/ninjakiwigames/detail
   rewards:
   - '*bounty'
@@ -12250,6 +12264,11 @@ companies:
   url: https://www.summa.eu/nl/responsible-disclosure
   contact: mailto:security@summa.eu
   rewards: []
+- company: Supabase
+  url: https://supabase.com
+  handle: supabase
+  contact: mailto:security@supabase.io
+  rewards: []
 - company: Superbet
   url: https://superbet.ro
   handle: superbet
@@ -12891,6 +12910,7 @@ companies:
   contact: https://hackerone.com/tomtom
   rewards:
   - '*recognition'
+  - '*swag'
 - company: Tools for Humanity
   url: https://toolsforhumanity.com
   handle: toolsforhumanity
@@ -13864,6 +13884,7 @@ companies:
   - '*bounty'
 - company: Voi Scooters
   url: https://www.intigriti.com/programs/voi/voiscooters/detail
+  handle: voiscooters
   contact: https://www.intigriti.com/programs/voi/voiscooters/detail
   rewards:
   - '*bounty'
