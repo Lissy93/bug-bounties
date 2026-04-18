@@ -44,6 +44,7 @@
 - <img src='https://icon.horse/icon/agicap.com' width='16'/> [Agicap](https://agicap.com/en/bug-bounty/) 💰
 - <img src='https://icon.horse/icon/www.aholddelhaize.com' width='16'/> [Ahold Delhaize](https://www.aholddelhaize.com/en/security/) 💰 🎁
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Aikido Security: Bug Bounty Program](https://www.intigriti.com/programs/aikido/aikido/detail) 💰
+- <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Aikido Security: Zen by Aikido](https://www.intigriti.com/programs/aikido/aikidoruntime/detail) 💰
 - <img src='https://icon.horse/icon/aion.network' width='16'/> [Aion](https://aion.network/terms-bounty/) 💰
 - <img src='https://icon.horse/icon/www.airmiles.nl' width='16'/> [Air Miles](https://www.airmiles.nl/responsible-disclosure) 💰
 - <img src='https://icon.horse/icon/www.airmilesshop.nl' width='16'/> [Air Miles Shop](https://www.airmilesshop.nl/responsible-disclosure) 🏅 🎁
@@ -347,6 +348,7 @@
 - <img src='https://icon.horse/icon/www.coinpayments.net' width='16'/> [Coinpayments](https://www.coinpayments.net/help-bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/coinspot.com.au' width='16'/> [Coinspot](http://coinspot.com.au) 💰
 - <img src='https://icon.horse/icon/www.cointracker.io' width='16'/> [Cointracker](https://www.cointracker.io/security) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Colined](https://bugcrowd.com/engagements/colined) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Comcast Xfinity](https://bugcrowd.com/comcastvdp) 💰
 - <img src='https://icon.horse/icon/commonsware.com' width='16'/> [Commonsware](https://commonsware.com/bounty.html) 🎁
 - <img src='https://icon.horse/icon/www.compass.com' width='16'/> [Compass](https://www.compass.com/legal/responsible-disclosure/) 💰
@@ -1592,7 +1594,7 @@
 - <img src='https://icon.horse/icon/www.tinfoilsecurity.com' width='16'/> [Tlon Corp](https://www.tinfoilsecurity.com/security) 💰 🏅
 - <img src='https://icon.horse/icon/bounty.tokopedia.net' width='16'/> [Tokopedia](https://bounty.tokopedia.net/rules) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Tomorrowland](https://www.intigriti.com/programs/tomorrowland/tomorrowland/detail) 💰
-- <img src='https://icon.horse/icon/hackerone.com' width='16'/> [TomTom](https://hackerone.com/tomtom) 🏅
+- <img src='https://icon.horse/icon/hackerone.com' width='16'/> [TomTom](https://hackerone.com/tomtom) 🏅 🎁
 - <img src='https://icon.horse/icon/toolsforhumanity.com' width='16'/> [Tools for Humanity](https://toolsforhumanity.com) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [toom Baumarkt GmbH - Bug Bounty Program ...](https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Tor](https://hackerone.com/torproject) 💰 🏅 🎁
