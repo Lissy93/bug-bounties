@@ -281,6 +281,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Casper](https://hackerone.com/casper) 💰 🏅
 - <img src='https://icon.horse/icon/cedars-sinai.edu' width='16'/> [Cedars-Sinai](http://cedars-sinai.edu) 🎁
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Celer](https://immunefi.com/bug-bounty/celer/) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Centers for Medicare & Medicaid Services...](https://bugcrowd.com/engagements/cms-bbpublic) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Centrify](https://bugcrowd.com/centrify) 💰 🏅
 - <img src='https://icon.horse/icon/security.web.cern.ch' width='16'/> [CERN](https://security.web.cern.ch/home/en/cvd.shtml) 🏅
 - <img src='https://icon.horse/icon/vuls.cert.org' width='16'/> [CERT/CC](https://vuls.cert.org/confluence/display/Wiki/Vulnerability+Disclosure+Policy) 🏅 🎁
@@ -462,6 +463,7 @@
 - <img src='https://icon.horse/icon/dominos.responsibledisclosure.com' width='16'/> [Dominos](https://dominos.responsibledisclosure.com/hc/en-us) 🏅
 - <img src='https://icon.horse/icon/doordash.com' width='16'/> [DoorDash](http://doordash.com) 💰
 - <img src='https://icon.horse/icon/www.doppler.com' width='16'/> [Doppler](https://www.doppler.com) 💰
+- <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Dossier Medical Partagé Bug Bounty Progr...](https://yeswehack.com/programs/dossier-medical-partage-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Dovecot](https://hackerone.com/dovecot) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/help.dozuki.com' width='16'/> [Dozuki](https://help.dozuki.com/Info/Responsible_Disclosure) 💰 🏅
 - <img src='https://icon.horse/icon/getdpd.com' width='16'/> [DPD](https://getdpd.com/security/) 💰 🏅
@@ -725,6 +727,7 @@
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Hourglass](https://immunefi.com/bug-bounty/hourglass/) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Housing Application (huisvestingsapp) Bu...](https://www.intigriti.com/programs/kuleuven/huisvesting/detail) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [HPE Aruba Networking Product Public Prog...](https://bugcrowd.com/engagements/hpe-networking-product-public) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [HPE Networking Product Public Program](https://bugcrowd.com/engagements/hpe-networking-product-public) 💰
 - <img src='https://icon.horse/icon/www.htc.com' width='16'/> [HTC](https://www.htc.com/us/terms/product-security/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [HubSpot](https://bugcrowd.com/hubspot) 💰 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Humble Bundle](https://bugcrowd.com/humblebundle) 🏅
@@ -1597,6 +1600,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [TomTom](https://hackerone.com/tomtom) 🏅 🎁
 - <img src='https://icon.horse/icon/toolsforhumanity.com' width='16'/> [Tools for Humanity](https://toolsforhumanity.com) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [toom Baumarkt GmbH - Bug Bounty Program ...](https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program) 💰
+- <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [toom Baumarkt GmbH - Webshop](https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Tor](https://hackerone.com/torproject) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/app.intigriti.com' width='16'/> [Torfs](https://app.intigriti.com/programs/torfs/torfs/detail) 💰
 - <img src='https://icon.horse/icon/touchincentive.com' width='16'/> [Touch Incentive Marketing](https://touchincentive.com/responsible-disclosure/) 💰
