@@ -2185,6 +2185,11 @@ companies:
   url: https://bugcrowd.com/engagements/cms-bbpublic
   contact: https://bugcrowd.com/engagements/cms-bbpublic
   rewards: []
+- company: Centers for Medicare & Medicaid Services - Public Bug Bounty Program 2026
+  url: https://bugcrowd.com/engagements/cms-bbpublic
+  contact: https://bugcrowd.com/engagements/cms-bbpublic
+  rewards:
+  - '*bounty'
 - company: Centers for Medicare and Medicaid Services
   url: https://www.cms.gov/Research-Statistics-Data-and-Systems/CMS-Information-Technology/CIO-Directives-and-Policies/Downloads/CMS-Vulnerability-Disclosure-Policy.pdf
   contact: mailto:cms_it_service_desk@cms.hhs.gov
@@ -2253,6 +2258,11 @@ companies:
   url: https://www.intigriti.com/programs/intigriti/challenge0326/detail
   handle: challenge0326
   contact: https://www.intigriti.com/programs/intigriti/challenge0326/detail
+  rewards: []
+- company: Challenge 0426
+  url: https://www.intigriti.com/programs/intigriti/challenge0426/detail
+  handle: challenge0426
+  contact: https://www.intigriti.com/programs/intigriti/challenge0426/detail
   rewards: []
 - company: Chameleon
   url: https://www.trychameleon.com/security/disclosure
@@ -3753,6 +3763,11 @@ companies:
   url: https://www.doppler.com
   handle: doppler
   contact: https://hackerone.com/doppler
+  rewards:
+  - '*bounty'
+- company: Dossier Medical Partagé Bug Bounty Program
+  url: https://yeswehack.com/programs/dossier-medical-partage-program
+  contact: https://yeswehack.com/programs/dossier-medical-partage-program
   rewards:
   - '*bounty'
 - company: Dovecot
@@ -5925,6 +5940,11 @@ companies:
   rewards:
   - '*bounty'
 - company: HPE Aruba Networking Product Public Program
+  url: https://bugcrowd.com/engagements/hpe-networking-product-public
+  contact: https://bugcrowd.com/engagements/hpe-networking-product-public
+  rewards:
+  - '*bounty'
+- company: HPE Networking Product Public Program
   url: https://bugcrowd.com/engagements/hpe-networking-product-public
   contact: https://bugcrowd.com/engagements/hpe-networking-product-public
   rewards:
@@ -12918,6 +12938,11 @@ companies:
   rewards:
   - '*bounty'
 - company: toom Baumarkt GmbH - Bug Bounty Program (toom.de)
+  url: https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program
+  contact: https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program
+  rewards:
+  - '*bounty'
+- company: toom Baumarkt GmbH - Webshop
   url: https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program
   contact: https://yeswehack.com/programs/toom-baumarkt-gmbh-bug-bounty-program
   rewards:
