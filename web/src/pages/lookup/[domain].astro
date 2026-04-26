@@ -1,0 +1,378 @@
+---
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import SourceResultCard from "@components/results/SourceResultCard.astro";
+import SummaryChecklist from "@components/results/SummaryChecklist.astro";
+import ErrorCard from "@components/results/ErrorCard.astro";
+import Summary from "@components/results/Summary.astro";
+import ResultSection from "@components/results/ResultSection.astro";
+import type { SummaryAction } from "@components/results/Summary.astro";
+import DeepSearchToggle from "@components/results/DeepSearchToggle.svelte";
+import { formatDate } from "@lib/format";
+import { lookupResultSchema } from "@lib/json-ld";
+import { resolveDomain } from "@lib/lookup/resolve-domain";
+import { runLookup } from "@lib/lookup/runner";
+import type { LookupResponse } from "@lib/lookup/types";
+import { webTier1, webTier2 } from "@lib/lookup/website-tiers";
+
+export const prerender = false;
+
+const { domain } = Astro.params;
+const deep = Astro.url.searchParams.get("deep") === "true";
+
+let data: LookupResponse | null = null;
+let errorTitle = "";
+let errorMessage = "";
+let errorSuggestion = "";
+
+if (!domain) {
+  errorTitle = "Missing Domain";
+  errorMessage = "No domain was provided.";
+  errorSuggestion = "Try entering a valid domain like stripe.com.";
+} else {
+  try {
+    const ctx = resolveDomain(domain);
+    data = await runLookup(ctx, webTier1, webTier2, deep);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    if (
+      msg.includes("Invalid") ||
+      msg.includes("private") ||
+      msg.includes("reserved")
+    ) {
+      errorTitle = "Invalid Domain";
+      errorMessage = msg;
+      errorSuggestion = "Try entering a valid public domain like stripe.com.";
+    } else {
+      errorTitle = "Lookup Failed";
+      errorMessage = msg;
+      errorSuggestion = "Please try again later.";
+    }
+  }
+}
+
+const tier1Results = data?.results.filter((r) => r.tier === 1) || [];
+const tier2Results = data?.results.filter((r) => r.tier === 2) || [];
+const totalContacts =
+  data?.results.reduce((n, r) => n + r.contacts.length, 0) || 0;
+
+/* Build CTA actions from tier 1 contacts + metadata URLs */
+function buildActions(results: typeof tier1Results): SummaryAction[] {
+  const actions: SummaryAction[] = [];
+  const seen = new Set<string>();
+
+  /* Collect all candidate URLs: contacts, result.url, and metadata policy URLs */
+  interface Candidate {
+    href: string;
+    hint: string;
+  }
+
+  const emails: string[] = [];
+  const urlCandidates: Candidate[] = [];
+
+  for (const r of results) {
+    for (const c of r.contacts) {
+      if (seen.has(c.value)) continue;
+      seen.add(c.value);
+      if (c.type === "email") emails.push(c.value);
+      else if (c.type === "url")
+        urlCandidates.push({ href: c.value, hint: c.label || r.source });
+    }
+    /* Also consider metadata policy/program URLs */
+    const meta = r.metadata as Record<string, unknown> | undefined;
+    if (meta?.policy && !seen.has(String(meta.policy))) {
+      seen.add(String(meta.policy));
+      urlCandidates.push({ href: String(meta.policy), hint: "policy" });
+    }
+    if (r.url && !seen.has(r.url)) {
+      seen.add(r.url);
+      urlCandidates.push({ href: r.url, hint: r.source });
+    }
+  }
+
+  /* First email */
+  if (emails.length > 0) {
+    actions.push({
+      label: "Email Security Team",
+      href: emails[0],
+      type: "email",
+    });
+  }
+
+  /* Rank URL candidates by keyword priority */
+  const keywords = [
+    "bounty",
+    "program",
+    "policy",
+    "vdp",
+    "disclosure",
+    "security.txt",
+    "security",
+    "report",
+    "contact",
+  ];
+
+  function rankUrl(hint: string): number {
+    const l = hint.toLowerCase();
+    /* Also check the URL itself for platform names */
+    const idx = keywords.findIndex((kw) => l.includes(kw));
+    return idx === -1 ? keywords.length : idx;
+  }
+
+  function labelFor(hint: string, href: string): string {
+    const l = hint.toLowerCase();
+    const u = href.toLowerCase();
+    if (
+      l.includes("bounty") ||
+      l.includes("program") ||
+      u.includes("hackerone") ||
+      u.includes("bugcrowd")
+    )
+      return "Bug Bounty Program";
+    if (l.includes("policy") || l.includes("vdp") || l.includes("disclosure"))
+      return "Security Policy";
+    if (l.includes("report")) return "Report Vulnerability";
+    return "Security Policy";
+  }
+
+  urlCandidates.sort((a, b) => rankUrl(a.hint) - rankUrl(b.hint));
+
+  /* Take the single best URL */
+  if (urlCandidates.length > 0) {
+    const best = urlCandidates[0];
+    actions.push({
+      label: labelFor(best.hint, best.href),
+      href: best.href,
+      type: "url",
+    });
+  }
+
+  return actions;
+}
+
+const summaryActions = data ? buildActions(tier1Results) : [];
+
+/*
+ * Filter out disclose-io results when they add no unique information.
+ * Collect all URLs from other results (contacts + metadata), then check
+ * if the disclose-io result has any contacts or URLs not already covered.
+ */
+function filterRedundant(results: typeof tier1Results): typeof tier1Results {
+  const otherUrls = new Set<string>();
+  for (const r of results) {
+    if (r.source === "disclose-io") continue;
+    for (const c of r.contacts) otherUrls.add(c.value);
+    if (r.url) otherUrls.add(r.url);
+    const meta = r.metadata as Record<string, unknown> | undefined;
+    if (meta?.policy) otherUrls.add(String(meta.policy));
+    if (meta?.programs && Array.isArray(meta.programs)) {
+      for (const p of meta.programs as Record<string, unknown>[]) {
+        if (p.url) otherUrls.add(String(p.url));
+        if (p.policy_url) otherUrls.add(String(p.policy_url));
+        if (p.contact_url) otherUrls.add(String(p.contact_url));
+      }
+    }
+  }
+
+  return results.filter((r) => {
+    if (r.source !== "disclose-io") return true;
+    /* Keep if it has unique contacts */
+    if (r.contacts.some((c) => !otherUrls.has(c.value))) return true;
+    /* Keep if its program URLs aren't covered */
+    const meta = r.metadata as Record<string, unknown> | undefined;
+    if (meta?.programs && Array.isArray(meta.programs)) {
+      for (const p of meta.programs as Record<string, unknown>[]) {
+        if (p.policy_url && !otherUrls.has(String(p.policy_url))) return true;
+        if (p.contact_url && !otherUrls.has(String(p.contact_url))) return true;
+      }
+    }
+    return false;
+  });
+}
+
+const displayTier1 = filterRedundant(tier1Results);
+const displayTier2 = filterRedundant(tier2Results);
+
+const pageTitle = data
+  ? `Security Contacts for ${data.domain} - Bug Bounties`
+  : `Lookup - Bug Bounties`;
+const pageDescription = data
+  ? `Security contact information for ${data.domain}. Found ${totalContacts} contact${totalContacts !== 1 ? "s" : ""} across ${data.results.length} source${data.results.length !== 1 ? "s" : ""}.`
+  : "Security contact lookup.";
+
+const hasSkipped = !deep && !!data?.summary.some((s) => s.status === "skipped");
+const breadcrumbJsonLd = lookupResultSchema(data?.domain);
+---
+
+<DefaultLayout
+  title={pageTitle}
+  description={pageDescription}
+  noindex
+  jsonLd={breadcrumbJsonLd}
+>
+  <Header />
+  <article class="detail-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <BackLink href="/lookup" label="Search for Security Contacts" />
+    </nav>
+
+    {
+      errorTitle ? (
+        <ErrorCard
+          title={errorTitle}
+          message={errorMessage}
+          suggestion={errorSuggestion}
+        />
+      ) : data ? (
+        <>
+          <h1>
+            <img
+              src={`https://favicon.im/${data.domain}?default-avatar=https://pixelflare.cc/i/fqtfmw`}
+              width="24"
+              alt={`${data.domain} favicon`}
+            />
+            Security Contacts for <span class="domain">{data.domain}</span>
+          </h1>
+          <div class="meta-row">
+            <p class="queried-at">
+              Queried {formatDate(data.queried_at, true)}
+            </p>
+            {hasSkipped && (
+              <DeepSearchToggle
+                domain={data.domain}
+                type="website"
+                client:only="svelte"
+              />
+            )}
+          </div>
+
+          {tier1Results.length > 0 ? (
+            <Summary
+              status="success"
+              title="Verified security contacts found"
+              message={`Found ${totalContacts} contact${totalContacts !== 1 ? "s" : ""} across ${data.results.length} source${data.results.length !== 1 ? "s" : ""} for ${data.domain}.`}
+              actions={summaryActions}
+            />
+          ) : tier2Results.length > 0 ? (
+            <Summary
+              status="warning"
+              title="No verified security channels found"
+              message={`We could not find any primary, verified security reporting channels for ${data.domain}. The results below are fallback contacts gathered from general sources - they may not be intended for vulnerability reports. Manual verification is recommended before submitting a disclosure.`}
+            />
+          ) : (
+            <Summary
+              status="error"
+              title="No reporting methods found"
+              message={`We checked all available sources but could not find any security contacts or reporting methods for ${data.domain}. This domain may not have published any security contact information.`}
+            />
+          )}
+
+          {displayTier1.length > 0 && (
+            <>
+              <h2 class="tier-heading">Primary Sources</h2>
+              {displayTier1.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {displayTier2.length > 0 && (
+            <>
+              <h2 class="tier-heading">Fallback Sources</h2>
+              {displayTier2.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {data.errors.length > 0 && (
+            <ResultSection heading="Errors">
+              <ul class="error-list">
+                {data.errors.map((e) => (
+                  <li>
+                    <strong>{e.source}:</strong> {e.error}
+                  </li>
+                ))}
+              </ul>
+            </ResultSection>
+          )}
+
+          <SummaryChecklist
+            summary={data.summary}
+            hasVerified={tier1Results.length > 0}
+          />
+        </>
+      ) : null
+    }
+  </article>
+</DefaultLayout>
+
+<style>
+  @import "../../styles/results.css";
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.6rem;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    & .domain {
+      color: var(--primary);
+    }
+    img {
+      border-radius: 50%;
+      width: 1.6rem;
+      height: 1.6rem;
+      font-size: 1px;
+      background: var(--background-lighter);
+    }
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  .queried-at {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .tier-heading {
+    color: var(--muted);
+    margin: 1.5rem 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: none;
+  }
+
+  .error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--danger);
+
+    & li {
+      padding: 0.25rem 0;
+    }
+
+    & strong {
+      color: var(--foreground);
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+</style>

@@ -4,10 +4,10 @@
   import RewardBadges from "./RewardBadges.svelte";
   import BookmarkButton from "./BookmarkButton.svelte";
   import Chip from "./Chip.svelte";
-  import { tips } from "../lib/tooltips";
-  import { formatPayout } from "../lib/format";
-  import { formatRankBadge } from "../lib/tranco-format";
-  import type { ListProgram } from "../types/Company";
+  import { tips } from "@lib/tooltips";
+  import { formatPayout } from "@lib/format";
+  import { formatRankBadge } from "@lib/tranco-format";
+  import type { ListProgram } from "@app-types/Company";
 
   export let program: ListProgram;
   export let trancoRank: number | undefined = undefined;

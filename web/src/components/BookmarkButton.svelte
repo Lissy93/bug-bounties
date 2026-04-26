@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Bookmark, BookmarkCheck, BookmarkX } from "lucide-svelte";
-  import { bookmarks } from "../lib/bookmarks";
-  import { tips } from "../lib/tooltips";
+  import { bookmarks } from "@lib/bookmarks";
+  import { tips } from "@lib/tooltips";
 
   export let slug: string;
   export let companyName: string;

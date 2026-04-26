@@ -17,25 +17,9 @@ const {
   jsonLd,
 } = Astro.props;
 
-const siteUrl = "https://bug-bounties.as93.net";
+import { defaultSchema } from "@lib/json-ld";
 
-const defaultJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  url: siteUrl,
-  name: "Bug Bounties",
-  description,
-  publisher: {
-    "@type": "Organization",
-    name: "Alicia Sykes",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://github.com/lissy93.png",
-    },
-  },
-};
-
-const structuredData = jsonLd || defaultJsonLd;
+const structuredData = jsonLd || defaultSchema(description);
 ---
 
 <!-- Primary Meta Tags -->

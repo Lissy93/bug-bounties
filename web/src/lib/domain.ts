@@ -1,4 +1,4 @@
-import type { BountyProgram } from "../types/Company";
+import type { BountyProgram } from "@app-types/Company";
 
 export const PLATFORM_HOSTNAMES = new Set([
   "hackerone.com",
@@ -53,7 +53,7 @@ const TWO_PART_TLDS = new Set([
  * Extract the registrable domain from a hostname.
  * e.g. "api.23andme.com" -> "23andme.com", "foo.co.uk" -> "foo.co.uk"
  */
-function getRegistrableDomain(hostname: string): string {
+export function getRegistrableDomain(hostname: string): string {
   const parts = hostname.split(".");
   if (parts.length <= 2) return hostname;
 
@@ -64,7 +64,7 @@ function getRegistrableDomain(hostname: string): string {
   return parts.slice(-2).join(".");
 }
 
-function stripWww(hostname: string): string {
+export function stripWww(hostname: string): string {
   return hostname.startsWith("www.") ? hostname.slice(4) : hostname;
 }
 
@@ -120,7 +120,7 @@ function isCompanyDomain(entry: string): boolean {
   return true;
 }
 
-function isPlatformHost(hostname: string): boolean {
+export function isPlatformHost(hostname: string): boolean {
   for (const platform of PLATFORM_HOSTNAMES) {
     if (hostname === platform || hostname.endsWith("." + platform)) {
       return true;

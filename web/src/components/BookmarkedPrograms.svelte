@@ -1,8 +1,8 @@
 <script lang="ts">
   import { slide } from "svelte/transition";
-  import { bookmarks } from "../lib/bookmarks";
+  import { bookmarks } from "@lib/bookmarks";
   import CompanyCard from "./CompanyCard.svelte";
-  import type { ListProgram } from "../types/Company";
+  import type { ListProgram } from "@app-types/Company";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};

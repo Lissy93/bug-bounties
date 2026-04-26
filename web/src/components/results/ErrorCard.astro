@@ -1,0 +1,63 @@
+---
+import { TriangleAlert } from "lucide-svelte";
+
+interface Props {
+  title: string;
+  message: string;
+  suggestion?: string;
+  retryHref?: string;
+  retryLabel?: string;
+}
+
+const {
+  title,
+  message,
+  suggestion,
+  retryHref = "/lookup",
+  retryLabel = "Try another lookup",
+} = Astro.props;
+---
+
+<div class="error-card">
+  <TriangleAlert size={32} />
+  <h2>{title}</h2>
+  <p class="message">{message}</p>
+  {suggestion && <p class="suggestion">{suggestion}</p>}
+  <a href={retryHref} class="text-link">{retryLabel}</a>
+</div>
+
+<style>
+  @import "../../styles/results.css";
+
+  .error-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+    margin: 2rem auto;
+    max-width: 480px;
+    color: var(--danger);
+
+    & h2 {
+      margin: 0.75rem 0 0.5rem;
+      font-size: 1.2rem;
+      color: var(--danger);
+    }
+
+    & .message {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    & .suggestion {
+      margin: 0.5rem 0 0;
+      font-size: 0.85rem;
+      color: var(--foreground);
+    }
+
+    & .text-link {
+      margin-top: 1rem;
+    }
+  }
+</style>

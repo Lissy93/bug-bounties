@@ -1,6 +1,7 @@
 ---
-import Header from "../components/Header.astro";
-import DefaultLayout from "../layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { learnSchema } from "@lib/json-ld";
 
 const resources = [
   {
@@ -128,47 +129,7 @@ const glossaryTerms = [
   },
 ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Article",
-      headline: "Bug Bounty Reporting Guide",
-      description:
-        "A practical guide to writing and submitting your first bug bounty report.",
-      datePublished: "2026-01-15",
-      dateModified: "2026-03-15",
-      author: {
-        "@type": "Organization",
-        name: "Bug Bounties",
-        url: "https://bug-bounties.as93.net",
-      },
-      publisher: {
-        "@type": "Organization",
-        name: "Bug Bounties",
-        url: "https://bug-bounties.as93.net",
-      },
-      mainEntityOfPage: "https://bug-bounties.as93.net/learn",
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://bug-bounties.as93.net/",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Learn",
-          item: "https://bug-bounties.as93.net/learn",
-        },
-      ],
-    },
-  ],
-};
+const jsonLd = learnSchema(glossaryTerms);
 ---
 
 <DefaultLayout

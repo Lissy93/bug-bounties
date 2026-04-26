@@ -1,11 +1,11 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { loadAllPrograms } from "../../../lib/load-all-programs";
+import { loadAllPrograms } from "@lib/load-all-programs";
 import type {
   BountyProgram,
   SecurityTxtData,
   PlatformScopeData,
   KevData,
-} from "../../../types/Company";
+} from "@app-types/Company";
 
 interface Props {
   program: BountyProgram;

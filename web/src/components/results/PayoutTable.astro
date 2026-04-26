@@ -1,0 +1,81 @@
+---
+import Tooltip from "@components/Tooltip.svelte";
+import { tips } from "@lib/tooltips";
+
+interface Props {
+  rows: { severity: string; amount: string }[];
+  swagDetails?: string;
+}
+
+const { rows, swagDetails } = Astro.props;
+---
+
+<div class="payout-table">
+  {
+    rows.map((row) => (
+      <div class="payout-row">
+        <span class={`payout-severity sev-${row.severity.toLowerCase()}`}>
+          {row.severity}
+        </span>
+        <span class="payout-amount">{row.amount}</span>
+      </div>
+    ))
+  }
+</div>
+{
+  swagDetails && (
+    <p class="swag-details">
+      <Tooltip text={tips.swagDetails}>Swag:</Tooltip> {swagDetails}
+    </p>
+  )
+}
+
+<style>
+  .payout-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .payout-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--curve);
+    background: var(--background-darker);
+    font-size: 0.85rem;
+  }
+
+  .payout-severity {
+    font-weight: 600;
+    min-width: 5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+
+    &.sev-critical {
+      color: var(--danger);
+    }
+    &.sev-high {
+      color: var(--warning);
+    }
+    &.sev-medium {
+      color: var(--accent);
+    }
+    &.sev-low {
+      color: var(--muted);
+    }
+  }
+
+  .payout-amount {
+    color: var(--foreground);
+    font-family: monospace;
+  }
+
+  .swag-details {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0.75rem 0 0;
+  }
+</style>

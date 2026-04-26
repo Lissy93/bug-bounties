@@ -10,12 +10,12 @@
     TrendingUp,
     Bug,
   } from "lucide-svelte";
-  import type { ListProgram } from "../types/Company";
+  import type { ListProgram } from "@app-types/Company";
   import CompanyCard from "./CompanyCard.svelte";
   import BookmarkedPrograms from "./BookmarkedPrograms.svelte";
   import Loading from "./Loading.svelte";
   import Chip from "./Chip.svelte";
-  import { tips } from "../lib/tooltips";
+  import { tips } from "@lib/tooltips";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};
@@ -165,11 +165,16 @@
 {:else}
   <BookmarkedPrograms {programs} {trancoRanks} {kevCounts} />
 
+  <h2 class="section-heading">
+    {searchTerm ? "Search Results" : "Top Programs"}
+    <span class="section-count">{sorted.length}</span>
+  </h2>
+
   <div class="toolbar">
     <div class="search-row">
       <input
         type="text"
-        placeholder="Search programs..."
+        placeholder="Filter programs..."
         aria-label="Search programs by name or handle"
         bind:value={searchInput}
         on:input={onSearchInput}
@@ -343,6 +348,22 @@
     border: none;
     border-radius: var(--curve, 4px);
     cursor: pointer;
+  }
+  .section-heading {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin: 0 auto 0.75rem;
+    width: var(--content-width, 90%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-count {
+    font-size: 0.8rem;
+    background: color-mix(in srgb, var(--primary) 15%, transparent);
+    color: var(--primary);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
   }
   .program-list {
     width: var(--content-width, 90%);

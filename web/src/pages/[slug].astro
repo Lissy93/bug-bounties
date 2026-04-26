@@ -1,29 +1,37 @@
 ---
-import DefaultLayout from "../layouts/DefaultLayout.astro";
-import Header from "../components/Header.astro";
-import BackLink from "../components/BackLink.astro";
-import FaviconImage from "../components/FaviconImage.svelte";
-import RewardBadges from "../components/RewardBadges.svelte";
-import Tooltip from "../components/Tooltip.svelte";
-import Chip from "../components/Chip.svelte";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import FaviconImage from "@components/FaviconImage.svelte";
+import Tooltip from "@components/Tooltip.svelte";
+import Chip from "@components/Chip.svelte";
+import ResultSection from "@components/results/ResultSection.astro";
+import DefList from "@components/results/DefList.astro";
+import PayoutTable from "@components/results/PayoutTable.astro";
+import KeyInfoBar from "@components/results/KeyInfoBar.astro";
+import ScopeSection from "@components/results/ScopeSection.astro";
+import KevSection from "@components/results/KevSection.astro";
 import { Mail, Globe, House } from "lucide-svelte";
 import {
+  formatDate,
   formatPayout,
   formatDuration,
   formatPayoutTable,
   formatExcludedMethod,
   getHostname,
   getHomepageUrl,
-} from "../lib/format";
-import { tips } from "../lib/tooltips";
-import { formatRankBadge } from "../lib/tranco";
-import { loadAllPrograms } from "../lib/load-all-programs";
+} from "@lib/format";
+import { tips } from "@lib/tooltips";
+import { formatRankBadge } from "@lib/tranco";
+import { loadAllPrograms } from "@lib/load-all-programs";
+import { companySchema } from "@lib/json-ld";
 import type {
   BountyProgram,
   SecurityTxtData,
   PlatformScopeData,
   KevData,
-} from "../types/Company";
+} from "@app-types/Company";
+import type { DefListItem } from "@components/results/DefList.astro";
 
 export async function getStaticPaths() {
   const { programs, securityTxtMap, platformDataMap, kevMap, trancoRanks } =
@@ -80,24 +88,239 @@ const pageDescription = [
   .filter(Boolean)
   .join(" ");
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://bug-bounties.as93.net/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: program.company,
-      item: `https://bug-bounties.as93.net/${program.slug}`,
-    },
-  ],
-};
+const breadcrumbJsonLd = companySchema({
+  company: program.company,
+  slug: program.slug,
+  url: homepageUrl || program.url,
+  description: program.description,
+});
+
+/* Filter helper that TypeScript can narrow correctly */
+function items(...entries: (DefListItem | null | undefined)[]): DefListItem[] {
+  return entries.filter((e): e is DefListItem => e != null);
+}
+
+/* Build DefList items for each section */
+const programDetails = items(
+  program.program ? { label: "Program Name", value: program.program } : null,
+  program.handle ? { label: "Handle", value: program.handle } : null,
+  program.managed != null
+    ? {
+        label: "Managed",
+        value: program.managed ? "Yes" : "No",
+        tooltip: tips.managed,
+      }
+    : null,
+  program.confidentiality_level
+    ? {
+        label: "Confidentiality",
+        value: program.confidentiality_level,
+        tooltip: tips.confidentiality,
+      }
+    : null,
+  program.launch_date
+    ? { label: "Launch Date", value: program.launch_date }
+    : null,
+  program.allows_disclosure != null
+    ? {
+        label: "Allows Disclosure",
+        value: program.allows_disclosure ? "Yes" : "No",
+        tooltip: tips.allowsDisclosure,
+      }
+    : null,
+  program.disclosure_timeline_days != null
+    ? {
+        label: "Disclosure Window",
+        value: `${program.disclosure_timeline_days} days`,
+        tooltip: tips.disclosureTimeline,
+      }
+    : null,
+  program.response_sla_days != null
+    ? {
+        label: "Response SLA",
+        value: `${program.response_sla_days} business days`,
+        tooltip: tips.responseSla,
+      }
+    : null,
+  program.reporting_url
+    ? {
+        label: "Report Submission",
+        value: program.reporting_url,
+        href: program.reporting_url,
+        tooltip: tips.reportingUrl,
+      }
+    : null,
+);
+
+const responseMetrics = items(
+  responseTime
+    ? {
+        label: "Response Time",
+        value: responseTime,
+        tooltip: tips.responseTime,
+      }
+    : null,
+  bountyTime
+    ? { label: "Bounty Time", value: bountyTime, tooltip: tips.bountyTime }
+    : null,
+  resolutionTime
+    ? {
+        label: "Resolution Time",
+        value: resolutionTime,
+        tooltip: tips.resolutionTime,
+      }
+    : null,
+);
+
+const legalItems = items(
+  program.legal_terms_url
+    ? {
+        label: "Legal Terms",
+        value: program.legal_terms_url,
+        href: program.legal_terms_url,
+        tooltip: tips.legalTerms,
+      }
+    : null,
+);
+
+const recognitionItems = items(
+  program.hall_of_fame_url
+    ? {
+        label: "Hall of Fame",
+        value: program.hall_of_fame_url,
+        href: program.hall_of_fame_url,
+        tooltip: tips.hallOfFame,
+      }
+    : null,
+  program.swag_details && !payoutTableRows
+    ? {
+        label: "Swag",
+        value: program.swag_details,
+        tooltip: tips.swagDetails,
+      }
+    : null,
+);
+
+const securityItems = items(
+  program.pgp_key
+    ? {
+        label: "PGP Key",
+        value: program.pgp_key,
+        mono: true,
+        tooltip: tips.pgpKey,
+      }
+    : null,
+  program.securitytxt_url
+    ? {
+        label: "security.txt",
+        value: program.securitytxt_url,
+        href: program.securitytxt_url,
+        tooltip: tips.securityTxt,
+      }
+    : null,
+  program.preferred_languages
+    ? {
+        label: "Preferred Languages",
+        value: program.preferred_languages,
+        tooltip: tips.preferredLanguages,
+      }
+    : null,
+);
+
+const additionalItems = items(
+  program.hiring
+    ? {
+        label: "Hiring",
+        value: "Actively hiring security researchers",
+        color: "hiring",
+        tooltip: tips.hiring,
+      }
+    : null,
+  program.notes ? { label: "Notes", value: program.notes } : null,
+  program.sources && program.sources.length > 0
+    ? { label: "Sources", value: program.sources.join(", ") }
+    : null,
+);
+
+const securityTxtItems = securityTxt
+  ? items(
+      securityTxt.contact && securityTxt.contact.length > 0
+        ? {
+            label: "Contact",
+            value: securityTxt.contact.join(", "),
+            tooltip: tips.securityTxtContact,
+          }
+        : null,
+      securityTxt.encryption && securityTxt.encryption.length > 0
+        ? {
+            label: "Encryption",
+            value: securityTxt.encryption.join(", "),
+            href: securityTxt.encryption[0],
+          }
+        : null,
+      securityTxt.policy
+        ? {
+            label: "Policy",
+            value: securityTxt.policy,
+            href: securityTxt.policy,
+          }
+        : null,
+      securityTxt.hiring
+        ? {
+            label: "Hiring",
+            value: securityTxt.hiring,
+            href: securityTxt.hiring,
+          }
+        : null,
+      securityTxt.acknowledgments
+        ? {
+            label: "Acknowledgments",
+            value: securityTxt.acknowledgments,
+            href: securityTxt.acknowledgments,
+          }
+        : null,
+      securityTxt.preferredLanguages
+        ? {
+            label: "Languages",
+            value: securityTxt.preferredLanguages,
+          }
+        : null,
+      securityTxt.expires
+        ? {
+            label: "Expires",
+            value: formatDate(securityTxt.expires),
+            color: securityTxt.is_expired ? "expired-text" : undefined,
+          }
+        : null,
+    )
+  : [];
+
+const rulesItems = items(
+  program.requires_account != null
+    ? {
+        label: "Requires Account",
+        value: program.requires_account ? "Yes" : "No",
+        tooltip: tips.requiresAccount,
+      }
+    : null,
+  program.testing_policy_url
+    ? {
+        label: "Testing Policy",
+        value: program.testing_policy_url,
+        href: program.testing_policy_url,
+        tooltip: tips.testingPolicy,
+      }
+    : null,
+);
+
+const hasRulesSection =
+  rulesItems.length > 0 ||
+  (program.excluded_methods && program.excluded_methods.length > 0);
+
+const hasProgramDetails = program.description || programDetails.length > 0;
+
+const showResponseEfficiency = program.response_efficiency != null;
+const hasResponseMetrics = responseMetrics.length > 0 || showResponseEfficiency;
 ---
 
 <DefaultLayout
@@ -106,7 +329,7 @@ const breadcrumbJsonLd = {
   jsonLd={breadcrumbJsonLd}
 >
   <Header />
-  <article class="detail">
+  <article class="detail-page">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <BackLink />
     </nav>
@@ -174,287 +397,73 @@ const breadcrumbJsonLd = {
       </div>
     </section>
 
-    <!-- Key Info -->
-    {
-      ((program.rewards && program.rewards.length > 0) ||
-        program.safe_harbor ||
-        payout ||
-        program.program_type ||
-        program.status) && (
-        <section class="key-info">
-          {program.program_type && (
-            <Chip color="var(--accent)" tooltip={tips.programType}>
-              {program.program_type === "bounty"
-                ? "Bug Bounty"
-                : program.program_type === "vdp"
-                  ? "VDP"
-                  : "Hybrid"}
-            </Chip>
-          )}
-          {program.status && (
-            <Chip
-              color={
-                program.status === "active"
-                  ? "var(--success)"
-                  : "var(--warning)"
-              }
-              tooltip={tips.programStatus}
-              filled
-            >
-              {program.status === "active" ? "Active" : "Paused"}
-            </Chip>
-          )}
-          <RewardBadges rewards={program.rewards || []} />
-          {program.safe_harbor && (
-            <Chip
-              color="var(--success)"
-              tooltip={
-                program.safe_harbor === "full"
-                  ? tips.safeHarborFull
-                  : tips.safeHarborPartial
-              }
-            >
-              {program.safe_harbor === "full" ? "Full" : "Partial"} Safe Harbor
-            </Chip>
-          )}
-          {payout && (
-            <Chip color="var(--foreground)" tooltip={tips.payout}>
-              {payout}
-            </Chip>
-          )}
-        </section>
-      )
-    }
+    <KeyInfoBar
+      programType={program.program_type}
+      status={program.status}
+      rewards={program.rewards}
+      safeHarbor={program.safe_harbor}
+      payout={payout}
+    />
 
-    <!-- Program Details -->
     {
-      (program.description ||
-        program.program ||
-        program.handle ||
-        program.managed != null ||
-        program.confidentiality_level ||
-        program.launch_date ||
-        program.allows_disclosure != null ||
-        program.reporting_url ||
-        program.response_sla_days != null ||
-        program.disclosure_timeline_days != null) && (
-        <section class="section">
-          <h2>Program Details</h2>
+      hasProgramDetails && (
+        <ResultSection heading="Program Details">
           {program.description && (
             <p class="program-description">{program.description}</p>
           )}
-          <dl>
-            {program.program && (
-              <>
-                <dt>Program Name</dt>
-                <dd>{program.program}</dd>
-              </>
-            )}
-            {program.handle && (
-              <>
-                <dt>Handle</dt>
-                <dd>{program.handle}</dd>
-              </>
-            )}
-            {program.managed != null && (
-              <>
-                <dt>
-                  <Tooltip text={tips.managed}>Managed</Tooltip>
-                </dt>
-                <dd>{program.managed ? "Yes" : "No"}</dd>
-              </>
-            )}
-            {program.confidentiality_level && (
-              <>
-                <dt>
-                  <Tooltip text={tips.confidentiality}>Confidentiality</Tooltip>
-                </dt>
-                <dd>{program.confidentiality_level}</dd>
-              </>
-            )}
-            {program.launch_date && (
-              <>
-                <dt>Launch Date</dt>
-                <dd>{program.launch_date}</dd>
-              </>
-            )}
-            {program.allows_disclosure != null && (
-              <>
-                <dt>
-                  <Tooltip text={tips.allowsDisclosure}>
-                    Allows Disclosure
-                  </Tooltip>
-                </dt>
-                <dd>{program.allows_disclosure ? "Yes" : "No"}</dd>
-              </>
-            )}
-            {program.disclosure_timeline_days != null && (
-              <>
-                <dt>
-                  <Tooltip text={tips.disclosureTimeline}>
-                    Disclosure Window
-                  </Tooltip>
-                </dt>
-                <dd>{program.disclosure_timeline_days} days</dd>
-              </>
-            )}
-            {program.response_sla_days != null && (
-              <>
-                <dt>
-                  <Tooltip text={tips.responseSla}>Response SLA</Tooltip>
-                </dt>
-                <dd>{program.response_sla_days} business days</dd>
-              </>
-            )}
-            {program.reporting_url && (
-              <>
-                <dt>
-                  <Tooltip text={tips.reportingUrl}>Report Submission</Tooltip>
-                </dt>
-                <dd>
-                  <a
-                    href={program.reporting_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {program.reporting_url}
-                  </a>
-                </dd>
-              </>
-            )}
-          </dl>
-        </section>
+          {programDetails.length > 0 && <DefList items={programDetails} />}
+        </ResultSection>
       )
     }
 
-    <!-- Response Metrics -->
     {
-      (responseTime ||
-        bountyTime ||
-        resolutionTime ||
-        program.response_efficiency != null) && (
-        <section class="section">
-          <h2>Response Metrics</h2>
-          <dl>
-            {responseTime && (
-              <>
-                <dt>
-                  <Tooltip text={tips.responseTime}>Response Time</Tooltip>
-                </dt>
-                <dd>{responseTime}</dd>
-              </>
-            )}
-            {bountyTime && (
-              <>
-                <dt>
-                  <Tooltip text={tips.bountyTime}>Bounty Time</Tooltip>
-                </dt>
-                <dd>{bountyTime}</dd>
-              </>
-            )}
-            {resolutionTime && (
-              <>
-                <dt>
-                  <Tooltip text={tips.resolutionTime}>Resolution Time</Tooltip>
-                </dt>
-                <dd>{resolutionTime}</dd>
-              </>
-            )}
-            {program.response_efficiency != null && (
-              <>
-                <dt>
-                  <Tooltip text={tips.responseEfficiency}>
-                    Response Efficiency
-                  </Tooltip>
-                </dt>
-                <dd>
-                  <div class="efficiency-bar">
-                    <div
-                      class="efficiency-fill"
-                      style={`width: ${program.response_efficiency}%`}
-                    />
-                  </div>
-                  <span>{program.response_efficiency}%</span>
-                </dd>
-              </>
-            )}
-          </dl>
-        </section>
+      hasResponseMetrics && (
+        <ResultSection heading="Response Metrics">
+          {responseMetrics.length > 0 && <DefList items={responseMetrics} />}
+          {showResponseEfficiency && (
+            <div class="efficiency-row">
+              <span class="efficiency-label">
+                <Tooltip text={tips.responseEfficiency}>
+                  Response Efficiency
+                </Tooltip>
+              </span>
+              <div class="efficiency-bar">
+                <div
+                  class="efficiency-fill"
+                  style={`width: ${program.response_efficiency}%`}
+                />
+              </div>
+              <span class="efficiency-value">
+                {program.response_efficiency}%
+              </span>
+            </div>
+          )}
+        </ResultSection>
       )
     }
 
-    <!-- Payout Structure -->
     {
       payoutTableRows && (
-        <section class="section">
-          <h2>
-            <Tooltip text={tips.payoutTable}>Payout Structure</Tooltip>
-          </h2>
-          <div class="payout-table">
-            {payoutTableRows.map((row) => (
-              <div class="payout-row">
-                <span
-                  class={`payout-severity sev-${row.severity.toLowerCase()}`}
-                >
-                  {row.severity}
-                </span>
-                <span class="payout-amount">{row.amount}</span>
-              </div>
-            ))}
-          </div>
-          {program.swag_details && (
-            <p class="swag-details">
-              <Tooltip text={tips.swagDetails}>Swag:</Tooltip>{" "}
-              {program.swag_details}
-            </p>
-          )}
-        </section>
+        <ResultSection heading="Payout Structure">
+          <Tooltip slot="badge" text={tips.payoutTable} />
+          <PayoutTable
+            rows={payoutTableRows}
+            swagDetails={program.swag_details}
+          />
+        </ResultSection>
       )
     }
 
-    <!-- Rules & Testing -->
     {
-      (program.testing_policy_url ||
-        (program.excluded_methods && program.excluded_methods.length > 0) ||
-        program.requires_account != null) && (
-        <section class="section">
-          <h2>Rules & Testing</h2>
-          {(program.requires_account != null || program.testing_policy_url) && (
-            <dl>
-              {program.requires_account != null && (
-                <>
-                  <dt>
-                    <Tooltip text={tips.requiresAccount}>
-                      Requires Account
-                    </Tooltip>
-                  </dt>
-                  <dd>{program.requires_account ? "Yes" : "No"}</dd>
-                </>
-              )}
-              {program.testing_policy_url && (
-                <>
-                  <dt>
-                    <Tooltip text={tips.testingPolicy}>Testing Policy</Tooltip>
-                  </dt>
-                  <dd>
-                    <a
-                      href={program.testing_policy_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {program.testing_policy_url}
-                    </a>
-                  </dd>
-                </>
-              )}
-            </dl>
-          )}
+      hasRulesSection && (
+        <ResultSection heading="Rules & Testing">
+          {rulesItems.length > 0 && <DefList items={rulesItems} />}
           {program.excluded_methods && program.excluded_methods.length > 0 && (
-            <div class="excluded-methods">
+            <div class="sub-section">
               <h3>
                 <Tooltip text={tips.excludedMethods}>Excluded Methods</Tooltip>
               </h3>
-              <div class="method-chips">
+              <div class="chip-group">
                 {program.excluded_methods.map((m) => (
                   <Chip color="var(--danger)" size="sm">
                     {formatExcludedMethod(m)}
@@ -463,235 +472,30 @@ const breadcrumbJsonLd = {
               </div>
             </div>
           )}
-        </section>
+        </ResultSection>
       )
     }
 
-    <!-- Enhanced Scope (platform data available) -->
-    {
-      platformData ? (
-        <section class="section">
-          <h2>
-            <Tooltip text={tips.scopeTargets}>
-              Scope ({platformData.scopeStats.total} targets)
-            </Tooltip>
-          </h2>
-          <div class="scope-stats">
-            {platformData.scopeStats.web > 0 && (
-              <Chip color="var(--muted)">
-                <code>web: {platformData.scopeStats.web}</code>
-              </Chip>
-            )}
-            {platformData.scopeStats.mobile > 0 && (
-              <Chip color="var(--muted)">
-                <code>mobile: {platformData.scopeStats.mobile}</code>
-              </Chip>
-            )}
-            {platformData.scopeStats.api > 0 && (
-              <Chip color="var(--muted)">
-                <code>api: {platformData.scopeStats.api}</code>
-              </Chip>
-            )}
-            {platformData.scopeStats.other > 0 && (
-              <Chip color="var(--muted)">
-                <code>other: {platformData.scopeStats.other}</code>
-              </Chip>
-            )}
-          </div>
-          {platformData.allowsBountySplitting != null && (
-            <p class="scope-meta">
-              <Tooltip text={tips.bountySplitting}>Bounty splitting:</Tooltip>{" "}
-              {platformData.allowsBountySplitting ? "Yes" : "No"}
-              {platformData.maxSeverity && (
-                <> · Max severity: {platformData.maxSeverity}</>
-              )}
-            </p>
-          )}
-          <div class="scope-targets">
-            <h3>In Scope</h3>
-            <ul class="target-list">
-              {platformData.inScopeTargets.slice(0, 20).map((t) => (
-                <li class="target-item">
-                  <span class="target-id">{t.identifier}</span>
-                  <span class="target-type">{t.type}</span>
-                  {t.eligibleForBounty ? (
-                    <Chip color="var(--success)" size="sm" filled>
-                      bounty-eligible
-                    </Chip>
-                  ) : (
-                    <Chip color="var(--muted)" size="sm">
-                      recognition only
-                    </Chip>
-                  )}
-                </li>
-              ))}
-              {platformData.scopeStats.total > 20 && (
-                <li class="target-more">
-                  and {platformData.scopeStats.total - 20} more targets
-                </li>
-              )}
-            </ul>
-          </div>
-          {platformData.outOfScopeTargets.length > 0 && (
-            <div class="scope-targets">
-              <h3>Out of Scope</h3>
-              <p class="out-of-scope">
-                {platformData.outOfScopeTargets.join(", ")}
-              </p>
-            </div>
-          )}
-        </section>
-      ) : program.scope && program.scope.length > 0 ? (
-        <section class="section">
-          <h2>
-            <Tooltip text={tips.scope}>
-              Scope ({program.scope.length} targets)
-            </Tooltip>
-          </h2>
-          <ul class="target-list">
-            {program.scope.map((s) => (
-              <li class="target-item">
-                <span class="target-id">{s.target}</span>
-                <span class="target-type">{s.type}</span>
-              </li>
-            ))}
-          </ul>
-          {program.out_of_scope && program.out_of_scope.length > 0 && (
-            <div class="scope-targets">
-              <h3>
-                <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
-              </h3>
-              <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
-            </div>
-          )}
-        </section>
-      ) : program.domains && program.domains.length > 0 ? (
-        <section class="section">
-          <h2>In-Scope Domains</h2>
-          <ul class="domains">
-            {program.domains.map((d) => (
-              <li>{d}</li>
-            ))}
-          </ul>
-          {program.out_of_scope && program.out_of_scope.length > 0 && (
-            <div class="scope-targets">
-              <h3>
-                <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
-              </h3>
-              <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
-            </div>
-          )}
-        </section>
-      ) : program.out_of_scope && program.out_of_scope.length > 0 ? (
-        <section class="section">
-          <h2>
-            <Tooltip text={tips.outOfScope}>Out of Scope</Tooltip>
-          </h2>
-          <p class="out-of-scope">{program.out_of_scope.join(", ")}</p>
-        </section>
-      ) : null
-    }
+    <ScopeSection
+      platformData={platformData}
+      scope={program.scope}
+      domains={program.domains}
+      outOfScope={program.out_of_scope}
+    />
 
-    <!-- Known Exploited Vulnerabilities -->
-    {
-      kevData && kevData.totalCount > 0 && (
-        <section class="section kev-section">
-          <h2>
-            <Tooltip text={tips.kevSection}>
-              Known Exploited Vulnerabilities
-            </Tooltip>
-            <Chip color="var(--danger)" size="sm" filled>
-              <span class="kev-count-text">
-                {kevData.totalCount} {kevData.totalCount === 1 ? "CVE" : "CVEs"}
-              </span>
-            </Chip>
-          </h2>
-          {kevData.ransomwareCount > 0 && (
-            <p class="kev-ransomware">
-              <Tooltip text={tips.kevRansomware}>
-                {kevData.ransomwareCount} linked to ransomware campaigns
-              </Tooltip>
-            </p>
-          )}
-          <ul class="kev-list">
-            {kevData.vulnerabilities.slice(0, 10).map((vuln) => (
-              <li class="kev-item">
-                <div class="kev-item-header">
-                  <a
-                    href={`https://nvd.nist.gov/vuln/detail/${vuln.cveID}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="kev-cve"
-                  >
-                    {vuln.cveID}
-                  </a>
-                  <span class="kev-product">{vuln.product}</span>
-                  <span class="kev-date">{vuln.dateAdded}</span>
-                  {vuln.epssScore != null && (
-                    <Chip
-                      color={
-                        vuln.epssScore > 0.5
-                          ? "var(--danger)"
-                          : vuln.epssScore > 0.1
-                            ? "var(--warning)"
-                            : "var(--muted)"
-                      }
-                      tooltip={tips.epssScore}
-                      size="sm"
-                      filled={vuln.epssScore > 0.1}
-                    >
-                      <span class="epss-text">
-                        {(vuln.epssScore * 100).toFixed(1)}% EPSS
-                      </span>
-                    </Chip>
-                  )}
-                </div>
-                <p class="kev-desc">{vuln.shortDescription}</p>
-              </li>
-            ))}
-          </ul>
-          {kevData.totalCount > 10 && (
-            <a
-              href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="kev-more"
-            >
-              and {kevData.totalCount - 10} more - view full CISA catalog &rarr;
-            </a>
-          )}
-        </section>
-      )
-    }
+    {kevData && <KevSection kevData={kevData} />}
 
-    <!-- Legal & Standards -->
     {
-      (program.legal_terms_url ||
+      (legalItems.length > 0 ||
         (program.standards && program.standards.length > 0)) && (
-        <section class="section">
-          <h2>Legal & Standards</h2>
-          {program.legal_terms_url && (
-            <dl>
-              <dt>
-                <Tooltip text={tips.legalTerms}>Legal Terms</Tooltip>
-              </dt>
-              <dd>
-                <a
-                  href={program.legal_terms_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {program.legal_terms_url}
-                </a>
-              </dd>
-            </dl>
-          )}
+        <ResultSection heading="Legal & Standards">
+          {legalItems.length > 0 && <DefList items={legalItems} />}
           {program.standards && program.standards.length > 0 && (
-            <div class="standards">
+            <div class="sub-section">
               <h3>
                 <Tooltip text={tips.standards}>Standards</Tooltip>
               </h3>
-              <div class="method-chips">
+              <div class="chip-group">
                 {program.standards.map((s) => (
                   <Chip color="var(--muted)" size="sm">
                     {s}
@@ -700,283 +504,92 @@ const breadcrumbJsonLd = {
               </div>
             </div>
           )}
-        </section>
+        </ResultSection>
       )
     }
 
-    <!-- Recognition -->
     {
-      (program.hall_of_fame_url ||
-        (program.swag_details && !payoutTableRows)) && (
-        <section class="section">
-          <h2>Recognition</h2>
-          <dl>
-            {program.hall_of_fame_url && (
-              <>
-                <dt>
-                  <Tooltip text={tips.hallOfFame}>Hall of Fame</Tooltip>
-                </dt>
-                <dd>
-                  <a
-                    href={program.hall_of_fame_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {program.hall_of_fame_url}
-                  </a>
-                </dd>
-              </>
-            )}
-            {program.swag_details && !payoutTableRows && (
-              <>
-                <dt>
-                  <Tooltip text={tips.swagDetails}>Swag</Tooltip>
-                </dt>
-                <dd>{program.swag_details}</dd>
-              </>
-            )}
-          </dl>
-        </section>
+      recognitionItems.length > 0 && (
+        <ResultSection heading="Recognition">
+          <DefList items={recognitionItems} />
+        </ResultSection>
       )
     }
 
-    <!-- Security -->
     {
-      (program.pgp_key ||
-        program.securitytxt_url ||
-        program.preferred_languages) && (
-        <section class="section">
-          <h2>Security</h2>
-          <dl>
-            {program.pgp_key && (
-              <>
-                <dt>
-                  <Tooltip text={tips.pgpKey}>PGP Key</Tooltip>
-                </dt>
-                <dd class="mono">{program.pgp_key}</dd>
-              </>
-            )}
-            {program.securitytxt_url && (
-              <>
-                <dt>
-                  <Tooltip text={tips.securityTxt}>security.txt</Tooltip>
-                </dt>
-                <dd>
-                  <a
-                    href={program.securitytxt_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {program.securitytxt_url}
-                  </a>
-                </dd>
-              </>
-            )}
-            {program.preferred_languages && (
-              <>
-                <dt>
-                  <Tooltip text={tips.preferredLanguages}>
-                    Preferred Languages
-                  </Tooltip>
-                </dt>
-                <dd>{program.preferred_languages}</dd>
-              </>
-            )}
-          </dl>
-        </section>
+      securityItems.length > 0 && (
+        <ResultSection heading="Security">
+          <DefList items={securityItems} />
+        </ResultSection>
       )
     }
 
-    <!-- security.txt parsed data -->
     {
-      securityTxt && (
-        <section class="section">
-          <h2>
-            security.txt
-            {securityTxt.is_expired && (
-              <Chip
-                color="var(--warning)"
-                tooltip={tips.securityTxtExpired}
-                size="sm"
-                filled
-              >
-                expired
-              </Chip>
-            )}
-          </h2>
-          <dl>
-            {securityTxt.contact && securityTxt.contact.length > 0 && (
-              <>
-                <dt>
-                  <Tooltip text={tips.securityTxtContact}>Contact</Tooltip>
-                </dt>
-                <dd>
-                  {securityTxt.contact.map((c, i) => (
-                    <>
-                      {i > 0 && ", "}
-                      {c.startsWith("http") ? (
-                        <a href={c} target="_blank" rel="noopener noreferrer">
-                          {c}
-                        </a>
-                      ) : c.startsWith("mailto:") ? (
-                        <a href={c}>{c.replace("mailto:", "")}</a>
-                      ) : (
-                        <span>{c}</span>
-                      )}
-                    </>
-                  ))}
-                </dd>
-              </>
-            )}
-            {securityTxt.encryption && securityTxt.encryption.length > 0 && (
-              <>
-                <dt>Encryption</dt>
-                <dd>
-                  {securityTxt.encryption.map((e, i) => (
-                    <>
-                      {i > 0 && ", "}
-                      <a href={e} target="_blank" rel="noopener noreferrer">
-                        {e}
-                      </a>
-                    </>
-                  ))}
-                </dd>
-              </>
-            )}
-            {securityTxt.policy && (
-              <>
-                <dt>Policy</dt>
-                <dd>
-                  <a
-                    href={securityTxt.policy}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {securityTxt.policy}
-                  </a>
-                </dd>
-              </>
-            )}
-            {securityTxt.hiring && (
-              <>
-                <dt>Hiring</dt>
-                <dd>
-                  <a
-                    href={securityTxt.hiring}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {securityTxt.hiring}
-                  </a>
-                </dd>
-              </>
-            )}
-            {securityTxt.acknowledgments && (
-              <>
-                <dt>Acknowledgments</dt>
-                <dd>
-                  <a
-                    href={securityTxt.acknowledgments}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {securityTxt.acknowledgments}
-                  </a>
-                </dd>
-              </>
-            )}
-            {securityTxt.preferredLanguages && (
-              <>
-                <dt>Languages</dt>
-                <dd>{securityTxt.preferredLanguages}</dd>
-              </>
-            )}
-            {securityTxt.expires && (
-              <>
-                <dt>Expires</dt>
-                <dd class={securityTxt.is_expired ? "expired-text" : ""}>
-                  {securityTxt.expires}
-                </dd>
-              </>
-            )}
-          </dl>
+      securityTxt && securityTxtItems.length > 0 && (
+        <ResultSection heading="security.txt">
+          {securityTxt.is_expired && (
+            <Chip
+              slot="badge"
+              color="var(--warning)"
+              tooltip={tips.securityTxtExpired}
+              size="sm"
+              filled
+            >
+              expired
+            </Chip>
+          )}
+          <DefList items={securityTxtItems} />
           {securityTxt.raw_url && (
             <a
               href={securityTxt.raw_url}
               target="_blank"
               rel="noopener noreferrer"
-              class="raw-link"
+              class="text-link"
             >
               View raw security.txt &rarr;
             </a>
           )}
-        </section>
+        </ResultSection>
       )
     }
 
-    <!-- Additional -->
     {
-      (program.hiring ||
-        program.notes ||
-        (program.sources && program.sources.length > 0)) && (
-        <section class="section">
-          <h2>Additional Info</h2>
-          <dl>
-            {program.hiring && (
-              <>
-                <dt>
-                  <Tooltip text={tips.hiring}>Hiring</Tooltip>
-                </dt>
-                <dd class="hiring">Actively hiring security researchers</dd>
-              </>
-            )}
-            {program.notes && (
-              <>
-                <dt>Notes</dt>
-                <dd>{program.notes}</dd>
-              </>
-            )}
-            {program.sources && program.sources.length > 0 && (
-              <>
-                <dt>Sources</dt>
-                <dd>{program.sources.join(", ")}</dd>
-              </>
-            )}
-          </dl>
-        </section>
+      additionalItems.length > 0 && (
+        <ResultSection heading="Additional Info">
+          <DefList items={additionalItems} />
+        </ResultSection>
       )
     }
   </article>
 </DefaultLayout>
 
 <style>
-  .detail {
-    width: var(--content-width);
-    margin: 0 auto 2rem;
-  }
-  .breadcrumbs {
-    margin-bottom: 1rem;
-  }
+  @import "../styles/results.css";
+
   .program-header {
     display: flex;
     gap: 1.5rem;
     align-items: center;
     margin-bottom: 1.5rem;
+
+    & h1 {
+      margin: 0;
+      color: var(--primary);
+      font-size: 2rem;
+    }
   }
+
   .title-row {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
   }
-  .program-header h1 {
-    margin: 0;
-    color: var(--primary);
-    font-size: 2rem;
-  }
+
   .rank-text {
     font-weight: 600;
   }
+
   .header-links {
     display: flex;
     gap: 0.75rem;
@@ -984,14 +597,17 @@ const breadcrumbJsonLd = {
     margin-top: 0.25rem;
     flex-wrap: wrap;
   }
+
   .external-link {
     color: var(--muted);
     text-decoration: none;
     font-size: 0.9rem;
+
+    &:hover {
+      color: var(--foreground);
+    }
   }
-  .external-link:hover {
-    color: var(--foreground);
-  }
+
   .header-btn {
     display: inline-flex;
     align-items: center;
@@ -1003,141 +619,29 @@ const breadcrumbJsonLd = {
     border-radius: var(--curve);
     text-decoration: none;
     transition: var(--transition);
+
+    &:hover {
+      background: var(--primary);
+    }
   }
-  .header-btn:hover {
-    background: var(--primary);
-  }
-  .key-info {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: var(--background-lighter);
-    border-radius: var(--curve);
-  }
-  .section {
-    background: var(--background-lighter);
-    border-radius: var(--curve);
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  .section h2 {
-    margin: 0 0 0.75rem;
-    font-size: 1.1rem;
-    color: var(--primary);
-  }
+
   .program-description {
     color: var(--foreground);
     font-size: 0.9rem;
     line-height: 1.5;
     margin: 0 0 0.75rem;
   }
-  dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.5rem 1.5rem;
-    margin: 0;
-  }
-  dt {
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
-  dd {
-    margin: 0;
-    color: var(--foreground);
-    font-size: 0.9rem;
-  }
-  dd a {
-    color: var(--primary);
-    word-break: break-all;
-  }
-  .mono {
-    font-family: monospace;
-    font-size: 0.8rem;
-    word-break: break-all;
-  }
-  .hiring {
-    color: var(--success);
-  }
-  .domains {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .domains li {
-    font-size: 0.85rem;
-    padding: 0.2rem 0.5rem;
-    background: var(--background-darker);
-    border-radius: var(--curve);
-    color: var(--foreground);
-    font-family: monospace;
-  }
-  /* Payout table */
-  .payout-table {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  .payout-row {
+
+  .efficiency-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.35rem 0.5rem;
-    border-radius: var(--curve);
-    background: var(--background-darker);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
     font-size: 0.85rem;
-  }
-  .payout-severity {
-    font-weight: 600;
-    min-width: 5rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .sev-critical {
-    color: var(--danger);
-  }
-  .sev-high {
-    color: var(--warning);
-  }
-  .sev-medium {
-    color: var(--accent);
-  }
-  .sev-low {
-    color: var(--muted);
-  }
-  .payout-amount {
-    color: var(--foreground);
-    font-family: monospace;
-  }
-  .swag-details {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin: 0.75rem 0 0;
   }
 
-  /* Rules & testing */
-  .excluded-methods {
-    margin-top: 0.75rem;
-  }
-  .excluded-methods h3,
-  .standards h3 {
-    font-size: 0.85rem;
+  .efficiency-label {
     color: var(--muted);
-    margin: 0 0 0.5rem;
-  }
-  .method-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .standards {
-    margin-top: 0.75rem;
   }
 
   .efficiency-bar {
@@ -1146,10 +650,8 @@ const breadcrumbJsonLd = {
     background: var(--background-darker);
     border-radius: var(--curve);
     overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 0.5rem;
   }
+
   .efficiency-fill {
     height: 100%;
     background: var(--success);
@@ -1157,169 +659,22 @@ const breadcrumbJsonLd = {
     transition: var(--transition);
   }
 
-  /* Scope section styles */
-  .scope-stats {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-  }
-  .scope-meta {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin: 0 0 0.75rem;
-  }
-  .scope-targets h3 {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin: 0.75rem 0 0.5rem;
-  }
-  .target-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .target-item {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    padding: 0.3rem 0;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--background-darker);
-    flex-wrap: wrap;
-  }
-  .target-item:last-child {
-    border-bottom: none;
-  }
-  .target-id {
-    font-family: monospace;
+  .efficiency-value {
     color: var(--foreground);
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .target-type {
-    font-size: 0.75rem;
-    padding: 0.1rem 0.4rem;
-    background: var(--background-darker);
-    border-radius: var(--curve);
-    color: var(--muted);
-  }
-  .target-more {
-    font-size: 0.8rem;
-    color: var(--muted);
-    padding: 0.3rem 0;
-    font-style: italic;
-  }
-  .out-of-scope {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin: 0;
-    font-family: monospace;
-    word-break: break-all;
   }
 
-  /* KEV section styles */
-  .kev-count-text {
-    font-weight: 600;
-  }
-  .kev-ransomware {
-    font-size: 0.85rem;
-    color: var(--warning);
-    margin: 0 0 0.75rem;
-  }
-  .kev-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .kev-item {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--background-darker);
-  }
-  .kev-item:last-child {
-    border-bottom: none;
-  }
-  .kev-item-header {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .kev-cve {
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .kev-cve:hover {
-    text-decoration: underline;
-  }
-  .kev-product {
-    font-size: 0.8rem;
-    padding: 0.1rem 0.4rem;
-    background: var(--background-darker);
-    border-radius: var(--curve);
-    color: var(--muted);
-  }
-  .kev-date {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-left: auto;
-  }
-  .epss-text {
-    font-weight: 600;
-  }
-  .kev-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin: 0.25rem 0 0;
-    line-height: 1.4;
-  }
-  .kev-more {
-    display: inline-block;
+  .text-link {
     margin-top: 0.75rem;
-    font-size: 0.85rem;
-    color: var(--primary);
-    text-decoration: none;
-  }
-  .kev-more:hover {
-    text-decoration: underline;
-  }
-
-  /* security.txt styles */
-  .expired-text {
-    color: var(--warning);
-  }
-  .raw-link {
-    display: inline-block;
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
-    color: var(--primary);
-    text-decoration: none;
-  }
-  .raw-link:hover {
-    text-decoration: underline;
   }
 
   @media (max-width: 600px) {
     .program-header {
       flex-direction: column;
       align-items: flex-start;
-    }
-    .program-header h1 {
-      font-size: 1.5rem;
-    }
-    dl {
-      grid-template-columns: 1fr;
-    }
-    .target-item {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
+
+      & h1 {
+        font-size: 1.5rem;
+      }
     }
   }
 </style>
