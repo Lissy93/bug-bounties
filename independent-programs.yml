@@ -84,6 +84,48 @@ companies:
   - ISO 29147
   - ISO 30111
   hall_of_fame_url: https://www.hitachi.com/hirt/security/acknowledgments.html
+- company: Iceline Hosting
+  url: https://iceline-hosting.com/bug-bounty
+  contact: mailto:reply@support.iceline-hosting.com
+  rewards:
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: iceline-hosting.com
+    type: Iceline main website
+  - target: shield.iceline-hosting.com
+    type: Iceline Shield
+  - target: game.iceline-hosting.com
+    type: Iceline Game Panel
+  - target: billing.iceline-hosting.com
+    type: Iceline billing
+  - target: vps.iceline-hosting.com
+    type: Iceline VPS panel
+  - target: status.iceline-hosting.com
+    type: Status page
+  - target: auth.iceline-hosting.com
+    type: Auth
+  out_of_scope:
+  - Third-party services we don’t control (e.g. CDN, infrastructure providers)
+  - Social engineering, phishing, DoS/DDoS
+  - Known dependency issues without a working exploit
+  - Low-impact issues with no demonstrable impact
+  domains:
+  - iceline-hosting.com
+  - shield.iceline-hosting.com
+  - game.iceline-hosting.com
+  - billing.iceline-hosting.com
+  - vps.iceline-hosting.com
+  - status.iceline-hosting.com
+  - auth.iceline-hosting.com
+  reporting_url: https://support.retraflow.io/iceline-hosting
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
