@@ -745,6 +745,7 @@
 
 - <img src='https://icon.horse/icon/www.ibm.com' width='16'/> [IBM](https://www.ibm.com/security/secure-engineering/report.html) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Ibotta](https://bugcrowd.com/ibotta) 💰
+- <img src='https://icon.horse/icon/iceline-hosting.com' width='16'/> [Iceline Hosting](https://iceline-hosting.com/bug-bounty) 🏅 🎁
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Ichi](https://immunefi.com/bug-bounty/ichi/) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [ICI PARIS XL](https://www.intigriti.com/programs/aswatson/iciparisxl/detail) 💰
 - <img src='https://icon.horse/icon/support.iconfinder.com' width='16'/> [IconFinder](https://support.iconfinder.com/en/articles/18178-responsible-disclosure-of-security-vulnerabilities) 🏅
