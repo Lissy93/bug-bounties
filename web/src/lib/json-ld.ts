@@ -106,33 +106,42 @@ export function companySchema(opts: {
   );
 }
 
-export function learnSchema(
-  glossaryTerms: { term: string; definition: string }[],
-) {
+export function learnSchema() {
+  return graph(
+    {
+      "@type": "CollectionPage",
+      name: "Bug Bounty Learn Hub",
+      description:
+        "Guides, references, and OSINT tooling for bug bounty hunters and security researchers.",
+      url: `${SITE_URL}/learn`,
+      publisher: siteOrg,
+    },
+    breadcrumbList([{ name: "Learn", path: "/learn" }]),
+  );
+}
+
+export function articleSchema(opts: {
+  title: string;
+  description: string;
+  slug: string;
+  datePublished: string;
+  dateModified?: string;
+}) {
   return graph(
     {
       "@type": "Article",
-      headline: "Bug Bounty Reporting Guide",
-      description:
-        "A practical guide to writing and submitting your first bug bounty report.",
-      datePublished: "2026-01-15",
-      dateModified: "2026-03-15",
+      headline: opts.title,
+      description: opts.description,
+      datePublished: opts.datePublished,
+      dateModified: opts.dateModified || opts.datePublished,
       author: siteOrg,
       publisher: siteOrg,
-      mainEntityOfPage: `${SITE_URL}/learn`,
+      mainEntityOfPage: `${SITE_URL}/learn/${opts.slug}`,
     },
-    breadcrumbList([{ name: "Learn", path: "/learn" }]),
-    {
-      "@type": "DefinedTermSet",
-      name: "Bug Bounty Glossary",
-      description:
-        "Key terms used in bug bounty and vulnerability disclosure programs.",
-      hasDefinedTerm: glossaryTerms.map((item) => ({
-        "@type": "DefinedTerm",
-        name: item.term,
-        description: item.definition,
-      })),
-    },
+    breadcrumbList([
+      { name: "Learn", path: "/learn" },
+      { name: opts.title, path: `/learn/${opts.slug}` },
+    ]),
   );
 }
 

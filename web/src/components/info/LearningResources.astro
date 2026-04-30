@@ -1,0 +1,149 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the first N resources will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allResources: LinkGridItem[] = [
+  {
+    title: "PortSwigger Web Security Academy",
+    url: "https://portswigger.net/web-security",
+    description:
+      "Free, interactive labs and learning paths covering every common web vulnerability class",
+  },
+  {
+    title: "Hacker101",
+    url: "https://www.hacker101.com/",
+    description:
+      "HackerOne's free training videos and CTF challenges, aimed squarely at bug bounty hunters",
+  },
+  {
+    title: "Bugcrowd University",
+    url: "https://www.bugcrowd.com/hackers/bugcrowd-university/",
+    description:
+      "Bug hunting methodology modules and webinars from the Bugcrowd team",
+  },
+  {
+    title: "Hack The Box Academy",
+    url: "https://academy.hackthebox.com/",
+    description:
+      "Structured offensive security courses with hands-on labs and certifications",
+  },
+  {
+    title: "TryHackMe",
+    url: "https://tryhackme.com/",
+    description:
+      "Gamified rooms and guided learning paths covering everything from beginner to advanced topics",
+  },
+  {
+    title: "PentesterLab",
+    url: "https://pentesterlab.com/",
+    description:
+      "Hands-on exercises focused on real-world web vulnerabilities and CVE recreations",
+  },
+  {
+    title: "pwn.college",
+    url: "https://pwn.college/",
+    description:
+      "Free, university-grade binary exploitation and systems security course from ASU, with hands-on dojos",
+  },
+  {
+    title: "picoCTF",
+    url: "https://picoctf.org/",
+    description:
+      "Carnegie Mellon's beginner CTF platform, free to play year round with a deep archive of past challenges",
+  },
+  {
+    title: "OWASP WebGoat",
+    url: "https://owasp.org/www-project-webgoat/",
+    description:
+      "Deliberately insecure web app you can run locally to practice exploitation safely",
+  },
+  {
+    title: "OWASP Juice Shop",
+    url: "https://owasp.org/www-project-juice-shop/",
+    description:
+      "Modern, intentionally vulnerable JavaScript app with dozens of challenges across all OWASP categories",
+  },
+  {
+    title: "VulnHub",
+    url: "https://www.vulnhub.com/",
+    description:
+      "Downloadable vulnerable VMs you can attack offline, great for practicing without an account",
+  },
+  {
+    title: "OverTheWire",
+    url: "https://overthewire.org/wargames/",
+    description:
+      "Classic wargames teaching command line, networking, and exploitation fundamentals",
+  },
+  {
+    title: "Root-Me",
+    url: "https://www.root-me.org/",
+    description:
+      "Hundreds of free challenges across web, crypto, forensics, and reverse engineering",
+  },
+  {
+    title: "HackerOne Hacktivity",
+    url: "https://hackerone.com/hacktivity",
+    description:
+      "Stream of disclosed bug bounty reports, the single best resource for learning what real bugs look like",
+  },
+  {
+    title: "Pentester Land Newsletter",
+    url: "https://pentester.land/newsletter.html",
+    description:
+      "Weekly roundup of bug bounty writeups, new tooling, and conference talks",
+  },
+  {
+    title: "tl;dr sec",
+    url: "https://tldrsec.com/",
+    description:
+      "Clint Gibler's weekly application security newsletter, the best single source for keeping up with appsec",
+  },
+  {
+    title: "PortSwigger Research",
+    url: "https://portswigger.net/research",
+    description:
+      "Original web security research from the team behind Burp Suite, often introducing entire bug classes",
+  },
+  {
+    title: "NahamSec",
+    url: "https://www.youtube.com/@NahamSec",
+    description:
+      "Live bug bounty hunting sessions, interviews, and beginner-friendly walkthroughs on YouTube",
+  },
+  {
+    title: "IppSec",
+    url: "https://www.youtube.com/@ippsec",
+    description:
+      "In-depth Hack The Box machine walkthroughs, an unmatched library for learning offensive technique",
+  },
+  {
+    title: "LiveOverflow",
+    url: "https://www.youtube.com/@LiveOverflow",
+    description:
+      "Long-form videos digging into how vulnerabilities and exploits actually work under the hood",
+  },
+  {
+    title: "John Hammond",
+    url: "https://www.youtube.com/@_JohnHammond",
+    description:
+      "CTF walkthroughs, malware analysis, and tooling demos on one of the most watched security channels on YouTube",
+  },
+  {
+    title: "TCM Security",
+    url: "https://www.youtube.com/@TCMSecurityAcademy",
+    description:
+      "Heath Adams' free tutorials covering pentesting fundamentals, OSINT, and Active Directory",
+  },
+];
+
+const items = limit ? allResources.slice(0, limit) : allResources;
+---
+
+<LinkGrid items={items} />

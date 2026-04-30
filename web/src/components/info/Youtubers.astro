@@ -1,0 +1,121 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the first N entries will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allYoutubers: LinkGridItem[] = [
+  {
+    title: "IppSec",
+    subtitle: "HackTheBox walkthroughs",
+    url: "https://www.youtube.com/@ippsec",
+    icon: "https://unavatar.io/youtube/ippsec",
+    description:
+      "Weekly, methodical walkthroughs of retired HackTheBox machines, focused on real methodology rather than just the solution",
+  },
+  {
+    title: "LiveOverflow",
+    subtitle: "Fabian Faessler",
+    url: "https://www.youtube.com/@LiveOverflow",
+    icon: "https://unavatar.io/youtube/liveoverflow",
+    description:
+      "Long-form, research-driven deep dives into exploitation techniques and vulnerability classes for people who want to understand why things work",
+  },
+  {
+    title: "NahamSec",
+    subtitle: "Ben Sadeghipour",
+    url: "https://www.youtube.com/@NahamSec",
+    icon: "https://unavatar.io/youtube/nahamsec",
+    description:
+      "Live bug bounty hunting sessions, recon tips, and interviews with top hackers from the founder of NahamCon",
+  },
+  {
+    title: "John Hammond",
+    subtitle: "Huntress security researcher",
+    url: "https://www.youtube.com/@_JohnHammond",
+    icon: "https://unavatar.io/youtube/_johnhammond",
+    description:
+      "Near-daily CTF walkthroughs, live malware analysis, and breakdowns of real incidents from a Huntress threat researcher",
+  },
+  {
+    title: "The Cyber Mentor",
+    subtitle: "Heath Adams (TCM Security)",
+    url: "https://www.youtube.com/@TCMSecurityAcademy",
+    icon: "https://unavatar.io/youtube/tcmsecurityacademy",
+    description:
+      "Practical pentesting tutorials, Active Directory attacks, and career advice from one of the most trusted voices in entry-level offensive security",
+  },
+  {
+    title: "InsiderPhD",
+    subtitle: "Dr. Katie Paxton-Fear",
+    url: "https://www.youtube.com/@InsiderPhD",
+    icon: "https://unavatar.io/youtube/insiderphd",
+    description:
+      "Beginner-friendly bug bounty tutorials and API hacking research from an academic and active HackerOne hunter",
+  },
+  {
+    title: "Farah Hawa",
+    subtitle: "AppSec engineer and bug bounty hunter",
+    url: "https://www.youtube.com/@FarahHawa",
+    icon: "https://unavatar.io/youtube/farahhawa",
+    description:
+      "Clear, concept-first explanations of web vulnerability classes, OAuth/JWT flaws, and bug bounty workflows",
+  },
+  {
+    title: "Low Level",
+    subtitle: "Formerly LowLevelLearning",
+    url: "https://www.youtube.com/@LowLevelTV",
+    icon: "https://unavatar.io/youtube/lowleveltv",
+    description:
+      "Short, focused explainers on memory corruption, CPU internals, and low-level security bugs",
+  },
+  {
+    title: "LaurieWired",
+    subtitle: "Reverse engineering and malware",
+    url: "https://www.youtube.com/@LaurieWired",
+    icon: "https://unavatar.io/youtube/lauriewired",
+    description:
+      "Reverse engineering, malware internals, and low-level systems explainers from one of the fastest-growing security channels",
+  },
+  {
+    title: "13Cubed",
+    subtitle: "Richard Davis (DFIR)",
+    url: "https://www.youtube.com/@13Cubed",
+    icon: "https://unavatar.io/youtube/13cubed",
+    description:
+      "Best-in-class digital forensics and incident response education, with a strong focus on Windows artifacts",
+  },
+  {
+    title: "SimplyCyber",
+    subtitle: "Gerald Auger",
+    url: "https://www.youtube.com/@SimplyCyber",
+    icon: "https://unavatar.io/youtube/simplycyber",
+    description:
+      "Daily cybersecurity news, defender-focused content, and career guidance from a working CISO",
+  },
+  {
+    title: "DEF CON Conference",
+    subtitle: "Official channel",
+    url: "https://www.youtube.com/@DEFCONConference",
+    icon: "https://unavatar.io/youtube/defconconference",
+    description:
+      "The official archive of DEF CON talks, where much of the most influential offensive research of the year gets published for free",
+  },
+  {
+    title: "Black Hat",
+    subtitle: "Official briefings",
+    url: "https://www.youtube.com/@BlackHatOfficialYT",
+    icon: "https://unavatar.io/youtube/blackhatofficialyt",
+    description:
+      "Full-length briefings from Black Hat USA, Europe, and Asia covering cutting-edge vulnerability research and defensive engineering",
+  },
+];
+
+const items = limit ? allYoutubers.slice(0, limit) : allYoutubers;
+---
+
+<LinkGrid items={items} />

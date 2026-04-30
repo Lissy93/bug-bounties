@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/netlify": "^6.6.5",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/svelte": "^7.2.5",
     "@astrojs/vercel": "^9.0.5",
@@ -37,9 +38,11 @@
     "js-yaml": "^4.1.0",
     "lucide-svelte": "^0.577.0",
     "p-limit": "^7.3.0",
+    "rehype-external-links": "^3.0.0",
     "sass": "^1.69.5",
     "sitemap": "7.1.2",
     "svelte": "^5.53.7",
+    "tslib": "^2.8.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {

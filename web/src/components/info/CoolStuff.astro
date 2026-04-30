@@ -1,0 +1,95 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the first N entries will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allStuff: LinkGridItem[] = [
+  {
+    title: "HackTricks",
+    url: "https://book.hacktricks.wiki/",
+    description:
+      "Carlos Polop's pentesting wiki, the closest thing to a single reference for web, cloud, and AD attack technique",
+  },
+  {
+    title: "PayloadsAllTheThings",
+    url: "https://github.com/swisskyrepo/PayloadsAllTheThings",
+    description:
+      "The de facto reference for web attack payloads, bypasses, and exploitation tricks, organized by bug class",
+  },
+  {
+    title: "SecLists",
+    url: "https://github.com/danielmiessler/SecLists",
+    description:
+      "The standard wordlist collection for content discovery, fuzzing, brute forcing, and password attacks",
+  },
+  {
+    title: "GTFOBins",
+    url: "https://gtfobins.github.io/",
+    description:
+      "Curated index of Unix binaries that can be abused for privilege escalation and shell escapes",
+  },
+  {
+    title: "LOLBAS",
+    url: "https://lolbas-project.github.io/",
+    description:
+      "The Windows equivalent of GTFOBins, mapping built-in binaries to their offensive uses",
+  },
+  {
+    title: "OWASP Cheat Sheet Series",
+    url: "https://cheatsheetseries.owasp.org/",
+    description:
+      "Concise, scannable reference cards for both attackers and defenders, covering specific vulnerability classes",
+  },
+  {
+    title: "OWASP Top 10",
+    url: "https://owasp.org/Top10/",
+    description:
+      "The canonical reference list of the most critical web application security risks, with examples and prevention notes",
+  },
+  {
+    title: "CWE Top 25",
+    url: "https://cwe.mitre.org/top25/",
+    description:
+      "MITRE's annual ranking of the most dangerous software weaknesses, useful as a lookup index",
+  },
+  {
+    title: "Hacking the Cloud",
+    url: "https://hackingthe.cloud/",
+    description:
+      "Encyclopedic reference of offensive cloud security techniques across AWS, Azure, and GCP",
+  },
+  {
+    title: "Exploit-DB",
+    url: "https://www.exploit-db.com/",
+    description:
+      "OffSec's public exploit archive, the canonical place to find and verify proof-of-concept code",
+  },
+  {
+    title: "CVE.org",
+    url: "https://www.cve.org/",
+    description:
+      "The official CVE program site, the source of truth for tracking publicly disclosed vulnerabilities",
+  },
+  {
+    title: "OSINT Framework",
+    url: "https://osintframework.com/",
+    description:
+      "Long-running tree of OSINT tools and resources, organized by what you are trying to find",
+  },
+  {
+    title: "CTFtime",
+    url: "https://ctftime.org/",
+    description:
+      "The hub for finding upcoming CTFs, browsing past challenges, and reading writeups from competing teams",
+  },
+];
+
+const items = limit ? allStuff.slice(0, limit) : allStuff;
+---
+
+<LinkGrid items={items} />

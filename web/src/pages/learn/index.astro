@@ -1,0 +1,196 @@
+---
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import WebOsintTools from "@components/info/WebOsintTools.astro";
+import GuidesList from "@components/info/GuidesList.astro";
+import LearningResources from "@components/info/LearningResources.astro";
+import SecurityResearchers from "@components/info/SecurityResearchers.astro";
+import CoolStuff from "@components/info/CoolStuff.astro";
+import { learnSchema } from "@lib/json-ld";
+
+const OSINT_PREVIEW_LIMIT = 8;
+const LEARNING_PREVIEW_LIMIT = 8;
+const RESEARCHER_PREVIEW_LIMIT = 8;
+const COOL_STUFF_PREVIEW_LIMIT = 8;
+
+const jsonLd = learnSchema();
+---
+
+<DefaultLayout
+  title="Learn - Bug Bounty Guides, Tools and References"
+  description="A growing library of bug bounty guides, OSINT tooling, and references for security researchers and vulnerability hunters."
+  jsonLd={jsonLd}
+>
+  <Header />
+  <article class="learn">
+    <header class="learn-header">
+      <h1>Learn</h1>
+      <p class="subtitle">
+        Guides, tools, and references for bug bounty hunters and security
+        researchers.
+      </p>
+    </header>
+
+    <section class="intro" id="intro">
+      <h2>Bug bounties in a nutshell</h2>
+      <p>
+        Every piece of software has bugs. Some of them are security bugs, and
+        those can leak user data, take services offline, or hand attackers the
+        keys to systems they shouldn't be in.
+      </p>
+      <p>
+        Most companies would much rather hear about a bug from you than from a
+        breach notification, which is what a bug bounty or vulnerability
+        disclosure program is for: a public, legal channel to report what you
+        find. Depending on the company and the severity, you might walk away
+        with a thank-you, some swag, a CVE, or a real paycheck.
+      </p>
+      <p>
+        <a href="/">Bug Bounties</a> is a directory of those programs. This page
+        is everything else: tools, hand-picked references, and writeups to help
+        you find the bugs in the first place, then report them well enough to
+        get paid.
+      </p>
+    </section>
+
+    <section class="card" id="osint">
+      <div class="card-header">
+        <div>
+          <h2>Web OSINT Toolbox</h2>
+          <p class="card-subtitle">
+            Free, third-party tools for investigating any web target.
+          </p>
+        </div>
+        <a class="view-all" href="/learn/web-osint-toolbox">View all tools →</a>
+      </div>
+      <WebOsintTools limit={OSINT_PREVIEW_LIMIT} />
+    </section>
+
+    <section class="card" id="learning">
+      <div class="card-header">
+        <div>
+          <h2>Learning resources</h2>
+          <p class="card-subtitle">
+            Hand-picked courses, labs, and references for learning bug bounty
+            hunting.
+          </p>
+        </div>
+        <a class="view-all" href="/learn/bounty-hunting-learning-tools">
+          View all resources →
+        </a>
+      </div>
+      <LearningResources limit={LEARNING_PREVIEW_LIMIT} />
+    </section>
+
+    <section class="card" id="researchers">
+      <div class="card-header">
+        <div>
+          <h2>Researchers to follow</h2>
+          <p class="card-subtitle">
+            Widely respected security researchers whose blogs are worth
+            keeping an eye on.
+          </p>
+        </div>
+        <a class="view-all" href="/learn/best-ethical-hackers">
+          View all researchers →
+        </a>
+      </div>
+      <SecurityResearchers limit={RESEARCHER_PREVIEW_LIMIT} />
+    </section>
+
+    <section class="card" id="guides">
+      <div class="card-header">
+        <div>
+          <h2>Guides</h2>
+          <p class="card-subtitle">
+            In-depth articles on specific bug bounty topics, from recon to
+            reporting.
+          </p>
+        </div>
+      </div>
+      <GuidesList />
+    </section>
+
+    <section class="card" id="cool-stuff">
+      <div class="card-header">
+        <div>
+          <h2>Cool stuff</h2>
+          <p class="card-subtitle">
+            Cheat sheets, payload repos, wordlists, and reference databases
+            you'll use on every engagement.
+          </p>
+        </div>
+        <a class="view-all" href="/learn/cool-stuff">View all →</a>
+      </div>
+      <CoolStuff limit={COOL_STUFF_PREVIEW_LIMIT} />
+    </section>
+  </article>
+</DefaultLayout>
+
+<style>
+  .learn {
+    width: var(--content-width);
+    margin: 0 auto 2rem;
+    color: var(--foreground);
+  }
+  .learn-header {
+    margin: 1rem 0 1.5rem;
+  }
+  .learn h1 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin: 0 0 0.25rem;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+  section.intro,
+  section.card {
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  section h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--primary);
+  }
+  .intro p {
+    line-height: 1.6;
+    margin: 0.65rem 0 0;
+    color: var(--foreground);
+  }
+  .card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .card-subtitle {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .view-all {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition:
+      background var(--transition),
+      color var(--transition);
+  }
+  .view-all:hover {
+    background: var(--primary);
+    color: var(--background);
+  }
+</style>

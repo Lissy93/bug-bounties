@@ -1,0 +1,101 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the first N entries will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allPodcasts: LinkGridItem[] = [
+  {
+    title: "Darknet Diaries",
+    subtitle: "Jack Rhysider",
+    url: "https://darknetdiaries.com/",
+    description:
+      "Long-form, narrative storytelling about hackers, breaches, and the hidden side of the internet, the gold standard for security true-crime",
+  },
+  {
+    title: "Risky Business",
+    subtitle: "Patrick Gray",
+    url: "https://risky.biz/",
+    description:
+      "Weekly infosec news and interviews with serious practitioners, widely regarded as the industry's news podcast of record",
+  },
+  {
+    title: "CyberWire Daily",
+    subtitle: "N2K CyberWire",
+    url: "https://thecyberwire.com/podcasts/daily-podcast",
+    description:
+      "A concise, well-produced daily briefing on the most important cybersecurity news, policy moves, and threat intel",
+  },
+  {
+    title: "SANS Internet Stormcast",
+    subtitle: "Dr. Johannes Ullrich",
+    url: "https://isc.sans.edu/podcast.html",
+    description:
+      "A daily five-minute briefing from the SANS Internet Storm Center on emerging threats, CVEs, and attack trends spotted in honeypots",
+  },
+  {
+    title: "Critical Thinking",
+    subtitle: "Justin Gardner and Joseph Thacker",
+    url: "https://www.criticalthinkingpodcast.io/",
+    description:
+      "Technical, tactical weekly conversations on bug bounty methodology and novel web vulnerabilities, hosted by two full-time hunters",
+  },
+  {
+    title: "Smashing Security",
+    subtitle: "Graham Cluley and Carole Theriault",
+    url: "https://www.smashingsecurity.com/",
+    description:
+      "A weekly, irreverent roundtable on breaches, scams, and privacy stories that still manages to be genuinely informative",
+  },
+  {
+    title: "Click Here",
+    subtitle: "Dina Temple-Raston, Recorded Future",
+    url: "https://therecord.media/podcast",
+    description:
+      "Award-winning investigative journalism on ransomware crews, state-sponsored hackers, and the people trying to stop them",
+  },
+  {
+    title: "Malicious Life",
+    subtitle: "Ran Levi (Cybereason)",
+    url: "https://malicious.life/",
+    description:
+      "Narrative cybersecurity history that unpacks the people, hacks, and campaigns that shaped the industry",
+  },
+  {
+    title: "Hacking Humans",
+    subtitle: "Dave Bittner and Joe Carrigan",
+    url: "https://thecyberwire.com/podcasts/hacking-humans",
+    description:
+      "A weekly look at social engineering, phishing lures, and scams, practical listening for anyone running an awareness program",
+  },
+  {
+    title: "7 Minute Security",
+    subtitle: "Brian Johnson",
+    url: "https://7minsec.com/",
+    description:
+      "Short, hands-on field notes from a working pentester, heavy on Active Directory abuse and blue-team gotchas",
+  },
+  {
+    title: "Defensive Security Podcast",
+    subtitle: "Jerry Bell and Andrew Kalat",
+    url: "https://defensivesecurity.org/",
+    description:
+      "A weekly blue-team focused rundown of breaches and defensive lessons learned from two veteran security leaders",
+  },
+  {
+    title: "Security Now",
+    subtitle: "Steve Gibson and Leo Laporte",
+    url: "https://twit.tv/shows/security-now",
+    description:
+      "Running since 2005 and still weekly, one of the longest-lived deep-dive security podcasts on the internet",
+  },
+];
+
+const items = limit ? allPodcasts.slice(0, limit) : allPodcasts;
+---
+
+<LinkGrid items={items} />

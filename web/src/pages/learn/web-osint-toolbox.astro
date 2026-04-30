@@ -1,0 +1,87 @@
+---
+import MarkdownLayout from "@layouts/MarkdownLayout.astro";
+import WebOsintTools from "@components/info/WebOsintTools.astro";
+
+const frontmatter = {
+  title: "Web OSINT Toolbox",
+  description:
+    "A curated set of free, third-party OSINT tools for investigating any web target. SSL, DNS, threat intel, traffic, and reputation lookups in one place.",
+  date: "2026-04-10",
+};
+---
+
+<MarkdownLayout frontmatter={frontmatter}>
+  <p>
+    Recon is the unsexy part of bug bounty hunting and it's where most of the
+    easy wins live. Before you start poking at endpoints, you want a clear
+    picture of what the target looks like from the outside: who owns the IPs,
+    what tech stack is running, what's exposed, and whether anyone has already
+    flagged something worth a closer look.
+  </p>
+
+  <p>
+    Every tool below does some of that work for free, using data that's
+    already public. If you got here from a target's lookup page, every card
+    pre-fills with that target's domain, so each one is a single click away
+    from a real result.
+  </p>
+
+  <h2>The toolbox</h2>
+
+  <WebOsintTools />
+
+  <h2>A note on scope</h2>
+
+  <p>
+    Everything here is passive recon. You aren't poking the target's servers,
+    you're asking other companies what they've already collected about it.
+    That makes these tools safe to run against almost anything without prior
+    permission.
+  </p>
+
+  <p>
+    It does not give you a free pass to wander outside scope. If a program
+    tells you to focus on api.example.com, don't paste example.com into Shodan
+    and start chasing leads from the parent org. Use these to confirm what
+    you're looking at, surface forgotten infrastructure that's actually in
+    scope, and build a clean mental model before you touch a real request.
+  </p>
+
+  <h2>What each category is good for</h2>
+
+  <ul>
+    <li>
+      <strong>Certificates and security headers.</strong> SSL Labs and Mozilla
+      HTTP Observatory grade the TLS configuration and security headers. This
+      is often the first place a real misconfiguration shows up.
+    </li>
+    <li>
+      <strong>DNS and infrastructure.</strong> NS Lookup, DNS Checker, DNS
+      Dumpster, BGP Tools, and Censys map out related hostnames, sibling
+      domains, BGP prefixes, and other hosts on the same network. Forgotten
+      subdomains live here.
+    </li>
+    <li>
+      <strong>Threat intelligence.</strong> VirusTotal, URLScan, URLhaus,
+      URLVoid, Sucuri, AbuseIPDB, IBM X-Force, and Hudson Rock show you what
+      other people have already noticed about a target: blocklists, malware
+      sightings, infostealer logs.
+    </li>
+    <li>
+      <strong>History and traffic.</strong> Internet Archive shows what the
+      site used to look like, often with old endpoints that still work.
+      SimilarWeb and Cloudflare Radar give you a rough sense of how much
+      traffic it sees and where it comes from.
+    </li>
+    <li>
+      <strong>Tech stack.</strong> BuiltWith identifies frameworks and
+      libraries, sometimes down to versions you can check against CVE feeds.
+      PageSpeed Insights is technically a performance tool but the underlying
+      audit data leaks useful info too.
+    </li>
+    <li>
+      <strong>Sandboxing.</strong> ANY.RUN lets you detonate suspicious
+      payloads or URLs in an isolated VM so you don't have to.
+    </li>
+  </ul>
+</MarkdownLayout>
