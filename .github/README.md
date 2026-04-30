@@ -650,6 +650,7 @@
 - <img src='https://icon.horse/icon/global.com' width='16'/> [Global](https://global.com/bug-bounty-policy/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [GMX](https://immunefi.com/bug-bounty/gmx/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Gnosis Chain](https://immunefi.com/bug-bounty/gnosischain/) 💰
+- <img src='https://icon.horse/icon/www.joindeed.com' width='16'/> [Go Deed Inc](https://www.joindeed.com/security) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [GO-JEK](https://bugcrowd.com/gojek) 💰
 - <img src='https://icon.horse/icon/gocardless.com' width='16'/> [gocardless.com](https://gocardless.com) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [GoGoPool](https://immunefi.com/bug-bounty/gogopool/) 💰
@@ -745,6 +746,7 @@
 
 - <img src='https://icon.horse/icon/www.ibm.com' width='16'/> [IBM](https://www.ibm.com/security/secure-engineering/report.html) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Ibotta](https://bugcrowd.com/ibotta) 💰
+- <img src='https://icon.horse/icon/iceline-hosting.com' width='16'/> [Iceline Hosting](https://iceline-hosting.com/bug-bounty) 🏅 🎁
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Ichi](https://immunefi.com/bug-bounty/ichi/) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [ICI PARIS XL](https://www.intigriti.com/programs/aswatson/iciparisxl/detail) 💰
 - <img src='https://icon.horse/icon/support.iconfinder.com' width='16'/> [IconFinder](https://support.iconfinder.com/en/articles/18178-responsible-disclosure-of-security-vulnerabilities) 🏅
@@ -1771,6 +1773,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Whmcs](https://bugcrowd.com/whmcs) 💰 🏅
 - <img src='https://icon.horse/icon/www.whoop.com' width='16'/> [Whoop Bug Bounty](https://www.whoop.com) 💰
 - <img src='https://icon.horse/icon/wickr.com' width='16'/> [Wickr](https://wickr.com/security/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/www.wikimint.com' width='16'/> [Wikimint](https://www.wikimint.com/legal#security-hall-of-fame) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Wildcat Protocol](https://immunefi.com/bug-bounty/wildcatprotocol/) 💰
 - <img src='https://icon.horse/icon/www.winni.in' width='16'/> [Winni](https://www.winni.in/bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/www.wisdomtree.com' width='16'/> [WisdomTree, Inc.](https://www.wisdomtree.com) 💰

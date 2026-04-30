@@ -63,6 +63,29 @@ companies:
   response_sla_days: 5
   standards:
   - ISO 29147
+- company: Go Deed Inc
+  url: https://www.joindeed.com/security
+  contact: mailto:security@joindeed.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: Deed do not offer monetary payouts through their bug bounty program, as they believe security researchers and pentesters should be fairly compensated rather than contributing unpaid labor for unspecified rewards. However, as a token of appreciation for responsibly disclosed vulnerabilities, offer Deed swag and recognition in their Security Hall of Fame.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  out_of_scope:
+  - '```text'
+  - '```'
+  domains:
+  - '```text'
+  - '```'
+  hall_of_fame_url: https://www.joindeed.com/security
+  standards:
+  - '```text'
+  - '```'
 - company: Hitachi
   url: https://www.hitachi.com/hirt/
   contact: https://www8.hitachi.co.jp/inquiry/hitachi-ltd/it/hirt/en/form.jsp
@@ -84,6 +107,48 @@ companies:
   - ISO 29147
   - ISO 30111
   hall_of_fame_url: https://www.hitachi.com/hirt/security/acknowledgments.html
+- company: Iceline Hosting
+  url: https://iceline-hosting.com/bug-bounty
+  contact: mailto:reply@support.iceline-hosting.com
+  rewards:
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: iceline-hosting.com
+    type: Iceline main website
+  - target: shield.iceline-hosting.com
+    type: Iceline Shield
+  - target: game.iceline-hosting.com
+    type: Iceline Game Panel
+  - target: billing.iceline-hosting.com
+    type: Iceline billing
+  - target: vps.iceline-hosting.com
+    type: Iceline VPS panel
+  - target: status.iceline-hosting.com
+    type: Status page
+  - target: auth.iceline-hosting.com
+    type: Auth
+  out_of_scope:
+  - Third-party services we don’t control (e.g. CDN, infrastructure providers)
+  - Social engineering, phishing, DoS/DDoS
+  - Known dependency issues without a working exploit
+  - Low-impact issues with no demonstrable impact
+  domains:
+  - iceline-hosting.com
+  - shield.iceline-hosting.com
+  - game.iceline-hosting.com
+  - billing.iceline-hosting.com
+  - vps.iceline-hosting.com
+  - status.iceline-hosting.com
+  - auth.iceline-hosting.com
+  reporting_url: https://support.retraflow.io/iceline-hosting
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
@@ -131,6 +196,31 @@ companies:
 - company: Volvo
   url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
   contact: mailto:responsible-disclosure@volvocars.com
+- company: Wikimint
+  url: https://www.wikimint.com/legal#security-hall-of-fame
+  contact: mailto:support@wikimint.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: Wikimint appreciates security researchers and ethical hackers who responsibly disclose vulnerabilities. Valid security reports may be acknowledged here with the researcher’s permission.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  out_of_scope:
+  - '```text'
+  - Third-party services
+  - '```'
+  domains:
+  - '```text'
+  - '*.wikimint.com'
+  - '```'
+  reporting_url: https://www.wikimint.com/legal#security-hall-of-fame
+  standards:
+  - '```text'
+  - '```'
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
