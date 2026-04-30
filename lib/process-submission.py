@@ -73,6 +73,8 @@ TEXTAREA_LIST_FIELDS = {"domains", "out_of_scope", "standards"}
 
 NO_RESPONSE = "_No response_"
 
+CODE_FENCE_RE = re.compile(r"^```[A-Za-z0-9_-]*\s*$")
+
 
 def parse_issue_body(body):
     """Split issue body on ### headings into {field_id: raw_value} dict."""
@@ -116,8 +118,14 @@ def parse_scope(raw):
 
 
 def parse_textarea_list(raw):
-    """Split textarea on newlines, filter empty."""
-    return [line.strip() for line in raw.splitlines() if line.strip()]
+    """Split textarea on newlines, filter empty and markdown code fences."""
+    result = []
+    for line in raw.splitlines():
+        stripped = line.strip()
+        if not stripped or CODE_FENCE_RE.match(stripped):
+            continue
+        result.append(stripped)
+    return result
 
 
 def normalize_url(value):
@@ -149,7 +157,7 @@ def build_entry(parsed):
     """Convert parsed fields into a program entry dict."""
     entry = {}
 
-    URL_FIELDS = {"url", "pgp_key", "testing_policy_url",
+    URL_FIELDS = {"url", "contact", "pgp_key", "testing_policy_url",
                    "legal_terms_url", "hall_of_fame_url", "reporting_url"}
 
     # Simple strings
@@ -335,7 +343,7 @@ def main():
 
     # Set outputs
     slug = slugify(entry["company"])
-    branch = f"program/{slug}-{issue_number}"
+    branch = f"program/{slug}-{issue_number}" if slug else f"program/{issue_number}"
     company = entry["company"]
 
     rewards_str = ", ".join(entry.get("rewards", [])) or "N/A"
@@ -351,7 +359,7 @@ def main():
         f"| Type | {program_type} |\n"
         f"| Status | {status} |\n"
         f"| Rewards | {rewards_str} |\n\n"
-        f"@{issue_author} - please review changes, so we can get this merged! 🎉"
+        f"Thanks @{issue_author} for this submission 🎉\nPlease review changes, so we can get this merged"
     )
 
     set_output("valid", "true")

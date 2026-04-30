@@ -20,7 +20,9 @@ INDEPENDENT_PATH = os.path.join(SCRIPT_DIR, "..", "independent-programs.yml")
 
 
 def validate_file(file_path, schema):
-    """Validate all entries in a YAML file against the schema.
+    """Validate all entries in a YAML file against the schema, and confirm
+    they are sorted alphabetically by company (case-insensitive) — the
+    submission script relies on this for its insertion logic.
     Returns (total, error_count)."""
     if not os.path.exists(file_path):
         return 0, 0
@@ -30,13 +32,21 @@ def validate_file(file_path, schema):
 
     entries = data.get("companies", [])
     errors = 0
+    label = os.path.basename(file_path)
 
     for i, entry in enumerate(entries):
         try:
             jsonschema.validate(entry, schema)
         except jsonschema.ValidationError as e:
             name = entry.get("company", "?")
-            print(f"{os.path.basename(file_path)} entry {i} ({name}): {e.message}", file=sys.stderr)
+            print(f"{label} entry {i} ({name}): {e.message}", file=sys.stderr)
+            errors += 1
+
+    names = [e.get("company", "") for e in entries]
+    for i in range(1, len(names)):
+        if names[i].lower() < names[i - 1].lower():
+            print(f"{label}: out of order at index {i}: "
+                  f"{names[i]!r} should precede {names[i - 1]!r}", file=sys.stderr)
             errors += 1
 
     return len(entries), errors
