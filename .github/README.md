@@ -456,6 +456,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Django](https://hackerone.com/django) 💰 🏅
 - <img src='https://icon.horse/icon/security.dji.com' width='16'/> [DJI](https://security.dji.com/policy) 💰 🏅
 - <img src='https://icon.horse/icon/dnsimple.com' width='16'/> [DNSimple](https://dnsimple.com/security) 🏅
+- <img src='https://icon.horse/icon/dnslookup.pro' width='16'/> [DNSLookup](https://dnslookup.pro/security) 🎁
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Doctolib](https://yeswehack.com/programs/doctolib-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [DODO](https://immunefi.com/bug-bounty/dodo/) 💰
 - <img src='https://icon.horse/icon/todoist.com' width='16'/> [Doist](https://todoist.com/help/articles/doist-bug-bounty-policy) 💰
