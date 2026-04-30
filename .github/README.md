@@ -1772,6 +1772,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Whmcs](https://bugcrowd.com/whmcs) 💰 🏅
 - <img src='https://icon.horse/icon/www.whoop.com' width='16'/> [Whoop Bug Bounty](https://www.whoop.com) 💰
 - <img src='https://icon.horse/icon/wickr.com' width='16'/> [Wickr](https://wickr.com/security/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/www.wikimint.com' width='16'/> [Wikimint](https://www.wikimint.com/legal#security-hall-of-fame) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Wildcat Protocol](https://immunefi.com/bug-bounty/wildcatprotocol/) 💰
 - <img src='https://icon.horse/icon/www.winni.in' width='16'/> [Winni](https://www.winni.in/bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/www.wisdomtree.com' width='16'/> [WisdomTree, Inc.](https://www.wisdomtree.com) 💰
