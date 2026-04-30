@@ -173,6 +173,31 @@ companies:
 - company: Volvo
   url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
   contact: mailto:responsible-disclosure@volvocars.com
+- company: Wikimint
+  url: https://www.wikimint.com/legal#security-hall-of-fame
+  contact: mailto:support@wikimint.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: Wikimint appreciates security researchers and ethical hackers who responsibly disclose vulnerabilities. Valid security reports may be acknowledged here with the researcher’s permission.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  out_of_scope:
+  - '```text'
+  - Third-party services
+  - '```'
+  domains:
+  - '```text'
+  - '*.wikimint.com'
+  - '```'
+  reporting_url: https://www.wikimint.com/legal#security-hall-of-fame
+  standards:
+  - '```text'
+  - '```'
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
