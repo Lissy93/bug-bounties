@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy } from "svelte";
 
   export let domain: string = "";
   export let type: "website" | "github" | "package" | "forge" | "app" =
     "website";
+  export let visible: boolean = true;
 
   const websiteSteps = [
     "Resolving domain",
@@ -64,17 +65,33 @@
   $: steps = stepMap[type] || websiteSteps;
 
   let activeStep = 0;
-  let interval: ReturnType<typeof setInterval>;
+  let interval: ReturnType<typeof setInterval> | undefined;
 
-  onMount(() => {
+  function start() {
+    if (interval || typeof window === "undefined") return;
+    activeStep = 0;
     interval = setInterval(() => {
       activeStep = (activeStep + 1) % steps.length;
     }, 800);
-    return () => clearInterval(interval);
-  });
+  }
+
+  function stop() {
+    if (interval) clearInterval(interval);
+    interval = undefined;
+  }
+
+  $: if (visible) start();
+  else stop();
+  onDestroy(stop);
 </script>
 
-<div class="loading-overlay" role="status" aria-live="polite">
+<div
+  class="loading-overlay"
+  class:visible
+  role="status"
+  aria-live="polite"
+  aria-hidden={!visible}
+>
   <div class="loading-card">
     <div class="scanner">
       <div class="ring"></div>
@@ -102,11 +119,15 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     background: color-mix(in srgb, var(--background) 85%, transparent);
     backdrop-filter: blur(4px);
+  }
+
+  .loading-overlay.visible {
+    display: flex;
   }
 
   .loading-card {

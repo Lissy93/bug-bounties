@@ -8,19 +8,26 @@ interface Props {
 
 const { limit } = Astro.props;
 
-const guideFiles = import.meta.glob("../../pages/learn/*.md", { eager: true });
+type GuideModule = {
+  url: string;
+  frontmatter: { title: string; description: string; date: string };
+};
+
+const guideFiles = import.meta.glob<GuideModule>("../../pages/learn/*.md", {
+  eager: true,
+});
 const allGuides = Object.values(guideFiles)
-  .map((mod: any) => ({
-    title: mod.frontmatter.title as string,
-    description: mod.frontmatter.description as string,
-    url: mod.url as string,
-    date: mod.frontmatter.date as string,
+  .map((mod) => ({
+    title: mod.frontmatter.title,
+    description: mod.frontmatter.description,
+    url: mod.url,
+    date: mod.frontmatter.date,
   }))
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-const items: LinkGridItem[] = (limit ? allGuides.slice(0, limit) : allGuides).map(
-  ({ title, description, url }) => ({ title, description, url }),
-);
+const items: LinkGridItem[] = (
+  limit ? allGuides.slice(0, limit) : allGuides
+).map(({ title, description, url }) => ({ title, description, url }));
 ---
 
 <LinkGrid items={items} external={false} />

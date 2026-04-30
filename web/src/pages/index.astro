@@ -27,16 +27,22 @@ const jsonLd = homeSchema(
   jsonLd={jsonLd}
 >
   <Header />
-  <section class="lookup-card">
-    <h2>Find Reporting Method</h2>
-    <p>
-      Discovered a security vulnerability on a website, and not sure where to
-      report it? Enter the website URL or GitHub repo, and we'll search across
-      all disclosure programs, security contact details and bug bounties to find
-      you the best channel to securely disclose the vulnerability.
-    </p>
-    <LookupSearch bare client:idle />
-  </section>
+  <div class="entrypoint-cards">
+    <section class="lookup-card">
+      <h2>Find Reporting Method</h2>
+      <p>
+        Discovered a security vulnerability on a website, and not sure where to
+        report it? Enter the URL to a website, repo, app or software package,
+        and we'll search all VDPs, bounties and security contact methods to find
+        you the best channel to securely disclose the vulnerability.
+      </p>
+      <LookupSearch bare client:idle />
+    </section>
+    <section class="api-card">
+      <h2>API Access</h2>
+      <p>X</p>
+    </section>
+  </div>
   <hr />
   <SearchableList
     programs={listPrograms}
@@ -55,12 +61,18 @@ const jsonLd = homeSchema(
     margin: 1.6rem auto;
     width: var(--content-width, 90%);
   }
-  .lookup-card {
+  .entrypoint-cards {
+    display: flex;
+    gap: 1rem;
     width: var(--content-width);
     margin: 0 auto 1rem;
+  }
+  .lookup-card,
+  .api-card {
     padding: 1.25rem;
     background: var(--background-lighter);
     border-radius: var(--curve);
+    flex: 1;
 
     & h2 {
       margin: 0 0 0.35rem;

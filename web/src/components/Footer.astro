@@ -1,30 +1,40 @@
 ---
 const year = new Date().getFullYear();
+const ext = { target: "_blank", rel: "noopener noreferrer" };
+const REPO = "https://github.com/Lissy93/bug-bounties";
+
+const navLinks: { href: string; label: string; external?: boolean }[] = [
+  { href: "/about", label: "About" },
+  { href: REPO, label: "Source", external: true },
+  { href: `${REPO}/blob/main/LICENSE`, label: "License", external: true },
+  {
+    href: `${REPO}/blob/main/.github/CONTRIBUTING.md`,
+    label: "Contribute",
+    external: true,
+  },
+  {
+    href: "https://apps.aliciasykes.com",
+    label: "More Apps...",
+    external: true,
+  },
+];
 ---
 
 <footer>
   <div>
     <a href="https://bug-bounties.as93.net">Bug Bounties</a> is licensed under
-    <a href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE">MIT</a>
-    © <a href="https://github.com/Lissy93">Alicia Sykes</a>
+    <a href={`${REPO}/blob/main/LICENSE`} {...ext}>MIT</a> ©
+    <a href="https://github.com/Lissy93" {...ext}>Alicia Sykes</a>
     {" " + year}
   </div>
   <nav aria-label="Footer">
-    <a href="/about">About</a>
-    <a href="https://github.com/Lissy93/bug-bounties" rel="noopener noreferrer"
-      >Source</a
-    >
-    <a
-      href="https://github.com/Lissy93/bug-bounties/blob/main/LICENSE"
-      rel="noopener noreferrer">License</a
-    >
-    <a
-      href="https://github.com/Lissy93/bug-bounties/blob/main/.github/CONTRIBUTING.md"
-      rel="noopener noreferrer">Contribute</a
-    >
-    <a href="https://apps.aliciasykes.com" rel="noopener noreferrer"
-      >More Apps...</a
-    >
+    {
+      navLinks.map(({ href, label, external }) => (
+        <a href={href} {...(external ? ext : {})}>
+          {label}
+        </a>
+      ))
+    }
   </nav>
 </footer>
 

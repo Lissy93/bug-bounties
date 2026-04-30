@@ -23,7 +23,7 @@ async function resolveAdapter() {
 		}
 		case 'node': {
 			const { default: node } = await import('@astrojs/node');
-			return node({ mode: 'standalone' });
+			return node({ mode: 'middleware' });
 		}
 		case 'static':
 		default:

@@ -177,9 +177,7 @@
   {/if}
 </div>
 
-{#if loading}
-  <LookupLoading domain={loadingDomain} type={loadingType} />
-{/if}
+<LookupLoading visible={loading} domain={loadingDomain} type={loadingType} />
 
 <style>
   .lookup-search {

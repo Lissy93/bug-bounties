@@ -26,9 +26,7 @@
   </button>
 </Tooltip>
 
-{#if loading}
-  <LookupLoading {domain} {type} />
-{/if}
+<LookupLoading visible={loading} {domain} {type} />
 
 <style>
   .deep-toggle {

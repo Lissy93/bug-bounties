@@ -48,12 +48,17 @@ const formatDate = (iso: string) =>
     <h1>{frontmatter.title}</h1>
     <p class="meta">
       <time datetime={frontmatter.date}>{formatDate(frontmatter.date)}</time>
-      {frontmatter.updated && (
-        <span>
-          {" "}&middot; Updated{" "}
-          <time datetime={frontmatter.updated}>{formatDate(frontmatter.updated)}</time>
-        </span>
-      )}
+      {
+        frontmatter.updated && (
+          <span>
+            {" "}
+            &middot; Updated{" "}
+            <time datetime={frontmatter.updated}>
+              {formatDate(frontmatter.updated)}
+            </time>
+          </span>
+        )
+      }
     </p>
     <slot />
   </article>
@@ -100,10 +105,12 @@ const formatDate = (iso: string) =>
       margin-bottom: 1.5rem;
     }
 
-    h2, h3, h4 {
-        font-family: "Roboto", sans-serif;
-        color: var(--foreground);
-        margin: 1rem 0 0.2rem 0;
+    h2,
+    h3,
+    h4 {
+      font-family: "Roboto", sans-serif;
+      color: var(--foreground);
+      margin: 1rem 0 0.2rem 0;
     }
 
     h2 {
@@ -142,14 +149,14 @@ const formatDate = (iso: string) =>
       color: var(--foreground);
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 1.5rem;
       margin: 0.75rem 0;
       li {
         margin-bottom: 0.3rem;
       }
     }
-
 
     code {
       background: var(--background-darker);
