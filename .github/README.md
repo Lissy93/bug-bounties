@@ -650,6 +650,7 @@
 - <img src='https://icon.horse/icon/global.com' width='16'/> [Global](https://global.com/bug-bounty-policy/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [GMX](https://immunefi.com/bug-bounty/gmx/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Gnosis Chain](https://immunefi.com/bug-bounty/gnosischain/) 💰
+- <img src='https://icon.horse/icon/www.joindeed.com' width='16'/> [Go Deed Inc](https://www.joindeed.com/security) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [GO-JEK](https://bugcrowd.com/gojek) 💰
 - <img src='https://icon.horse/icon/gocardless.com' width='16'/> [gocardless.com](https://gocardless.com) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [GoGoPool](https://immunefi.com/bug-bounty/gogopool/) 💰
