@@ -113,14 +113,11 @@ companies:
   - target: auth.iceline-hosting.com
     type: Auth
   out_of_scope:
-  - '```text'
   - Third-party services we don’t control (e.g. CDN, infrastructure providers)
   - Social engineering, phishing, DoS/DDoS
   - Known dependency issues without a working exploit
   - Low-impact issues with no demonstrable impact
-  - '```'
   domains:
-  - '```text'
   - iceline-hosting.com
   - shield.iceline-hosting.com
   - game.iceline-hosting.com
@@ -128,11 +125,7 @@ companies:
   - vps.iceline-hosting.com
   - status.iceline-hosting.com
   - auth.iceline-hosting.com
-  - '```'
   reporting_url: https://support.retraflow.io/iceline-hosting
-  standards:
-  - '```text'
-  - '```'
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
