@@ -63,6 +63,34 @@ companies:
   response_sla_days: 5
   standards:
   - ISO 29147
+- company: DNSLookup
+  url: https://dnslookup.pro/security
+  contact: mailto:security@dnslookup.pro
+  rewards:
+  - '*swag'
+  program_type: vdp
+  status: active
+  description: |-
+    DNSLookup does not currently offer a formal bug bounty program with monetary rewards, but deeply appreciates the contributions of security researchers.
+
+    What is Offered:
+    - Public Recognition: Listing in the Security Hall of Fame (with the researcher’s permission)
+    - Swag: DNSLookup.pro merchandise for significant findings
+    - Professional Reference: LinkedIn endorsement or reference letter
+    - CVE Credit: Attribution if the vulnerability is assigned a CVE ID
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  out_of_scope:
+  - Third-party services (Cloudflare, Google Analytics, etc.)
+  - Social engineering attacks against our staff
+  - Physical attacks on infrastructure
+  - Denial of Service (DoS/DDoS) attacks
+  domains:
+  - '*.dnslookup.pro'
+  hall_of_fame_url: https://dnslookup.pro/security
 - company: Go Deed Inc
   url: https://www.joindeed.com/security
   contact: mailto:security@joindeed.com
@@ -76,16 +104,7 @@ companies:
   - social_engineering
   - phishing
   - physical_access
-  out_of_scope:
-  - '```text'
-  - '```'
-  domains:
-  - '```text'
-  - '```'
   hall_of_fame_url: https://www.joindeed.com/security
-  standards:
-  - '```text'
-  - '```'
 - company: Hitachi
   url: https://www.hitachi.com/hirt/
   contact: https://www8.hitachi.co.jp/inquiry/hitachi-ltd/it/hirt/en/form.jsp
@@ -210,17 +229,10 @@ companies:
   - phishing
   - physical_access
   out_of_scope:
-  - '```text'
   - Third-party services
-  - '```'
   domains:
-  - '```text'
   - '*.wikimint.com'
-  - '```'
   reporting_url: https://www.wikimint.com/legal#security-hall-of-fame
-  standards:
-  - '```text'
-  - '```'
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
