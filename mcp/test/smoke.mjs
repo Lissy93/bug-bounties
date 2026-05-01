@@ -155,6 +155,18 @@ async function main() {
   });
   check("non-http scheme rejected", nonHttp.isError === true);
 
+  const empty = await call("tools/call", {
+    name: "search_programs",
+    arguments: { q: "zzzzzzznonexistentcompany", limit: 1 },
+  });
+  const hint = empty.structuredContent?.hint;
+  check(
+    "no-results search returns hint with lookup + submit suggestions",
+    Array.isArray(hint?.suggestions) &&
+      hint.suggestions.some((s) => s.action === "lookup") &&
+      hint.suggestions.some((s) => s.action === "submit"),
+  );
+
   const stats = await call("tools/call", {
     name: "get_stats",
     arguments: {},

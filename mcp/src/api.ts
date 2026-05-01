@@ -68,8 +68,11 @@ async function apiGet(
   try {
     body = JSON.parse(text);
   } catch {
+    const looksHtml = /^\s*<(?:!doctype|html)/i.test(text);
     throw new ApiError(
-      `Invalid JSON from upstream (status ${res.status})`,
+      looksHtml
+        ? `Upstream returned HTML, not JSON (status ${res.status}). The endpoint may not exist on this instance.`
+        : `Invalid JSON from upstream (status ${res.status})`,
       res.status,
     );
   }

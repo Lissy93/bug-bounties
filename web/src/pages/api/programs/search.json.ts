@@ -23,6 +23,32 @@ const VALID_SORTS: ReadonlySet<SortMode> = new Set([
 ]);
 const VALID_PROGRAM_TYPES = new Set(["bounty", "vdp", "hybrid"]);
 
+const SUBMIT_URL =
+  "https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml";
+
+function noResultsHint(q: string) {
+  return {
+    message:
+      "No bug bounty or VDP program matched this query. The company may not have a public program, or it may not yet be listed in this directory.",
+    suggestions: [
+      {
+        action: "lookup",
+        description:
+          "Search for security contact channels (security.txt, RDAP, DNS, headers, common pages) for this target instead.",
+        endpoint: "/api/lookup/website",
+        param: "url",
+        example: `/api/lookup/website?url=${encodeURIComponent(q)}`,
+      },
+      {
+        action: "submit",
+        description:
+          "If you know of a program we have not yet listed, submit it to the directory.",
+        url: SUBMIT_URL,
+      },
+    ],
+  };
+}
+
 const baseHeaders = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
@@ -172,6 +198,7 @@ export const GET: APIRoute = async ({ url }) => {
       generated: new Date().toISOString(),
     },
     results: page,
+    ...(scored.length === 0 ? { hint: noResultsHint(q) } : {}),
   });
 };
 
