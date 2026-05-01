@@ -265,6 +265,41 @@ companies:
   domains:
   - '*.wikimint.com'
   reporting_url: https://www.wikimint.com/legal#security-hall-of-fame
+- company: Yellow.ai
+  url: https://yellow.ai/vulnerability-disclosure-program/
+  contact: mailto:infosec@yellow.ai
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: Yellow.ai (earlier called Yellow Messenger) is an Indian-origin enterprise AI company that builds conversational AI / chatbot automation platforms for businesses. This Vulnerability Disclosure Program (VDP) policy outlines our guidelines for security researchers who discover and report potential vulnerabilities in our systems. We appreciate the efforts of security researchers in helping us maintain a secure environment.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: cloud.yellow.ai
+    type: web
+  out_of_scope:
+  - All other subdomains and services not explicitly mentioned as in-scope. While other subdomains are generally out of scope, we encourage researchers to report critical findings in these areas. Such reports will be reviewed on a case-by-case basis.
+  - Denial of Service (DoS) attacks.
+  - Vulnerabilities found in third-party applications or services not directly controlled by Yellow.ai.
+  - Missing best practices in Content Security Policy.
+  - Missing best practices in SSL/TLS configuration.
+  - Missing email best practices (Invalid, incomplete, or missing SPF/DKIM/DMARC records, etc.)
+  - Missing HttpOnly or Secure flags on cookies.
+  - Information disclosure of public information.
+  - Self-XSS (Cross-Site Scripting that only affects the user themselves).
+  - Clickjacking on pages with no sensitive actions.
+  - Previously known vulnerable libraries without a working Proof of Concept.
+  - Rate limiting or brute force issues on non-authentication endpoints.
+  - Social engineering (e.g., phishing, vishing, smishing).
+  - Software version disclosure / Banner identification issues/headers, or public files (e.g., robots.txt).
+  domains:
+  - cloud.yellow.ai
+  response_sla_days: 3
+  reporting_url: https://yellow.ai/vulnerability-disclosure-program/ [Embedded Hackerone Submission Form]
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
