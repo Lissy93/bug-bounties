@@ -70,18 +70,14 @@ companies:
   - '*swag'
   program_type: vdp
   status: active
-  description: 'DNSLookup does not currently offer a formal bug bounty program with monetary rewards, but deeply appreciates the contributions of security researchers.
-
+  description: |-
+    DNSLookup does not currently offer a formal bug bounty program with monetary rewards, but deeply appreciates the contributions of security researchers.
 
     What is Offered:
-
     - Public Recognition: Listing in the Security Hall of Fame (with the researcher’s permission)
-
     - Swag: DNSLookup.pro merchandise for significant findings
-
     - Professional Reference: LinkedIn endorsement or reference letter
-
-    - CVE Credit: Attribution if the vulnerability is assigned a CVE ID'
+    - CVE Credit: Attribution if the vulnerability is assigned a CVE ID
   excluded_methods:
   - dos
   - social_engineering
@@ -210,10 +206,9 @@ companies:
   - '*recognition'
   program_type: vdp
   status: active
-  description: 'Recap Innovations believe in recognizing security researchers who help us improve our security posture. With your permission, we will:
-
+  description: |-
+    Recap Innovations believe in recognizing security researchers who help us improve our security posture. With your permission, we will:
     - Acknowledge your contribution in security acknowledgments page (if you wish to be named)
-
     - Provide a reference letter for verified, high-quality reports upon request'
   excluded_methods:
   - dos
@@ -224,7 +219,6 @@ companies:
   - target: '*.recap-innovations.com'
     type: web
   out_of_scope:
-  - '```text'
   - Social engineering attacks (phishing, etc.)
   - Denial of Service (DoS/DDoS) attacks
   - Physical security testing
@@ -233,16 +227,10 @@ companies:
   - Vulnerabilities in outdated browsers or operating systems
   - Reports from automated tools without validation
   - Issues already reported or publicly known
-  - '```'
   domains:
-  - '```text'
   - '*.recap-innovations.com'
-  - '```'
   response_sla_days: 2
   hall_of_fame_url: https://recap-innovations.com/security/
-  standards:
-  - '```text'
-  - '```'
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
