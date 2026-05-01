@@ -47,17 +47,19 @@ const jsonLd = homeSchema(
       <ul class="endpoints">
         <li>
           <span class="tag">MCP</span>
-          <span class="lead">
-            For Claude Desktop, Cursor, Cline and other MCP clients
-          </span>
+          <div class="lead">
+            <span>For Claude Desktop, Cursor, Cline and other MCP clients</span>
+            <a href="/mcp" title="MCP Documentation">Docs →</a>
+          </div>
           <code>npx bug-bounties-mcp</code>
         </li>
         <li>
-          <span class="tag">REST API</span>
-          <span class="lead">
-            JSON endpoints for programmatically searching VDPs
-          </span>
-          <a href="/api">bug-bounties.as93.net/api</a>
+          <span class="tag">API</span>
+          <div class="lead">
+            <span>JSON endpoints for programmatically searching VDPs</span>
+            <a href="/api" title="API Documentation">Docs →</a>
+          </div>
+          <code>bug-bounties.as93.net/api</code>
         </li>
       </ul>
     </section>
@@ -137,6 +139,12 @@ const jsonLd = homeSchema(
     font-size: 0.8rem;
     line-height: 1.35;
     color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: anchor-center;
+    a {
+      overflow: hidden;
+    }
   }
   .endpoints code,
   .endpoints a {

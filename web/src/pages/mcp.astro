@@ -1,0 +1,539 @@
+---
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { mcpSchema } from "@lib/json-ld";
+
+const NPM_URL = "https://www.npmjs.com/package/bug-bounties-mcp";
+const GH_URL = "https://github.com/Lissy93/bug-bounties/tree/main/mcp";
+
+const tools = [
+  {
+    name: "search_programs",
+    use: "Free-text + fuzzy search across every program. In-memory; cheapest call. Returns 'hint' suggesting fallbacks when nothing matches.",
+  },
+  {
+    name: "get_program",
+    use: "Full program detail by slug, including scope, payout table, response SLAs, KEV/EPSS data, and platform metadata.",
+  },
+  {
+    name: "lookup_website",
+    use: "17-source security-contact lookup for any website (security.txt, RDAP, DNS, headers, common pages). Rate-limited 8/min.",
+  },
+  {
+    name: "lookup_github",
+    use: "SECURITY.md, advisories, owner profile, commit emails, CODEOWNERS, issue templates for a GitHub repo.",
+  },
+  {
+    name: "lookup_package",
+    use: "npm, PyPI or crates registry metadata, linked repository, project homepage.",
+  },
+  {
+    name: "lookup_forge",
+    use: "Same idea as lookup_github, for GitLab and Codeberg.",
+  },
+  {
+    name: "lookup_app",
+    use: "Google Play / Apple App Store listing plus the developer's website.",
+  },
+  { name: "get_stats", use: "Aggregate stats across the whole database." },
+];
+
+const resources = [
+  {
+    uri: "bug-bounties://programs",
+    use: "Browseable lean list of every program (no tool call needed).",
+  },
+  { uri: "bug-bounties://stats", use: "Aggregate stats." },
+  {
+    uri: "bug-bounties://programs/{slug}",
+    use: "One program by slug, with full enrichment.",
+  },
+];
+
+const workflows = [
+  {
+    title: "Filter recon output for paid targets",
+    detail:
+      "Pipe a subdomain or asset list through the database to surface which apex domains run paid programs (and which are out of scope).",
+    example:
+      "From this subfinder output, list each apex domain alongside its bounty status, max payout, and safe harbor.",
+  },
+  {
+    title: "Find the right disclosure path",
+    detail:
+      "When the affected service isn't on a platform, the agent can hunt down a tiered list of contact channels (security.txt, RDAP, DNS, etc.) and rank them by trust.",
+    example:
+      "I found a stored XSS on shop.example.com. What's the most trusted disclosure channel?",
+  },
+  {
+    title: "Audit dependencies for security contacts",
+    detail:
+      "Run a lockfile through and group each dependency by whether it has a bounty program, a verified security contact, or neither.",
+    example:
+      "From this package-lock.json, group each direct dep into: has bounty, has verified contact, or no clear channel.",
+  },
+  {
+    title: "Shortlist programs that fit your criteria",
+    detail:
+      "Filter by payout, scope type, safe harbor, recent KEV activity, or platform to find programs worth your time.",
+    example:
+      "List active programs with full safe harbor, max_payout >= $5k, and at least one KEV in 2025.",
+  },
+  {
+    title: "Reduce duplicate-report risk",
+    detail:
+      "Before submitting, pull a program's full record to check resolution time, response efficiency, and how it handles disclosure conflicts.",
+    example:
+      "Pull the full record for hackerone/example. Is response time and resolution SLA published? Does it allow disclosure?",
+  },
+];
+
+const claudeConfig = `{
+  "mcpServers": {
+    "bug-bounties": {
+      "command": "npx",
+      "args": ["-y", "bug-bounties-mcp"]
+    }
+  }
+}`;
+
+const clients = [
+  {
+    name: "Claude Desktop",
+    body: `Edit <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on macOS, or <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> on Windows. Paste the JSON above. Restart Claude Desktop.`,
+  },
+  {
+    name: "Claude Code (CLI)",
+    body: `One-liner: <code>claude mcp add bug-bounties npx -- -y bug-bounties-mcp</code>. Confirm with <code>claude mcp list</code>.`,
+  },
+  {
+    name: "Cursor",
+    body: `Settings -> MCP -> "Add new global MCP server". Paste the JSON above into the editor that opens.`,
+  },
+  {
+    name: "Cline (VS Code)",
+    body: `Open the Cline panel -> "MCP Servers" -> "Configure MCP Servers". Paste the JSON above into <code>cline_mcp_settings.json</code>.`,
+  },
+  {
+    name: "Continue",
+    body: `Edit <code>~/.continue/config.yaml</code> and add the entry under <code>mcpServers</code>, mirroring the JSON shape above.`,
+  },
+  {
+    name: "Windsurf",
+    body: `Cascade -> "MCP Servers" -> "Add custom server". Paste the JSON above.`,
+  },
+  {
+    name: "Zed",
+    body: `Open <code>~/.config/zed/settings.json</code> and add an entry under <code>context_servers</code> with the same <code>command</code>/<code>args</code> shape.`,
+  },
+  {
+    name: "Goose (Block)",
+    body: `Edit <code>~/.config/goose/config.yaml</code> and add a new entry under <code>extensions</code>: <code>type: stdio</code>, <code>cmd: npx</code>, <code>args: ["-y", "bug-bounties-mcp"]</code>.`,
+  },
+  {
+    name: "Anything else (Streamable HTTP)",
+    body: `Run <code>npx bug-bounties-mcp --http 4488</code> and point your remote MCP client at <code>http://localhost:4488/mcp</code>.`,
+  },
+];
+---
+
+<DefaultLayout
+  title="MCP Server for AI Security Workflows - Bug Bounties"
+  description="Plug 2,984+ bug bounty programs and a 17-source security-contact lookup into Claude Desktop, Claude Code, Cursor, Cline and any other MCP client. Built for agentic recon, triage, and disclosure routing."
+  jsonLd={mcpSchema()}
+>
+  <Header />
+  <article class="mcp">
+    <header class="mcp-header">
+      <h1>MCP Server</h1>
+      <div class="subtitle-wrap">
+        <p class="subtitle">
+          Bug bounty and VDP lookup for MCP-aware AI clients
+        </p>
+        <div class="badges">
+          <a href={NPM_URL} class="badge" target="_blank" rel="noopener">npm</a>
+          <a href={GH_URL} class="badge" target="_blank" rel="noopener"
+            >source</a
+          >
+          <a href="/api" class="badge">REST API</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="card" id="why">
+      <h2>Why this exists</h2>
+      <p>
+        AI agents are increasingly part of security workflows: recon pipelines,
+        dependency audits, triage queues, autonomous bug hunting. Every one of
+        those workflows eventually hits the same questions. Is this target a
+        known program? What's the scope and payout? Where do I responsibly
+        disclose if there isn't a program?
+      </p>
+      <p>
+        A model can scrape HackerOne and Bugcrowd itself, but that's slow,
+        flaky, and burns thousands of tokens per query. This MCP server gives
+        the agent the answer in one structured call: ranked, deduplicated, with
+        explicit tool descriptions the model can reason over. Read-only,
+        no-auth, free.
+      </p>
+    </section>
+
+    <section class="card" id="quickstart">
+      <h2>Quick start</h2>
+      <p>
+        Add this to your MCP client's config. Works for Claude Desktop, Cursor,
+        Cline, Continue, Windsurf, and any other stdio MCP client out of the
+        box.
+      </p>
+      <pre><code>{claudeConfig}</code></pre>
+      <p class="note">
+        Or point any HTTP client at it: <code
+          >npx bug-bounties-mcp --http 4488</code
+        > then connect to <code>http://localhost:4488/mcp</code>.
+      </p>
+    </section>
+
+    <section class="card" id="surface">
+      <h2>What you get</h2>
+      <p>
+        8 read-only tools and 3 resources. Tool descriptions tell the agent
+        which call is cheap (search the curated DB) and which is expensive (live
+        network lookup), so it picks the right one without prompting.
+      </p>
+      <h3>Tools</h3>
+      <ul class="surface">
+        {
+          tools.map((t) => (
+            <li>
+              <code>{t.name}</code>
+              <span>{t.use}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <h3>Resources</h3>
+      <ul class="surface">
+        {
+          resources.map((r) => (
+            <li>
+              <code>{r.uri}</code>
+              <span>{r.use}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="card" id="clients">
+      <h2>Setup per client</h2>
+      <p>Same JSON config in nearly every case. Pick yours.</p>
+      <div class="clients">
+        {
+          clients.map((c) => (
+            <details>
+              <summary>{c.name}</summary>
+              <p set:html={c.body} />
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="card" id="self-host">
+      <h2>Pointing at your own instance</h2>
+      <p>
+        The MCP server is a thin client over the public REST API. To use a fork
+        or a self-hosted deployment, override the base URL:
+      </p>
+      <pre><code>{`{
+  "mcpServers": {
+    "bug-bounties": {
+      "command": "npx",
+      "args": [
+        "-y", "bug-bounties-mcp",
+        "--api-url", "https://my-fork.example.com"
+      ]
+    }
+  }
+}`}</code></pre>
+      <p>
+        Or set <code>BUG_BOUNTIES_API_URL</code> in the environment. Your instance
+        just needs to expose the same <code>/api/*</code> routes (deploy the
+        <a href={GH_URL.replace("/mcp", "/web")}>web/</a>
+        directory from this repo).
+      </p>
+    </section>
+
+    <section class="card" id="workflows">
+      <h2>What you can ask it</h2>
+      <p>
+        Examples of how this is genuinely useful day-to-day. These are real
+        prompts you can paste into your client; the model handles the tool
+        dispatch.
+      </p>
+      <ol class="workflows">
+        {
+          workflows.map((w) => (
+            <li>
+              <h3>{w.title}</h3>
+              <p class="detail">{w.detail}</p>
+              <blockquote>{w.example}</blockquote>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="card" id="safety">
+      <h2>Safety notes</h2>
+      <ul>
+        <li>
+          Every tool is annotated <code>readOnlyHint: true</code>. Nothing the
+          agent can call has a side effect on your machine or on the upstream
+          API.
+        </li>
+        <li>
+          <code>lookup_website</code> rejects private and loopback hostnames client-side,
+          before any request leaves your machine. Defence in depth on top of the upstream
+          API's SSRF filter.
+        </li>
+        <li>
+          <code>get_program</code> validates slugs against a strict regex before interpolation.
+          No path traversal.
+        </li>
+        <li>
+          Lookup responses contain third-party scraped content (security.txt,
+          READMEs, commit metadata). Treat values as untrusted input. The tool
+          descriptions explicitly warn the model not to auto-execute URLs or
+          credentials returned.
+        </li>
+        <li>
+          The server caps response bodies at 2 MB and times out fetches at 30 s.
+        </li>
+      </ul>
+    </section>
+
+    <section class="card" id="links">
+      <h2>Links</h2>
+      <ul>
+        <li>
+          <a href={NPM_URL} target="_blank" rel="noopener">npm package</a>
+        </li>
+        <li>
+          <a href={GH_URL} target="_blank" rel="noopener">Source on GitHub</a>
+        </li>
+        <li><a href="/api">Underlying REST API</a></li>
+        <li>
+          <a
+            href="https://modelcontextprotocol.io/"
+            target="_blank"
+            rel="noopener">MCP specification</a
+          >
+        </li>
+      </ul>
+    </section>
+  </article>
+</DefaultLayout>
+
+<style>
+  .mcp {
+    width: var(--content-width);
+    margin: 0 auto 2rem;
+    color: var(--foreground);
+  }
+  .mcp-header {
+    margin: 1rem 0 1.5rem;
+  }
+  .mcp h1 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin: 0 0 0.25rem;
+  }
+  .subtitle-wrap {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0;
+    max-width: 70ch;
+    line-height: 1.5;
+  }
+  .badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+    &:hover {
+      background: var(--primary);
+      color: var(--background);
+    }
+  }
+  .card {
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    color: var(--primary);
+  }
+  h3 {
+    margin: 1rem 0 0.4rem;
+    font-size: 0.95rem;
+    color: var(--primary);
+  }
+  p {
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+  a {
+    color: var(--primary);
+  }
+  ul,
+  ol {
+    line-height: 1.6;
+    padding-left: 1.25rem;
+  }
+  code {
+    background: var(--background-darker);
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--curve);
+    font-size: 0.85em;
+  }
+  pre {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--curve);
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    & code {
+      background: transparent;
+      padding: 0;
+      font-size: inherit;
+    }
+  }
+  .note {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  ul.surface {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    & li {
+      display: grid;
+      grid-template-columns: minmax(8rem, max-content) 1fr;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.4rem 0.6rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--curve);
+    }
+    & code {
+      font-size: 0.82rem;
+      background: transparent;
+      padding: 0;
+      color: var(--foreground);
+      white-space: nowrap;
+    }
+    & span {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+  }
+  ol.workflows {
+    list-style: none;
+    padding: 0;
+    counter-reset: wf;
+    & li {
+      counter-increment: wf;
+      padding: 0.85rem 1rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--curve);
+      margin-bottom: 0.75rem;
+      &::before {
+        content: counter(wf);
+        display: inline-block;
+        margin-right: 0.5rem;
+        font-family: "Wallpoet", sans-serif;
+        color: var(--primary);
+      }
+    }
+    & h3 {
+      display: inline;
+      margin: 0;
+    }
+    & .detail {
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    & blockquote {
+      margin: 0.5rem 0 0;
+      padding: 0.5rem 0.85rem;
+      border-left: 3px solid var(--primary);
+      background: var(--background-lighter);
+      color: var(--foreground);
+      font-style: italic;
+      border-radius: 0 var(--curve) var(--curve) 0;
+    }
+  }
+  .clients {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    & details {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--curve);
+      padding: 0.5rem 0.85rem;
+    }
+    & summary {
+      cursor: pointer;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      list-style: revert;
+      &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+    }
+    & details[open] summary {
+      margin-bottom: 0.4rem;
+    }
+    & p {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+  }
+  @media (max-width: 600px) {
+    ul.surface li {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+</style>

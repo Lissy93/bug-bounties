@@ -4,9 +4,20 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
 ::selection {
   background: var(--primary);
   color: var(--background);
+}
+
+code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .card-grid {
