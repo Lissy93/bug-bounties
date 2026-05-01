@@ -1814,6 +1814,7 @@
 - <img src='https://icon.horse/icon/www.yatra.com' width='16'/> [YATRA](https://www.yatra.com/online/bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Yearn Finance](https://immunefi.com/bug-bounty/yearnfinance/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [yelay.io](https://immunefi.com/bug-bounty/yelay/) 💰
+- <img src='https://icon.horse/icon/yellow.ai' width='16'/> [Yellow.ai](https://yellow.ai/vulnerability-disclosure-program/) 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Yelp](https://hackerone.com/yelp) 💰 🏅
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Yes We Hack](https://yeswehack.com/programs/yes-we-hack) 💰
 - <img src='https://icon.horse/icon/www.yesware.com' width='16'/> [Yesware](https://www.yesware.com/security/) 🏅
