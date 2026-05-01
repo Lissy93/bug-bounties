@@ -248,7 +248,13 @@ def quoted_str_representer(dumper, data):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="'")
 
 
+def str_representer(dumper, data):
+    style = "|" if "\n" in data else None
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=style)
+
+
 yaml.add_representer(QuotedStr, quoted_str_representer)
+yaml.add_representer(str, str_representer)
 
 
 def prepare_for_yaml(obj):

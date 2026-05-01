@@ -30,9 +30,13 @@ def validate_file(file_path, schema):
     with open(file_path) as f:
         data = yaml.safe_load(f)
 
-    entries = data.get("companies", [])
-    errors = 0
     label = os.path.basename(file_path)
+    if not isinstance(data, dict) or not isinstance(data.get("companies"), list):
+        print(f"{label}: missing or non-list 'companies' key", file=sys.stderr)
+        return 0, 1
+
+    entries = data["companies"]
+    errors = 0
 
     for i, entry in enumerate(entries):
         try:
@@ -48,6 +52,16 @@ def validate_file(file_path, schema):
             print(f"{label}: out of order at index {i}: "
                   f"{names[i]!r} should precede {names[i - 1]!r}", file=sys.stderr)
             errors += 1
+
+    seen = {}
+    for i, name in enumerate(names):
+        key = name.lower()
+        if key in seen:
+            print(f"{label}: duplicate company {name!r} at indices {seen[key]} and {i}",
+                  file=sys.stderr)
+            errors += 1
+        else:
+            seen[key] = i
 
     return len(entries), errors
 
