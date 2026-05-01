@@ -145,6 +145,40 @@ export function articleSchema(opts: {
   );
 }
 
+export function submitSchema() {
+  return graph(
+    {
+      "@type": "WebApplication",
+      name: "Submit a Bug Bounty Program",
+      url: `${SITE_URL}/submit`,
+      description:
+        "Add a new independent bug bounty or responsible disclosure program to the open source directory.",
+      applicationCategory: "SecurityApplication",
+      publisher: siteOrg,
+    },
+    breadcrumbList([{ name: "Submit", path: "/submit" }]),
+  );
+}
+
+export function mcpSchema() {
+  return graph(
+    {
+      "@type": "SoftwareApplication",
+      name: "bug-bounties-mcp",
+      url: `${SITE_URL}/mcp`,
+      description:
+        "Model Context Protocol server giving AI agents access to the bug-bounties database, plus security-contact lookups for any website, repo, package or app.",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Cross-platform",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      publisher: siteOrg,
+      downloadUrl: "https://www.npmjs.com/package/bug-bounties-mcp",
+      softwareVersion: "0.1",
+    },
+    breadcrumbList([{ name: "MCP", path: "/mcp" }]),
+  );
+}
+
 export function lookupSchema(description: string) {
   return graph(
     {

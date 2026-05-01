@@ -1,0 +1,41 @@
+---
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import SubmitForm from "@components/SubmitForm.svelte";
+import { submitSchema } from "@lib/json-ld";
+---
+
+<DefaultLayout
+  title="Submit a Program - Bug Bounties"
+  description="Add a new independent bug bounty or responsible disclosure program to the open source directory."
+  jsonLd={submitSchema()}
+>
+  <Header />
+  <div class="page-heading">
+    <h1>Submit a Program</h1>
+    <p>
+      Know a company that runs its own bug bounty or responsible disclosure
+      program? Fill in what you know - we'll handle the rest.
+    </p>
+  </div>
+  <SubmitForm client:load />
+</DefaultLayout>
+
+<style>
+  .page-heading {
+    width: var(--content-width);
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+  }
+  .page-heading h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem;
+  }
+  .page-heading p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+</style>

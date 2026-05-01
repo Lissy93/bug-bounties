@@ -3,6 +3,13 @@ import NavIcon from "./NavIcon.svelte";
 
 const navLinks = [
   {
+    label: "All Programs",
+    href: "/#program-list",
+    icon: "Bug",
+    external: false,
+    showOnHome: false,
+  },
+  {
     label: "GitHub",
     href: "https://github.com/lissy93/bug-bounties",
     icon: "Github",
@@ -11,10 +18,10 @@ const navLinks = [
   },
   {
     label: "Add Bounty",
-    href: "https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml",
+    href: "/submit",
     icon: "CirclePlus",
-    external: true,
-    showOnHome: false,
+    external: false,
+    showOnHome: true,
   },
   {
     label: "Lookup",
@@ -27,6 +34,13 @@ const navLinks = [
     label: "API",
     href: "/api",
     icon: "CodeXml",
+    external: false,
+    showOnHome: false,
+  },
+  {
+    label: "MCP",
+    href: "/mcp",
+    icon: "Bot",
     external: false,
     showOnHome: false,
   },
@@ -97,13 +111,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
       </nav>
       <nav aria-label="Secondary navigation" class="sub-nav-wrap">
         {navLinks
-          .filter(
-            (link) =>
-              !link.showOnHome &&
-              link.href != "/bookmarks" &&
-              link.href != "/lookup" &&
-              link.href != "/learn",
-          )
+          .filter((link) => !link.showOnHome)
           .map((link) => (
             <a
               class="nav-link-tiny"
@@ -189,7 +197,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin: 1rem auto;
+      margin: 0.75rem auto;
       flex-wrap: wrap;
       &.sub-nav-wrap {
         margin: 0.5rem auto 1rem auto;
@@ -229,7 +237,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
     color: var(--primary);
     font-family: "Roboto", sans-serif;
     font-size: 1.2rem;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
 
     a {
       text-align: center;
@@ -349,6 +357,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
     &.active {
       color: var(--primary);
       border-bottom-color: var(--primary);
+      border-radius: var(--curve) var(--curve) 0 0;
     }
   }
 

@@ -2,11 +2,23 @@ name: 🆕 Add program entry
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, edited, labeled]
 
 jobs:
   process:
-    if: github.event.label.name == 'program-submission'
+    if: |
+      (github.event.action == 'edited' && startsWith(github.event.issue.title, '[Program]:'))
+      || (
+        !contains(github.event.issue.labels.*.name, 'submission-processed')
+        && (
+          (github.event.action == 'labeled' && github.event.label.name == 'program-submission')
+          || (
+            github.event.action == 'opened'
+            && startsWith(github.event.issue.title, '[Program]:')
+            && !contains(github.event.issue.labels.*.name, 'program-submission')
+          )
+        )
+      )
     runs-on: ubuntu-latest
     concurrency:
       group: program-data-mutation
@@ -44,9 +56,9 @@ jobs:
           BRANCH: ${{ steps.process.outputs.branch }}
           COMPANY: ${{ steps.process.outputs.company }}
           PR_BODY: ${{ steps.process.outputs.pr_body }}
+          AUTHOR_LOGIN: ${{ github.event.issue.user.login }}
         run: |
           # Resolve co-author info for the issue opener
-          AUTHOR_LOGIN="${{ github.event.issue.user.login }}"
           AUTHOR_NAME=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.name // empty' 2>/dev/null || true)
           AUTHOR_NAME="${AUTHOR_NAME:-$AUTHOR_LOGIN}"
           AUTHOR_EMAIL=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.email // empty' 2>/dev/null || true)
@@ -63,37 +75,57 @@ jobs:
           if gh pr view "$BRANCH" --json number -q .number >/dev/null 2>&1; then
             gh pr edit "$BRANCH" --title "Add program: $COMPANY" --body "$PR_BODY"
           else
-            gh pr create \
-              --head "$BRANCH" \
-              --base main \
-              --title "Add program: $COMPANY" \
-              --body "$PR_BODY"
+            gh pr create --head "$BRANCH" --base main --title "Add program: $COMPANY" --body "$PR_BODY"
           fi
 
-      - name: Comment on issue (success)
+      - name: Upsert status comment
+        if: steps.process.outputs.valid == 'true' || steps.process.outputs.valid == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          BRANCH: ${{ steps.process.outputs.branch }}
+          AUTHOR_LOGIN: ${{ github.event.issue.user.login }}
+          VALID: ${{ steps.process.outputs.valid }}
+          ERROR_MESSAGE: ${{ steps.process.outputs.error_message }}
+        run: |
+          if [ "$VALID" = "true" ]; then
+            PR_URL=$(gh pr view "$BRANCH" --json url -q .url)
+            BODY=$(cat <<EOF
+          Hey @${AUTHOR_LOGIN}, thank you for your submission!
+          I've created a PR at ${PR_URL} to get this merged in 😊
+
+          <!-- liss-bot-submission -->
+          EOF
+          )
+          else
+            BODY=$(cat <<EOF
+          Hey @${AUTHOR_LOGIN} - thanks for your submission!
+          It looks like there were some validation errors in the content you entered.
+
+          ${ERROR_MESSAGE}
+
+          Either edit the issue to fix the errors and retry, or wait for a maintainer to take a look.
+
+          <!-- liss-bot-submission -->
+          EOF
+          )
+          fi
+          EXISTING=$(gh api "/repos/${REPO}/issues/${ISSUE}/comments" \
+            --jq '[.[] | select(.user.login == "Liss-Bot" and (.body | contains("<!-- liss-bot-submission -->")))] | last | .id // empty')
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "/repos/${REPO}/issues/comments/${EXISTING}" -f body="$BODY" > /dev/null
+          else
+            gh issue comment "$ISSUE" --repo "$REPO" --body "$BODY"
+          fi
+
+      - name: Mark as processed
         if: steps.process.outputs.valid == 'true'
         env:
           GH_TOKEN: ${{ secrets.BOT_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          BRANCH: ${{ steps.process.outputs.branch }}
+          REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          LABEL_DESC: Bot has parsed this submission and opened a PR
         run: |
-          PR_URL=$(gh pr view "$BRANCH" --json url -q .url)
-          AUTHOR_LOGIN="${{ github.event.issue.user.login }}"
-          BODY="Hey @${AUTHOR_LOGIN}, thank you for your submission!"
-          BODY="${BODY}"$'\n'"I've created a PR at ${PR_URL} to get this merged in 😊"
-          gh issue comment "$ISSUE_NUMBER" --body "$BODY"
-          # gh issue close "$ISSUE_NUMBER"
-
-      - name: Comment on issue (failure)
-        if: steps.process.outputs.valid == 'false'
-        env:
-          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
-          ERROR_MESSAGE: ${{ steps.process.outputs.error_message }}
-        run: |
-          BODY="Hey @${ISSUE_AUTHOR} - thanks for your submission!"
-          BODY="${BODY}"$'\n'"But it looks like there were some validation errors in the content you entered."
-          BODY="${BODY}"$'\n\n'"${ERROR_MESSAGE}"
-          BODY="${BODY}"$'\n\n'"Please either close/re-open the issue, or tag a maintainer to take a look"
-          gh issue comment "$ISSUE_NUMBER" --body "$BODY"
+          gh label create submission-processed --color 0E8A16 --description "$LABEL_DESC" 2>/dev/null || true
+          gh issue edit "$ISSUE" --repo "$REPO" --add-label submission-processed

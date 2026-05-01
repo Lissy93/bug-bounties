@@ -182,6 +182,31 @@ const spec = {
                       type: "array",
                       items: { $ref: "#/components/schemas/SearchResult" },
                     },
+                    hint: {
+                      type: "object",
+                      description:
+                        "Present only when no results matched. Suggests fallback actions: try the lookup endpoint, or submit a missing program.",
+                      properties: {
+                        message: { type: "string" },
+                        suggestions: {
+                          type: "array",
+                          items: {
+                            type: "object",
+                            properties: {
+                              action: {
+                                type: "string",
+                                enum: ["lookup", "submit"],
+                              },
+                              description: { type: "string" },
+                              endpoint: { type: "string" },
+                              param: { type: "string" },
+                              example: { type: "string" },
+                              url: { type: "string" },
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
                 },
               },

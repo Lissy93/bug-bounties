@@ -75,19 +75,41 @@ NO_RESPONSE = "_No response_"
 
 CODE_FENCE_RE = re.compile(r"^```[A-Za-z0-9_-]*\s*$")
 
+# Match `### <known label>` at start of a line, only for labels we recognize.
+# Anchored at line start with $ to avoid matching `### Some other heading`
+# that a user typed inside a textarea field.
+_KNOWN_LABELS_PATTERN = "|".join(re.escape(label) for label in LABEL_MAP.keys())
+SECTION_RE = re.compile(
+    rf"^### ({_KNOWN_LABELS_PATTERN})[ \t]*$",
+    re.MULTILINE,
+)
+
+# Markdown-escaped heading prefix used by the web form to defang user-typed
+# `### Foo` inside textareas (so the parser can't be tricked into splitting
+# on it). We restore the original `### ` after parsing so the stored YAML
+# preserves the user's intent.
+ESCAPED_HEADING_PREFIX = "\\### "
+
 
 def parse_issue_body(body):
-    """Split issue body on ### headings into {field_id: raw_value} dict."""
-    sections = re.split(r"^### ", body, flags=re.MULTILINE)
+    """Extract {field_id: raw_value} by locating known section headings.
+
+    Only `### <label>` headings whose label is in LABEL_MAP are treated as
+    section boundaries. This means a user can safely include `### Anything`
+    inside a textarea: unknown headings stay part of the value, and known
+    headings are defanged client-side via ESCAPED_HEADING_PREFIX.
+    """
     parsed = {}
-    for section in sections:
-        if not section.strip():
-            continue
-        lines = section.split("\n", 1)
-        label = lines[0].strip()
-        value = lines[1].strip() if len(lines) > 1 else ""
-        field_id = LABEL_MAP.get(label)
-        if field_id and value and value not in (NO_RESPONSE, "None"):
+    matches = list(SECTION_RE.finditer(body))
+    for i, match in enumerate(matches):
+        label = match.group(1)
+        value_start = match.end()
+        value_end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
+        value = body[value_start:value_end].strip()
+        # Restore any client-side escapes so the user sees what they typed
+        value = value.replace(ESCAPED_HEADING_PREFIX, "### ")
+        field_id = LABEL_MAP[label]
+        if value and value not in (NO_RESPONSE, "None"):
             parsed[field_id] = value
     return parsed
 
@@ -167,7 +189,13 @@ def build_entry(parsed):
                   "swag_details", "currency"):
         if field in parsed:
             value = parsed[field].strip()
-            entry[field] = normalize_url(value) if field in URL_FIELDS else value
+            if field in URL_FIELDS:
+                entry[field] = normalize_url(value)
+            elif field == "currency":
+                # ISO currency codes are conventionally uppercase
+                entry[field] = value.upper()
+            else:
+                entry[field] = value
 
     # Checkboxes
     for field in CHECKBOX_FIELDS:
@@ -303,8 +331,14 @@ def main():
     try:
         jsonschema.validate(entry, schema)
     except jsonschema.ValidationError as e:
+        # Build a path like `payout_table.critical` for nested fields so the
+        # contributor can tell which input was rejected.
+        path = ".".join(str(p) for p in e.absolute_path) or "(root)"
         set_output("valid", "false")
-        set_output("error_message", f"Schema validation error: {e.message}")
+        set_output(
+            "error_message",
+            f"Schema validation error at `{path}`: {e.message}",
+        )
         return
 
     # Check for duplicate company names
