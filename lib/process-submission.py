@@ -268,6 +268,11 @@ def prepare_for_yaml(obj):
     return obj
 
 
+def add_blank_lines_between_entries(yaml_body):
+    """Insert a blank line before each top-level '- company:' for readability."""
+    return re.sub(r"^- company:", "\n- company:", yaml_body, flags=re.MULTILINE)
+
+
 def set_output(name, value):
     """Write a key=value pair to $GITHUB_OUTPUT."""
     output_file = os.environ.get("GITHUB_OUTPUT")
@@ -343,6 +348,7 @@ def main():
         allow_unicode=True,
         width=1000,
     )
+    yaml_body = add_blank_lines_between_entries(yaml_body)
     with open(PROGRAMS_PATH, "w") as f:
         f.write(header)
         f.write(yaml_body)

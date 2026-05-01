@@ -1,16 +1,5 @@
 name: 📦 Publish MCP
 
-# Publishes the bug-bounties-mcp npm package.
-#
-# Triggers on push to main (when /mcp changes) or manual dispatch.
-# Skips publish if the version in mcp/package.json already exists on npm,
-# so re-running on the same SHA is safe. Bump the version in package.json
-# to release a new version.
-#
-# Prerequisites:
-#   - NPM_TOKEN secret set on the repo (Automation token with publish rights).
-#   - id-token write permission for npm provenance.
-
 on:
   push:
     branches: [main]
@@ -38,6 +27,9 @@ jobs:
           cache-dependency-path: |
             web/package-lock.json
             mcp/package-lock.json
+
+      - name: Upgrade npm (OIDC trusted publishing requires >= 11.5.1)
+        run: npm install -g npm@latest
 
       - name: Compare local version to npm
         id: ver
@@ -102,12 +94,10 @@ jobs:
         if: always() && steps.ver.outputs.skip == 'false'
         run: pkill -f 'astro dev' || true
 
-      - name: Publish
+      - name: Publish (OIDC trusted publishing, no long-lived token)
         if: steps.ver.outputs.skip == 'false'
         working-directory: mcp
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance --ignore-scripts
+        run: npm publish --access public --ignore-scripts
 
       - name: Verify the new version is live
         if: steps.ver.outputs.skip == 'false'

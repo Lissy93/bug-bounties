@@ -57,6 +57,11 @@ def prepare_for_yaml(obj):
     return obj
 
 
+def add_blank_lines_between_entries(yaml_body):
+    """Insert a blank line before each top-level '- company:' for readability."""
+    return re.sub(r"^- company:", "\n- company:", yaml_body, flags=re.MULTILINE)
+
+
 def slugify(name):
     """Create a URL-safe slug from a company name."""
     slug = name.lower().strip()
@@ -175,6 +180,7 @@ def main():
                 allow_unicode=True,
                 width=1000,
             )
+            yaml_body = add_blank_lines_between_entries(yaml_body)
             with open(INDEPENDENT_PATH, "w") as f:
                 f.write(header)
                 f.write(yaml_body)

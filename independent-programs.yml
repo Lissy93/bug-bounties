@@ -10,6 +10,7 @@
 #   reporting_url, standards
 
 companies:
+
 - company: BT Group
   url: https://www.bt.com/about/contact-bt/responsible-disclosure
   contact: https://www.bt.com/about/contact-bt/responsible-disclosure
@@ -35,6 +36,7 @@ companies:
   response_sla_days: 1
   disclosure_timeline_days: 90
   hall_of_fame_url: https://www.bt.com/about/contact-bt/responsible-disclosure/hall-of-fame
+
 - company: CERN
   url: https://security.web.cern.ch/home/en/cvd.shtml
   contact: mailto:Computer.Security@cern.ch
@@ -51,6 +53,7 @@ companies:
   - target: CERN systems and services
     type: web
   hall_of_fame_url: https://security.web.cern.ch/home/en/kudos.shtml
+
 - company: DENSO WAVE
   url: https://www.denso-wave.com/en/psirt/
   contact: https://www.denso-wave.com/en/contact/psirt/
@@ -63,6 +66,7 @@ companies:
   response_sla_days: 5
   standards:
   - ISO 29147
+
 - company: DNSLookup
   url: https://dnslookup.pro/security
   contact: mailto:security@dnslookup.pro
@@ -91,6 +95,7 @@ companies:
   domains:
   - '*.dnslookup.pro'
   hall_of_fame_url: https://dnslookup.pro/security
+
 - company: Go Deed Inc
   url: https://www.joindeed.com/security
   contact: mailto:security@joindeed.com
@@ -105,6 +110,7 @@ companies:
   - phishing
   - physical_access
   hall_of_fame_url: https://www.joindeed.com/security
+
 - company: Hitachi
   url: https://www.hitachi.com/hirt/
   contact: https://www8.hitachi.co.jp/inquiry/hitachi-ltd/it/hirt/en/form.jsp
@@ -126,6 +132,7 @@ companies:
   - ISO 29147
   - ISO 30111
   hall_of_fame_url: https://www.hitachi.com/hirt/security/acknowledgments.html
+
 - company: Iceline Hosting
   url: https://iceline-hosting.com/bug-bounty
   contact: mailto:reply@support.iceline-hosting.com
@@ -168,6 +175,7 @@ companies:
   - status.iceline-hosting.com
   - auth.iceline-hosting.com
   reporting_url: https://support.retraflow.io/iceline-hosting
+
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
@@ -182,6 +190,7 @@ companies:
   - End-of-life products
   standards:
   - ISO 29147
+
 - company: Orange Cyberdefense
   url: https://www.orangecyberdefense.com/de/vulnerability-disclosure-policy
   contact: mailto:vulnerability@orangecyberdefense.com
@@ -199,6 +208,7 @@ companies:
   - phishing
   response_sla_days: 5
   pgp_key: https://advisories.orangecyberdefense.com
+
 - company: Recap Innovations
   url: https://recap-innovations.com/security/
   contact: mailto:security@recap-innovations.com
@@ -231,6 +241,7 @@ companies:
   - '*.recap-innovations.com'
   response_sla_days: 2
   hall_of_fame_url: https://recap-innovations.com/security/
+
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
@@ -244,9 +255,11 @@ companies:
     type: hardware
   - target: TI product software and documentation
     type: other
+
 - company: Volvo
   url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
   contact: mailto:responsible-disclosure@volvocars.com
+
 - company: Wikimint
   url: https://www.wikimint.com/legal#security-hall-of-fame
   contact: mailto:support@wikimint.com
@@ -265,6 +278,7 @@ companies:
   domains:
   - '*.wikimint.com'
   reporting_url: https://www.wikimint.com/legal#security-hall-of-fame
+
 - company: Yellow.ai
   url: https://yellow.ai/vulnerability-disclosure-program/
   contact: mailto:infosec@yellow.ai
@@ -300,6 +314,7 @@ companies:
   - cloud.yellow.ai
   response_sla_days: 3
   reporting_url: https://yellow.ai/vulnerability-disclosure-program/ [Embedded Hackerone Submission Form]
+
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn

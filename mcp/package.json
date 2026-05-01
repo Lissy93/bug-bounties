@@ -7,7 +7,7 @@
   "homepage": "https://bug-bounties.as93.net",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Lissy93/bug-bounties"
+    "url": "git+https://github.com/Lissy93/bug-bounties.git"
   },
   "keywords": [
     "mcp",
@@ -18,7 +18,7 @@
   ],
   "type": "module",
   "bin": {
-    "bug-bounties-mcp": "./dist/index.js"
+    "bug-bounties-mcp": "dist/index.js"
   },
   "files": [
     "dist",
