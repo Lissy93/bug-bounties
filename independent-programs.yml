@@ -199,6 +199,38 @@ companies:
   - phishing
   response_sla_days: 5
   pgp_key: https://advisories.orangecyberdefense.com
+- company: Recap Innovations
+  url: https://recap-innovations.com/security/
+  contact: mailto:security@recap-innovations.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: |-
+    Recap Innovations believe in recognizing security researchers who help us improve our security posture. With your permission, we will:
+    - Acknowledge your contribution in security acknowledgments page (if you wish to be named)
+    - Provide a reference letter for verified, high-quality reports upon request'
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.recap-innovations.com'
+    type: web
+  out_of_scope:
+  - Social engineering attacks (phishing, etc.)
+  - Denial of Service (DoS/DDoS) attacks
+  - Physical security testing
+  - Attacks requiring physical access to user devices
+  - Third-party services we integrate with
+  - Vulnerabilities in outdated browsers or operating systems
+  - Reports from automated tools without validation
+  - Issues already reported or publicly known
+  domains:
+  - '*.recap-innovations.com'
+  response_sla_days: 2
+  hall_of_fame_url: https://recap-innovations.com/security/
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
