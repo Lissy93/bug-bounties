@@ -11,6 +11,18 @@
 
 companies:
 
+- company: BSI Germany
+  url: https://www.bsi.bund.de/EN/IT-Sicherheitsvorfall/IT-Schwachstellen/it-schwachstellen_node.html
+  contact: mailto:vulnerability@bsi.bund.de
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  safe_harbor: partial
+  allows_disclosure: true
+  preferred_languages: German, English
+  description: Federal Office for Information Security (BSI) coordinates vulnerability disclosure for German federal IT systems. No prosecution of researchers acting in good faith under the published policy.
+
 - company: BT Group
   url: https://www.bt.com/about/contact-bt/responsible-disclosure
   contact: https://www.bt.com/about/contact-bt/responsible-disclosure
