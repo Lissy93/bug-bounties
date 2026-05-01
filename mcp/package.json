@@ -1,0 +1,55 @@
+{
+  "name": "bug-bounties-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for the bug-bounties database (search programs, look up security contacts).",
+  "author": "Alicia Sykes",
+  "license": "MIT",
+  "homepage": "https://bug-bounties.as93.net",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lissy93/bug-bounties"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bug-bounty",
+    "security",
+    "vulnerability-disclosure"
+  ],
+  "type": "module",
+  "bin": {
+    "bug-bounties-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "node test/smoke.mjs",
+    "lint": "eslint .",
+    "format": "prettier --check 'src/**/*.ts' 'test/**/*.mjs'",
+    "fix": "eslint . --fix && prettier --write 'src/**/*.ts' 'test/**/*.mjs'",
+    "type-check": "tsc --noEmit",
+    "check": "npm run type-check && npm run lint && npm run format",
+    "inspect": "npx -y @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run check && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "eslint": "^10.2.1",
+    "prettier": "^3.8.3",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.1"
+  }
+}

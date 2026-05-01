@@ -39,8 +39,27 @@ const jsonLd = homeSchema(
       <LookupSearch bare client:idle />
     </section>
     <section class="api-card">
-      <h2>API Access</h2>
-      <p>X</p>
+      <h2>Query From Your Tools</h2>
+      <p>
+        Query the bug-bounty database from your AI agent, pen-test toolchain or
+        scripts
+      </p>
+      <ul class="endpoints">
+        <li>
+          <span class="tag">MCP</span>
+          <span class="lead">
+            For Claude Desktop, Cursor, Cline and other MCP clients
+          </span>
+          <code>npx bug-bounties-mcp</code>
+        </li>
+        <li>
+          <span class="tag">REST API</span>
+          <span class="lead">
+            JSON endpoints for programmatically searching VDPs
+          </span>
+          <a href="/api">bug-bounties.as93.net/api</a>
+        </li>
+      </ul>
     </section>
   </div>
   <hr />
@@ -73,18 +92,72 @@ const jsonLd = homeSchema(
     background: var(--background-lighter);
     border-radius: var(--curve);
     flex: 1;
-
     & h2 {
       margin: 0 0 0.35rem;
       font-size: 1.1rem;
       color: var(--primary);
     }
-
-    & p {
+    & > p {
       margin: 0 0 0.75rem;
       font-size: 0.85rem;
       line-height: 1.5;
       color: var(--muted);
+    }
+  }
+  .endpoints {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .endpoints li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.15rem 0.6rem;
+    align-items: center;
+    padding: 0.55rem 0.7rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--curve);
+  }
+  .endpoints .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 15%, transparent);
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    width: max-content;
+  }
+  .endpoints .lead {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .endpoints code,
+  .endpoints a {
+    grid-column: 1 / -1;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    color: var(--foreground);
+    background: var(--background-darker);
+    padding: 0.35rem 0.55rem;
+    border-radius: var(--curve);
+    user-select: all;
+    overflow-x: auto;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .endpoints a:hover {
+    color: var(--primary);
+  }
+  @media (max-width: 720px) {
+    .entrypoint-cards {
+      flex-direction: column;
     }
   }
 </style>

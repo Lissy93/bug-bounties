@@ -78,6 +78,126 @@ const spec = {
         },
       },
     },
+    "/api/programs/search.json": {
+      get: {
+        tags: ["Programs"],
+        operationId: "searchPrograms",
+        summary: "Search programs",
+        description:
+          "Full-text search across all programs (platform + independent) with relevance ranking, fuzzy matching for typos, field filters, and pagination.",
+        parameters: [
+          {
+            name: "q",
+            in: "query",
+            required: true,
+            schema: { type: "string", maxLength: 200 },
+            description:
+              "Search query (1-200 characters, multiple tokens allowed)",
+            examples: {
+              company: { value: "apple", summary: "Company name" },
+              fuzzy: { value: "githb", summary: "Typo (fuzzy matched)" },
+              domain: { value: "duckduckgo.com", summary: "Domain" },
+            },
+          },
+          {
+            name: "fields",
+            in: "query",
+            required: false,
+            schema: { type: "string" },
+            description:
+              "Comma-separated fields to search. Default: all. Values: company, handle, slug, domains, description, notes, standards, scope.",
+          },
+          {
+            name: "sort",
+            in: "query",
+            required: false,
+            schema: {
+              type: "string",
+              enum: ["relevance", "name", "popularity", "payout"],
+              default: "relevance",
+            },
+            description: "Sort order for results",
+          },
+          {
+            name: "limit",
+            in: "query",
+            required: false,
+            schema: { type: "integer", minimum: 1, maximum: 100, default: 20 },
+          },
+          {
+            name: "offset",
+            in: "query",
+            required: false,
+            schema: { type: "integer", minimum: 0, maximum: 10000, default: 0 },
+          },
+          {
+            name: "has_bounty",
+            in: "query",
+            required: false,
+            schema: { type: "boolean" },
+            description: "Restrict to programs offering bounties",
+          },
+          {
+            name: "safe_harbor",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["full", "partial"] },
+          },
+          {
+            name: "managed",
+            in: "query",
+            required: false,
+            schema: { type: "boolean" },
+          },
+          {
+            name: "program_type",
+            in: "query",
+            required: false,
+            schema: { type: "string", enum: ["bounty", "vdp", "hybrid"] },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Search results ranked by relevance",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["meta", "results"],
+                  properties: {
+                    meta: {
+                      type: "object",
+                      properties: {
+                        query: { type: "string" },
+                        tokens: { type: "array", items: { type: "string" } },
+                        total: { type: "integer" },
+                        count: { type: "integer" },
+                        limit: { type: "integer" },
+                        offset: { type: "integer" },
+                        sort: { type: "string" },
+                        generated: { type: "string", format: "date-time" },
+                      },
+                    },
+                    results: {
+                      type: "array",
+                      items: { $ref: "#/components/schemas/SearchResult" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          "400": {
+            description: "Invalid query parameters",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/Error" },
+              },
+            },
+          },
+        },
+      },
+    },
     "/api/programs/{slug}.json": {
       get: {
         tags: ["Programs"],
@@ -623,6 +743,41 @@ const spec = {
             type: "integer",
             description: "HTTP status code",
             example: 400,
+          },
+        },
+      },
+      SearchResult: {
+        type: "object",
+        required: ["company", "url", "slug", "score", "matched_fields"],
+        properties: {
+          company: { type: "string" },
+          url: { type: "string", format: "uri" },
+          slug: { type: "string" },
+          handle: { type: "string" },
+          rewards: {
+            type: "array",
+            items: {
+              type: "string",
+              enum: ["*bounty", "*recognition", "*swag"],
+            },
+          },
+          min_payout: { type: ["number", "null"] },
+          max_payout: { type: ["number", "null"] },
+          currency: { type: ["string", "null"] },
+          safe_harbor: { type: ["string", "null"] },
+          managed: { type: ["boolean", "null"] },
+          domains: { type: "array", items: { type: "string" } },
+          program_type: {
+            type: ["string", "null"],
+            enum: ["bounty", "vdp", "hybrid", null],
+          },
+          tranco_rank: { type: ["integer", "null"] },
+          kev_count: { type: "integer" },
+          score: { type: "integer", description: "Relevance score" },
+          matched_fields: {
+            type: "array",
+            items: { type: "string" },
+            description: "Fields that contributed to the match",
           },
         },
       },

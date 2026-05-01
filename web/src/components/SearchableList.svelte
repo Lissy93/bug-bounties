@@ -166,7 +166,7 @@
   <BookmarkedPrograms {programs} {trancoRanks} {kevCounts} />
 
   <h2 class="section-heading">
-    {searchTerm ? "Search Results" : "Top Programs"}
+    {searchTerm ? "Search Results" : "All Programs"}
     <span class="section-count">{sorted.length}</span>
   </h2>
 
