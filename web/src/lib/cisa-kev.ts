@@ -2,7 +2,7 @@ import type {
   BountyProgram,
   KevVulnerability,
   KevData,
-} from "../types/Company";
+} from "@app-types/Company";
 import { resolvePrimaryDomain } from "./domain";
 import { log } from "./log";
 

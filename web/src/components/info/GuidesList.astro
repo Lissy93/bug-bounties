@@ -1,0 +1,33 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the most recent N guides will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+type GuideModule = {
+  url: string;
+  frontmatter: { title: string; description: string; date: string };
+};
+
+const guideFiles = import.meta.glob<GuideModule>("../../pages/learn/*.md", {
+  eager: true,
+});
+const allGuides = Object.values(guideFiles)
+  .map((mod) => ({
+    title: mod.frontmatter.title,
+    description: mod.frontmatter.description,
+    url: mod.url,
+    date: mod.frontmatter.date,
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const items: LinkGridItem[] = (
+  limit ? allGuides.slice(0, limit) : allGuides
+).map(({ title, description, url }) => ({ title, description, url }));
+---
+
+<LinkGrid items={items} external={false} />

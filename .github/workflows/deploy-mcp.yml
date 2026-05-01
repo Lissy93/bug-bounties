@@ -1,0 +1,144 @@
+name: 📦 Publish MCP
+
+# Publishes the bug-bounties-mcp npm package.
+#
+# Triggers on push to main (when /mcp changes) or manual dispatch.
+# Skips publish if the version in mcp/package.json already exists on npm,
+# so re-running on the same SHA is safe. Bump the version in package.json
+# to release a new version.
+#
+# Prerequisites:
+#   - NPM_TOKEN secret set on the repo (Automation token with publish rights).
+#   - id-token write permission for npm provenance.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mcp/**'
+      - '.github/workflows/deploy-mcp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish bug-bounties-mcp to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: |
+            web/package-lock.json
+            mcp/package-lock.json
+
+      - name: Compare local version to npm
+        id: ver
+        working-directory: mcp
+        run: |
+          LOCAL=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view bug-bounties-mcp version 2>/dev/null || true)
+          echo "local=$LOCAL" >> "$GITHUB_OUTPUT"
+          echo "published=${PUBLISHED:-none}" >> "$GITHUB_OUTPUT"
+          if [ "$PUBLISHED" = "$LOCAL" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Version $LOCAL already on npm. Skipping publish."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Will publish $LOCAL (npm latest: ${PUBLISHED:-none})."
+          fi
+
+      - name: Install web deps
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: web
+        run: npm ci
+
+      - name: Start web dev server
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: web
+        run: |
+          npm run dev > /tmp/astro.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sSf http://localhost:4321/api/stats.json > /dev/null 2>&1; then
+              echo "web ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "web dev server failed to start"
+          tail -100 /tmp/astro.log
+          exit 1
+
+      - name: Install mcp deps
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: mcp
+        run: npm ci
+
+      - name: Lint, type-check, format
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: mcp
+        run: npm run check
+
+      - name: Build
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: mcp
+        run: npm run build
+
+      - name: Smoke test
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: mcp
+        env:
+          BUG_BOUNTIES_API_URL: http://localhost:4321
+        run: npm test
+
+      - name: Stop web dev server
+        if: always() && steps.ver.outputs.skip == 'false'
+        run: pkill -f 'astro dev' || true
+
+      - name: Publish
+        if: steps.ver.outputs.skip == 'false'
+        working-directory: mcp
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance --ignore-scripts
+
+      - name: Verify the new version is live
+        if: steps.ver.outputs.skip == 'false'
+        run: |
+          for i in $(seq 1 12); do
+            LIVE=$(npm view bug-bounties-mcp version 2>/dev/null || true)
+            if [ "$LIVE" = "${{ steps.ver.outputs.local }}" ]; then
+              echo "registry confirms version ${LIVE}"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::warning::npm registry has not yet shown the new version (eventual consistency); publish step succeeded but propagation pending."
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            if [ "${{ steps.ver.outputs.skip }}" = "true" ]; then
+              echo "## ⏭️ Skipped"
+              echo ""
+              echo "Version \`${{ steps.ver.outputs.local }}\` is already published. Bump \`mcp/package.json\` to release a new version."
+            else
+              echo "## ✅ Published"
+              echo ""
+              echo "| field | value |"
+              echo "|---|---|"
+              echo "| name | \`bug-bounties-mcp\` |"
+              echo "| version | \`${{ steps.ver.outputs.local }}\` |"
+              echo "| previous | \`${{ steps.ver.outputs.published }}\` |"
+              echo "| install | \`npm install -g bug-bounties-mcp@${{ steps.ver.outputs.local }}\` |"
+              echo "| try | \`npx -y bug-bounties-mcp@${{ steps.ver.outputs.local }} --version\` |"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

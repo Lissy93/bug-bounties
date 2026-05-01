@@ -1,0 +1,144 @@
+---
+import {
+  ShieldCheck,
+  ShieldAlert,
+  ShieldX,
+  ShieldQuestionMark,
+  Mail,
+  Globe,
+} from "lucide-svelte";
+
+export type SummaryStatus = "success" | "warning" | "error" | "neutral";
+
+export interface SummaryAction {
+  label: string;
+  href: string;
+  type: "email" | "url";
+}
+
+interface Props {
+  status: SummaryStatus;
+  title: string;
+  message: string;
+  actions?: SummaryAction[];
+}
+
+const { status, title, message, actions } = Astro.props;
+
+const colorVar: Record<SummaryStatus, string> = {
+  success: "var(--success)",
+  warning: "var(--warning)",
+  error: "var(--danger)",
+  neutral: "var(--muted)",
+};
+
+const icons = {
+  success: ShieldCheck,
+  warning: ShieldAlert,
+  error: ShieldX,
+  neutral: ShieldQuestionMark,
+};
+const Icon = icons[status];
+const color = colorVar[status];
+---
+
+<div class="summary" style={`--accent-color: ${color}`} role="alert">
+  <div class="summary-body">
+    <div class="summary-header">
+      <Icon size={22} />
+      <strong>{title}</strong>
+    </div>
+    <p>{message}</p>
+  </div>
+  {
+    actions && actions.length > 0 && (
+      <div class="actions">
+        {actions.map((a) => (
+          <a
+            href={a.type === "email" ? `mailto:${a.href}` : a.href}
+            target={a.type === "url" ? "_blank" : undefined}
+            rel={a.type === "url" ? "noopener noreferrer" : undefined}
+            class="action-btn"
+          >
+            {a.type === "email" ? <Mail size={14} /> : <Globe size={14} />}
+            {a.label}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 25%, transparent);
+    border-radius: var(--curve);
+    margin-bottom: 1rem;
+  }
+
+  .summary-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+
+    & strong {
+      font-size: 1rem;
+    }
+  }
+
+  p {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--foreground);
+    opacity: 0.8;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--background);
+    background: var(--accent-color);
+    border-radius: var(--curve);
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .actions {
+      width: 100%;
+      flex-direction: column;
+
+      & .action-btn {
+        justify-content: center;
+      }
+    }
+  }
+</style>

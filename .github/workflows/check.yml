@@ -13,6 +13,7 @@ jobs:
     outputs:
       lib: ${{ steps.filter.outputs.lib }}
       web: ${{ steps.filter.outputs.web }}
+      mcp: ${{ steps.filter.outputs.mcp }}
       docker: ${{ steps.filter.outputs.docker }}
       data: ${{ steps.filter.outputs.data }}
     steps:
@@ -26,6 +27,9 @@ jobs:
               - 'Makefile'
             web:
               - 'web/**'
+            mcp:
+              - 'mcp/**'
+              - 'web/src/pages/api/**'
             docker:
               - 'web/**'
               - '.github/workflows/docker.yml'
@@ -102,6 +106,99 @@ jobs:
       - run: npm ci
       - run: npm run format
 
+  mcp-lint:
+    name: 'MCP: Lint'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mcp == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+
+  mcp-typecheck:
+    name: 'MCP: Type check'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mcp == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - run: npm run type-check
+
+  mcp-format:
+    name: 'MCP: Format'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mcp == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - run: npm run format
+
+  mcp-smoke:
+    name: 'MCP: Smoke test'
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mcp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            web/package-lock.json
+            mcp/package-lock.json
+      - name: Install web deps
+        working-directory: web
+        run: npm ci
+      - name: Start web dev server
+        working-directory: web
+        run: |
+          npm run dev > /tmp/astro.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sSf http://localhost:4321/api/stats.json > /dev/null 2>&1; then
+              echo "web ready"; exit 0
+            fi
+            sleep 1
+          done
+          echo "web dev server failed to start"; cat /tmp/astro.log; exit 1
+      - name: Build mcp
+        working-directory: mcp
+        run: |
+          npm ci
+          npm run build
+      - name: Smoke test
+        working-directory: mcp
+        env:
+          BUG_BOUNTIES_API_URL: http://localhost:4321
+        run: npm test
+
   docker-build:
     name: 'Docker: Build'
     needs: detect-changes
@@ -133,7 +230,19 @@ jobs:
 
   summary:
     name: 'Finish: Report results'
-    needs: [lib-checks, web-lint, web-typecheck, web-format, docker-build, data-validation]
+    needs:
+      [
+        lib-checks,
+        web-lint,
+        web-typecheck,
+        web-format,
+        mcp-lint,
+        mcp-typecheck,
+        mcp-format,
+        mcp-smoke,
+        docker-build,
+        data-validation,
+      ]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -145,12 +254,16 @@ jobs:
           echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
 
-          for job in lib-checks web-lint web-typecheck web-format docker-build data-validation; do
+          for job in lib-checks web-lint web-typecheck web-format mcp-lint mcp-typecheck mcp-format mcp-smoke docker-build data-validation; do
             case "$job" in
               lib-checks)      result="${{ needs.lib-checks.result }}" ;;
               web-lint)        result="${{ needs.web-lint.result }}" ;;
               web-typecheck)   result="${{ needs.web-typecheck.result }}" ;;
               web-format)      result="${{ needs.web-format.result }}" ;;
+              mcp-lint)        result="${{ needs.mcp-lint.result }}" ;;
+              mcp-typecheck)   result="${{ needs.mcp-typecheck.result }}" ;;
+              mcp-format)      result="${{ needs.mcp-format.result }}" ;;
+              mcp-smoke)       result="${{ needs.mcp-smoke.result }}" ;;
               docker-build)    result="${{ needs.docker-build.result }}" ;;
               data-validation) result="${{ needs.data-validation.result }}" ;;
             esac

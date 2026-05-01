@@ -1,0 +1,132 @@
+---
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import LookupSearch from "@components/LookupSearch.svelte";
+import { lookupSchema } from "@lib/json-ld";
+import { Search, Eye, ChartColumn } from "lucide-svelte";
+
+export const prerender = false;
+
+const title = "Security Contact Lookup - Find Vulnerability Reporting Details";
+const description =
+  "Look up any domain, repo, package, or app to find security contacts, vulnerability disclosure policies, and bug bounty programs. Scans 30+ sources to identify the right way to report a security issue.";
+
+const jsonLd = lookupSchema(description);
+---
+
+<DefaultLayout {title} {description} jsonLd={jsonLd}>
+  <Header />
+  <div class="lookup-page">
+    <section class="hero-card">
+      <h1>Find Security Contacts for Any Software</h1>
+      <p class="tagline">
+        Found a vulnerability? Enter a domain, repo URL, package name, or app ID
+        to instantly discover how to report it - we'll find the right email,
+        disclosure policy, or bug bounty program for you.
+      </p>
+      <LookupSearch bare client:idle />
+    </section>
+
+    <section class="highlights">
+      <div class="highlight">
+        <Search size={18} />
+        <strong>30+ sources scanned</strong>
+        <p>
+          From security.txt and bug bounty platforms to package registries, app
+          stores, and DNS records - we leave no stone unturned.
+        </p>
+      </div>
+      <div class="highlight">
+        <Eye size={18} />
+        <strong>Full transparency</strong>
+        <p>
+          Every result shows exactly where it came from, so you can verify the
+          data and choose the best reporting channel.
+        </p>
+      </div>
+      <div class="highlight">
+        <ChartColumn size={18} />
+        <strong>High success rate</strong>
+        <p>
+          We find verified security contacts for the majority of sites, using
+          official sources like security.txt and platform APIs.
+        </p>
+      </div>
+    </section>
+  </div>
+</DefaultLayout>
+
+<style>
+  .lookup-page {
+    width: var(--content-width);
+    margin: 0 auto 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60vh;
+  }
+
+  .hero-card {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    margin-top: 1rem;
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+
+    & h1 {
+      margin: 0 0 0.75rem;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    & .tagline {
+      max-width: 540px;
+      margin: 0 auto 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+  }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .highlight {
+    padding: 1rem;
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+
+    & :global(svg) {
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+    }
+
+    & strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--foreground);
+      margin-bottom: 0.2rem;
+    }
+
+    & p {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-card {
+      padding: 2rem 1rem 1.5rem;
+
+      & h1 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+</style>

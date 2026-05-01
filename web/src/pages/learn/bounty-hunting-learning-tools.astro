@@ -1,0 +1,76 @@
+---
+import MarkdownLayout from "@layouts/MarkdownLayout.astro";
+import LearningResources from "@components/info/LearningResources.astro";
+
+const frontmatter = {
+  title: "Bug Bounty Learning Tools",
+  description:
+    "An opinionated, working list of the resources that actually teach bug bounty hunting: interactive labs, vulnerable apps, disclosed reports, and creators worth your time.",
+  date: "2026-04-10",
+};
+---
+
+<MarkdownLayout frontmatter={frontmatter}>
+  <p>
+    There's a frankly absurd amount of bug bounty content online, and that's the
+    problem. You sit down to learn, end up with twelve open tabs and three
+    half-finished tutorials, and a week later you've made no real progress.
+  </p>
+
+  <p>
+    The list below is short on purpose. Everything on it is the kind of thing
+    working bug bounty hunters actually recommend when somebody asks them where
+    to start.
+  </p>
+
+  <h2>The list</h2>
+
+  <LearningResources />
+
+  <h2>How to use this list without burning out</h2>
+
+  <p>
+    Treat it as a starter pack, not a syllabus. You need one place to do
+    hands-on labs, one source of disclosed reports to read, and one creator
+    whose explanations make sense in your head. That's the minimum viable bug
+    bounty curriculum.
+  </p>
+
+  <p>If you're starting from zero, here's the order I'd actually recommend:</p>
+
+  <ol>
+    <li>
+      <strong>PortSwigger Web Security Academy.</strong> Free, structured, every lab
+      teaches a real bug class. There is no better starting point.
+    </li>
+    <li>
+      <strong>HackerOne Hacktivity.</strong> Read two or three disclosed reports a
+      day. After a week you stop guessing what real bugs look like and start spotting
+      them in places you wouldn't have before.
+    </li>
+    <li>
+      <strong
+        >Juice Shop or WebGoat, running locally, broken open in Burp.</strong
+      >
+      The goal isn't to "learn Burp", it's to make intercepting and modifying requests
+      boring enough that you stop thinking about it.
+    </li>
+  </ol>
+
+  <p>That's enough to be dangerous. Add anything else as you find gaps.</p>
+
+  <h2>What's not on the list</h2>
+
+  <p>
+    Certifications like OSCP, OSWE, BSCP, and CBBH aren't here on purpose. They
+    aren't a bad thing, but they aren't the cheapest or fastest route to your
+    first paid bug, and most of the platforms above sell their own certs if you
+    decide later that you want a structured exam.
+  </p>
+
+  <p>
+    Paid bootcamps and "be a bug bounty millionaire" courses are also off the
+    list. The free and low-cost stuff above, used consistently, will get you
+    further than almost any of them.
+  </p>
+</MarkdownLayout>

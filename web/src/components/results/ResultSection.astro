@@ -1,0 +1,36 @@
+---
+interface Props {
+  heading?: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<section class="section">
+  {
+    heading && (
+      <h2>
+        {heading}
+        <slot name="badge" />
+      </h2>
+    )
+  }
+  <slot />
+</section>
+
+<style>
+  @import "../../styles/results.css";
+
+  .section {
+    background: var(--background-lighter);
+    border-radius: var(--curve);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+
+    & h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+  }
+</style>

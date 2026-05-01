@@ -1,0 +1,371 @@
+---
+import type { ContactInfo } from "@lib/lookup/types";
+
+interface Socials {
+  twitter?: string;
+  mastodon?: string;
+  linkedin?: string;
+  instagram?: string;
+  [key: string]: string | undefined;
+}
+
+interface Props {
+  metadata: Record<string, unknown>;
+  contacts: ContactInfo[];
+}
+
+const { metadata, contacts } = Astro.props;
+
+const login = String(metadata.login || "");
+const name = metadata.name ? String(metadata.name) : null;
+const bio = metadata.bio ? String(metadata.bio) : null;
+const avatarUrl = metadata.avatarUrl ? String(metadata.avatarUrl) : null;
+const profileUrl = metadata.profileUrl ? String(metadata.profileUrl) : null;
+const type = String(metadata.type || "User");
+const company = metadata.company ? String(metadata.company) : null;
+const location = metadata.location ? String(metadata.location) : null;
+const repos = metadata.repos ? Number(metadata.repos) : null;
+const followers = metadata.followers ? Number(metadata.followers) : null;
+const joined = metadata.joined ? String(metadata.joined) : null;
+const socials = (metadata.socials as Socials) || {};
+
+const website = contacts.find((c) => c.type === "url");
+const email = contacts.find((c) => c.type === "email");
+
+let websiteLabel = website?.value || "";
+try {
+  if (website)
+    websiteLabel = new URL(website.value).hostname.replace(/^www\./, "");
+} catch {
+  /* use raw value */
+}
+
+const joinedYear = joined ? new Date(joined).getFullYear() : null;
+
+const SOCIAL_ICONS: Record<string, { label: string; urlPrefix?: string }> = {
+  twitter: { label: "Twitter", urlPrefix: "https://x.com/" },
+  mastodon: { label: "Mastodon" },
+  linkedin: { label: "LinkedIn" },
+  instagram: { label: "Instagram" },
+};
+
+const socialLinks = Object.entries(socials)
+  .map(([provider, value]) => {
+    if (!value) return null;
+    const info = SOCIAL_ICONS[provider];
+    const url = value.startsWith("http")
+      ? value
+      : info?.urlPrefix
+        ? `${info.urlPrefix}${value}`
+        : null;
+    return url ? { provider, label: info?.label || provider, url } : null;
+  })
+  .filter(Boolean) as { provider: string; label: string; url: string }[];
+
+const stats = [
+  repos != null && repos > 0 ? `${repos} repos` : null,
+  followers != null && followers > 0 ? `${followers} followers` : null,
+  joinedYear ? `Joined ${joinedYear}` : null,
+].filter(Boolean) as string[];
+---
+
+<div class="user-card">
+  <div class="user-main">
+    {
+      avatarUrl && (
+        <a
+          href={profileUrl || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="avatar-link"
+        >
+          <img
+            src={`${avatarUrl}&s=80`}
+            width="40"
+            height="40"
+            alt={`${login} avatar`}
+            loading="lazy"
+          />
+        </a>
+      )
+    }
+    <div class="user-info">
+      <div class="user-identity">
+        {
+          name ? (
+            <>
+              <a
+                href={profileUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="user-name"
+              >
+                {name}
+              </a>
+              <span class="user-login">@{login}</span>
+            </>
+          ) : (
+            <a
+              href={profileUrl || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="user-name"
+            >
+              @{login}
+            </a>
+          )
+        }
+        {type === "Organization" && <span class="org-badge">Org</span>}
+      </div>
+      {bio && <p class="user-bio">{bio}</p>}
+      <div class="user-meta">
+        {
+          company && (
+            <span class="meta-item">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+                <path d="M10 6h4" />
+                <path d="M10 10h4" />
+                <path d="M10 14h4" />
+                <path d="M10 18h4" />
+              </svg>
+              {company.replace(/^@/, "")}
+            </span>
+          )
+        }
+        {
+          location && (
+            <span class="meta-item">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              {location}
+            </span>
+          )
+        }
+        {
+          email && (
+            <a href={`mailto:${email.value}`} class="meta-item meta-link">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              {email.value}
+            </a>
+          )
+        }
+        {
+          website && (
+            <a
+              href={website.value}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="meta-item meta-link"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              {websiteLabel}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+  {
+    (socialLinks.length > 0 || stats.length > 0) && (
+      <div class="user-footer">
+        {socialLinks.length > 0 && (
+          <div class="social-links">
+            {socialLinks.map((s) => (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title={s.label}
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        )}
+        {stats.length > 0 && (
+          <span class="user-stats">{stats.join(" \u00b7 ")}</span>
+        )}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .user-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .user-main {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .avatar-link {
+    flex-shrink: 0;
+    img {
+      border-radius: 50%;
+      background: var(--background-darker);
+      display: block;
+    }
+  }
+
+  .user-info {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .user-identity {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--foreground);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .user-login {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .org-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--info);
+    border: 1px solid color-mix(in srgb, var(--info) 30%, transparent);
+    border-radius: var(--curve);
+    padding: 0.05rem 0.35rem;
+  }
+
+  .user-bio {
+    margin: 0.2rem 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .user-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    margin-top: 0.35rem;
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    svg {
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+  }
+
+  .meta-link {
+    text-decoration: none;
+    color: var(--muted);
+    transition: var(--transition);
+    &:hover {
+      color: var(--foreground);
+    }
+  }
+
+  .user-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--curve);
+    transition: var(--transition);
+    &:hover {
+      color: var(--foreground);
+      border-color: var(--foreground);
+    }
+  }
+
+  .user-stats {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  @media (max-width: 600px) {
+    .avatar-link img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>

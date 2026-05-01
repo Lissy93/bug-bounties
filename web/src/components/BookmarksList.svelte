@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { Bookmark } from "lucide-svelte";
-  import { bookmarks } from "../lib/bookmarks";
+  import { bookmarks } from "@lib/bookmarks";
   import CompanyCard from "./CompanyCard.svelte";
   import Loading from "./Loading.svelte";
-  import type { ListProgram } from "../types/Company";
+  import type { ListProgram } from "@app-types/Company";
 
   export let programs: ListProgram[] = [];
   export let trancoRanks: Record<string, number> = {};

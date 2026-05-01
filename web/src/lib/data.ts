@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { slugify, resetSlugs } from "./slugify";
-import type { BountyProgram } from "../types/Company";
+import type { BountyProgram } from "@app-types/Company";
 
 let cached: BountyProgram[] | null = null;
 

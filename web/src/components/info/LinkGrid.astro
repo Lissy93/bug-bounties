@@ -1,0 +1,102 @@
+---
+export interface LinkGridItem {
+  title: string;
+  url: string;
+  description: string;
+  /** Optional secondary line shown between title and description. */
+  subtitle?: string;
+  /** Optional icon URL. When present, sits inline with the description. */
+  icon?: string;
+}
+
+interface Props {
+  items: LinkGridItem[];
+  /** Whether links should open in a new tab. Defaults to true. */
+  external?: boolean;
+}
+
+const { items, external = true } = Astro.props;
+const linkAttrs = external
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+<ul class="card-grid link-grid">
+  {
+    items.map((item) => (
+      <li>
+        <a class="link-card" href={item.url} {...linkAttrs}>
+          <strong>{item.title}</strong>
+          {item.subtitle && <em>{item.subtitle}</em>}
+          {item.icon ? (
+            <div class="body">
+              <img
+                src={item.icon}
+                alt=""
+                loading="lazy"
+                width="40"
+                height="40"
+              />
+              <span>{item.description}</span>
+            </div>
+          ) : (
+            <span>{item.description}</span>
+          )}
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .link-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    height: 100%;
+    padding: 0.85rem 1rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--curve);
+    text-decoration: none;
+    transition: border-color var(--transition);
+
+    &:hover {
+      border-color: var(--primary);
+    }
+
+    strong {
+      color: var(--primary);
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+
+    em {
+      color: var(--foreground);
+      font-style: normal;
+      font-size: 0.78rem;
+    }
+
+    span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .body {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+
+      img {
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+    }
+  }
+</style>

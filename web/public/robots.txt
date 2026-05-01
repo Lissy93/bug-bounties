@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /bookmarks
 
 Sitemap: https://bug-bounties.as93.net/sitemap-index.xml

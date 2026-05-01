@@ -1,12 +1,5 @@
 ---
-import {
-  Github,
-  Info,
-  CodeXml,
-  CirclePlus,
-  GraduationCap,
-  Bookmark,
-} from "lucide-svelte";
+import NavIcon from "./NavIcon.svelte";
 
 const navLinks = [
   {
@@ -21,6 +14,13 @@ const navLinks = [
     href: "https://github.com/Lissy93/bug-bounties/issues/new?template=add.yml",
     icon: "CirclePlus",
     external: true,
+    showOnHome: false,
+  },
+  {
+    label: "Lookup",
+    href: "/lookup",
+    icon: "Search",
+    external: false,
     showOnHome: false,
   },
   {
@@ -75,7 +75,8 @@ function isActive(link: (typeof navLinks)[0]): boolean {
         </h1>
       </div>
       <p class="subtitle">
-        A compiled list of companies which accept responsible disclosure
+        The open source directory of bug bounty and responsible disclosure
+        programs
         <a href="/about">...</a>
       </p>
       <nav aria-label="Main navigation">
@@ -89,11 +90,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
             >
-              {link.icon === "Github" && <Github size={16} />}
-              {link.icon === "CirclePlus" && <CirclePlus size={16} />}
-              {link.icon === "CodeXml" && <CodeXml size={16} />}
-              {link.icon === "GraduationCap" && <GraduationCap size={16} />}
-              {link.icon === "Info" && <Info size={16} />}
+              <NavIcon icon={link.icon} size={16} />
               {link.label}
             </a>
           ))}
@@ -104,6 +101,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
             (link) =>
               !link.showOnHome &&
               link.href != "/bookmarks" &&
+              link.href != "/lookup" &&
               link.href != "/learn",
           )
           .map((link) => (
@@ -114,11 +112,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
             >
-              {link.icon === "Github" && <Github size={16} />}
-              {link.icon === "CirclePlus" && <CirclePlus size={16} />}
-              {link.icon === "CodeXml" && <CodeXml size={16} />}
-              {link.icon === "GraduationCap" && <GraduationCap size={16} />}
-              {link.icon === "Info" && <Info size={16} />}
+              <NavIcon icon={link.icon} size={16} />
               {link.label}
             </a>
           ))}
@@ -141,12 +135,7 @@ function isActive(link: (typeof navLinks)[0]): boolean {
                 : {})}
               {...(isActive(link) ? { "aria-current": "page" } : {})}
             >
-              {link.icon === "Github" && <Github size={14} />}
-              {link.icon === "CirclePlus" && <CirclePlus size={14} />}
-              {link.icon === "CodeXml" && <CodeXml size={14} />}
-              {link.icon === "Bookmark" && <Bookmark size={14} />}
-              {link.icon === "GraduationCap" && <GraduationCap size={14} />}
-              {link.icon === "Info" && <Info size={14} />}
+              <NavIcon icon={link.icon} size={14} />
               {link.label}
             </a>
           ))}

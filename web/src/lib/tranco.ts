@@ -1,6 +1,6 @@
 import { inflateRaw } from "node:zlib";
 import { promisify } from "node:util";
-import type { BountyProgram } from "../types/Company";
+import type { BountyProgram } from "@app-types/Company";
 import { resolvePrimaryDomain } from "./domain";
 import { log } from "./log";
 

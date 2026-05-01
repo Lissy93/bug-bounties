@@ -1,0 +1,305 @@
+---
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import Header from "@components/Header.astro";
+import BackLink from "@components/BackLink.astro";
+import SourceResultCard from "@components/results/SourceResultCard.astro";
+import SummaryChecklist from "@components/results/SummaryChecklist.astro";
+import ErrorCard from "@components/results/ErrorCard.astro";
+import Summary from "@components/results/Summary.astro";
+import ResultSection from "@components/results/ResultSection.astro";
+import type { SummaryAction } from "@components/results/Summary.astro";
+import DeepSearchToggle from "@components/results/DeepSearchToggle.svelte";
+import { formatDate } from "@lib/format";
+import { runFullGitHubLookup } from "@lib/lookup/run-github-lookup";
+import { hasGitHubToken } from "@lib/lookup/github-fetch";
+import type { LookupResponse } from "@lib/lookup/types";
+
+export const prerender = false;
+
+const { owner, repo } = Astro.params;
+const deep = Astro.url.searchParams.get("deep") === "true";
+
+let data: LookupResponse | null = null;
+let errorTitle = "";
+let errorMessage = "";
+let errorSuggestion = "";
+
+if (!owner || !repo) {
+  errorTitle = "Missing Repository";
+  errorMessage = "No repository was provided.";
+  errorSuggestion = "Try a URL like /lookup/github/expressjs/express.";
+} else if (!hasGitHubToken()) {
+  errorTitle = "GitHub Token Missing";
+  errorMessage =
+    "A GitHub API token is required but not configured on this server.";
+  errorSuggestion =
+    "Set GITHUB_TOKEN in the environment to enable GitHub lookups.";
+} else {
+  try {
+    data = await runFullGitHubLookup(owner, repo, deep);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    errorTitle = "Lookup Failed";
+    errorMessage = msg;
+    errorSuggestion = "Check the repository name and try again.";
+  }
+}
+
+const slug = `${owner}/${repo}`;
+const tier1Results = data?.results.filter((r) => r.tier === 1) || [];
+const tier2Results = data?.results.filter((r) => r.tier === 2) || [];
+const tier1Contacts = tier1Results.reduce((n, r) => n + r.contacts.length, 0);
+const tier1Sources = tier1Results.filter((r) => r.contacts.length > 0).length;
+
+const SECURITY_KEYWORDS =
+  /bounty|security|policy|report|disclos|vulnerabilit|advisory|hackerone|bugcrowd|vdp/i;
+
+function isSecurityRelated(value: string, hint: string): boolean {
+  return SECURITY_KEYWORDS.test(hint) || SECURITY_KEYWORDS.test(value);
+}
+
+function buildActions(results: typeof tier1Results): SummaryAction[] {
+  const actions: SummaryAction[] = [];
+  const seen = new Set<string>();
+  const emails: string[] = [];
+  const urlCandidates: { href: string; hint: string }[] = [];
+
+  for (const r of results) {
+    const hint = r.source;
+    for (const c of r.contacts) {
+      if (seen.has(c.value)) continue;
+      seen.add(c.value);
+      const label = c.label || hint;
+      if (c.type === "email" && isSecurityRelated(c.value, label))
+        emails.push(c.value);
+      else if (c.type === "url" && isSecurityRelated(c.value, label))
+        urlCandidates.push({ href: c.value, hint: label });
+    }
+    if (r.url && !seen.has(r.url) && isSecurityRelated(r.url, hint)) {
+      seen.add(r.url);
+      urlCandidates.push({ href: r.url, hint });
+    }
+  }
+
+  if (emails.length > 0) {
+    actions.push({
+      label: "Email Security Team",
+      href: emails[0],
+      type: "email",
+    });
+  }
+
+  const keywords = [
+    "policy",
+    "security",
+    "advisory",
+    "disclos",
+    "vdp",
+    "report",
+    "bounty",
+  ];
+  function rank(hint: string): number {
+    const l = hint.toLowerCase();
+    const idx = keywords.findIndex((kw) => l.includes(kw));
+    return idx === -1 ? keywords.length : idx;
+  }
+  urlCandidates.sort((a, b) => rank(a.hint) - rank(b.hint));
+  if (urlCandidates.length > 0) {
+    actions.push({
+      label: "Security Policy",
+      href: urlCandidates[0].href,
+      type: "url",
+    });
+  }
+
+  return actions;
+}
+
+const summaryActions = data ? buildActions(tier1Results) : [];
+
+const hasSkipped = !deep && !!data?.summary.some((s) => s.status === "skipped");
+
+const pageTitle = data
+  ? `Security Contacts for ${slug} - Bug Bounties`
+  : `GitHub Lookup - Bug Bounties`;
+const pageDescription = data
+  ? `Security contact information for ${slug}. Found ${tier1Contacts} verified contact${tier1Contacts !== 1 ? "s" : ""}.`
+  : "GitHub repository security contact lookup.";
+---
+
+<DefaultLayout title={pageTitle} description={pageDescription} noindex>
+  <Header />
+  <article class="detail-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <BackLink href="/lookup" label="Search for Security Contacts" />
+    </nav>
+
+    {
+      errorTitle ? (
+        <ErrorCard
+          title={errorTitle}
+          message={errorMessage}
+          suggestion={errorSuggestion}
+        />
+      ) : data ? (
+        <>
+          <h1>
+            <img
+              src={`https://github.com/${owner}.png?size=48`}
+              width="24"
+              alt={`${owner} avatar`}
+            />
+            Security Contacts for{" "}
+            <a
+              href={`https://github.com/${slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="repo-link"
+            >
+              {slug}
+            </a>
+          </h1>
+          <div class="meta-row">
+            <p class="queried-at">
+              Queried {formatDate(data.queried_at, true)}
+            </p>
+            {hasSkipped && (
+              <DeepSearchToggle
+                domain={slug}
+                type="github"
+                client:only="svelte"
+              />
+            )}
+          </div>
+
+          {summaryActions.length > 0 ? (
+            <Summary
+              status="success"
+              title="Verified security contacts found"
+              message={`Found ${tier1Contacts} verified contact${tier1Contacts !== 1 ? "s" : ""} across ${tier1Sources} source${tier1Sources !== 1 ? "s" : ""} for ${slug}.`}
+              actions={summaryActions}
+            />
+          ) : tier2Results.length > 0 || tier1Results.length > 0 ? (
+            <Summary
+              status="warning"
+              title="No verified security channels found"
+              message={`We could not find verified security contacts for ${slug}. The results below are fallback contacts - manual verification is recommended.`}
+            />
+          ) : (
+            <Summary
+              status="error"
+              title="No reporting methods found"
+              message={`We checked all available sources but could not find any security contacts for ${slug}.`}
+            />
+          )}
+
+          {tier1Results.length > 0 && (
+            <>
+              <h2 class="tier-heading">Primary Sources</h2>
+              {tier1Results.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {tier2Results.length > 0 && (
+            <>
+              <h2 class="tier-heading">Fallback Sources</h2>
+              {tier2Results.map((r) => (
+                <SourceResultCard result={r} />
+              ))}
+            </>
+          )}
+
+          {data.errors.length > 0 && (
+            <ResultSection heading="Errors">
+              <ul class="error-list">
+                {data.errors.map((e) => (
+                  <li>
+                    <strong>{e.source}:</strong> {e.error}
+                  </li>
+                ))}
+              </ul>
+            </ResultSection>
+          )}
+
+          <SummaryChecklist
+            summary={data.summary}
+            hasVerified={tier1Results.length > 0}
+          />
+        </>
+      ) : null
+    }
+  </article>
+</DefaultLayout>
+
+<style>
+  @import "../../../../styles/results.css";
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.6rem;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    img {
+      border-radius: 50%;
+      width: 1.6rem;
+      height: 1.6rem;
+      background: var(--background-lighter);
+    }
+  }
+
+  .repo-link {
+    color: var(--primary);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    flex-wrap: wrap;
+  }
+
+  .queried-at {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .tier-heading {
+    color: var(--muted);
+    margin: 1.5rem 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: none;
+  }
+
+  .error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--danger);
+    & li {
+      padding: 0.25rem 0;
+    }
+    & strong {
+      color: var(--foreground);
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+</style>

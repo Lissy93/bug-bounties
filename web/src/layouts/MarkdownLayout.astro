@@ -1,0 +1,220 @@
+---
+import Header from "@components/Header.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
+import { articleSchema } from "@lib/json-ld";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    date: string;
+    updated?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const slug = Astro.url.pathname.replace(/^\/learn\//, "").replace(/\/$/, "");
+
+const jsonLd = articleSchema({
+  title: frontmatter.title,
+  description: frontmatter.description,
+  slug,
+  datePublished: frontmatter.date,
+  dateModified: frontmatter.updated,
+});
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<DefaultLayout
+  title={`${frontmatter.title} - Bug Bounties`}
+  description={frontmatter.description}
+  jsonLd={jsonLd}
+>
+  <Header />
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="/learn">Learn</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{frontmatter.title}</span>
+  </nav>
+  <article class="prose">
+    <h1>{frontmatter.title}</h1>
+    <p class="meta">
+      <time datetime={frontmatter.date}>{formatDate(frontmatter.date)}</time>
+      {
+        frontmatter.updated && (
+          <span>
+            {" "}
+            &middot; Updated{" "}
+            <time datetime={frontmatter.updated}>
+              {formatDate(frontmatter.updated)}
+            </time>
+          </span>
+        )
+      }
+    </p>
+    <slot />
+  </article>
+</DefaultLayout>
+
+<style>
+  .breadcrumb {
+    margin: 0.75rem auto 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    span[aria-current] {
+      color: var(--foreground);
+    }
+  }
+
+  .prose {
+    color: var(--foreground);
+    line-height: 1.7;
+    background: var(--background-lighter);
+    padding: 0.25rem 2rem;
+    margin: 1.5rem auto 2rem;
+    width: 100%;
+    border-radius: var(--curve);
+    box-shadow: var(--shadow);
+
+    h1 {
+      color: var(--primary);
+      font-size: 2rem;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    h2,
+    h3,
+    h4 {
+      font-family: "Roboto", sans-serif;
+      color: var(--foreground);
+      margin: 1rem 0 0.2rem 0;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3rem;
+    }
+
+    h3 {
+      color: var(--foreground);
+      font-size: 1.05rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    h4 {
+      color: var(--foreground);
+      font-size: 0.95rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    a {
+      color: var(--primary);
+    }
+
+    strong {
+      color: var(--foreground);
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5rem;
+      margin: 0.75rem 0;
+      li {
+        margin-bottom: 0.3rem;
+      }
+    }
+
+    code {
+      background: var(--background-darker);
+      padding: 0.15rem 0.4rem;
+      border-radius: var(--curve);
+      font-size: 0.85rem;
+    }
+
+    pre {
+      background: var(--background-darker);
+      padding: 1rem 1.25rem;
+      border-radius: var(--curve);
+      border-left: 3px solid var(--primary);
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+
+    blockquote {
+      border-left: 3px solid var(--primary);
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: var(--background-lighter);
+      border-radius: 0 var(--curve) var(--curve) 0;
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      th {
+        background: var(--background-lighter);
+        color: var(--primary);
+        text-align: left;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--border);
+      }
+      td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: var(--curve);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+  }
+</style>

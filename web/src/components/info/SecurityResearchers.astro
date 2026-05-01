@@ -1,0 +1,157 @@
+---
+import LinkGrid, { type LinkGridItem } from "./LinkGrid.astro";
+
+interface Props {
+  /** If set, only the first N researchers will be rendered. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allResearchers: LinkGridItem[] = [
+  {
+    title: "Bruce Schneier",
+    subtitle: "Schneier on Security",
+    url: "https://www.schneier.com/",
+    description:
+      "Cryptographer, author, and one of the longest-running voices in security policy and applied cryptography",
+  },
+  {
+    title: "Brian Krebs",
+    subtitle: "Krebs on Security",
+    url: "https://krebsonsecurity.com/",
+    description:
+      "Investigative cybercrime journalist, consistently first to break major breach and threat actor stories",
+  },
+  {
+    title: "Troy Hunt",
+    subtitle: "troyhunt.com",
+    url: "https://www.troyhunt.com/",
+    description:
+      "Founder of Have I Been Pwned, writes prolifically on web security, breach disclosure, and password hygiene",
+  },
+  {
+    title: "Matthew Green",
+    subtitle: "A Few Thoughts on Cryptographic Engineering",
+    url: "https://blog.cryptographyengineering.com/",
+    description:
+      "Cryptography professor at Johns Hopkins, known for accessible deep dives on real-world crypto failures",
+  },
+  {
+    title: "Filippo Valsorda",
+    subtitle: "filippo.io",
+    url: "https://filippo.io/",
+    description:
+      "Cryptographer and former Go security lead, writes about applied cryptography and protocol design",
+  },
+  {
+    title: "Daniel Miessler",
+    subtitle: "danielmiessler.com",
+    url: "https://danielmiessler.com/",
+    description:
+      "Long-running security blog and Unsupervised Learning newsletter covering offensive security and AI security",
+  },
+  {
+    title: "Marcus Hutchins",
+    subtitle: "MalwareTech",
+    url: "https://www.malwaretech.com/",
+    description:
+      "Reverse engineer best known for stopping WannaCry, writes detailed malware analysis and exploitation posts",
+  },
+  {
+    title: "Tavis Ormandy",
+    subtitle: "lock.cmpxchg8b.com",
+    url: "https://lock.cmpxchg8b.com/",
+    description:
+      "Google Project Zero researcher with a track record of finding critical bugs in widely deployed software",
+  },
+  {
+    title: "Orange Tsai",
+    subtitle: "blog.orange.tw",
+    url: "https://blog.orange.tw/",
+    description:
+      "Offensive researcher behind ProxyLogon, ProxyShell, and a string of other landmark Microsoft Exchange findings",
+  },
+  {
+    title: "Mathy Vanhoef",
+    subtitle: "mathyvanhoef.com",
+    url: "https://www.mathyvanhoef.com/",
+    description:
+      "Academic security researcher who discovered KRACK, FragAttacks, and other foundational Wi-Fi vulnerabilities",
+  },
+  {
+    title: "Mikko Hyppönen",
+    subtitle: "mikko.hypponen.com",
+    url: "https://mikko.hypponen.com/",
+    description:
+      "Long-time malware researcher and Chief Research Officer at WithSecure, writes on threat landscape trends",
+  },
+  {
+    title: "Google Project Zero",
+    subtitle: "Project Zero Blog",
+    url: "https://googleprojectzero.blogspot.com/",
+    description:
+      "Google's elite vulnerability research team, publishing technical writeups of zero-day discoveries",
+  },
+  {
+    title: "PortSwigger Research",
+    subtitle: "portswigger.net/research",
+    url: "https://portswigger.net/research",
+    description:
+      "James Kettle and the PortSwigger team, regularly introducing entire new bug classes for the web",
+  },
+  {
+    title: "Patrick Wardle",
+    subtitle: "Objective-See",
+    url: "https://objective-see.org/blog.html",
+    description:
+      "macOS security researcher and creator of the Objective-See suite of free defensive tools for Mac users",
+  },
+  {
+    title: "Halvar Flake",
+    subtitle: "ADD / XOR / ROL",
+    url: "https://addxorrol.blogspot.com/",
+    description:
+      "Thomas Dullien, longtime reverse engineering and program analysis researcher behind BinDiff and zynamics",
+  },
+  {
+    title: "Bunnie Huang",
+    subtitle: "bunnie:studios",
+    url: "https://www.bunniestudios.com/blog/",
+    description:
+      "Hardware hacker behind Chumby, Novena, and Precursor, writing on supply chain security and physical reverse engineering",
+  },
+  {
+    title: "Mateusz Jurczyk",
+    subtitle: "j00ru//vx tech blog",
+    url: "https://j00ru.vexillium.org/",
+    description:
+      "Google Project Zero researcher specializing in Windows kernel internals, font parsers, and large-scale fuzzing",
+  },
+  {
+    title: "Gynvael Coldwind",
+    subtitle: "gynvael.coldwind.pl",
+    url: "https://gynvael.coldwind.pl/",
+    description:
+      "Google security engineer and CTF veteran, posting on low-level reversing, exploitation, and security education",
+  },
+  {
+    title: "Kelly Shortridge",
+    subtitle: "kellyshortridge.com",
+    url: "https://kellyshortridge.com/blog/",
+    description:
+      "Resilience engineering and security decision making, author of Security Chaos Engineering",
+  },
+  {
+    title: "Joshua Stein",
+    subtitle: "jcs.org",
+    url: "https://jcs.org/",
+    description:
+      "OpenBSD developer writing detailed deep dives on embedded hardware, low-level systems, and reverse engineering",
+  },
+];
+
+const items = limit ? allResearchers.slice(0, limit) : allResearchers;
+---
+
+<LinkGrid items={items} />

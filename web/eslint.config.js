@@ -24,6 +24,6 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["dist/", ".astro/", "node_modules/"],
+    ignores: ["dist/", ".astro/", ".vercel/", ".netlify/", "node_modules/"],
   },
 ]);
