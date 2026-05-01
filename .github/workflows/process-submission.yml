@@ -2,13 +2,11 @@ name: 🆕 Add program entry
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [labeled]
 
 jobs:
   process:
-    if: >-
-      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'program-submission'))
-      || (github.event.action == 'labeled' && github.event.label.name == 'program-submission')
+    if: github.event.label.name == 'program-submission'
     runs-on: ubuntu-latest
     concurrency:
       group: program-data-mutation

@@ -2,13 +2,11 @@ name: 🚮 Remove program entry
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [labeled]
 
 jobs:
   process:
-    if: >-
-      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'program-removal'))
-      || (github.event.action == 'labeled' && github.event.label.name == 'program-removal')
+    if: github.event.label.name == 'program-removal'
     runs-on: ubuntu-latest
     concurrency:
       group: program-data-mutation

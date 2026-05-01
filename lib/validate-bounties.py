@@ -20,7 +20,9 @@ INDEPENDENT_PATH = os.path.join(SCRIPT_DIR, "..", "independent-programs.yml")
 
 
 def validate_file(file_path, schema):
-    """Validate all entries in a YAML file against the schema.
+    """Validate all entries in a YAML file against the schema, and confirm
+    they are sorted alphabetically by company (case-insensitive) — the
+    submission script relies on this for its insertion logic.
     Returns (total, error_count)."""
     if not os.path.exists(file_path):
         return 0, 0
@@ -28,7 +30,12 @@ def validate_file(file_path, schema):
     with open(file_path) as f:
         data = yaml.safe_load(f)
 
-    entries = data.get("companies", [])
+    label = os.path.basename(file_path)
+    if not isinstance(data, dict) or not isinstance(data.get("companies"), list):
+        print(f"{label}: missing or non-list 'companies' key", file=sys.stderr)
+        return 0, 1
+
+    entries = data["companies"]
     errors = 0
 
     for i, entry in enumerate(entries):
@@ -36,8 +43,25 @@ def validate_file(file_path, schema):
             jsonschema.validate(entry, schema)
         except jsonschema.ValidationError as e:
             name = entry.get("company", "?")
-            print(f"{os.path.basename(file_path)} entry {i} ({name}): {e.message}", file=sys.stderr)
+            print(f"{label} entry {i} ({name}): {e.message}", file=sys.stderr)
             errors += 1
+
+    names = [e.get("company", "") for e in entries]
+    for i in range(1, len(names)):
+        if names[i].lower() < names[i - 1].lower():
+            print(f"{label}: out of order at index {i}: "
+                  f"{names[i]!r} should precede {names[i - 1]!r}", file=sys.stderr)
+            errors += 1
+
+    seen = {}
+    for i, name in enumerate(names):
+        key = name.lower()
+        if key in seen:
+            print(f"{label}: duplicate company {name!r} at indices {seen[key]} and {i}",
+                  file=sys.stderr)
+            errors += 1
+        else:
+            seen[key] = i
 
     return len(entries), errors
 
