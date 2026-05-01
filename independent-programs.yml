@@ -70,18 +70,14 @@ companies:
   - '*swag'
   program_type: vdp
   status: active
-  description: 'DNSLookup does not currently offer a formal bug bounty program with monetary rewards, but deeply appreciates the contributions of security researchers.
-
+  description: |-
+    DNSLookup does not currently offer a formal bug bounty program with monetary rewards, but deeply appreciates the contributions of security researchers.
 
     What is Offered:
-
     - Public Recognition: Listing in the Security Hall of Fame (with the researcher’s permission)
-
     - Swag: DNSLookup.pro merchandise for significant findings
-
     - Professional Reference: LinkedIn endorsement or reference letter
-
-    - CVE Credit: Attribution if the vulnerability is assigned a CVE ID'
+    - CVE Credit: Attribution if the vulnerability is assigned a CVE ID
   excluded_methods:
   - dos
   - social_engineering
@@ -203,6 +199,38 @@ companies:
   - phishing
   response_sla_days: 5
   pgp_key: https://advisories.orangecyberdefense.com
+- company: Recap Innovations
+  url: https://recap-innovations.com/security/
+  contact: mailto:security@recap-innovations.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: |-
+    Recap Innovations believe in recognizing security researchers who help us improve our security posture. With your permission, we will:
+    - Acknowledge your contribution in security acknowledgments page (if you wish to be named)
+    - Provide a reference letter for verified, high-quality reports upon request'
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.recap-innovations.com'
+    type: web
+  out_of_scope:
+  - Social engineering attacks (phishing, etc.)
+  - Denial of Service (DoS/DDoS) attacks
+  - Physical security testing
+  - Attacks requiring physical access to user devices
+  - Third-party services we integrate with
+  - Vulnerabilities in outdated browsers or operating systems
+  - Reports from automated tools without validation
+  - Issues already reported or publicly known
+  domains:
+  - '*.recap-innovations.com'
+  response_sla_days: 2
+  hall_of_fame_url: https://recap-innovations.com/security/
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
@@ -254,7 +282,6 @@ companies:
   - target: cloud.yellow.ai
     type: web
   out_of_scope:
-  - '```text'
   - All other subdomains and services not explicitly mentioned as in-scope. While other subdomains are generally out of scope, we encourage researchers to report critical findings in these areas. Such reports will be reviewed on a case-by-case basis.
   - Denial of Service (DoS) attacks.
   - Vulnerabilities found in third-party applications or services not directly controlled by Yellow.ai.
@@ -269,16 +296,10 @@ companies:
   - Rate limiting or brute force issues on non-authentication endpoints.
   - Social engineering (e.g., phishing, vishing, smishing).
   - Software version disclosure / Banner identification issues/headers, or public files (e.g., robots.txt).
-  - '```'
   domains:
-  - '```text'
   - cloud.yellow.ai
-  - '```'
   response_sla_days: 3
   reporting_url: https://yellow.ai/vulnerability-disclosure-program/ [Embedded Hackerone Submission Form]
-  standards:
-  - '```text'
-  - '```'
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
