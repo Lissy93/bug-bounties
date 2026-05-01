@@ -38,28 +38,49 @@ jobs:
               - 'platform-programs.yml'
               - 'lib/schema.json'
 
-  lib-checks:
-    name: 'Lib: Test'
+  lib:
+    name: 'Lib'
     needs: detect-changes
     if: needs.detect-changes.outputs.lib == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      validate: ${{ steps.report.outputs.validate }}
+      populate: ${{ steps.report.outputs.populate }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: pip install -r lib/requirements.txt
-      - run: make validate
-      - run: python lib/populate-bounties.py --dry-run --stats
+      - id: validate
+        continue-on-error: true
+        run: make validate
+      - id: populate
+        continue-on-error: true
+        run: python lib/populate-bounties.py --dry-run --stats
+      - id: report
+        if: always()
+        run: |
+          v='${{ steps.validate.outcome }}'
+          p='${{ steps.populate.outcome }}'
+          {
+            echo "validate=$v"
+            echo "populate=$p"
+          } >> "$GITHUB_OUTPUT"
+          [ "$v" = success ] && [ "$p" = success ]
 
-  web-lint:
-    name: 'Web: Lint'
+  web:
+    name: 'Web'
     needs: detect-changes
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: web
+    outputs:
+      lint: ${{ steps.report.outputs.lint }}
+      typecheck: ${{ steps.report.outputs.typecheck }}
+      format: ${{ steps.report.outputs.format }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -68,103 +89,38 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
-      - run: npm run lint
+      - id: lint
+        continue-on-error: true
+        run: npm run lint
+      - id: typecheck
+        continue-on-error: true
+        run: npm run type-check
+      - id: format
+        continue-on-error: true
+        run: npm run format
+      - id: report
+        if: always()
+        run: |
+          l='${{ steps.lint.outcome }}'
+          t='${{ steps.typecheck.outcome }}'
+          f='${{ steps.format.outcome }}'
+          {
+            echo "lint=$l"
+            echo "typecheck=$t"
+            echo "format=$f"
+          } >> "$GITHUB_OUTPUT"
+          [ "$l" = success ] && [ "$t" = success ] && [ "$f" = success ]
 
-  web-typecheck:
-    name: 'Web: Type check'
-    needs: detect-changes
-    if: needs.detect-changes.outputs.web == 'true'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      - run: npm ci
-      - run: npm run type-check
-
-  web-format:
-    name: 'Web: Format'
-    needs: detect-changes
-    if: needs.detect-changes.outputs.web == 'true'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      - run: npm ci
-      - run: npm run format
-
-  mcp-lint:
-    name: 'MCP: Lint'
+  mcp:
+    name: 'MCP'
     needs: detect-changes
     if: needs.detect-changes.outputs.mcp == 'true'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mcp
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: mcp/package-lock.json
-      - run: npm ci
-      - run: npm run lint
-
-  mcp-typecheck:
-    name: 'MCP: Type check'
-    needs: detect-changes
-    if: needs.detect-changes.outputs.mcp == 'true'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mcp
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: mcp/package-lock.json
-      - run: npm ci
-      - run: npm run type-check
-
-  mcp-format:
-    name: 'MCP: Format'
-    needs: detect-changes
-    if: needs.detect-changes.outputs.mcp == 'true'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: mcp
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: mcp/package-lock.json
-      - run: npm ci
-      - run: npm run format
-
-  mcp-smoke:
-    name: 'MCP: Smoke test'
-    needs: detect-changes
-    if: needs.detect-changes.outputs.mcp == 'true'
-    runs-on: ubuntu-latest
+    outputs:
+      lint: ${{ steps.report.outputs.lint }}
+      typecheck: ${{ steps.report.outputs.typecheck }}
+      format: ${{ steps.report.outputs.format }}
+      smoke: ${{ steps.report.outputs.smoke }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -174,6 +130,21 @@ jobs:
           cache-dependency-path: |
             web/package-lock.json
             mcp/package-lock.json
+      - name: Install mcp deps
+        working-directory: mcp
+        run: npm ci
+      - id: lint
+        working-directory: mcp
+        continue-on-error: true
+        run: npm run lint
+      - id: typecheck
+        working-directory: mcp
+        continue-on-error: true
+        run: npm run type-check
+      - id: format
+        working-directory: mcp
+        continue-on-error: true
+        run: npm run format
       - name: Install web deps
         working-directory: web
         run: npm ci
@@ -190,91 +161,138 @@ jobs:
           echo "web dev server failed to start"; cat /tmp/astro.log; exit 1
       - name: Build mcp
         working-directory: mcp
-        run: |
-          npm ci
-          npm run build
-      - name: Smoke test
+        run: npm run build
+      - id: smoke
         working-directory: mcp
+        continue-on-error: true
         env:
           BUG_BOUNTIES_API_URL: http://localhost:4321
         run: npm test
+      - id: report
+        if: always()
+        run: |
+          l='${{ steps.lint.outcome }}'
+          t='${{ steps.typecheck.outcome }}'
+          f='${{ steps.format.outcome }}'
+          s='${{ steps.smoke.outcome }}'
+          {
+            echo "lint=$l"
+            echo "typecheck=$t"
+            echo "format=$f"
+            echo "smoke=$s"
+          } >> "$GITHUB_OUTPUT"
+          for r in "$l" "$t" "$f" "$s"; do
+            [ "$r" = success ] || exit 1
+          done
 
-  docker-build:
-    name: 'Docker: Build'
+  docker:
+    name: 'Docker'
     needs: detect-changes
     if: needs.detect-changes.outputs.docker == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      build: ${{ steps.report.outputs.build }}
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v6
+      - id: build
+        continue-on-error: true
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: web/Dockerfile
           push: false
           load: true
           cache-from: type=gha
+      - id: report
+        if: always()
+        run: |
+          b='${{ steps.build.outcome }}'
+          echo "build=$b" >> "$GITHUB_OUTPUT"
+          [ "$b" = success ]
 
-  data-validation:
-    name: 'Data: Validate'
+  data:
+    name: 'Data'
     needs: detect-changes
     if: needs.detect-changes.outputs.data == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      validate: ${{ steps.report.outputs.validate }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: pip install -r lib/requirements.txt
-      - run: make validate
+      - id: validate
+        continue-on-error: true
+        run: make validate
+      - id: report
+        if: always()
+        run: |
+          v='${{ steps.validate.outcome }}'
+          echo "validate=$v" >> "$GITHUB_OUTPUT"
+          [ "$v" = success ]
 
   summary:
     name: 'Finish: Report results'
-    needs:
-      [
-        lib-checks,
-        web-lint,
-        web-typecheck,
-        web-format,
-        mcp-lint,
-        mcp-typecheck,
-        mcp-format,
-        mcp-smoke,
-        docker-build,
-        data-validation,
-      ]
+    needs: [lib, web, mcp, docker, data]
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Check results
+      - name: Build summary
+        env:
+          LIB_RESULT: ${{ needs.lib.result }}
+          LIB_VALIDATE: ${{ needs.lib.outputs.validate }}
+          LIB_POPULATE: ${{ needs.lib.outputs.populate }}
+          WEB_RESULT: ${{ needs.web.result }}
+          WEB_LINT: ${{ needs.web.outputs.lint }}
+          WEB_TYPECHECK: ${{ needs.web.outputs.typecheck }}
+          WEB_FORMAT: ${{ needs.web.outputs.format }}
+          MCP_RESULT: ${{ needs.mcp.result }}
+          MCP_LINT: ${{ needs.mcp.outputs.lint }}
+          MCP_TYPECHECK: ${{ needs.mcp.outputs.typecheck }}
+          MCP_FORMAT: ${{ needs.mcp.outputs.format }}
+          MCP_SMOKE: ${{ needs.mcp.outputs.smoke }}
+          DOCKER_RESULT: ${{ needs.docker.result }}
+          DOCKER_BUILD: ${{ needs.docker.outputs.build }}
+          DATA_RESULT: ${{ needs.data.result }}
+          DATA_VALIDATE: ${{ needs.data.outputs.validate }}
         run: |
           failed=0
-          echo "## PR Check Results" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Job | Status |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## PR Check Results"
+            echo ""
+            echo "| Component | Check | Status |"
+            echo "|-----------|-------|--------|"
+          } >> "$GITHUB_STEP_SUMMARY"
 
-          for job in lib-checks web-lint web-typecheck web-format mcp-lint mcp-typecheck mcp-format mcp-smoke docker-build data-validation; do
-            case "$job" in
-              lib-checks)      result="${{ needs.lib-checks.result }}" ;;
-              web-lint)        result="${{ needs.web-lint.result }}" ;;
-              web-typecheck)   result="${{ needs.web-typecheck.result }}" ;;
-              web-format)      result="${{ needs.web-format.result }}" ;;
-              mcp-lint)        result="${{ needs.mcp-lint.result }}" ;;
-              mcp-typecheck)   result="${{ needs.mcp-typecheck.result }}" ;;
-              mcp-format)      result="${{ needs.mcp-format.result }}" ;;
-              mcp-smoke)       result="${{ needs.mcp-smoke.result }}" ;;
-              docker-build)    result="${{ needs.docker-build.result }}" ;;
-              data-validation) result="${{ needs.data-validation.result }}" ;;
-            esac
+          render() {
+            local component="$1" check="$2" outcome="$3" job_result="$4"
+            local status
+            if [ "$job_result" = skipped ]; then
+              status="⏭️ Skipped"
+            else
+              case "$outcome" in
+                success) status="✅ Passed" ;;
+                failure) status="❌ Failed"; failed=1 ;;
+                skipped) status="⏭️ Skipped" ;;
+                *)       status="❔ Unknown"; failed=1 ;;
+              esac
+            fi
+            echo "| $component | $check | $status |" >> "$GITHUB_STEP_SUMMARY"
+          }
 
-            case "$result" in
-              success) status="✅ Passed" ;;
-              failure) status="❌ Failed"; failed=1 ;;
-              skipped) status="⏭️ Skipped" ;;
-              *)       status="❔ Unknown" ;;
-            esac
-            echo "| $job | $status |" >> "$GITHUB_STEP_SUMMARY"
-          done
+          render Lib    Validate     "$LIB_VALIDATE"   "$LIB_RESULT"
+          render Lib    Populate     "$LIB_POPULATE"   "$LIB_RESULT"
+          render Web    Lint         "$WEB_LINT"       "$WEB_RESULT"
+          render Web    'Type check' "$WEB_TYPECHECK"  "$WEB_RESULT"
+          render Web    Format       "$WEB_FORMAT"     "$WEB_RESULT"
+          render MCP    Lint         "$MCP_LINT"       "$MCP_RESULT"
+          render MCP    'Type check' "$MCP_TYPECHECK"  "$MCP_RESULT"
+          render MCP    Format       "$MCP_FORMAT"     "$MCP_RESULT"
+          render MCP    Smoke        "$MCP_SMOKE"      "$MCP_RESULT"
+          render Docker Build        "$DOCKER_BUILD"   "$DOCKER_RESULT"
+          render Data   Validate     "$DATA_VALIDATE"  "$DATA_RESULT"
 
           exit "$failed"
