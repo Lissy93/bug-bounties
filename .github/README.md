@@ -1311,6 +1311,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [RealSelf](https://bugcrowd.com/realself) 💰 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Reaper Farm](https://immunefi.com/bug-bounty/reaperfarm/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Rec Room Video Games](https://bugcrowd.com/engagements/recroom-og) 💰
+- <img src='https://icon.horse/icon/recap-innovations.com' width='16'/> [Recap Innovations](https://recap-innovations.com/security/) 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Recargapay](https://hackerone.com/recargapay) 💰 🏅
 - <img src='https://icon.horse/icon/www.recordedfuture.com' width='16'/> [Recorded Future](https://www.recordedfuture.com/security/) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Recorded Future Public Managed Bug Bount...](https://bugcrowd.com/engagements/recorded-future-mbb-og) 💰
