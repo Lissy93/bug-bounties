@@ -1319,6 +1319,7 @@
 - <img src='https://icon.horse/icon/code.reddit.com' width='16'/> [Reddit](https://code.reddit.com/wiki/help/whitehat) 💰 🏅
 - <img src='https://icon.horse/icon/access.redhat.com' width='16'/> [RedHat](https://access.redhat.com/articles/66234) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Redox](https://bugcrowd.com/redox) 💰 🏅
+- <img src='https://icon.horse/icon/redvilla.tech' width='16'/> [Redvilla](https://redvilla.tech/bug-bounty/) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Ref Finance](https://immunefi.com/bug-bounty/reffinance/) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Refereum](https://hackerone.com/refereum) 💰 🏅
 - <img src='https://icon.horse/icon/rei.com' width='16'/> [REI BBP](http://rei.com) 💰

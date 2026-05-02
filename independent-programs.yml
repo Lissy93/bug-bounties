@@ -254,6 +254,29 @@ companies:
   response_sla_days: 2
   hall_of_fame_url: https://recap-innovations.com/security/
 
+- company: Redvilla
+  url: https://redvilla.tech/bug-bounty/
+  contact: mailto:info@redvilla.tech
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: |-
+    We give points based on the severity of the report. Make sure your email is in the right format, Subject: Bug Bounty – [Your Name] Content: Introduction – Report
+
+    Note: We get reports in a very high volume. You can expect the response after manual review, and verification your report.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.redvilla.tech'
+    type: web
+  domains:
+  - '*.redvilla.tech'
+  hall_of_fame_url: https://redvilla.tech/bug-bounty/
+
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com

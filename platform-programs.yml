@@ -7546,6 +7546,11 @@ companies:
   contact: mailto:security@magix.net
   rewards:
   - '*recognition'
+- company: MAGNIFIC VDP
+  url: https://www.intigriti.com/programs/freepik/freepikcompany/detail
+  handle: freepikcompany
+  contact: https://www.intigriti.com/programs/freepik/freepikcompany/detail
+  rewards: []
 - company: MagpieXYZ
   url: https://immunefi.com/bug-bounty/magpiexyz/
   contact: https://immunefi.com/bug-bounty/magpiexyz/
@@ -10317,6 +10322,11 @@ companies:
   contact: https://immunefi.com/bug-bounty/qblockchain/
   rewards:
   - '*bounty'
+- company: QC VDP
+  url: https://www.intigriti.com/programs/quadcode/qcvdp/detail
+  handle: qcvdp
+  contact: https://www.intigriti.com/programs/quadcode/qcvdp/detail
+  rewards: []
 - company: QinetiQ Response
   url: https://www.qinetiq.com
   handle: qinetiq
@@ -12506,6 +12516,11 @@ companies:
   contact: mailto:cperciva@tarsnap.com
   rewards:
   - '*bounty'
+- company: Taxwell VDP
+  url: https://taxwell.com
+  handle: taxwell-vdp
+  contact: https://hackerone.com/taxwell-vdp
+  rewards: []
 - company: TCL Security Response Center
   url: https://src.tcl.com/
   contact: mailto:security@tcl.com
@@ -14307,6 +14322,11 @@ companies:
   contact: https://bugcrowd.com/engagements/wyze
   rewards:
   - '*bounty'
+- company: Wärtsilä Vulnerability Disclosure Program
+  url: https://www.intigriti.com/programs/wartsila/wartsila-vdp/detail
+  handle: wartsila-vdp
+  contact: https://www.intigriti.com/programs/wartsila/wartsila-vdp/detail
+  rewards: []
 - company: X (Formerly Twitter)
   url: https://hackerone.com/x
   contact: https://hackerone.com/x
