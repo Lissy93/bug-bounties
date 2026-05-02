@@ -150,6 +150,7 @@
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Axel Springer National Media & Tech](https://www.intigriti.com/programs/axelspringerse/nmt/detail) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Axelar Network](https://immunefi.com/bug-bounty/axelarnetwork/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [AXIS OS](https://bugcrowd.com/engagements/axis-os-public) 💰
+- <img src='https://icon.horse/icon/axispay.tech' width='16'/> [AxisPay](https://axispay.tech/legal/disclosure) 🏅
 - <img src='https://icon.horse/icon/www.ayersrockresort.com.au' width='16'/> [Ayers Rock Resort](https://www.ayersrockresort.com.au/terms-and-conditions/security) 🏅
 - <img src='https://icon.horse/icon/azimo.com' width='16'/> [Azimo](https://azimo.com/en/lp/responsible-disclosure) 💰
 
