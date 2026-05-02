@@ -11,6 +11,44 @@
 
 companies:
 
+- company: AxisPay
+  url: https://axispay.tech/legal/disclosure
+  contact: mailto:security@axispay.tech
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  safe_harbor: partial
+  preferred_languages: English
+  description: We do not currently offer a bug bounty program. However, we are grateful to researchers who submit valid reports and help us improve our security. We may offer non-monetary recognition at our discretion for significant findings.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  - automated_scanning
+  scope:
+  - target: axispay.tech/*
+    type: This marketing site and all its subpages
+  - target: dashboard.axispay.tech
+    type: AxisPay Portal
+  - target: axisvoice.com
+    type: AxisVoice
+  - target: axispass.app
+    type: AxisPass
+  out_of_scope:
+  - Third-party services we do not operate
+  - Social engineering, phishing, or physical attacks
+  - Denial-of-Service (DoS) or resource-exhaustion attacks
+  - Automated scanning that impacts service availability
+  domains:
+  - axispay.tech/*
+  - dashboard.axispay.tech
+  - axisvoice.com
+  - axispass.app
+  response_sla_days: 2
+  hall_of_fame_url: https://axispay.tech/legal/disclosure#hall-of-fame
+
 - company: BSI Germany
   url: https://www.bsi.bund.de/EN/IT-Sicherheitsvorfall/IT-Schwachstellen/it-schwachstellen_node.html
   contact: mailto:vulnerability@bsi.bund.de
