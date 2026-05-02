@@ -7,7 +7,13 @@ on:
 jobs:
   process:
     if: |
-      (github.event.action == 'edited' && startsWith(github.event.issue.title, '[Program]:'))
+      (
+        github.event.action == 'edited'
+        && (
+          startsWith(github.event.issue.title, '[Program]:')
+          || contains(github.event.issue.labels.*.name, 'program-submission')
+        )
+      )
       || (
         !contains(github.event.issue.labels.*.name, 'submission-processed')
         && (

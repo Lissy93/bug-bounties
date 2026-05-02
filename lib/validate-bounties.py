@@ -7,11 +7,19 @@ Usage:
 """
 
 import json
+import logging
 import os
 import sys
 
 import jsonschema
 import yaml
+
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
+    format="[%(levelname)s] %(message)s",
+    stream=sys.stderr,
+)
+log = logging.getLogger("validate-bounties")
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_PATH = os.path.join(SCRIPT_DIR, "schema.json")
@@ -32,33 +40,34 @@ def validate_file(file_path, schema):
 
     label = os.path.basename(file_path)
     if not isinstance(data, dict) or not isinstance(data.get("companies"), list):
-        print(f"{label}: missing or non-list 'companies' key", file=sys.stderr)
+        log.error("%s: missing or non-list 'companies' key", label)
         return 0, 1
 
     entries = data["companies"]
     errors = 0
+    log.debug("Validating %s (%d entries)", label, len(entries))
 
     for i, entry in enumerate(entries):
         try:
             jsonschema.validate(entry, schema)
         except jsonschema.ValidationError as e:
             name = entry.get("company", "?")
-            print(f"{label} entry {i} ({name}): {e.message}", file=sys.stderr)
+            log.error("%s entry %d (%s): %s", label, i, name, e.message)
             errors += 1
 
     names = [e.get("company", "") for e in entries]
     for i in range(1, len(names)):
         if names[i].lower() < names[i - 1].lower():
-            print(f"{label}: out of order at index {i}: "
-                  f"{names[i]!r} should precede {names[i - 1]!r}", file=sys.stderr)
+            log.error("%s: out of order at index %d: %r should precede %r",
+                      label, i, names[i], names[i - 1])
             errors += 1
 
     seen = {}
     for i, name in enumerate(names):
         key = name.lower()
         if key in seen:
-            print(f"{label}: duplicate company {name!r} at indices {seen[key]} and {i}",
-                  file=sys.stderr)
+            log.error("%s: duplicate company %r at indices %d and %d",
+                      label, name, seen[key], i)
             errors += 1
         else:
             seen[key] = i

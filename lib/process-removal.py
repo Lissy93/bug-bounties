@@ -6,6 +6,7 @@ removes it or explains why it can't be removed here.
 Outputs results via $GITHUB_OUTPUT for the workflow to act on.
 """
 
+import logging
 import os
 import re
 import sys
@@ -13,6 +14,12 @@ from urllib.parse import urlparse
 
 import yaml
 
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
+    format="[%(levelname)s] %(message)s",
+    stream=sys.stderr,
+)
+log = logging.getLogger("process-removal")
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 INDEPENDENT_PATH = os.path.join(SCRIPT_DIR, "..", "independent-programs.yml")
@@ -128,6 +135,8 @@ def main():
     issue_body = os.environ.get("ISSUE_BODY", "")
     issue_number = os.environ.get("ISSUE_NUMBER", "0")
     issue_author = os.environ.get("ISSUE_AUTHOR", "unknown")
+    log.info("Processing removal request #%s from @%s (%d chars)",
+             issue_number, issue_author, len(issue_body))
 
     company_input = ""
     reason = ""
@@ -137,8 +146,10 @@ def main():
 
         company_input = parsed.get("company", "").strip()
         reason = parsed.get("reason", "").strip()
+        log.info("Parsed: company=%r, reason=%r", company_input, reason or None)
 
         if not company_input:
+            log.warning("No company name supplied; deferring to maintainer")
             set_output("result", "error")
             set_output("company", "")
             set_output("comment",
@@ -158,6 +169,7 @@ def main():
 
         if idx is not None:
             company_display = matched_entry["company"]
+            log.info("Matched in independent programs at index %d: %r", idx, company_display)
 
             # Remove the entry
             independent_companies.pop(idx)
@@ -184,6 +196,8 @@ def main():
             with open(INDEPENDENT_PATH, "w") as f:
                 f.write(header)
                 f.write(yaml_body)
+            log.info("Removed %r from %s (%d entries remain)",
+                     company_display, INDEPENDENT_PATH, len(independent_companies))
 
             slug = slugify(company_display)
             branch = f"remove/{slug}-{issue_number}"
@@ -215,6 +229,8 @@ def main():
             company_display = platform_entry["company"]
             program_url = platform_entry.get("url", "")
             source = detect_platform(program_url)
+            log.info("Matched in platform programs: %r (source=%s)",
+                     company_display, source or "unknown")
 
             if source:
                 comment = (
@@ -237,6 +253,7 @@ def main():
             return
 
         # Not found anywhere
+        log.warning("No match for %r in either dataset", company_input)
         set_output("result", "not_found")
         set_output("company", company_input)
         set_output("comment",
@@ -245,8 +262,8 @@ def main():
                     f"\"{company_input}\" in our source files. Are you sure "
                     f"you copied it exactly?")
 
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+    except Exception:
+        log.exception("Unhandled error while processing removal")
         set_output("result", "error")
         set_output("company", company_input)
         set_output("comment",

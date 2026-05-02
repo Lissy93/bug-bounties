@@ -6,12 +6,20 @@ Outputs results via $GITHUB_OUTPUT for the workflow to act on.
 """
 
 import json
+import logging
 import os
 import re
 import sys
 
 import jsonschema
 import yaml
+
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
+    format="[%(levelname)s] %(message)s",
+    stream=sys.stderr,
+)
+log = logging.getLogger("process-submission")
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_PATH = os.path.join(SCRIPT_DIR, "schema.json")
@@ -260,6 +268,41 @@ def build_entry(parsed):
     return ordered
 
 
+def format_validation_error(error):
+    """Produce a human-friendly message for common jsonschema errors.
+
+    The default message for `maxLength` quotes the entire offending string,
+    which is noisy and omits the actual limit. Override the most common
+    failure modes (length, pattern, enum, type) and fall through to
+    `error.message` for anything else.
+    """
+    validator = error.validator
+    limit = error.validator_value
+    instance = error.instance
+
+    if validator == "maxLength" and isinstance(instance, str):
+        return f"is {len(instance)} chars (max {limit})"
+    if validator == "minLength" and isinstance(instance, str):
+        return f"is {len(instance)} chars (min {limit})"
+    if validator == "pattern":
+        if limit == "^https?://":
+            return f"must be an http(s):// URL (got '{instance}')"
+        return f"does not match required pattern {limit!r} (got '{instance}')"
+    if validator == "enum":
+        allowed = ", ".join(repr(v) for v in limit)
+        return f"must be one of [{allowed}] (got {instance!r})"
+    if validator == "type":
+        expected = limit if isinstance(limit, str) else " or ".join(limit)
+        actual = type(instance).__name__
+        return f"must be {expected} (got {actual})"
+    if validator == "minimum":
+        return f"must be >= {limit} (got {instance})"
+    if validator == "required":
+        missing = error.message.split("'")[1] if "'" in error.message else "field"
+        return f"missing required field '{missing}'"
+    return error.message
+
+
 def slugify(name):
     """Create a URL-safe slug from a company name."""
     slug = name.lower().strip()
@@ -319,10 +362,14 @@ def main():
     issue_body = os.environ.get("ISSUE_BODY", "")
     issue_number = os.environ.get("ISSUE_NUMBER", "0")
     issue_author = os.environ.get("ISSUE_AUTHOR", "unknown")
+    log.info("Processing issue #%s from @%s (%d chars)",
+             issue_number, issue_author, len(issue_body))
 
     # Parse the issue body
     parsed = parse_issue_body(issue_body)
     entry = build_entry(parsed)
+    log.info("Parsed %d fields; entry has %d keys (company=%r)",
+             len(parsed), len(entry), entry.get("company"))
 
     # Validate against schema
     with open(SCHEMA_PATH) as f:
@@ -334,12 +381,13 @@ def main():
         # Build a path like `payout_table.critical` for nested fields so the
         # contributor can tell which input was rejected.
         path = ".".join(str(p) for p in e.absolute_path) or "(root)"
+        message = format_validation_error(e)
+        log.warning("Validation failed at `%s`: %s", path, message)
         set_output("valid", "false")
-        set_output(
-            "error_message",
-            f"Schema validation error at `{path}`: {e.message}",
-        )
+        set_output("error_message",
+                   f"Schema validation error at `{path}`: {message}")
         return
+    log.info("Schema validation passed")
 
     # Check for duplicate company names
     with open(PROGRAMS_PATH) as f:
@@ -349,6 +397,7 @@ def main():
     company_lower = entry["company"].lower()
     for existing_entry in existing:
         if existing_entry.get("company", "").lower() == company_lower:
+            log.warning("Duplicate company: %r already in dataset", entry["company"])
             set_output("valid", "false")
             set_output("error_message",
                        f"Duplicate company name: '{entry['company']}' already exists.")
@@ -363,6 +412,7 @@ def main():
             break
 
     existing.insert(insert_idx, entry)
+    log.info("Inserted %r at index %d/%d", entry["company"], insert_idx, len(existing))
 
     # Read the header comment (lines before 'companies:')
     with open(PROGRAMS_PATH) as f:
@@ -408,6 +458,7 @@ def main():
         f"Thanks @{issue_author} for this submission 🎉\nPlease review changes, so we can get this merged"
     )
 
+    log.info("Wrote %s; branch=%s", PROGRAMS_PATH, branch)
     set_output("valid", "true")
     set_output("branch", branch)
     set_output("company", company)

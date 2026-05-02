@@ -653,13 +653,20 @@ def main() -> None:
         sys.exit(1)
 
     # Fetch + normalize + deduplicate
+    planned_sources = [n for n in SOURCES if n not in set(args.skip_sources)]
+    logger.info("Fetching %d sources (skip=%s)",
+                len(planned_sources), args.skip_sources or "none")
     raw_data = fetch_all(skip=args.skip_sources)
     if not raw_data:
         logger.error("No sources fetched, aborting")
         sys.exit(1)
+    logger.info("Fetched %d/%d sources successfully",
+                len(raw_data), len(planned_sources))
 
     normalized, norm_counts = normalize_all(raw_data)
     deduplicated = validate_entries(deduplicate(normalized), schema)
+    logger.info("Normalized %d entries; deduplicated to %d",
+                len(normalized), len(deduplicated))
 
     # Merge with existing file
     header_lines, existing = load_existing(args.output)
@@ -683,6 +690,7 @@ def main() -> None:
     independent_names = {normalize_name(e.get("company", "")) for e in independent_entries}
     merged = [e for e in merged if normalize_name(e.get("company", "")) not in independent_names]
     merged = validate_entries(merged, schema)
+    logger.info("Merged: %d total (%d new)", len(merged), new_count)
 
     if args.stats:
         print_stats(raw_data, norm_counts, deduplicated, len(merged), new_count)
