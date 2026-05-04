@@ -270,6 +270,7 @@
 </details>
 <details open><summary><h4>C</h4></summary>
 
+- <img src='https://icon.horse/icon/www.csint.pro' width='16'/> [C-SINT](https://www.csint.pro/bug_bounty) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Caffeine](https://bugcrowd.com/caffeine) 💰
 - <img src='https://icon.horse/icon/www.campaignmonitor.com' width='16'/> [Campaign Monitor](https://www.campaignmonitor.com/trust/report-a-vulnerability/) 💰
 - <img src='https://icon.horse/icon/www.canva.com' width='16'/> [Canva](https://www.canva.com/security/bug-bounty/) 💰
