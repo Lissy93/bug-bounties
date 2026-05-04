@@ -87,6 +87,38 @@ companies:
   disclosure_timeline_days: 90
   hall_of_fame_url: https://www.bt.com/about/contact-bt/responsible-disclosure/hall-of-fame
 
+- company: C-SINT
+  url: https://www.csint.pro/bug_bounty
+  contact: mailto:bugbounty@csint.pro
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  description: Help secure the csint.pro intelligence platform and earn rewards for high‑quality.For best results, start with the official vulnerability report template linked below, then email it as an attachment - https://www.csint.pro/bugbounty/assets/security_vulnerability_report_template.pdf
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.csint.pro'
+    type: web
+  - target: authentication, dashboard, OSINT search, subscriptions, user settings
+    type: main web app
+  - target: /login, /register, /dashboard, /api/*, /admin/*
+    type: endpoints
+  - target: application servers, load balancers, CDN config, databases, TLS and security headers
+    type: Infrastructure we control
+  out_of_scope:
+  - Third‑party processors, analytics, email providers, CDN infrastructure not configured by csint.pro.
+  - Hosting provider, ISP, registrar, certificate authority, or any systems not owned by csint.pro.
+  - Physical testing, social engineering against users, or harassment of staff or customers.
+  - DoS/DDoS, resource exhaustion, data destruction, or any service disruption.
+  - Persistent backdoors, malware, credential harvesting, or pivoting to internal networks.
+  domains:
+  - '*.csint.pro'
+  response_sla_days: 2
+
 - company: CERN
   url: https://security.web.cern.ch/home/en/cvd.shtml
   contact: mailto:Computer.Security@cern.ch
