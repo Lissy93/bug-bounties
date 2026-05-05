@@ -258,6 +258,35 @@ companies:
   - auth.iceline-hosting.com
   reporting_url: https://support.retraflow.io/iceline-hosting
 
+- company: mintlify.com
+  url: https://www.mintlify.com/security/responsible-disclosure
+  contact: mailto:security@mintlify.com
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  program_type: hybrid
+  status: active
+  description: At Mintlify, we care deeply about the safety and security of our customer's data. We greatly value inputs from our community that can help us detect vulnerabilities in our product and services.
+  out_of_scope:
+  - Automated scanning
+  - Social engineering, particularly involving Mintlify employees
+  - Missing or insufficient rate limiting
+  - Missing headers in responses, except in cases where material harm or exploitation is evident
+  - Brute force attacks
+  - DDOS attacks
+  - Clickjacking on pages with no sensitive actions
+  - Theoretical attacks without proof of exploitability
+  - Attacks requiring physical access to a victim's device
+  - Attacks requiring interceptin of a valid user's network traffic
+  - Denial of service attacks
+  domains:
+  - https://mintlify.com/docs
+  - https://dashboard.mintlify.com
+  - https://leaves.mintlify.com
+  - Mintlify GitHub apps
+  - Vulnerabilities which apply to Mintlify's hosted documentation and customers' documentation. Do not attempt to reproduce or exploit these vulnerabilities on customer documentation without express permission and communication from the customer and Mintlify teams.
+  requires_account: true
+
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
