@@ -258,6 +258,39 @@ companies:
   - auth.iceline-hosting.com
   reporting_url: https://support.retraflow.io/iceline-hosting
 
+- company: keragon.com
+  url: https://www.keragon.com/security/vulnerability-disclosure-program
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  - '*swag'
+  program_type: bounty
+  status: paused
+  safe_harbor: full
+  allows_disclosure: true
+  description: Keragon's bug bounty program uses a tiered model combining monetary rewards with recognition-based incentives.
+  out_of_scope:
+  - Third-party services integrated with Keragon (e.g., payment processors, email providers)
+  - Social engineering attacks (phishing, vishing, physical)
+  - Denial-of-service (DoS/DDoS) attacks
+  - Automated scanning that generates excessive traffic
+  - Any testing against customer data or production PHI environments
+  - Findings from automated tools without demonstrated impact
+  domains:
+  - keragon.com and all subdomains
+  - Keragon's public-facing web application
+  - Keragon's public API endpoints
+  - Keragon's authentication and authorization systems
+  min_payout: 25
+  max_payout: 2000
+  currency: USD
+  payout_table:
+    critical: 2000
+    high: 500
+    medium: 200
+    low: 48
+  requires_account: false
+
 - company: Mitsubishi Electric
   url: https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html
   contact: https://www.mitsubishielectric.com/psirt/contact/index.html
