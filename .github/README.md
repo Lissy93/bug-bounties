@@ -1226,6 +1226,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [PHP (Bug Bounty)](https://hackerone.com/ibb-php) 💰 🏅
 - <img src='https://icon.horse/icon/pickyassist.com' width='16'/> [Picky Assist](https://pickyassist.com/blog/bug-bounty-program-bug-beacon/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Pillar](https://immunefi.com/bug-bounty/pillar/) 💰
+- <img src='https://icon.horse/icon/www.19pine.ai' width='16'/> [Pine AI](https://www.19pine.ai/security) 🏅 🎁
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Pine Labs Bug Bounty Program](https://yeswehack.com/programs/pine-labs-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/www.pingidentity.com' width='16'/> [Ping](https://www.pingidentity.com/en/company/security-at-ping-identity.html) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Pinterest](https://bugcrowd.com/pinterest/) 💰 🏅
@@ -1434,6 +1435,7 @@
 - <img src='https://icon.horse/icon/signup.com' width='16'/> [Signup.com](https://signup.com/responsible-disclosure-policy) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Silo Finance V2](https://immunefi.com/bug-bounty/silofinance-v2/) 💰
 - <img src='https://icon.horse/icon/silvergoldbull.com' width='16'/> [Silvergoldbull](https://silvergoldbull.com/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/simbase.com' width='16'/> [simbase.com](https://simbase.com/terms/responsible-disclosure-policy) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Simple](https://bugcrowd.com/simple) 💰 🏅
 - <img src='https://icon.horse/icon/www.simplerisk.com' width='16'/> [Simplerisk](https://www.simplerisk.com/responsible_disclosure_policy) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SimpliSafe Managed Bug Bounty Engagement](https://bugcrowd.com/engagements/simplisafe) 💰
