@@ -1002,6 +1002,7 @@
 - <img src='https://icon.horse/icon/microweber.org' width='16'/> [Microweber](https://microweber.org/list-of-contributors) 🏅
 - <img src='https://icon.horse/icon/www.mimecast.com' width='16'/> [Mimecast](https://www.mimecast.com/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/www.gov.uk' width='16'/> [Ministry of Defence](https://www.gov.uk/guidance/report-a-vulnerability-on-an-mod-system) 🎁
+- <img src='https://icon.horse/icon/www.mintlify.com' width='16'/> [mintlify.com](https://www.mintlify.com/security/responsible-disclosure) 💰 🏅
 - <img src='https://icon.horse/icon/www.mitsubishielectric.com' width='16'/> [Mitsubishi Electric](https://www.mitsubishielectric.com/en/psirt/disclosurepolicy/index.html) 🏅
 - <img src='https://icon.horse/icon/www.mobikwik.com' width='16'/> [Mobikwik](https://www.mobikwik.com/bug-bounty) 💰 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Mobile Vikings](https://hackerone.com/mobilevikings) 💰 🏅 🎁
