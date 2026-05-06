@@ -380,6 +380,43 @@ companies:
   - '*.redvilla.tech'
   hall_of_fame_url: https://redvilla.tech/bug-bounty/
 
+- company: simbase.com
+  url: https://simbase.com/terms/responsible-disclosure-policy
+  contact: mailto:security@simbase.com
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  - '*swag'
+  program_type: bounty
+  status: active
+  safe_harbor: full
+  allows_disclosure: true
+  description: At Simbase, we are committed to maintaining the security of our systems and our customers' data. We provide global IoT connectivity services and understand the critical importance of safeguarding our in-house developed platform, which our customers rely on to manage their devices. We operate a responsible disclosure program and an active bug bounty program to reward security researchers who help us identify and fix vulnerabilities.
+  out_of_scope:
+  - Findings from automated tools or scans without manual validation
+  - Third-party applications, services, or devices that interact with our platform
+  - Denial of Service (DoS, DDoS) vulnerabilities
+  - Mobile applications (unless explicitly included in a specific bounty program)
+  - Attacks targeting Simbase customers or end users (not our systems)
+  - Rate limiting bypass without demonstrable impact
+  - Missing HTTP security headers without exploitable impact
+  - SPF, DKIM, or DMARC configuration issues
+  - Content injection vulnerabilities without confirmed exploitability
+  - Issues requiring physical access to infrastructure
+  - Social engineering or phishing attacks against Simbase employees
+  domains:
+  - simbase.com and all subdomains (excluding third-party hosted services)
+  - REST API endpoints and authentication mechanisms
+  - Dashboard and account management systems
+  - Authentication systems (SSO, OAuth, API keys, token validation)
+  - IoT infrastructure (device communication protocols, network security, data transmission)
+  max_payout: 200
+  currency: USD
+  response_sla_days: 4
+  disclosure_timeline_days: 90
+  swag_details: $200 USD (or equivalent) in platform credit on Simbase,  10 free SIM cards
+  requires_account: false
+
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
