@@ -1434,6 +1434,7 @@
 - <img src='https://icon.horse/icon/signup.com' width='16'/> [Signup.com](https://signup.com/responsible-disclosure-policy) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Silo Finance V2](https://immunefi.com/bug-bounty/silofinance-v2/) 💰
 - <img src='https://icon.horse/icon/silvergoldbull.com' width='16'/> [Silvergoldbull](https://silvergoldbull.com/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/simbase.com' width='16'/> [simbase.com](https://simbase.com/terms/responsible-disclosure-policy) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Simple](https://bugcrowd.com/simple) 💰 🏅
 - <img src='https://icon.horse/icon/www.simplerisk.com' width='16'/> [Simplerisk](https://www.simplerisk.com/responsible_disclosure_policy) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SimpliSafe Managed Bug Bounty Engagement](https://bugcrowd.com/engagements/simplisafe) 💰
