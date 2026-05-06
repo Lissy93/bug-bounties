@@ -178,6 +178,14 @@ companies:
   - '*.dnslookup.pro'
   hall_of_fame_url: https://dnslookup.pro/security
 
+- company: FreeFires
+  url: https://freefires.site
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  - '*swag'
+  program_type: bounty
+
 - company: Go Deed Inc
   url: https://www.joindeed.com/security
   contact: mailto:security@joindeed.com
