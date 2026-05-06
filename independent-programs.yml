@@ -332,6 +332,42 @@ companies:
   response_sla_days: 5
   pgp_key: https://advisories.orangecyberdefense.com
 
+- company: Pine AI
+  url: https://www.19pine.ai/security
+  contact: mailto:security@19pine.ai
+  rewards:
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  description: |-
+    Pine does not currently operate a formal bug bounty program and cannot guarantee monetary rewards. For valid, impactful findings disclosed responsibly, we may offer the following at our discretion.
+    - Public acknowledgment on this page
+    - A LinkedIn recommendation from our team
+    - Pine swag
+    - At our discretion, a one-time goodwill payment
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.19pine.ai'
+    type: Pine web application
+  out_of_scope:
+  - Social engineering, phishing, or physical attacks
+  - Denial-of-service attacks
+  - Vulnerabilities in third-party services we integrate with
+  - Self-XSS or attacks requiring user-side manipulation without remote exploitation
+  - Findings from automated scanners without demonstrated impact
+  - Missing security headers without exploitable consequence
+  - Content spoofing without credible risk
+  - AI prompt injection from user-uploaded content, which is treated as user-level input by design
+  domains:
+  - '*.19pine.ai'
+  response_sla_days: 3
+  hall_of_fame_url: https://www.19pine.ai/security#acknowledgments
+
 - company: Recap Innovations
   url: https://recap-innovations.com/security/
   contact: mailto:security@recap-innovations.com
