@@ -1835,6 +1835,7 @@
 </details>
 <details open><summary><h4>Z</h4></summary>
 
+- <img src='https://icon.horse/icon/zaakpay.com' width='16'/> [Zaakpay](https://zaakpay.com/bug-bounty) 💰
 - <img src='https://icon.horse/icon/zabbix.com' width='16'/> [Zabbix](https://zabbix.com) 💰 🎁
 - <img src='https://icon.horse/icon/www.zaful.com' width='16'/> [Zaful](https://www.zaful.com/report-security-issues) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Zano](https://immunefi.com/bug-bounty/zano/) 💰
