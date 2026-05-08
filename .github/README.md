@@ -163,6 +163,7 @@
 - <img src='https://icon.horse/icon/bsrc.baidu.com' width='16'/> [Baidu](https://bsrc.baidu.com/v2/#/en) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Balancer](https://immunefi.com/bug-bounty/balancer/) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Balsamiq for Atlassian Products](https://bugcrowd.com/engagements/balsamiq) 💰
+- <img src='https://icon.horse/icon/bambulab.com' width='16'/> [Bambu Lab](https://bambulab.com/en/bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/platacard.mx' width='16'/> [Banco Plata](http://platacard.mx) 💰
 - <img src='https://icon.horse/icon/getbase.com' width='16'/> [Base](https://getbase.com/security/) 🏅
 - <img src='https://icon.horse/icon/basecamp.com' width='16'/> [Basecamp](https://basecamp.com/about/policies/security/response) 💰 🏅 🎁
@@ -1606,6 +1607,7 @@
 - <img src='https://icon.horse/icon/www.gotinder.com' width='16'/> [Tinder](https://www.gotinder.com/security) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Tinyman](https://immunefi.com/bug-bounty/tinyman/) 💰
 - <img src='https://icon.horse/icon/www.tinfoilsecurity.com' width='16'/> [Tlon Corp](https://www.tinfoilsecurity.com/security) 💰 🏅
+- <img src='https://icon.horse/icon/tmgsec.com' width='16'/> [TMG Security](https://tmgsec.com/bug-bounty/) 🏅
 - <img src='https://icon.horse/icon/bounty.tokopedia.net' width='16'/> [Tokopedia](https://bounty.tokopedia.net/rules) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Tomorrowland](https://www.intigriti.com/programs/tomorrowland/tomorrowland/detail) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [TomTom](https://hackerone.com/tomtom) 🏅 🎁
