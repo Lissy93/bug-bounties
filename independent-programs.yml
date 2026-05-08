@@ -563,6 +563,47 @@ companies:
   response_sla_days: 3
   reporting_url: https://yellow.ai/vulnerability-disclosure-program/ [Embedded Hackerone Submission Form]
 
+- company: Zaakpay
+  url: https://zaakpay.com/bug-bounty
+  contact: mailto:vdp@zaakpay.com
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  preferred_languages: English
+  description: If you believe that you have found security vulnerability or Bug on any of Zaakpay’s owned Website or Application, we encourage you to let us know straight away. Our Team will investigate all legitimate reports and do our best to quickly fix the problem.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  - automated_scanning
+  scope:
+  - target: '*.zaakpay.com'
+    type: web
+  out_of_scope:
+  - Issues related to software/application not under Zaakpay’s control or owned by some third party
+  - Forms missing CSRF tokens (we require evidence of actual CSRF vulnerability)
+  - Missing security headers which do not lead directly to a vulnerability
+  - Clickjacking without an impact
+  - Text Injection
+  - Known-vulnerable library (without evidence of exploitability)
+  - Spam & rate limiting
+  - SSL/TLS protocol vulnerabilities
+  - Best practice concerns will be reviewed, but in general, we require evidence of a vulnerability
+  - Vulnerabilities only affecting users of outdated or unpatched browsers and platforms
+  - The brute force of promo/coupon code
+  - Social engineering attacks
+  - Email/Phone number enumeration (user enumeration)
+  - Any activity that could lead to the disruption of our service (DoS)
+  - Open Redirection
+  - Missing Security Headers
+  domains:
+  - '*.zaakpay.com'
+  min_payout: 1000
+  currency: INR
+  response_sla_days: 1
+
 - company: ZTE
   url: https://www.zte.com.cn/global/about/trust-center/ztepsirt.html
   contact: mailto:psirt@zte.com.cn
