@@ -49,6 +49,37 @@ companies:
   response_sla_days: 2
   hall_of_fame_url: https://axispay.tech/legal/disclosure#hall-of-fame
 
+- company: Bambu Lab
+  url: https://bambulab.com/en/bug-bounty-program
+  contact: mailto:security@bambulab.com
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  description: |-
+    Through our Bug Bounty Program, we collaborate with the security community to identify vulnerabilities early and strengthen the safety and reliability of our systems. Please refer to the detailed testing scope and reward rules below.
+    Link - https://bambulab.com/en/bug-bounty-program#scopeAndBounty
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.bambulab.com and makerworld.com'
+    type: web
+  - target: Bambu Handy, Bambu Studio, Bambu Suite and Bambu Connect
+    type: PC & App
+  - target: X-series, P-series, A-series, and H-series firmware
+    type: Device
+  out_of_scope:
+  - srm.bambulab.com
+  - prm.bambulab.com
+  domains:
+  - '*.bambulab.com'
+  - makerworld.com
+  response_sla_days: 10
+  reporting_url: https://bambulab.com/en/bug-bounty-program/reports/create
+
 - company: BSI Germany
   url: https://www.bsi.bund.de/EN/IT-Sicherheitsvorfall/IT-Schwachstellen/it-schwachstellen_node.html
   contact: mailto:vulnerability@bsi.bund.de
