@@ -504,6 +504,33 @@ companies:
   - target: TI product software and documentation
     type: other
 
+- company: TMG Security
+  url: https://tmgsec.com/bug-bounty/
+  contact: mailto:security@tmgsec.com
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  preferred_languages: English
+  description: We are not part of a cash/bug bounty program but are happy to issue a certificate of recognition to individuals who report security issues responsibly and help us make TMG Security systems more secure.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: tmgsec.com
+    type: web
+  - target: courses.tmgsec.com
+    type: web
+  out_of_scope:
+  - Any subdomain or asset owned by TMG Security other than the two mentioned above is out of scope and is not eligible for any reward.
+  - Check Detailed Out of Scope Vulnerabilities - https://tmgsec.com/bug-bounty/
+  domains:
+  - https://tmgsec.com
+  - https://courses.tmgsec.com
+  hall_of_fame_url: https://tmgsec.com/wall-of-fame/
+
 - company: Volvo
   url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
   contact: mailto:responsible-disclosure@volvocars.com
