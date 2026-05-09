@@ -700,7 +700,8 @@ companies:
   url: http://www.anthropic.com
   handle: anthropic-vdp
   contact: https://hackerone.com/anthropic-vdp
-  rewards: []
+  rewards:
+  - '*bounty'
 - company: 'AnyTask: Freelancer Platform'
   url: https://bugcrowd.com/engagements/anytask-mbb-og
   contact: https://bugcrowd.com/engagements/anytask-mbb-og
@@ -2177,6 +2178,11 @@ companies:
   contact: https://immunefi.com/bug-bounty/celer/
   rewards:
   - '*bounty'
+- company: celix Solutions GmbH Marketplace Bug Bounty Program
+  url: https://bugcrowd.com/engagements/celix-solutions-market
+  contact: https://bugcrowd.com/engagements/celix-solutions-market
+  rewards:
+  - '*bounty'
 - company: Centers for Medicare & Medicaid Services
   url: https://www.cms.gov/Research-Statistics-Data-and-Systems/CMS-Information-Technology/CIO-Directives-and-Policies/Downloads/CMS-Vulnerability-Disclosure-Policy.pdf
   contact: mailto:cms_it_service_desk@cms.hhs.gov
@@ -2972,6 +2978,12 @@ companies:
   url: https://success.coupa.com/Trust/Security_Policies/02_Vulnerability_Reporting_Policy
   contact: mailto:security@coupa.com
   rewards: []
+- company: Coupang Taiwan
+  url: https://www.tw.coupang.com
+  handle: coupang_tw
+  contact: https://hackerone.com/coupang_tw
+  rewards:
+  - '*bounty'
 - company: Courier
   url: https://hackerone.com/trycourier
   contact: https://hackerone.com/trycourier
@@ -7759,6 +7771,11 @@ companies:
   url: https://www.mathworks.com/company/aboutus/policies_statements/vulnerability-disclosure-policy.html
   contact: mailto:security@mathworks.com
   rewards: []
+- company: MATLAB Online - Ongoing Bug Bounty Engagement
+  url: https://bugcrowd.com/engagements/matlab-online
+  contact: https://bugcrowd.com/engagements/matlab-online
+  rewards:
+  - '*bounty'
 - company: Matomo
   url: https://hackerone.com/matomo
   handle: matomo
@@ -10205,6 +10222,11 @@ companies:
   contact: https://yeswehack.com/programs/programmes-de-primes-aux-bogues-du-gouvernement-du-quebec-cgcd
   rewards:
   - '*bounty'
+- company: Programmer Hat Marketplace Bug Bounty Program
+  url: https://bugcrowd.com/engagements/programmer-hat-market
+  contact: https://bugcrowd.com/engagements/programmer-hat-market
+  rewards:
+  - '*bounty'
 - company: ProjectBalm
   url: https://bugcrowd.com/engagements/projectbalm
   contact: https://bugcrowd.com/engagements/projectbalm
@@ -10401,6 +10423,11 @@ companies:
 - company: QuintoAndar Managed Bug Bounty Engagement
   url: https://bugcrowd.com/engagements/quintoandar
   contact: https://bugcrowd.com/engagements/quintoandar
+  rewards:
+  - '*bounty'
+- company: Quirk Consulting Marketplace Bug Bounty
+  url: https://bugcrowd.com/engagements/quirk-consulting
+  contact: https://bugcrowd.com/engagements/quirk-consulting
   rewards:
   - '*bounty'
 - company: Quizlet
@@ -10692,6 +10719,11 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: Refined
+  url: https://bugcrowd.com/engagements/refined2
+  contact: https://bugcrowd.com/engagements/refined2
+  rewards:
+  - '*bounty'
 - company: Regions
   url: https://www.regions.com/about-regions/privacy-security/vulnerability-disclosure-program
   handle: regions_financial
@@ -13471,6 +13503,11 @@ companies:
 - company: Universiteit Leiden
   url: https://www.staff.universiteitleiden.nl/binaries/content/assets/ul2staff/ict/responsible-disclosure-eng.pdf
   contact: mailto:abuse@leidenuniv.nl
+  rewards: []
+- company: University of Basel VDP
+  url: https://www.intigriti.com/programs/universityofbasel/universityofbaselvdp/detail
+  handle: universityofbaselvdp
+  contact: https://www.intigriti.com/programs/universityofbasel/universityofbaselvdp/detail
   rewards: []
 - company: University of Twente
   url: https://www.utwente.nl/en/cyber-safety/responsible/
