@@ -484,6 +484,28 @@ companies:
   - '*.redvilla.tech'
   hall_of_fame_url: https://redvilla.tech/bug-bounty/
 
+- company: screenly.io
+  url: https://www.screenly.io/bug-bounty/
+  contact: mailto:security-advisory@screenly.io
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  safe_harbor: full
+  allows_disclosure: true
+  out_of_scope:
+  - Stage and test environments that may reside on the same domains
+  - Third-party services not owned or controlled by Screenly (e.g., payment providers, CDNs)
+  - Denial-of-service or capacity stress testing
+  - Social engineering, phishing, or physical attacks against employees, customers, or partners
+  - Known public CVEs without a practical exploit path
+  - Low-impact issues listed under “Non-Qualifying Issues”
+  domains:
+  - screenly.io (marketing site)
+  - screenlyapp.com (web application)
+  - Our digital signage players (Screenly Player / Player Max only)
+  requires_account: false
+
 - company: simbase.com
   url: https://simbase.com/terms/responsible-disclosure-policy
   contact: mailto:security@simbase.com
