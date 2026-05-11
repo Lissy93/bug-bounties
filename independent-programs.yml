@@ -562,6 +562,20 @@ companies:
   - https://courses.tmgsec.com
   hall_of_fame_url: https://tmgsec.com/wall-of-fame/
 
+- company: voibly.app
+  url: https://voibly.app/security
+  contact: mailto:support@voibly.app
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  allows_disclosure: true
+  description: voibly is built for people whose work depends on confidentiality — lawyers, doctors, founders, engineers. Security isn't a marketing layer for us; it's the architecture.
+  max_payout: 5000
+  response_sla_days: 2
+  disclosure_timeline_days: 30
+  requires_account: false
+
 - company: Volvo
   url: https://www.volvocars.com/intl/l/legal/vulnerability-reporting/
   contact: mailto:responsible-disclosure@volvocars.com
