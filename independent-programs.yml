@@ -167,6 +167,46 @@ companies:
     type: web
   hall_of_fame_url: https://security.web.cern.ch/home/en/kudos.shtml
 
+- company: CrowdProof
+  url: https://crowdproof.id/security
+  contact: mailto:security@crowdproof.id
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: DIDRegistry, ReputationOracle, CredentialVerifier, PaymentEscrow, GovernanceToken
+    type: Smart contracts
+  - target: crowdproof-api.azurewebsites.net
+    type: Backend API
+  - target: portal.crowdproof.id
+    type: portal
+  - target: crowdproof.id
+    type: web
+  - target: TypeScript, Python, Go, C#, Java, Swift
+    type: SDKs
+  - target: ReputationProof, AgeProof, KYCProof
+    type: ZK circuits
+  out_of_scope:
+  - Social engineering or phishing attacks
+  - Denial of service (DoS/DDoS) attacks
+  - Vulnerabilities in third-party services (Stripe, Persona, Azure)
+  - Issues requiring physical access to hardware
+  - Known issues already listed in our GitHub issue tracker
+  domains:
+  - crowdproof-api.azurewebsites.net
+  - portal.crowdproof.id
+  - crowdproof.id
+  min_payout: 100
+  max_payout: 25000
+  currency: USD
+  hall_of_fame_url: https://crowdproof.id/security#acknowledgments
+
 - company: DENSO WAVE
   url: https://www.denso-wave.com/en/psirt/
   contact: https://www.denso-wave.com/en/contact/psirt/
