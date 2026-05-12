@@ -1472,6 +1472,7 @@
 - <img src='https://icon.horse/icon/smtp2go.com' width='16'/> [SMTP2GO](http://smtp2go.com) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Smule](https://hackerone.com/smule) 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Snapchat](https://hackerone.com/snapchat) 💰 🏅
+- <img src='https://icon.horse/icon/snapdeploy.dev' width='16'/> [SnapDeploy](https://snapdeploy.dev/blog/bug-bounty-rewards-report-issues) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SnapNames VDP](https://bugcrowd.com/snapnames-vdp) 💰
 - <img src='https://icon.horse/icon/www.devolksbank.nl' width='16'/> [SNS Bank](https://www.devolksbank.nl/veiligheid.html) 💰
 - <img src='https://icon.horse/icon/snyk.io' width='16'/> [Snyk](https://snyk.io/docs/security) 💰 🏅
