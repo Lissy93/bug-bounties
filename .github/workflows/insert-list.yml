@@ -51,3 +51,11 @@ jobs:
             git commit -m "Updates readme (auto-generated, on ${{ steps.date.outputs.date }})"
             git push
           fi
+
+      # Trigger a Netlify rebuild so the web app picks up updated YAML data
+      - name: Trigger Netlify deploy 🚀
+        env:
+          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+        run: |
+          [ -n "$NETLIFY_BUILD_HOOK_URL" ] || { echo "No Netlify hook configured, skipping"; exit 0; }
+          curl -fsS -X POST -d '{}' "$NETLIFY_BUILD_HOOK_URL"
