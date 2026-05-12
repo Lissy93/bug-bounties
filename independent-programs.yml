@@ -583,6 +583,38 @@ companies:
   swag_details: $200 USD (or equivalent) in platform credit on Simbase,  10 free SIM cards
   requires_account: false
 
+- company: SnapDeploy
+  url: https://snapdeploy.dev/blog/bug-bounty-rewards-report-issues
+  contact: mailto:contact@snapdeploy.dev
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  description: |-
+    The reward can include Always-On credits or one month free on an existing container. Reward level depends on the quality of the report and the severity of the issue.
+
+    The SnapDeploy program rewards many other bug categories, including functionality issues, UI problems, integration failures, and performance defects can all qualify if the report clearly demonstrates a reproducible problem.
+
+    Bug reports can be submitted directly through the SnapDeploy dashboard. Navigate to Dashboard → Report Bug.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.snapdeploy.dev'
+    type: web
+  out_of_scope:
+  - Bugs in your own application code
+  - Problems caused by user misconfiguration
+  - Feature requests or product suggestions (submit these through the [feedback program](https://snapdeploy.dev/blog/earn-free-hours-feedback-rewards) instead)
+  - Already reported bugs
+  - Issues originating in third-party services
+  - Social engineering attempts
+  domains:
+  - '*.snapdeploy.dev'
+  response_sla_days: 7
+
 - company: Starnum.com.tw
   url: https://www.instagram.com/mychenan/
   contact: https://www.instagram.com/mychenan/
