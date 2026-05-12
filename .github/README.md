@@ -1915,9 +1915,9 @@ We maintain a directory of independently-run programs in [`independent-programs.
 graph LR
     A[Public Sources] -->|fetch| B[Normalize & Dedup]
     B --> C1[Validate]
-    C1 --> D[platform-programs.yml]
-    G[Community Submissions] -->|issue form| C2[Validate]
-    C2 --> H[independent-programs.yml]
+    C1 -->|Insert| D[platform-programs.yml]
+    G[Community Submissions] -->|issue form or PR| C2[Validate]
+    C2 -->|Insert| H[independent-programs.yml]
     D --> I[API + MCP]
     H --> I
     D --> F[Website]
@@ -2062,12 +2062,12 @@ Start by clone the repo with `git clone git@github.com:Lissy93/bug-bounties.git 
 #### Data Aggregation
 1. `make install` - Setup environment and install dependencies (from [`requirements.txt`](https://github.com/Lissy93/bug-bounties/blob/main/lib/requirements.txt))
 2. `make populate` - Fetch the latest directory of programs, format, and write to `platform-programs.yml`
-3. `make validate` - Verify and validate [`platform-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml) and [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) against the [`schema.json`](https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json)
+3. `make validate` - Check [`platform-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/platform-programs.yml) and [`independent-programs.yml`](https://github.com/Lissy93/bug-bounties/blob/main/independent-programs.yml) against the [`schema.json`](https://github.com/Lissy93/bug-bounties/blob/main/lib/schema.json)
 4. `make readme` - Generate and insert a summarized list of programs into the [`README.md`](https://github.com/Lissy93/bug-bounties/blob/main/.github/README.md)
 
 #### Website
 1. `cd web` to navigate into the [`web/`](https://github.com/Lissy93/bug-bounties/tree/main/web) directory
-2. `npm i` to install dependencies
+2. `npm i` to install web NPM dependencies
 3. `npm run dev` to start the development server
 4. `npm run build` to build the production site
 
@@ -2075,8 +2075,6 @@ Start by clone the repo with `git clone git@github.com:Lissy93/bug-bounties.git 
 - Option 1) Upload the content of `web/dist/` into any web server, static hosting provider or CDN
 - Option 2) Import the project into Vercel or Netlify directly, where it will be automatically deployed
 - Option 3) For Docker, run `docker run -p 8080:8080 ghcr.io/lissy93/bug-bounties:latest`
-
-Alternatively, all the above tasks can be run directly using GitHub Actions. Simply fork the project, and trigger the workflow(s).
 
 ---
 
