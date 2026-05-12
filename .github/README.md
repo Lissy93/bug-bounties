@@ -1398,6 +1398,7 @@
 - <img src='https://icon.horse/icon/www.scholarfundwa.org' width='16'/> [Scholar Fund](https://www.scholarfundwa.org/bug-bounty) 💰
 - <img src='https://icon.horse/icon/scopely.com' width='16'/> [Scopely](https://scopely.com) 💰
 - <img src='https://icon.horse/icon/scrapinghub.com' width='16'/> [Scraping Hub](https://scrapinghub.com/responsible-disclosure-policy/) 💰 🏅
+- <img src='https://icon.horse/icon/www.screenly.io' width='16'/> [screenly.io](https://www.screenly.io/bug-bounty/) 🏅
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Scroll](https://immunefi.com/bug-bounty/scroll/) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [SecNews](https://hackerone.com/secnews) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SecPoint Penetrator](https://bugcrowd.com/secpoint) 💰
