@@ -583,6 +583,31 @@ companies:
   swag_details: $200 USD (or equivalent) in platform credit on Simbase,  10 free SIM cards
   requires_account: false
 
+- company: Starnum.com.tw
+  url: https://www.instagram.com/mychenan/
+  contact: https://www.instagram.com/mychenan/
+  rewards:
+  - '*recognition'
+  program_type: vdp
+  status: active
+  description: starnum.com.tw values the security of user data and the website. We welcome security researchers to report potential vulnerabilities through responsible disclosure, and we commit to responding openly, respectfully, and promptly.
+  excluded_methods:
+  - dos
+  - social_engineering
+  - phishing
+  - physical_access
+  scope:
+  - target: '*.starnum.com.tw'
+    type: web
+  out_of_scope:
+  - Third-party services (Cloudflare infrastructure itself
+  - Google Analytics, Supabase platform itself)
+  - Social engineering attacks
+  - Physical security
+  domains:
+  - '*.starnum.com.tw'
+  reporting_url: 'https://Instagram DM: https://www.instagram.com/mychenan/'
+
 - company: Texas Instruments
   url: https://www.ti.com/technologies/security/report-product-security-vulnerabilities.html
   contact: mailto:psirt@ti.com
