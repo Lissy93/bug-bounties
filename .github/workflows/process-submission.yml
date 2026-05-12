@@ -64,17 +64,30 @@ jobs:
           PR_BODY: ${{ steps.process.outputs.pr_body }}
           AUTHOR_LOGIN: ${{ github.event.issue.user.login }}
         run: |
-          # Resolve co-author info for the issue opener
-          AUTHOR_NAME=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.name // empty' 2>/dev/null || true)
+          # Resolve author info (so they get contributor credit), fallback to ghost
+          AUTHOR_LOGIN="${AUTHOR_LOGIN:-ghost}"
+          AUTHOR_API=$(gh api "/users/${AUTHOR_LOGIN}" 2>/dev/null || echo '{}')
+          AUTHOR_NAME=$(echo "$AUTHOR_API" | jq -r '.name // empty')
+          AUTHOR_NAME="${AUTHOR_NAME//[<>]/}"
           AUTHOR_NAME="${AUTHOR_NAME:-$AUTHOR_LOGIN}"
-          AUTHOR_EMAIL=$(gh api "/users/${AUTHOR_LOGIN}" --jq '.email // empty' 2>/dev/null || true)
-          AUTHOR_EMAIL="${AUTHOR_EMAIL:-${AUTHOR_LOGIN}@users.noreply.github.com}"
+          AUTHOR_EMAIL=$(echo "$AUTHOR_API" | jq -r '.email // empty')
+          if [ -z "$AUTHOR_EMAIL" ]; then
+            AUTHOR_ID=$(echo "$AUTHOR_API" | jq -r '.id // empty')
+            if [ -n "$AUTHOR_ID" ]; then
+              AUTHOR_EMAIL="${AUTHOR_ID}+${AUTHOR_LOGIN}@users.noreply.github.com"
+            else
+              AUTHOR_EMAIL="${AUTHOR_LOGIN}@users.noreply.github.com"
+            fi
+          fi
 
+          # Bot is committer (and co-author trailer); issue opener is author
           git config user.name "Liss-Bot"
           git config user.email "alicia-gh-bot@mail.as93.net"
           git checkout -b "$BRANCH"
           git add independent-programs.yml
-          git commit -m "$(printf 'Add program: %s\n\nCo-Authored-By: %s <%s>' "$COMPANY" "$AUTHOR_NAME" "$AUTHOR_EMAIL")"
+          git commit \
+            --author="$AUTHOR_NAME <$AUTHOR_EMAIL>" \
+            -m "$(printf 'Add program: %s\n\nCo-Authored-By: Liss-Bot <alicia-gh-bot@mail.as93.net>' "$COMPANY")"
           git push -u origin "$BRANCH" --force
 
           # Create PR, or update the existing one if re-triggered
