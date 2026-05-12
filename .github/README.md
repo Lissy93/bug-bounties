@@ -382,6 +382,7 @@
 - <img src='https://icon.horse/icon/crashtest-security.com' width='16'/> [Crashtest Security](https://crashtest-security.com/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/creditkarma.com' width='16'/> [Credit Karma](https://creditkarma.com) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Cross Border Fines](https://www.intigriti.com/programs/bpost/crossborderfines/detail) 💰
+- <img src='https://icon.horse/icon/crowdproof.id' width='16'/> [CrowdProof](https://crowdproof.id/security) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Crowdstrike](https://hackerone.com/crowdstrike) 💰 🏅
 - <img src='https://icon.horse/icon/crypto.com' width='16'/> [Crypto.com](https://crypto.com) 💰 🎁
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Cryptobox](https://yeswehack.com/programs/cryptobox-bug-bounty) 💰
@@ -1527,6 +1528,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Starling Bank Limited](https://hackerone.com/starling_bank) 🏅
 - <img src='https://icon.horse/icon/starlingbank.com' width='16'/> [starlingbank.com](https://starlingbank.com) 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Starlink](https://bugcrowd.com/spacex) 💰 🏅
+- <img src='https://icon.horse/icon/www.instagram.com' width='16'/> [Starnum.com.tw](https://www.instagram.com/mychenan/) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Statuspage](https://bugcrowd.com/statuspage) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [StatusPage.io](https://bugcrowd.com/statuspage) 💰 🎁 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Stellantis](https://bugcrowd.com/stellantis) 💰
@@ -1748,6 +1750,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Vivy](https://hackerone.com/vivy) 🏅
 - <img src='https://icon.horse/icon/www.vodafone.om' width='16'/> [Vodafone Oman](http://www.vodafone.om) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Voi Scooters](https://www.intigriti.com/programs/voi/voiscooters/detail) 💰
+- <img src='https://icon.horse/icon/voibly.app' width='16'/> [voibly.app](https://voibly.app/security) 💰
 - <img src='https://icon.horse/icon/www.volkis.com.au' width='16'/> [Volkis](https://www.volkis.com.au/vulnerability-disclosure/) 💰 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Volkswagen](https://bugcrowd.com/engagements/volkswagen-og) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Vonage](https://bugcrowd.com/vonage) 🏅
