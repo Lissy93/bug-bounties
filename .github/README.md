@@ -616,6 +616,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [ForeScout Technologies](https://hackerone.com/forescout_technologies) 💰 🏅
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [FormAssembly](https://hackerone.com/formassembly) 🏅 🎁
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Forta Network](https://immunefi.com/bug-bounty/forta/) 💰
+- <img src='https://icon.horse/icon/foundation.xyz' width='16'/> [foundation.xyz](https://foundation.xyz/responsible-disclosure/) 💰
 - <img src='https://icon.horse/icon/www.fountain.com' width='16'/> [Fountain](https://www.fountain.com/security) 🏅
 - <img src='https://icon.horse/icon/foursquare.com' width='16'/> [Foursquare](https://foursquare.com/about/security) 🏅
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [FoxyCart](https://bugcrowd.com/foxycart) 💰
