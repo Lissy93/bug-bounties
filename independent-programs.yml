@@ -249,6 +249,28 @@ companies:
   - '*.dnslookup.pro'
   hall_of_fame_url: https://dnslookup.pro/security
 
+- company: foundation.xyz
+  url: https://foundation.xyz/responsible-disclosure/
+  contact: mailto:security@foundation.xyz
+  rewards:
+  - '*bounty'
+  program_type: bounty
+  status: active
+  allows_disclosure: true
+  description: Foundation Devices, Inc. (“Foundation”) creates hardware, firmware, software, websites, and web-based services for customers, users, and employees. Foundation expends significant time and effort to ensure that these are all safe and secure. If you believe that you have found an issue or vulnerability, however, the bug bounty program below describes the actions you should take to report the issue, and under what conditions Foundation will pay out bug bounty rewards.
+  out_of_scope:
+  - 'Any service hosted at a domain outside of this list will not be considered relevant to this bug bounty program, with the following exception:'
+  - Access to systems hosted by a 3rd party infrastructure provider, which has been deemed relevant to the hosting and securing of services at the domains listed above. The vulnerability must be addressable by our engineers. Foundation reserves the right to make this determination at its sole discretion.
+  domains:
+  - foundation.xyz
+  - Primary e-commerce domain above, checkout functionality, WooCommerce admin areas
+  currency: USD
+  payout_table:
+    critical: 500
+    high: 200
+    medium: 100
+    low: 50
+
 - company: FreeFires
   url: https://freefires.site
   rewards:
