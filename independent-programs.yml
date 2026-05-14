@@ -436,6 +436,27 @@ companies:
   standards:
   - ISO 29147
 
+- company: nelko.com
+  url: https://nelko.com/pages/vulnerability-disclosure-policy
+  rewards:
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  safe_harbor: full
+  allows_disclosure: false
+  description: At Nelko, the security of our customers and the integrity of our hardware and digital ecosystem are our top priorities. We are committed to ensuring that personal information is protected carefully and handled with discretion. We appreciate the efforts of security researchers who help us identify and fix potential vulnerabilities.
+  out_of_scope:
+  - 'Third-Party Services: Services hosted by third parties (e.g., Shopify, PayPal, Mailchimp).'
+  - 'Physical Security: Attacks against Nelko’s physical offices, warehouses, or personnel.'
+  - 'Social Engineering: Phishing or deceptions targeting Nelko employees or customers.'
+  domains:
+  - 'Official Domain: .nelko.net'
+  - 'Software: Official Nelko-branded mobile applications and printing software.'
+  - 'Hardware: Firmware and communication protocols of Nelko-branded printers.'
+  response_sla_days: 3
+  swag_details: At our sole discretion, Nelko may provide product rewards (such as printers or consumable gift sets) to researchers who report significant, verified vulnerabilities as a token of our appreciation.
+
 - company: Orange Cyberdefense
   url: https://www.orangecyberdefense.com/de/vulnerability-disclosure-policy
   contact: mailto:vulnerability@orangecyberdefense.com
