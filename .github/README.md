@@ -340,6 +340,7 @@
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Codefi](https://hackerone.com/codefi_bbp) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [codefortynine](https://bugcrowd.com/engagements/codefortynine) 💰
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Codeigniter](https://hackerone.com/codeigniter) 🏅
+- <img src='https://icon.horse/icon/coderpad.io' width='16'/> [coderpad.io](https://coderpad.io/vulnerability-disclosure-policy/) 💰 🏅
 - <img src='https://icon.horse/icon/cofense.com' width='16'/> [Cofense](https://cofense.com/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/www.coffeeandbagels.com' width='16'/> [Coffee & Bagel Brands](https://www.coffeeandbagels.com/responsible-disclosure/) 🏅
 - <img src='https://icon.horse/icon/coinapp.zendesk.com' width='16'/> [Coin Wallet](https://coinapp.zendesk.com/hc/en-us/articles/115001730468-Does-CoinSpace-have-a-bug-bounty-program-) 💰
@@ -1281,6 +1282,7 @@
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Prosus](https://bugcrowd.com/engagements/prosus-og) 💰
 - <img src='https://icon.horse/icon/proton.me' width='16'/> [Proton](https://proton.me/blog/responsible-vulnerability-disclosure) 💰
 - <img src='https://icon.horse/icon/protonvpn.com' width='16'/> [ProtonVPN](https://protonvpn.com/blog/bug-bounty-program/) 💰
+- <img src='https://icon.horse/icon/proxidize.com' width='16'/> [proxidize.com](https://proxidize.com/legal/vulnerability-disclosure-policy/) 💰 🏅
 - <img src='https://icon.horse/icon/www.ptc.com' width='16'/> [PTC](https://www.ptc.com/en/documents/security/coordinated-vulnerability-disclosure) 🏅
 - <img src='https://icon.horse/icon/pubg.com' width='16'/> [PUBG](https://pubg.com/en/main) 🎁
 - <img src='https://icon.horse/icon/puppet.com' width='16'/> [Puppet](https://puppet.com/blog/responsible-disclosure-of-security-vulnerabilities) 🏅
