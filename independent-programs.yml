@@ -167,6 +167,25 @@ companies:
     type: web
   hall_of_fame_url: https://security.web.cern.ch/home/en/kudos.shtml
 
+- company: coderpad.io
+  url: https://coderpad.io/vulnerability-disclosure-policy/
+  contact: mailto:bugbounty@coderpad.io
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  program_type: bounty
+  status: active
+  description: CoderPad intends to keep its service secure and protect its customers’ data. If you’ve found a security issue that you believe we should know about, you can submit it to our team. Eligible findings can receive a reward as stated below.
+  domains:
+  - Accepted targets are coderpad.io and all its existing subdomains, with the exception of trustcenter.coderpad.io, status.coderpad.io and metabase related subdomains.
+  min_payout: 49
+  max_payout: 500
+  payout_table:
+    critical: 500
+    high: 250
+    medium: 100
+    low: 50
+
 - company: CrowdProof
   url: https://crowdproof.id/security
   contact: mailto:security@crowdproof.id
