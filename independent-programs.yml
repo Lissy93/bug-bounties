@@ -490,6 +490,35 @@ companies:
   response_sla_days: 3
   hall_of_fame_url: https://www.19pine.ai/security#acknowledgments
 
+- company: proxidize.com
+  url: https://proxidize.com/legal/vulnerability-disclosure-policy/
+  contact: mailto:security@proxidize.com
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  program_type: bounty
+  status: active
+  description: |-
+    At Proxidize Ltd, ensuring the safety and security of our customers, employees, and products is paramount.
+    We appreciate the security community’s efforts in responsibly identifying and reporting vulnerabilities. This
+    policy outlines the procedures and guidelines for submitting vulnerabilities to us.
+    By submitting a vulnerability report, you acknowledge that you’ve read, understood, and agree to adhere to
+    this policy.
+  out_of_scope:
+  - Any services or domains not explicitly listed above.
+  domains:
+  - proxidize.com and all its subdomains.
+  - proxi.es and all its subdomains.
+  - Proxidize SDK.
+  min_payout: 100
+  max_payout: 1500
+  currency: USD
+  payout_table:
+    critical: 1500
+    high: 1000
+    medium: 500
+    low: 100
+
 - company: Recap Innovations
   url: https://recap-innovations.com/security/
   contact: mailto:security@recap-innovations.com
