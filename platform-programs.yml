@@ -330,6 +330,11 @@ companies:
   contact: https://agicap.com/en/bug-bounty/
   rewards:
   - '*bounty'
+- company: Agilis LT Bug Bounty
+  url: https://bugcrowd.com/engagements/agilislt
+  contact: https://bugcrowd.com/engagements/agilislt
+  rewards:
+  - '*bounty'
 - company: Ahold Delhaize
   url: https://www.aholddelhaize.com/en/security/
   contact: mailto:ad.itsecurity.group@aholddelhaize.com
@@ -4132,6 +4137,11 @@ companies:
   contact: https://bugcrowd.com/engagements/elementor
   rewards:
   - '*bounty'
+- company: Elements
+  url: https://bugcrowd.com/engagements/elements
+  contact: https://bugcrowd.com/engagements/elements
+  rewards:
+  - '*bounty'
 - company: Eligible
   url: https://eligible.com/responsible_disclosure_program
   contact: mailto:security@eligible.com
@@ -7823,6 +7833,11 @@ companies:
 - company: Mcgarrybowen
   url: https://www.mcgarrybowen.com/Responsible-Disclosure-Policy
   contact: mailto:ResponsibleDisclosure@Dentsuaegis.com
+  rewards: []
+- company: McGraw Hill
+  url: http://mheducation.com
+  handle: mcgrawhill
+  contact: https://hackerone.com/mcgrawhill
   rewards: []
 - company: McKinsey
   url: https://mckinsey.responsibledisclosure.com/hc/en-us
@@ -11912,6 +11927,12 @@ companies:
   rewards:
   - '*bounty'
   - '*recognition'
+- company: Soundtrack Your Brand
+  url: https://www.intigriti.com/programs/syb/soundtrackyourbrand/detail
+  handle: soundtrackyourbrand
+  contact: https://www.intigriti.com/programs/syb/soundtrackyourbrand/detail
+  rewards:
+  - '*bounty'
 - company: Souq
   url: https://hackerone.com/souq
   contact: ''
