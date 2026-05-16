@@ -42,6 +42,7 @@
 - <img src='https://icon.horse/icon/www.affirm.com' width='16'/> [Affirm](http://www.affirm.com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Afterpay Bug Bounty Program](https://bugcrowd.com/engagements/afterpay) 💰
 - <img src='https://icon.horse/icon/agicap.com' width='16'/> [Agicap](https://agicap.com/en/bug-bounty/) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Agilis LT Bug Bounty](https://bugcrowd.com/engagements/agilislt) 💰
 - <img src='https://icon.horse/icon/www.aholddelhaize.com' width='16'/> [Ahold Delhaize](https://www.aholddelhaize.com/en/security/) 💰 🎁
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Aikido Security: Bug Bounty Program](https://www.intigriti.com/programs/aikido/aikido/detail) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Aikido Security: Zen by Aikido](https://www.intigriti.com/programs/aikido/aikidoruntime/detail) 💰
@@ -516,6 +517,7 @@
 - <img src='https://icon.horse/icon/www.eff.org' width='16'/> [Electronic Frontier Foundation](https://www.eff.org/security) 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Elementor](https://bugcrowd.com/elementor) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Elementor: Bug Bounty Program](https://bugcrowd.com/engagements/elementor) 💰
+- <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Elements](https://bugcrowd.com/engagements/elements) 💰
 - <img src='https://icon.horse/icon/eligible.com' width='16'/> [Eligible](https://eligible.com/responsible_disclosure_program) 💰
 - <img src='https://icon.horse/icon/www.elvie.com' width='16'/> [Elive](https://www.elvie.com/security-research-and-responsible-disclosure) 🏅
 - <img src='https://icon.horse/icon/www.ellucian.com' width='16'/> [Ellucian](https://www.ellucian.com/responsible-disclosure) 🏅
@@ -1490,6 +1492,7 @@
 - <img src='https://icon.horse/icon/sorare.com' width='16'/> [Sorare](https://sorare.com) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Soteri Marketplace Bug Bounty](https://bugcrowd.com/engagements/soteri) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SoundCloud](https://bugcrowd.com/soundcloud) 💰 🏅
+- <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Soundtrack Your Brand](https://www.intigriti.com/programs/syb/soundtrackyourbrand/detail) 💰
 - <img src='https://icon.horse/icon/www.federacy.com' width='16'/> [Spacelift](https://www.federacy.com/spacelift) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [Spacelift.io - Bug Bounty Program](https://yeswehack.com/programs/spacelift-io-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [SpaceX](https://bugcrowd.com/spacex) 💰
