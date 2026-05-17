@@ -11,6 +11,31 @@
 
 companies:
 
+- company: atlan.com
+  url: https://atlan.com/responsible-disclosure-program/
+  contact: mailto:security@atlan.com
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  description: This Vulnerability Disclosure Policy (VDP) establishes guidelines for security researchers to report vulnerabilities they discover in Atlan’s systems. We are committed to working with researchers who act in good faith to help us maintain the highest security standards.
+  out_of_scope:
+  - https://atlan.com (Marketing website)
+  - Open Source Repositories
+  - https://metadatabank.atlan.com
+  - 'Third-party services not owned or controlled by Atlan, including:'
+  - https://blog.atlan.com
+  - https://university.atlan.com
+  - https://humansofdata.atlan.com
+  - https://docs.atlan.com
+  domains:
+  - '*.atlan.com (excluding explicitly out-of-scope domains listed below)'
+  - Atlan’s main application and associated services that process customer data
+  - API endpoints and authentication systems
+  swag_details: Amazon gift cards, Atlan swag and merchandise Public recognition on our Hall of Fame
+
 - company: AxisPay
   url: https://axispay.tech/legal/disclosure
   contact: mailto:security@axispay.tech
