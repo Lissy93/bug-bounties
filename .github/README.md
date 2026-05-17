@@ -125,6 +125,7 @@
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [ATG](https://yeswehack.com/programs/atg-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/yeswehack.com' width='16'/> [ATG Public Bug Bounty Program](https://yeswehack.com/programs/atg-public-bug-bounty-program) 💰
 - <img src='https://icon.horse/icon/www.athento.com' width='16'/> [Athento](https://www.athento.com/bug-bounty-program-en/) 💰
+- <img src='https://icon.horse/icon/atlan.com' width='16'/> [atlan.com](https://atlan.com/responsible-disclosure-program/) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Atlassian](https://bugcrowd.com/atlassian) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Atlassian - Opsgenie](https://bugcrowd.com/opsgenie) 💰
 - <img src='https://icon.horse/icon/bugcrowd.com' width='16'/> [Atlassian-Built Apps](https://bugcrowd.com/engagements/atlassianapps) 💰
