@@ -323,6 +323,20 @@ companies:
   - '*swag'
   program_type: bounty
 
+- company: geckoboard.com
+  url: https://support.geckoboard.com/en/articles/6055718-report-a-security-vulnerability-and-responsible-disclosure-policies
+  rewards:
+  - '*bounty'
+  program_type: vdp
+  status: active
+  description: We welcome reports from security researchers and experts about possible security vulnerabilities with our service. We're particularly interested in hearing about vulnerabilities that impact the confidentiality or integrity of user information or systems, and have the potential to impact a large number of people.
+  out_of_scope:
+  - www.geckoboard.com, community.geckoboard.com, support.geckoboard.com, etc. are out of scope.
+  domains:
+  - app.geckoboard.com
+  max_payout: 500
+  currency: USD
+
 - company: Go Deed Inc
   url: https://www.joindeed.com/security
   contact: mailto:security@joindeed.com
