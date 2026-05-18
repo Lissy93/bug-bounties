@@ -436,6 +436,43 @@ companies:
     low: 48
   requires_account: false
 
+- company: kindo.ai
+  url: https://www.kindo.ai/vulnerability-disclosure-program
+  contact: mailto:bugs@kindo.ai
+  rewards:
+  - '*bounty'
+  - '*recognition'
+  - '*swag'
+  program_type: vdp
+  status: active
+  safe_harbor: full
+  description: Kindo welcomes responsible security research and appreciates reports that help keep our systems and customers safe. If you believe you’ve found a security issue, please report it privately and we’ll work with you to investigate and remediate.
+  out_of_scope:
+  - 'The following are explicitly excluded from this VDP:'
+  - Internal systems not accessible from the internet.
+  - Systems of third-party vendors or partners.
+  - Physical security vulnerabilities (e.g., building access).
+  - Denial of Service (DoS) vulnerabilities. While we appreciate reports of potential DoS vulnerabilities, we ask that researchers refrain from testing them against our systems.
+  - Social engineering attacks (e.g., phishing).
+  - Vulnerabilities in third-party libraries or frameworks unless they are uniquely exploitable in our implementation.
+  domains:
+  - 'This VDP applies to all internet-facing systems and applications owned or operated by Kindo.ai, including:'
+  - Kindo web properties
+  - 'Including kindo.ai, app.kindo.ai, and all related subdomains: This includes the main corporate website, customer portal, and any related web applications.'
+  - Deep Hat web properties
+  - Including deephat.ai, app.deephat.ai, and all related subdomains.
+  - API interfaces
+  - This includes all publicly accessible APIs.
+  - Acquired companies and related companies
+  - Unless otherwise stated, this VDP also applies to systems and applications of companies acquired or owned by Kindo.ai.
+  min_payout: 50
+  max_payout: 1000
+  currency: USD
+  payout_table:
+    critical: 1000
+    high: 500
+    medium: 150
+
 - company: mintlify.com
   url: https://www.mintlify.com/security/responsible-disclosure
   contact: mailto:security@mintlify.com
