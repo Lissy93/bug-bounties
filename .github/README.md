@@ -874,6 +874,7 @@
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Kiln (dApp/Infra)](https://immunefi.com/bug-bounty/kiln-webapp/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Kiln DeFi](https://immunefi.com/bug-bounty/kiln-defi/) 💰
 - <img src='https://icon.horse/icon/immunefi.com' width='16'/> [Kiln On-Chain v1](https://immunefi.com/bug-bounty/kiln-on-chain-v1/) 💰
+- <img src='https://icon.horse/icon/www.kindo.ai' width='16'/> [kindo.ai](https://www.kindo.ai/vulnerability-disclosure-program) 💰 🏅 🎁
 - <img src='https://icon.horse/icon/hackerone.com' width='16'/> [Kindred Group](https://hackerone.com/kindred_group) 💰
 - <img src='https://icon.horse/icon/www.intigriti.com' width='16'/> [Kinepolis Group](https://www.intigriti.com/programs/kinepolis/website/detail) 💰
 - <img src='https://icon.horse/icon/kissflow.com' width='16'/> [Kissflow](https://kissflow.com/responsible-disclosure/) 💰 🏅 🎁
